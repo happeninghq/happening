@@ -9,11 +9,16 @@ class EventManager(models.Manager):
     """ Custom Event Manager, to add site-wide functionality. """
 
     def latest_event(self):
-        next_event = self.filter(datetime__gte=timezone.now()).order_by("datetime").first()
+        """ Get the latest event.
+
+        This will be either the next one in future or the most recent one
+        if there are no future events.
+        """
+        next_event = self.filter(
+            datetime__gte=timezone.now()).order_by("datetime").first()
         if next_event:
             return next_event
         return self.order_by("-datetime").first()
-
 
 
 class Event(models.Model):
@@ -43,6 +48,7 @@ class Event(models.Model):
         return self.datetime > timezone.now()
 
     def challenge(self):
+        """ Return the language and challenge if available. """
         if self.challenge_language and self.challenge_title:
             return "%s %s" % (self.challenge_language, self.challenge_title)
         elif self.challenge_title:
@@ -52,6 +58,7 @@ class Event(models.Model):
         return None
 
     def heading(self):
+        """ Return the title and challenge. """
         s = self.__unicode__()
         if self.challenge():
             s += " (%s)" % self.challenge()
@@ -59,6 +66,7 @@ class Event(models.Model):
             self.challenge() else self.__unicode__()
 
     def month_year(self):
+        """ Return the month and year. """
         return self.datetime.strftime("%B %Y")
 
     def __unicode__(self):
