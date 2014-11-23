@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>May 2014 Dojo (Python Daily Mail Headline Generator)</h2>
+                    <p>The May Southampton Code Dojo was kindly sponsored by <a href="http://www.spectrumit.co.uk">Spectrum IT</a>.</p>
+
+                    <blockquote>
+                        <div style="text-align: center; margin-bottom: 2em;">
+                            <a href="http://www.spectrumit.co.uk"><img style="max-width: 100%; border: 2px solid #8fc5e5;" src="{% static "img/spectrumit.png" %}"></a>
+                        </div>
+                        <p>We began as a small, passionate group of individuals who wanted to provide a distinctive and exceptional IT recruitment service. We'd seen agencies offering a division devoted to IT recruitment, but there was still a niche that we could fill. Combining our collective knowledge about the IT industry, the team has continued to grow and develop an extensive understanding of the local IT and IS sectors and their needs. The local focus of Spectrum IT gives us a unique advantage in finding those ideal and elusive roles in the area, and it also forms part of our company ethic. Although we work hard, we like to be able to work well with our clients and candidates and offer advice and guidance throughout (and after) the recruitment process.</p>
+
+                        <p>If you are looking for a new position or looking to recruit please give us a call on 02380 765 800 or <a href="mailto:contactus@spectrumit.co.uk">contactus@spectrumit.co.uk</a>.</p>
+                    </blockquote>
+                <h2>The Challenge</h2>
+                <p>This month's challenge was to create a Daily Mail headline generator in Python.</p>
+                <h2>Solutions</h2>
+                <p>Most groups attempted some sort of templating, though they all went about it in different ways.</p>
+                <p><a href="https://github.com/southampton-code-dojo/daily-mail-headlines/tree/master/team1">Team 1</a> created markov chains to generate the headlines, based on scraped Daily Mail headlines, then injected the new headlines back into the page. It mostly generated nonsense but some of the headlines where pretty good.</p>
+                <p><a href="https://github.com/southampton-code-dojo/daily-mail-headlines/tree/master/team2">Team 2</a> used a templating approach which disstilled a good Daily Mail headline down to "blame", "verbs", "values", and "threats". It linked these together with five possible templates (e.g. (blame) (verb) (value)) and then injected that headline into a page with the Daily Mail header.</p>
+                <p>If any other groups have their code to submit, please <a href="mailto:jonathan@jscott.me">email me</a>.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

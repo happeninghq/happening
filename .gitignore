@@ -3,3 +3,4 @@ ve
 *.pyc
 compiled_static
 bower_components
+.DS_Store

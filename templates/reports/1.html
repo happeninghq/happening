@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>April 2014 Dojo (Python Battleships)</h2>
+                <p>The April Southampton Code Dojo was kindly sponsored by <a href="http://www.parcelmonkey.co.uk">The Parcel Monkey Group</a>.</p>
+         
+                <blockquote>
+                    <div style="text-align: center; margin-bottom: 2em;">
+                        <a href="http://www.parcelmonkey.co.uk"><img style="max-width: 100%;" src="{% static "img/parcelmonkey.png" %}"></a>
+                    </div>
+                    <p>The Parcel Monkey Group of Companies are a group of software/service businesses developed with a mind to offer an end to end SME business solution that is designed to grow with you as your business does.</p>
+         
+                    <p>The group is comprised of Parcel Monkey, Cloud Fulfilment, Alight Design Agency and Kong.</p>
+         
+                    <p>Parcel Monkey is a low cost, Pay-As You Go parcel delivery service.</p>
+         
+         
+                    <p>Cloud Fulfilment is a flexible, low cost, fully automated fulfilment service that's revolutionising the way businesses run their fulfilment operations in the UK.</p>
+         
+                    <p>Alight is an award winning digital design agency, providing UX web design and build, branding, video and more.</p>
+         
+                    <p>Kong is a fully integrated multichannel eCommerce platform, bringing eCommerce to everyone for &pound;20 a month.</p>
+                </blockquote>
+                <h2>The Challenge</h2>
+                <p>This month's challenge was to implement a Battleships AI in Python. These AIs played against each other using the <a href="https://github.com/southampton-code-dojo/battleships">Battleships competition</a> created for this dojo.</p>
+                <h2>Solutions</h2>
+                <div class="image">
+                    <img src="{% static "img/report1-result.jpg" %}">
+                </div>
+                <p>One group attempted a too complicated solution and didn't finish (though their solution probably would have won if it did). This left four AIs competing in the competition.</p>
+                <p>The third placed solution was <a href="https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/team5.py">Team 5</a> which placed ships in specific places, and ensured that it didn't shoot at the same place twice.</p>
+                <p>
+                <p>In second place as <a href="https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/luckynumber.py">Luck Number</a> which had two different placements of ships, and attacked in multiple modes (attack_directed, attack_undirected, or search)</p>
+                <p>The winner was <a href="https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/beetleships.py">Beetleships</a> which placed ships randomly except it favoured placing ships "against" the edge of the board, and shot in order from top-left to bottom-right until it hit something, then destroyed the ship before continuing.</p>
+            </div>
+        </p>
+    </div>
+{% endblock %}

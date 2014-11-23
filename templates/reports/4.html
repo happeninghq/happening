@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>July 2014 Dojo</h2>
+                <p>The July Southampton Code Dojo was kindly sponsored by <a href="http://www.insync.tv">InSync Technology</a>.</p>
+
+                <blockquote>
+                    <div style="text-align: center; margin-bottom: 2em;">
+                        <a href="http://www.insync.tv"><img style="max-width: 100%;" src="{% static "img/insync.png" %}"></a>
+                    </div>
+                    <p>InSync Technology is a UK based company with 10+ year history in advanced research and development.</p>
+                    <p>-- Specialists in image processing and standards conversion</p>
+                    <p>-- Broadcast electronics product design and manufacture</p>
+                    <p>-- Modular and 1U box hardware products</p>
+                    <p>-- Software products for integration into customer systems</p>
+                    <p>-- Sales exclusively through worldwide OEM agreements</p>
+                    <p>Currently looking for engineers specifically to work on next generation products; graduate programmers in C, C++, Python;  Maths, Physics, Engineering background.</p>
+                    <p>We are an employee owned business.</p>
+                    <p>
+                        <a href="http://www.insync.tv">www.insync.tv</a><br />
+                        <a href="http://www.insync.tv/index.php/about/recruitment">www.insync.tv/index.php/about/recruitment</a>
+                    </p>
+                </blockquote>
+                <p>We allowed Python in the vote again this month, and unsuprisingly it was selected again! We'll ensure it's not chosen again in the August dojo.</p>
+                <h2>The Challenge</h2>
+                <p>This month's challenge was to implement a Roman Numerals calculator in Python. The challenge was open in that people could decide how it should work, how the user should interface with it, etc.</p>
+                <h2>Solutions</h2>
+                <div class="image">
+                    <img src="{% static "img/report4-result.jpg" %}">
+                </div>
+                <p>
+                    <ul>
+                        <li><a href="https://github.com/patrickmcsweeney/romancalc">Group 1</a></li>
+                        <li><a href="https://gist.github.com/jscott1989/809c69e5547e9a58ef1b">Group 2</a></li>
+                        <li><a href="https://gist.github.com/andrew804/b56395a24827fc71241e">Group 4</a></li>
+                    </ul>
+                </p>
+                <p>If any other groups have their code to submit, please <a href="mailto:jonathan@jscott.me">email me</a>.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

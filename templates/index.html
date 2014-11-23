@@ -1,7 +1,72 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Who are we?</h2>
 
-LOL
+                <p>The Southampton Code Dojo is a monthly meetup of technical people from around the Southampton area.</p>
 
+                <p>We meet on the second Thursday of each month, decide on a small challenge to work on, split up into groups and solve the problem separately, then come together and talk about the different ways we solved it.</p>
+
+                <p>It's a good way of improving our coding abilities by learning from each other, it's a lot of fun, and programmers of any ability are welcome.</p>
+
+                <h2>Who are you?</h2>
+                <p>We welcome anyone with an interest in coding. We have members ranging from the very experienced to no experience at all, in languages from D to Javascript.</p>
+
+                <p>We decide on the programming language to use on the day of the dojo, and will tend to choose languages most familiar to those attending. Whatever your experience level please feel free to come along.</p>
+
+                <h2 id="next">Come along</h2>
+                <p>Our next dojo will be on the 4th of December. <!--More information and tickets will be available here soon. --><a href="http://southamptoncodedojo9.eventbrite.co.uk">Get your free tickets from EventBrite</a>.</p>
+
+                <!-- <div style="width:100%; text-align:left;" ><iframe  src="//eventbrite.co.uk/tickets-external?eid=14510564489&ref=etckt" frameborder="0" height="214" width="100%" vspace="0" hspace="0" marginheight="5" marginwidth="5" scrolling="auto" allowtransparency="true"></iframe><div style="font-family:Helvetica, Arial; font-size:10px; padding:5px 0 5px; margin:2px; width:100%; text-align:left;" ><a style="color:#ddd; text-decoration:none;" target="_blank" href="http://www.eventbrite.co.uk/r/etckt">Online event registration</a><span style="color:#ddd;"> for </span><a style="color:#ddd; text-decoration:none;" target="_blank" href="https://southamptoncodedojo9.eventbrite.co.uk/?ref=etckt">Southampton Code Dojo: December</a> <span style="color:#ddd;">powered by</span> <a style="color:#ddd; text-decoration:none;" target="_blank" href="http://www.eventbrite.co.uk?ref=etckt">Eventbrite</a></div></div> -->
+
+                <p>We hold the dojos at the University of Southampton Highfield Campus, Building 32. You can <a href="http://www.southampton.ac.uk/visitus/campuses/maps/highfield_3d_key.pdf">see a map of the campus here</a> where number 6 is next to the Highfield Interchange bus stop and number 32 is the building we meet in.</p>
+
+                <p>To recieve updates about how to vote for future dojo languages, and to be alerted when tickets are available, join our <a href="http://facebook.com/groups/SouthamptonCodeDojo/">Facebook group</a>, <a href="http://www.meetup.com/Southampton-Code-Dojo/">Meetup group</a>, or <a href="http://twitter.com/sotoncodedojo">follow us on Twitter</a>.
+
+                <h2>Get Involved</h2>
+                <p>We organise via a <a href="http://facebook.com/groups/SouthamptonCodeDojo/">Facebook Group</a> and <a href="http://twitter.com/sotoncodedojo">Twitter account</a> so please follow us on there.</p>
+                <!--
+                <h2 id="sponsors">Sponsors</h2>
+                <p>The October Southampton Code Dojo was kindly sponsored by <a href="http://www.insync.tv">InSync Technology</a>.</p>
+
+                <blockquote>
+                    <div style="text-align: center; margin-bottom: 2em;">
+                        <a href="http://www.insync.tv"><img style="max-width: 100%;" src="img/insync.png"></a>
+                    </div>
+                    <p>InSync Technology is a UK based company with 10+ year history in advanced research and development.</p>
+                    <p>-- Specialists in image processing and standards conversion</p>
+                    <p>-- Broadcast electronics product design and manufacture</p>
+                    <p>-- Modular and 1U box hardware products</p>
+                    <p>-- Software products for integration into customer systems</p>
+                    <p>-- Sales exclusively through worldwide OEM agreements</p>
+                    <p>Typically looking for engineers to work on next generation products; graduate programmers in C, C++, Python;  Maths, Physics, Engineering background.</p>
+                    <p>We are an employee owned business.</p>
+                    <p>
+                        <a href="http://www.insync.tv">www.insync.tv</a><br />
+                        <a href="http://www.insync.tv/index.php/about/recruitment">www.insync.tv/index.php/about/recruitment</a>
+                    </p>
+                </blockquote>
+                -->
+                <h2>Interested in Sponsoring a dojo?</h2>
+                <p>It costs around &pound;130 to run a dojo. In exchange for that, sponsors gain exposure amongst highly motivated technical people. This helps when hiring and creates connections which allow for easier recruiting of contractors and freelancers. For more details check our <a href="{% url "sponsorship" %}">sponsorship page</a>, or if you're interested in sponsoring a future dojo, <a href="mailto:jonathan@jscott.me">get in touch</a>.</p>
+
+                <h2>Previous Dojos</h2>
+                <p>
+                    <ul>
+                        <li><a href="{% url "report_1" %}">April 2014</a> (Python Battleships)</li>
+                        <li><a href="{% url "report_2" %}">May 2014</a> (Python Daily Mail Headline Generator)</li>
+                        <li><a href="{% url "report_3" %}">June 2014</a> (Javascript Mastermind)</li>
+                        <li><a href="{% url "report_4" %}">July 2014</a> (Python Roman Numerals)</li>
+                        <li><a href="{% url "report_5" %}">August 2014</a> (Java Countdown Calculator)</li>
+                        <li><a href="{% url "report_6" %}">September 2014</a> (Javascript Sodoku Solver)</li>
+                        <li><a href="{% url "report_7" %}">October 2014</a> (Java Minesweeper AI)</li>
+                        <li><a href="{% url "report_8" %}">November 2014</a> (Python Poetry Generator)</li>
+                    </ul>
+                </p>
+            </p>
+        </div>
+    </div>
 {% endblock %}
