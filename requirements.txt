@@ -1,0 +1,4 @@
+django==1.7.1
+django_compressor
+django-libsass==0.2
+pyyaml==3.11

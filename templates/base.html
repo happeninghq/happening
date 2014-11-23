@@ -1,0 +1,28 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Southampton Code Dojo</title>
+    {% compress css %}
+        <link rel="stylesheet" type="text/x-scss" href="{% static "sass/main.scss" %}" />
+        {% block style %}
+
+        {% endblock style %}
+    {% endcompress %}
+    <script src="{% static "modernizr/modernizr.js" %}"></script>
+</head>
+<body>
+{% block content %}
+{% endblock %}
+{% compress js %}
+    <script type="text/javascript" src="{% static "jquery/dist/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "underscore/underscore-min.js" %}"></script>
+    <script type="text/javascript" src="{% static "fastclick/lib/fastclick.js" %}"></script>
+    <script type="text/javascript" src="{% static "foundation/js/foundation.min.js" %}"></script>
+    {% block scripts %}
+    {% endblock %}
+{% endcompress %}
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+    "name": "Southampton Code Dojo",
+    "version": "0.0.1",
+
+    "dependencies": {
+        "html5shiv": "3.7.0",
+        "respond": "1.3.0",
+        "underscore": "1.7.0",
+        "foundation": "zurb/bower-foundation"
+    }
+}

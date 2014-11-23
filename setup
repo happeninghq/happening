@@ -1,0 +1,14 @@
+#!/bin/sh
+echo "Installing python dependencies";
+if [ ! -d "ve" ]; then
+    virtualenv ve;
+fi
+
+source ve/bin/activate;
+
+pip install -r requirements.txt;
+
+echo "Installing bower dependencies";
+bower install;
+
+python manage.py migrate;
