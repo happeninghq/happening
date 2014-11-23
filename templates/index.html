@@ -30,28 +30,19 @@
 
                 <h2>Get Involved</h2>
                 <p>We organise via a <a href="http://facebook.com/groups/SouthamptonCodeDojo/">Facebook Group</a> and <a href="http://twitter.com/sotoncodedojo">Twitter account</a> so please follow us on there.</p>
-                <!--
-                <h2 id="sponsors">Sponsors</h2>
-                <p>The October Southampton Code Dojo was kindly sponsored by <a href="http://www.insync.tv">InSync Technology</a>.</p>
 
-                <blockquote>
-                    <div style="text-align: center; margin-bottom: 2em;">
-                        <a href="http://www.insync.tv"><img style="max-width: 100%;" src="img/insync.png"></a>
-                    </div>
-                    <p>InSync Technology is a UK based company with 10+ year history in advanced research and development.</p>
-                    <p>-- Specialists in image processing and standards conversion</p>
-                    <p>-- Broadcast electronics product design and manufacture</p>
-                    <p>-- Modular and 1U box hardware products</p>
-                    <p>-- Software products for integration into customer systems</p>
-                    <p>-- Sales exclusively through worldwide OEM agreements</p>
-                    <p>Typically looking for engineers to work on next generation products; graduate programmers in C, C++, Python;  Maths, Physics, Engineering background.</p>
-                    <p>We are an employee owned business.</p>
-                    <p>
-                        <a href="http://www.insync.tv">www.insync.tv</a><br />
-                        <a href="http://www.insync.tv/index.php/about/recruitment">www.insync.tv/index.php/about/recruitment</a>
-                    </p>
-                </blockquote>
-                -->
+                {% if latest_event.sponsor %}
+                    <h2 id="sponsors">Sponsors</h2>
+                    <p>The {{latest_event}} {% if latest_event.is_future %}is{% else %}was{% endif %} kindly sponsored by <a href="{{latest_event.sponsor.url}}">{{latest_event.sponsor}}</a>.</p>
+
+                    <blockquote>
+                        <div style="text-align: center; margin-bottom: 2em;">
+                            <a href="{{latest_event.sponsor.url}}"><img style="max-width: 100%;" src="{{latest_event.sponsor.logo.url}}"></a>
+                        </div>
+                        {{latest_event.sponsor.description}}
+                    </blockquote>
+                {% endif %}
+
                 <h2>Interested in Sponsoring a dojo?</h2>
                 <p>It costs around &pound;130 to run a dojo. In exchange for that, sponsors gain exposure amongst highly motivated technical people. This helps when hiring and creates connections which allow for easier recruiting of contractors and freelancers. For more details check our <a href="{% url "sponsorship" %}">sponsorship page</a>, or if you're interested in sponsoring a future dojo, <a href="mailto:jonathan@jscott.me">get in touch</a>.</p>
 
