@@ -34,8 +34,12 @@
                     <table class="solutions">
                         {% for solution in event.solutions.all %}
                             <tr>
-                                <th><a href="{{solution.github_url}}">{{solution.name}}</a></th>
-                                <td>{{solution.description}}</td>
+                                {% if solution.description %}
+                                    <th><a href="{{solution.github_url}}">{{solution.name}}</a></th>
+                                    <td>{{solution.description}}</td>
+                                {% else %}
+                                    <th colspan="2"><a href="{{solution.github_url}}">{{solution.name}}</a></th>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     </table>

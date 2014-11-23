@@ -76,6 +76,30 @@
     solution_text: <p>One group attempted a too complicated solution and didn't finish (though their solution probably would have won if it did). This left four AIs competing in the competition.</p>
     image: /media/event_images/report1-result.jpg
 
+- model: events.EventSolution
+  pk: 1
+  fields:
+    event: "2014-04-11 19:00:00+00:00"
+    team_name: Team 5
+    github_url: https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/team5.py
+    description: Came in third place. This code placed ships in specific places, and ensured that it didn't shoot at the same place twice.
+
+- model: events.EventSolution
+  pk: 2
+  fields:
+    event: "2014-04-11 19:00:00+00:00"
+    team_name: Lucky Number
+    github_url: https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/luckynumber.py
+    description: Came in second place. This code had two different placements of ships, and attacked in multiple modes (attack_directed, attack_undirected, or search)
+
+- model: events.EventSolution
+  pk: 3
+  fields:
+    event: "2014-04-11 19:00:00+00:00"
+    team_name: Beetleships
+    github_url: https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/beetleships.py
+    description: The winner. This code placed ships randomly except it favoured placing ships "against" the edge of the board, and shot in order from top-left to bottom-right until it hit something, then destroyed the ship before continuing.
+
 - model: events.Event
   fields:
     datetime: "2014-05-08 19:00:00+00:00"
@@ -85,6 +109,22 @@
     challenge_title: Daily Mail Headline Generator
     challenge_text: <p>This month's challenge was to create a Daily Mail headline generator in Python.</p>
     solution_text: <p>Most groups attempted some sort of templating, though they all went about it in different ways.</p>
+
+- model: events.EventSolution
+  pk: 4
+  fields:
+    event: "2014-05-08 19:00:00+00:00"
+    team_name: Team 1
+    github_url: https://github.com/southampton-code-dojo/daily-mail-headlines/tree/master/team1
+    description: This code created markov chains to generate the headlines, based on scraped Daily Mail headlines, then injected the new headlines back into the page. It mostly generated nonsense but some of the headlines where pretty good.
+
+- model: events.EventSolution
+  pk: 5
+  fields:
+    event: "2014-05-08 19:00:00+00:00"
+    team_name: Team 2
+    github_url: https://github.com/southampton-code-dojo/daily-mail-headlines/tree/master/team2
+    description: This code used a templating approach which disstilled a good Daily Mail headline down to "blame", "verbs", "values", and "threats". It linked these together with five possible templates (e.g. (blame) (verb) (value)) and then injected that headline into a page with the Daily Mail header.
 
 - model: events.Event
   fields:
@@ -96,6 +136,22 @@
     solution_text: <p>All groups except one managed to produce a version of Mastermind where the user can guess the code selected by the computer. Some groups used HTML tables for the UI, with CSS border-radius for the pegs, and at least one used canvas to draw the interface.</p>
     image: /media/event_images/report3-result.jpg
 
+- model: events.EventSolution
+  pk: 6
+  fields:
+    event: "2014-06-12 19:00:00+00:00"
+    team_name: Group 1
+    github_url: https://github.com/sinjax/mastermind
+    description: This group did not complete, having split up into too many subgroups, and was unable to bring the whole thing together in the end. Afterwards, one team member did successfully implement Donald Knuth's five guess algorithm but this wasn't completed in time to be demoed on the night.
+
+- model: events.EventSolution
+  pk: 7
+  fields:
+    event: "2014-06-12 19:00:00+00:00"
+    team_name: Group 2
+    github_url: https://github.com/southampton-code-dojo/mastermind-june-2014-dojo
+    description: This group created a version of the game using tables for layout with border-radius to represent pegs, where the player can click the pegs to make their guess.
+
 - model: events.Event
   fields:
     datetime: "2014-07-10 19:00:00+00:00"
@@ -106,6 +162,27 @@
     challenge_text: <p>This month's challenge was to implement a Roman Numerals calculator in Python. The challenge was open in that people could decide how it should work, how the user should interface with it, etc.</p>
     image: /media/event_images/report4-result.jpg
 
+- model: events.EventSolution
+  pk: 8
+  fields:
+    event: "2014-07-10 19:00:00+00:00"
+    team_name: Group 1
+    github_url: https://github.com/patrickmcsweeney/romancalc
+
+- model: events.EventSolution
+  pk: 9
+  fields:
+    event: "2014-07-10 19:00:00+00:00"
+    team_name: Group 2
+    github_url: https://gist.github.com/jscott1989/809c69e5547e9a58ef1b
+
+- model: events.EventSolution
+  pk: 10
+  fields:
+    event: "2014-07-10 19:00:00+00:00"
+    team_name: Group 4
+    github_url: https://gist.github.com/andrew804/b56395a24827fc71241e
+
 - model: events.Event
   fields:
     datetime: "2014-08-14 19:00:00+00:00"
@@ -114,6 +191,13 @@
     challenge_title: Countdown Solver
     challenge_text: <p>This month's challenge was to implement a Countdown numbers round solver in Java. The idea was taken from <a href="http://rubyquiz.com/quiz7.html">Ruby Quiz 7</a> so you can go there for more details and to see some example answers where they had longer to work on them.</p>
     image: /media/event_images/report5-result.jpg
+
+- model: events.EventSolution
+  pk: 11
+  fields:
+    event: "2014-08-14 19:00:00+00:00"
+    team_name: Solution 1
+    github_url: https://github.com/southampton-code-dojo/countdown_numbers
 
 - model: events.Event
   fields:
@@ -124,6 +208,27 @@
     challenge_title: Sodoku Solver
     challenge_text: <p>This month's challenge was to implement a Sodoku solver in Javascript. We left the choice of using Node or doing it in-browser up to the groups.</p>
     image: /media/event_images/report6-result.jpg
+
+- model: events.EventSolution
+  pk: 12
+  fields:
+    event: "2014-09-11 19:00:00+00:00"
+    team_name: Solution 1
+    github_url: https://github.com/southampton-code-dojo/js-sudoku
+
+- model: events.EventSolution
+  pk: 13
+  fields:
+    event: "2014-09-11 19:00:00+00:00"
+    team_name: Solution 2
+    github_url: https://github.com/southampton-code-dojo/sudoku
+
+- model: events.EventSolution
+  pk: 14
+  fields:
+    event: "2014-09-11 19:00:00+00:00"
+    team_name: Solution 3
+    github_url: https://github.com/southampton-code-dojo/CodeDojoSudokuSolver
 
 - model: events.Event
   fields:
@@ -138,6 +243,41 @@
         <p>Everyone went for basically the same solution - which was to first check if any coordinates had a number which matched the number of surrounding spaces (in which case, flag them all) or had a number equal to the surrounding flags (in which case, click on the non-flagged spaces). After this, there was talk of trying to take into account patterns which were only visible when looking at multiple coordinates at once, or using some statistical methods to pick the best choice. Nobody really had time for that though so it was mostly random at this stage.</p>
     image: /media/event_images/report7-result.jpg
 
+- model: events.EventSolution
+  pk: 15
+  fields:
+    event: "2014-10-09 19:00:00+00:00"
+    team_name: Group 1
+    github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/TeamOnePlayer.java
+
+- model: events.EventSolution
+  pk: 16
+  fields:
+    event: "2014-10-09 19:00:00+00:00"
+    team_name: Group 2
+    github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/OrderedPlayer.java
+
+- model: events.EventSolution
+  pk: 17
+  fields:
+    event: "2014-10-09 19:00:00+00:00"
+    team_name: Group 3
+    github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/UltraSuperPlayer.java
+
+- model: events.EventSolution
+  pk: 18
+  fields:
+    event: "2014-10-09 19:00:00+00:00"
+    team_name: Group 4
+    github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/SuperPlayer.java
+
+- model: events.EventSolution
+  pk: 19
+  fields:
+    event: "2014-10-09 19:00:00+00:00"
+    team_name: Group 5
+    github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/CornerPlayer.java
+
 - model: events.Event
   fields:
     datetime: "2014-11-13 19:00:00+00:00"
@@ -147,3 +287,38 @@
     challenge_text: <p>We started out by attempting to run a pre-prepared challenge, however networking issues put an end to that and we voted on a replacement task - we decided to develop poetry generators.</p>
     solution_text: <p>This dojo was unique in that we had totally different solutions from each of the groups. Many generated Haikus but did so in different ways, and some generated entirely different forms of poetry. </p>
     image: /media/event_images/report8-result.jpg
+
+- model: events.EventSolution
+  pk: 20
+  fields:
+    event: "2014-11-13 19:00:00+00:00"
+    team_name: Group 1
+    github_url: https://github.com/mikejewell/dojo-poetry
+
+- model: events.EventSolution
+  pk: 21
+  fields:
+    event: "2014-11-13 19:00:00+00:00"
+    team_name: Group 2
+    github_url: https://github.com/highflying/poem-generator
+
+- model: events.EventSolution
+  pk: 22
+  fields:
+    event: "2014-11-13 19:00:00+00:00"
+    team_name: Group 3
+    github_url: https://github.com/priyankasingh/haiku
+
+- model: events.EventSolution
+  pk: 23
+  fields:
+    event: "2014-11-13 19:00:00+00:00"
+    team_name: Group 4
+    github_url: https://gist.github.com/jscott1989/366a868de420b648ab51
+
+- model: events.EventSolution
+  pk: 24
+  fields:
+    event: "2014-11-13 19:00:00+00:00"
+    team_name: Group 5
+    github_url: https://github.com/rprince/poetry-november-2014-dojo
