@@ -322,3 +322,8 @@
     event: "2014-11-13 19:00:00+00:00"
     team_name: Group 5
     github_url: https://github.com/rprince/poetry-november-2014-dojo
+
+- model: events.Event
+  fields:
+    datetime: "2014-12-04 19:00:00+00:00"
+    eventbrite_url: http://southamptoncodedojo9.eventbrite.co.uk
