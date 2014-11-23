@@ -14,6 +14,7 @@ The following must be available and configured:
 Development Requirements
 --------
 * flake8 (Available via: pip install flake8)
+* pep258 (Available via: pip install pep258)
 * jshint (Available via: npm install -g jshint)
 
 Coding Conventions
@@ -27,9 +28,11 @@ imports - so try to fix these issues as they are noticed. If any method has a
 higher cyclomatic complexity than 10 check-standards will flag it and it
 should be changed (split up into multiple methods).
 
-Requirements files should be seperated into logical groups, with each
+Requirements files should be separated into logical groups, with each
 individual requirement commented. All requirements should specify a version.
 
+
+Development is managed on [Pivotal Tracker](https://www.pivotaltracker.com/n/projects/1215654).
 When working on a feature from the backlog, that feature should not be marked
 as complete until it is has fully implemented the requirements from the
 backlog item, has tests to prove it, and all of this code follows the coding
