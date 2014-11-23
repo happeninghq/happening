@@ -18,9 +18,11 @@
                 <p>We decide on the programming language to use on the day of the dojo, and will tend to choose languages most familiar to those attending. Whatever your experience level please feel free to come along.</p>
 
                 <h2 id="next">Come along</h2>
-                <p>Our next dojo will be on the 4th of December. <!--More information and tickets will be available here soon. --><a href="http://southamptoncodedojo9.eventbrite.co.uk">Get your free tickets from EventBrite</a>.</p>
-
-                <!-- <div style="width:100%; text-align:left;" ><iframe  src="//eventbrite.co.uk/tickets-external?eid=14510564489&ref=etckt" frameborder="0" height="214" width="100%" vspace="0" hspace="0" marginheight="5" marginwidth="5" scrolling="auto" allowtransparency="true"></iframe><div style="font-family:Helvetica, Arial; font-size:10px; padding:5px 0 5px; margin:2px; width:100%; text-align:left;" ><a style="color:#ddd; text-decoration:none;" target="_blank" href="http://www.eventbrite.co.uk/r/etckt">Online event registration</a><span style="color:#ddd;"> for </span><a style="color:#ddd; text-decoration:none;" target="_blank" href="https://southamptoncodedojo9.eventbrite.co.uk/?ref=etckt">Southampton Code Dojo: December</a> <span style="color:#ddd;">powered by</span> <a style="color:#ddd; text-decoration:none;" target="_blank" href="http://www.eventbrite.co.uk?ref=etckt">Eventbrite</a></div></div> -->
+                {% if latest_event.is_future %}
+                    <p>Our next dojo will be on {{latest_event.datetime}} <a href="{{latest_event.eventbrite_url}}">Get your free tickets from EventBrite</a>.</p>
+                {% else %}
+                    <p>Our most recent dojo was the <a href="{% url "view_event" latest_event.pk %}">{{latest_event}}</a> on {{latest_event.datetime.date}}.</p>
+                {% endif %}
 
                 <p>We hold the dojos at the University of Southampton Highfield Campus, Building 32. You can <a href="http://www.southampton.ac.uk/visitus/campuses/maps/highfield_3d_key.pdf">see a map of the campus here</a> where number 6 is next to the Highfield Interchange bus stop and number 32 is the building we meet in.</p>
 
@@ -56,14 +58,9 @@
                 <h2>Previous Dojos</h2>
                 <p>
                     <ul>
-                        <li><a href="{% url "report_1" %}">April 2014</a> (Python Battleships)</li>
-                        <li><a href="{% url "report_2" %}">May 2014</a> (Python Daily Mail Headline Generator)</li>
-                        <li><a href="{% url "report_3" %}">June 2014</a> (Javascript Mastermind)</li>
-                        <li><a href="{% url "report_4" %}">July 2014</a> (Python Roman Numerals)</li>
-                        <li><a href="{% url "report_5" %}">August 2014</a> (Java Countdown Calculator)</li>
-                        <li><a href="{% url "report_6" %}">September 2014</a> (Javascript Sodoku Solver)</li>
-                        <li><a href="{% url "report_7" %}">October 2014</a> (Java Minesweeper AI)</li>
-                        <li><a href="{% url "report_8" %}">November 2014</a> (Python Poetry Generator)</li>
+                        {% for event in previous_events %}
+                            <li><a href="{% url "view_event" event.pk %}">{{event.month_year}}</a> {% if event.challenge %}({{event.challenge}}){% endif %}</li>
+                        {% endfor %}
                     </ul>
                 </p>
             </p>

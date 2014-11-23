@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>{{event.heading}}</h2>
+
+                {% if event.sponsor %}
+                    <p>The {{event}} was kindly sponsored by <a href="{{event.sponsor.url}}">{{event.sponsor.name}}</a>.</p>
+             
+                    <blockquote>
+                        <div style="text-align: center; margin-bottom: 2em;">
+                            <a href="http://www.parcelmonkey.co.uk"><img style="max-width: 100%;" src="{{event.sponsor.logo.url}}"></a>
+                        </div>
+                        {{event.sponsor.description}}
+                    </blockquote>
+                {% endif %}
+                <h2>The Challenge</h2>
+                {{event.challenge_text}}
+                <h2>Solutions</h2>
+                {% if event.image %}
+                    <div class="image">
+                        <img src="{{ event.image.url }}">
+                    </div>
+                {% endif %}
+                {{event.solution_text}}
+                <table class="solutions">
+                    {% for solution in event.solutions.all %}
+                        <tr>
+                            <th><a href="{{solution.github_url}}">{{solution.name}}</a></th>
+                            <td>{{solution.description}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </p>
+    </div>
+{% endblock %}
+
+
+If age is a number
