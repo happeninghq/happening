@@ -1,5 +1,5 @@
 django==1.7.1 # Django
 django_compressor # This allows us to use Coffeescript and SCSS
 django-libsass==0.2 # Plugin for compressor to use SCSS
-pyyaml==3.11
+pyyaml==3.11 # Used for fixtures
 pillow==2.6.1 # For image uploading

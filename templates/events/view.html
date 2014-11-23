@@ -14,26 +14,32 @@
                         <div style="text-align: center; margin-bottom: 2em;">
                             <a href="http://www.parcelmonkey.co.uk"><img style="max-width: 100%;" src="{{event.sponsor.logo.url}}"></a>
                         </div>
-                        {{event.sponsor.description}}
+                        {{event.sponsor.description|safe}}
                     </blockquote>
                 {% endif %}
-                <h2>The Challenge</h2>
-                {{event.challenge_text}}
+                {% if event.challenge_text %}
+                    <h2>The Challenge</h2>
+                    {{event.challenge_text|safe}}
+                {% endif %}
                 <h2>Solutions</h2>
                 {% if event.image %}
                     <div class="image">
                         <img src="{{ event.image.url }}">
                     </div>
                 {% endif %}
-                {{event.solution_text}}
-                <table class="solutions">
-                    {% for solution in event.solutions.all %}
-                        <tr>
-                            <th><a href="{{solution.github_url}}">{{solution.name}}</a></th>
-                            <td>{{solution.description}}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
+                {% if event.solution_text %}
+                    {{event.solution_text|safe}}
+                {% endif %}
+                {% if event.solutions.count > 0 %}
+                    <table class="solutions">
+                        {% for solution in event.solutions.all %}
+                            <tr>
+                                <th><a href="{{solution.github_url}}">{{solution.name}}</a></th>
+                                <td>{{solution.description}}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
             </div>
         </p>
     </div>

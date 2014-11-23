@@ -12,3 +12,5 @@ echo "Installing bower dependencies";
 bower install;
 
 python manage.py migrate;
+
+python manage.py loaddata fixtures/users fixtures/southamptoncodedojo;

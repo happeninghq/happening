@@ -1,0 +1,11 @@
+- model: auth.user
+  pk: 1
+  fields:
+    first_name: admin
+    last_name: admin
+    username: admin
+    email: admin@southamptoncodedojo.com
+    password: sha1$aaac6$37fae882af0912ced5577ed0f512b4014b9c8551
+    is_active: True
+    is_superuser: True
+    is_staff: True
