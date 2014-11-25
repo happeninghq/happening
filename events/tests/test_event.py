@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 import pytz
 
 
-class TestIndex(TestCase):
+class TestEvent(TestCase):
 
     """ Test event model. """
 
