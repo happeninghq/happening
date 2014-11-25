@@ -7,14 +7,15 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sponsorship', '__first__'),
+        ('sponsorship', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Event',
             fields=[
-                ('datetime', models.DateTimeField(serialize=False, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('datetime', models.DateTimeField()),
                 ('eventbrite_url', models.URLField()),
                 ('challenge_language', models.CharField(max_length=200, null=True, blank=True)),
                 ('challenge_title', models.CharField(max_length=200, null=True, blank=True)),

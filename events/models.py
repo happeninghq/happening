@@ -27,7 +27,7 @@ class Event(models.Model):
 
     objects = EventManager()
 
-    datetime = models.DateTimeField(primary_key=True)
+    datetime = models.DateTimeField()
 
     # This can be null if this event isn't sponsored
     sponsor = models.ForeignKey(Sponsor, blank=True, null=True)

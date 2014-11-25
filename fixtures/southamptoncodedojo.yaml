@@ -66,6 +66,7 @@
 
 # Events
 - model: events.Event
+  pk: 1
   fields:
     datetime: "2014-04-11 19:00:00+00:00"
     sponsor: 1
@@ -79,7 +80,7 @@
 - model: events.EventSolution
   pk: 1
   fields:
-    event: "2014-04-11 19:00:00+00:00"
+    event: 1
     team_name: Team 5
     github_url: https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/team5.py
     description: Came in third place. This code placed ships in specific places, and ensured that it didn't shoot at the same place twice.
@@ -87,7 +88,7 @@
 - model: events.EventSolution
   pk: 2
   fields:
-    event: "2014-04-11 19:00:00+00:00"
+    event: 1
     team_name: Lucky Number
     github_url: https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/luckynumber.py
     description: Came in second place. This code had two different placements of ships, and attacked in multiple modes (attack_directed, attack_undirected, or search)
@@ -95,12 +96,13 @@
 - model: events.EventSolution
   pk: 3
   fields:
-    event: "2014-04-11 19:00:00+00:00"
+    event: 1
     team_name: Beetleships
     github_url: https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/beetleships.py
     description: The winner. This code placed ships randomly except it favoured placing ships "against" the edge of the board, and shot in order from top-left to bottom-right until it hit something, then destroyed the ship before continuing.
 
 - model: events.Event
+  pk: 2
   fields:
     datetime: "2014-05-08 19:00:00+00:00"
     sponsor: 2
@@ -113,7 +115,7 @@
 - model: events.EventSolution
   pk: 4
   fields:
-    event: "2014-05-08 19:00:00+00:00"
+    event: 2
     team_name: Team 1
     github_url: https://github.com/southampton-code-dojo/daily-mail-headlines/tree/master/team1
     description: This code created markov chains to generate the headlines, based on scraped Daily Mail headlines, then injected the new headlines back into the page. It mostly generated nonsense but some of the headlines where pretty good.
@@ -121,12 +123,13 @@
 - model: events.EventSolution
   pk: 5
   fields:
-    event: "2014-05-08 19:00:00+00:00"
+    event: 2
     team_name: Team 2
     github_url: https://github.com/southampton-code-dojo/daily-mail-headlines/tree/master/team2
     description: This code used a templating approach which disstilled a good Daily Mail headline down to "blame", "verbs", "values", and "threats". It linked these together with five possible templates (e.g. (blame) (verb) (value)) and then injected that headline into a page with the Daily Mail header.
 
 - model: events.Event
+  pk: 3
   fields:
     datetime: "2014-06-12 19:00:00+00:00"
     eventbrite_url: http://southamptoncodedojo3.eventbrite.co.uk
@@ -139,7 +142,7 @@
 - model: events.EventSolution
   pk: 6
   fields:
-    event: "2014-06-12 19:00:00+00:00"
+    event: 3
     team_name: Group 1
     github_url: https://github.com/sinjax/mastermind
     description: This group did not complete, having split up into too many subgroups, and was unable to bring the whole thing together in the end. Afterwards, one team member did successfully implement Donald Knuth's five guess algorithm but this wasn't completed in time to be demoed on the night.
@@ -147,12 +150,13 @@
 - model: events.EventSolution
   pk: 7
   fields:
-    event: "2014-06-12 19:00:00+00:00"
+    event: 3
     team_name: Group 2
     github_url: https://github.com/southampton-code-dojo/mastermind-june-2014-dojo
     description: This group created a version of the game using tables for layout with border-radius to represent pegs, where the player can click the pegs to make their guess.
 
 - model: events.Event
+  pk: 4
   fields:
     datetime: "2014-07-10 19:00:00+00:00"
     sponsor: 3
@@ -165,25 +169,26 @@
 - model: events.EventSolution
   pk: 8
   fields:
-    event: "2014-07-10 19:00:00+00:00"
+    event: 4
     team_name: Group 1
     github_url: https://github.com/patrickmcsweeney/romancalc
 
 - model: events.EventSolution
   pk: 9
   fields:
-    event: "2014-07-10 19:00:00+00:00"
+    event: 4
     team_name: Group 2
     github_url: https://gist.github.com/jscott1989/809c69e5547e9a58ef1b
 
 - model: events.EventSolution
   pk: 10
   fields:
-    event: "2014-07-10 19:00:00+00:00"
+    event: 4
     team_name: Group 4
     github_url: https://gist.github.com/andrew804/b56395a24827fc71241e
 
 - model: events.Event
+  pk: 5
   fields:
     datetime: "2014-08-14 19:00:00+00:00"
     eventbrite_url: http://southamptoncodedojo5.eventbrite.co.uk
@@ -195,11 +200,12 @@
 - model: events.EventSolution
   pk: 11
   fields:
-    event: "2014-08-14 19:00:00+00:00"
+    event: 5
     team_name: Solution 1
     github_url: https://github.com/southampton-code-dojo/countdown_numbers
 
 - model: events.Event
+  pk: 6
   fields:
     datetime: "2014-09-11 19:00:00+00:00"
     sponsor: 4
@@ -212,25 +218,26 @@
 - model: events.EventSolution
   pk: 12
   fields:
-    event: "2014-09-11 19:00:00+00:00"
+    event: 6
     team_name: Solution 1
     github_url: https://github.com/southampton-code-dojo/js-sudoku
 
 - model: events.EventSolution
   pk: 13
   fields:
-    event: "2014-09-11 19:00:00+00:00"
+    event: 6
     team_name: Solution 2
     github_url: https://github.com/southampton-code-dojo/sudoku
 
 - model: events.EventSolution
   pk: 14
   fields:
-    event: "2014-09-11 19:00:00+00:00"
+    event: 6
     team_name: Solution 3
     github_url: https://github.com/southampton-code-dojo/CodeDojoSudokuSolver
 
 - model: events.Event
+  pk: 7
   fields:
     datetime: "2014-10-09 19:00:00+00:00"
     sponsor: 3
@@ -246,39 +253,40 @@
 - model: events.EventSolution
   pk: 15
   fields:
-    event: "2014-10-09 19:00:00+00:00"
+    event: 7
     team_name: Group 1
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/TeamOnePlayer.java
 
 - model: events.EventSolution
   pk: 16
   fields:
-    event: "2014-10-09 19:00:00+00:00"
+    event: 7
     team_name: Group 2
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/OrderedPlayer.java
 
 - model: events.EventSolution
   pk: 17
   fields:
-    event: "2014-10-09 19:00:00+00:00"
+    event: 7
     team_name: Group 3
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/UltraSuperPlayer.java
 
 - model: events.EventSolution
   pk: 18
   fields:
-    event: "2014-10-09 19:00:00+00:00"
+    event: 7
     team_name: Group 4
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/SuperPlayer.java
 
 - model: events.EventSolution
   pk: 19
   fields:
-    event: "2014-10-09 19:00:00+00:00"
+    event: 7
     team_name: Group 5
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/CornerPlayer.java
 
 - model: events.Event
+  pk: 8
   fields:
     datetime: "2014-11-13 19:00:00+00:00"
     eventbrite_url: http://southamptoncodedojo8.eventbrite.co.uk
@@ -291,39 +299,40 @@
 - model: events.EventSolution
   pk: 20
   fields:
-    event: "2014-11-13 19:00:00+00:00"
+    event: 8
     team_name: Group 1
     github_url: https://github.com/mikejewell/dojo-poetry
 
 - model: events.EventSolution
   pk: 21
   fields:
-    event: "2014-11-13 19:00:00+00:00"
+    event: 8
     team_name: Group 2
     github_url: https://github.com/highflying/poem-generator
 
 - model: events.EventSolution
   pk: 22
   fields:
-    event: "2014-11-13 19:00:00+00:00"
+    event: 8
     team_name: Group 3
     github_url: https://github.com/priyankasingh/haiku
 
 - model: events.EventSolution
   pk: 23
   fields:
-    event: "2014-11-13 19:00:00+00:00"
+    event: 8
     team_name: Group 4
     github_url: https://gist.github.com/jscott1989/366a868de420b648ab51
 
 - model: events.EventSolution
   pk: 24
   fields:
-    event: "2014-11-13 19:00:00+00:00"
+    event: 8
     team_name: Group 5
     github_url: https://github.com/rprince/poetry-november-2014-dojo
 
 - model: events.Event
+  pk: 9
   fields:
     datetime: "2014-12-04 19:00:00+00:00"
     eventbrite_url: http://southamptoncodedojo9.eventbrite.co.uk

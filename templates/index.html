@@ -58,7 +58,7 @@
                 <p>
                     <ul id="previous-dojos">
                         {% for event in previous_events %}
-                            <li><a href="{% url "view_event" event.pk %}">{{event.year_heading}}</li>
+                            <li><a href="{% url "view_event" event.pk %}">{{event.year_heading}}</a></li>
                         {% endfor %}
                     </ul>
                 </p>
