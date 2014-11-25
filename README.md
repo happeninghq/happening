@@ -1,6 +1,8 @@
 Southampton Code Dojo Website
 =========
 
+[![Build Status](https://travis-ci.org/southampton-code-dojo/website.svg?branch=master)](https://travis-ci.org/southampton-code-dojo/website)
+
 This is the website for the Southampton Code Dojo. It's currently a work
 in progress but will eventually support management of the 
 Facebook/Twitter/Meetup accounts, ticketing, membership, and sponsorship.
