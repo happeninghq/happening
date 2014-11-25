@@ -19,19 +19,23 @@
                 {% endif %}
                 {% if event.challenge_text %}
                     <h2>The Challenge</h2>
-                    {{event.challenge_text|safe}}
+                    <div id="challenge-text">
+                        {{event.challenge_text|safe}}
+                    </div>
                 {% endif %}
                 <h2>Solutions</h2>
                 {% if event.image %}
-                    <div class="image">
+                    <div class="image" id="event-image">
                         <img src="{{ event.image.url }}">
                     </div>
                 {% endif %}
                 {% if event.solution_text %}
-                    {{event.solution_text|safe}}
+                    <div id="solution-text">
+                        {{event.solution_text|safe}}
+                    </div>
                 {% endif %}
                 {% if event.solutions.count > 0 %}
-                    <table class="solutions">
+                    <table class="solutions" id="event-solutions">
                         {% for solution in event.solutions.all %}
                             <tr>
                                 {% if solution.description %}
