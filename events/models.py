@@ -32,7 +32,8 @@ class Event(models.Model):
     # This can be null if this event isn't sponsored
     sponsor = models.ForeignKey(Sponsor, blank=True, null=True)
 
-    eventbrite_url = models.URLField()
+    # The number of tickets available in total for this event
+    available_tickets = models.IntegerField()
 
     # If completed, this information will be used on the "info" page
     challenge_language = models.CharField(max_length=200, blank=True,
@@ -42,6 +43,12 @@ class Event(models.Model):
     challenge_text = models.TextField(blank=True, null=True)
     solution_text = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to="event_images", blank=True, null=True)
+
+    @property
+    def remaining_tickets(self):
+        """ Return the number of tickets available to purchase. """
+        taken_tickets = sum([t.number for t in self.tickets.all()])
+        return self.available_tickets - taken_tickets
 
     def is_future(self):
         """ Return True if this event is in the future. False otherwise. """
@@ -77,7 +84,6 @@ class Event(models.Model):
         """ Return the month and year. """
         return self.datetime.strftime("%B %Y")
 
-
     def __unicode__(self):
         """ Return the title of this dojo. """
         return "%s Code Dojo" % self.datetime.strftime("%B")
@@ -100,3 +106,12 @@ class EventSolution(models.Model):
     def __unicode__(self):
         """ Return the title of this solution. """
         return "%s %s" % (self.event, self.team_name)
+
+
+class Ticket(models.Model):
+
+    """ A claim by a user on a place at an event. """
+
+    event = models.ForeignKey(Event, related_name="tickets")
+    user = models.ForeignKey("auth.User", related_name="tickets")
+    number = models.IntegerField(default=1)
