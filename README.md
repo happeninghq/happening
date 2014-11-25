@@ -15,8 +15,6 @@ The following must be available and configured:
 
 Development Requirements
 --------
-* flake8 (Available via: pip install flake8)
-* pep258 (Available via: pip install pep258)
 * jshint (Available via: npm install -g jshint)
 
 Coding Conventions
