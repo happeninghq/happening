@@ -1,2 +1,4 @@
-flake8 --max-complexity 10 --exclude='ve,migrations,lib' .
-pep257 --match-dir='(?!^ve$)'
+EXIT_STATUS=0
+flake8 --max-complexity 10 --exclude='ve,migrations,lib' . || EXIT_STATUS=$?
+pep257 --match-dir='(?!^ve$)' || EXIT_STATUS=$?
+exit $EXIT_STATUS
