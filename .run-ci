@@ -1,4 +1,4 @@
 EXIT_STATUS=0
 python manage.py test || EXIT_STATUS=$?
-check-standards || EXIT_STATUS=$?
+./check-standards || EXIT_STATUS=$?
 exit $EXIT_STATUS
