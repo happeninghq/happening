@@ -18,10 +18,16 @@
                 <p>We decide on the programming language to use on the day of the dojo, and will tend to choose languages most familiar to those attending. Whatever your experience level please feel free to come along.</p>
 
                 <h2 id="next">Come along</h2>
-                {% if latest_event.is_future %}
-                    <p>Our next dojo will be on {{latest_event.datetime}} <a href="{{latest_event.eventbrite_url}}">Get your free tickets from EventBrite</a>.</p>
+                {% if latest_event %}
+                    {% if latest_event.is_future %}
+                        <p id="next-event">Our next dojo will be on {{latest_event.datetime}} <a href="{{latest_event.eventbrite_url}}">Get your free tickets from EventBrite</a>.</p>
+                    {% else %}
+                        <p id="recent-event">Our most recent dojo was the <a href="{% url "view_event" latest_event.pk %}">{{latest_event}}</a> on {{latest_event.datetime.date}}.</p>
+                    {% endif %}
                 {% else %}
-                    <p>Our most recent dojo was the <a href="{% url "view_event" latest_event.pk %}">{{latest_event}}</a> on {{latest_event.datetime.date}}.</p>
+                    <div id="no-events">
+                        <p>Check back for information on our events.</p>
+                    </div>
                 {% endif %}
 
                 <p>We hold the dojos at the University of Southampton Highfield Campus, Building 32. You can <a href="http://www.southampton.ac.uk/visitus/campuses/maps/highfield_3d_key.pdf">see a map of the campus here</a> where number 6 is next to the Highfield Interchange bus stop and number 32 is the building we meet in.</p>
@@ -32,15 +38,17 @@
                 <p>We organise via a <a href="http://facebook.com/groups/SouthamptonCodeDojo/">Facebook Group</a> and <a href="http://twitter.com/sotoncodedojo">Twitter account</a> so please follow us on there.</p>
 
                 {% if latest_event.sponsor %}
-                    <h2 id="sponsors">Sponsors</h2>
-                    <p>The {{latest_event}} {% if latest_event.is_future %}is{% else %}was{% endif %} kindly sponsored by <a href="{{latest_event.sponsor.url}}">{{latest_event.sponsor}}</a>.</p>
+                    <div id="sponsors">
+                        <h2>Sponsors</h2>
+                        <p>The {{latest_event}} {% if latest_event.is_future %}is{% else %}was{% endif %} kindly sponsored by <a href="{{latest_event.sponsor.url}}">{{latest_event.sponsor}}</a>.</p>
 
-                    <blockquote>
-                        <div style="text-align: center; margin-bottom: 2em;">
-                            <a href="{{latest_event.sponsor.url}}"><img style="max-width: 100%;" src="{{latest_event.sponsor.logo.url}}"></a>
-                        </div>
-                        {{latest_event.sponsor.description}}
-                    </blockquote>
+                        <blockquote>
+                            <div style="text-align: center; margin-bottom: 2em;">
+                                <a href="{{latest_event.sponsor.url}}"><img style="max-width: 100%;" src="{{latest_event.sponsor.logo.url}}"></a>
+                            </div>
+                            {{latest_event.sponsor.description}}
+                        </blockquote>
+                    </div>
                 {% endif %}
 
                 <h2>Interested in Sponsoring a dojo?</h2>
@@ -48,9 +56,9 @@
 
                 <h2>Previous Dojos</h2>
                 <p>
-                    <ul>
+                    <ul id="previous-dojos">
                         {% for event in previous_events %}
-                            <li><a href="{% url "view_event" event.pk %}">{{event.month_year}}</a> {% if event.challenge %}({{event.challenge}}){% endif %}</li>
+                            <li><a href="{% url "view_event" event.pk %}">{{event.year_heading}}</li>
                         {% endfor %}
                     </ul>
                 </p>

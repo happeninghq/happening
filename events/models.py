@@ -65,9 +65,18 @@ class Event(models.Model):
         return "%s (%s)" % (self.__unicode__(), self.challenge()) if\
             self.challenge() else self.__unicode__()
 
+    def year_heading(self):
+        """ Return the month, year, and challenge. """
+        s = self.month_year()
+        if self.challenge():
+            s += " (%s)" % self.challenge()
+        return "%s (%s)" % (self.__unicode__(), self.challenge()) if\
+            self.challenge() else self.__unicode__()
+
     def month_year(self):
         """ Return the month and year. """
         return self.datetime.strftime("%B %Y")
+
 
     def __unicode__(self):
         """ Return the title of this dojo. """

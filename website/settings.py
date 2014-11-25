@@ -114,3 +114,7 @@ STATICFILES_FINDERS = (
 )
 
 COMPRESS_ENABLED = True
+
+FIXTURE_DIRS = (
+    os.path.join(BASE_DIR, 'fixtures'),
+)

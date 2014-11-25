@@ -13,4 +13,5 @@ class Sponsor(models.Model):
     logo = models.ImageField(upload_to="sponsors")
 
     def __unicode__(self):
+        """ Return the sponsor's name. """
         return self.name
