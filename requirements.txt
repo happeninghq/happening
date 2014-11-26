@@ -4,14 +4,6 @@ django==1.7.1 # Django
 pyyaml==3.11 # Used for fixtures
 pillow==2.6.1 # For image uploading
 
-# For testing
-django-beautifulsoup-test==1.0.1 # HTML Testing
-model_mommy==1.2.2 # For creating test objects
-
-# For development
-flake8==2.2.5
-flake8_docstrings==0.2.1
-
 # Static files
 
 django_compressor # This allows us to use Coffeescript and SCSS
