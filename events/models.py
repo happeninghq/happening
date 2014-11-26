@@ -2,6 +2,8 @@
 from django.db import models
 from sponsorship.models import Sponsor
 from django.utils import timezone
+from exceptions import DojoFinishedError, NoTicketsError
+from exceptions import TicketCancelledError
 
 
 class EventManager(models.Manager):
@@ -47,7 +49,8 @@ class Event(models.Model):
     @property
     def remaining_tickets(self):
         """ Return the number of tickets available to purchase. """
-        taken_tickets = sum([t.number for t in self.tickets.all()])
+        taken_tickets = sum(
+            [t.number for t in self.tickets.all() if not t.cancelled])
         return self.available_tickets - taken_tickets
 
     def is_future(self):
@@ -84,6 +87,16 @@ class Event(models.Model):
         """ Return the month and year. """
         return self.datetime.strftime("%B %Y")
 
+    def buy_ticket(self, user, tickets=1):
+        """ Buy the given number of tickets for the given user. """
+        if not self.is_future():
+            raise DojoFinishedError()
+        if self.remaining_tickets == 0:
+            raise NoTicketsError()
+        ticket = Ticket(event=self, user=user, number=tickets)
+        ticket.save()
+        return ticket
+
     def __unicode__(self):
         """ Return the title of this dojo. """
         return "%s Code Dojo" % self.datetime.strftime("%B")
@@ -115,3 +128,34 @@ class Ticket(models.Model):
     event = models.ForeignKey(Event, related_name="tickets")
     user = models.ForeignKey("auth.User", related_name="tickets")
     number = models.IntegerField(default=1)
+    purchased_datetime = models.DateTimeField(auto_now_add=True)
+    last_edited_datetime = models.DateTimeField(auto_now=True)
+    cancelled = models.BooleanField(default=False)
+    cancelled_datetime = models.DateTimeField(blank=True, null=True)
+
+    def change_number(self, number):
+        """ Change the number on the ticket. """
+        if number == 0:
+            return self.cancel()
+
+        if not self.event.is_future():
+            raise DojoFinishedError()
+
+        if ((self.event.remaining_tickets + self.number) - number) < 0:
+            # We've ran out of tickets
+            raise NoTicketsError()
+
+        if self.cancelled:
+            raise TicketCancelledError()
+
+        self.number = number
+        self.save()
+
+    def cancel(self):
+        """ Cancel the ticket. """
+        if not self.event.is_future():
+            raise DojoFinishedError()
+        if not self.cancelled:
+            self.cancelled = True
+            self.cancelled_datetime = timezone.now()
+            self.save()
