@@ -18,11 +18,15 @@ Development Requirements
 --------
 * jshint (Available via: npm install -g jshint)
 
+Getting started
+--------
+Clone the repository to your disk, and then run setup - this will download all requirements and set up the database with some sample events.
+
 Coding Conventions
 -------
 For Python, follow [PEP8](http://www.python.org/dev/peps/pep-0008/) and
 [PEP257](http://www.python.org/dev/peps/pep-0257/). Check that the code
-passes using check-standards.sh.
+passes using check-standards
 
 check-standards also looks for common mistakes such as unused or double
 imports - so try to fix these issues as they are noticed. If any method has a
@@ -32,9 +36,10 @@ should be changed (split up into multiple methods).
 Requirements files should be separated into logical groups, with each
 individual requirement commented. All requirements should specify a version.
 
-
 Development is managed on [Pivotal Tracker](https://www.pivotaltracker.com/n/projects/1215654).
 When working on a feature from the backlog, that feature should not be marked
 as complete until it is has fully implemented the requirements from the
 backlog item, has tests to prove it, and all of this code follows the coding
 conventions mentioned above.
+
+Code coverage should not fall below 90%.
