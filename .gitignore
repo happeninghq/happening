@@ -6,3 +6,4 @@ bower_components
 .DS_Store
 mock-img_*.jpeg
 mock-img.jpeg
+.coverage

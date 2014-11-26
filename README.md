@@ -2,6 +2,7 @@ Southampton Code Dojo Website
 =========
 
 [![Build Status](https://travis-ci.org/southampton-code-dojo/website.svg?branch=master)](https://travis-ci.org/southampton-code-dojo/website)
+[![Coverage Status](https://img.shields.io/coveralls/southampton-code-dojo/website.svg)](https://coveralls.io/r/southampton-code-dojo/website?branch=master)
 
 This is the website for the Southampton Code Dojo. It's currently a work
 in progress but will eventually support management of the 
