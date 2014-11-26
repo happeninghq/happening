@@ -70,7 +70,7 @@
   fields:
     datetime: "2014-04-11 19:00:00+00:00"
     sponsor: 1
-    eventbrite_url: http://southamptoncodedojo.eventbrite.co.uk
+    # eventbrite_url: http://southamptoncodedojo.eventbrite.co.uk
     challenge_language: Python
     challenge_title: Battleships
     challenge_text: <p>This month's challenge was to implement a Battleships AI in Python. These AIs played against each other using the <a href="https://github.com/southampton-code-dojo/battleships">Battleships competition</a> created for this dojo.</p>
@@ -106,7 +106,7 @@
   fields:
     datetime: "2014-05-08 19:00:00+00:00"
     sponsor: 2
-    eventbrite_url: http://southamptoncodedojo2.eventbrite.co.uk
+    # eventbrite_url: http://southamptoncodedojo2.eventbrite.co.uk
     challenge_language: Python
     challenge_title: Daily Mail Headline Generator
     challenge_text: <p>This month's challenge was to create a Daily Mail headline generator in Python.</p>
@@ -132,7 +132,7 @@
   pk: 3
   fields:
     datetime: "2014-06-12 19:00:00+00:00"
-    eventbrite_url: http://southamptoncodedojo3.eventbrite.co.uk
+    # eventbrite_url: http://southamptoncodedojo3.eventbrite.co.uk
     challenge_language: Javascript
     challenge_title: Mastermind
     challenge_text: <p>This month's challenge was more open than usual - and involved implementing the game <a href="http://en.wikipedia.org/wiki/Mastermind_(board_game)">Mastermind</a>, for either one or two players. Everything else was left up to the participants.</p>
@@ -160,7 +160,7 @@
   fields:
     datetime: "2014-07-10 19:00:00+00:00"
     sponsor: 3
-    eventbrite_url: http://southamptoncodedojo4.eventbrite.co.uk
+    # eventbrite_url: http://southamptoncodedojo4.eventbrite.co.uk
     challenge_language: Python
     challenge_title: Roman Numeral Calculator
     challenge_text: <p>This month's challenge was to implement a Roman Numerals calculator in Python. The challenge was open in that people could decide how it should work, how the user should interface with it, etc.</p>
@@ -191,7 +191,7 @@
   pk: 5
   fields:
     datetime: "2014-08-14 19:00:00+00:00"
-    eventbrite_url: http://southamptoncodedojo5.eventbrite.co.uk
+    # eventbrite_url: http://southamptoncodedojo5.eventbrite.co.uk
     challenge_language: Java
     challenge_title: Countdown Solver
     challenge_text: <p>This month's challenge was to implement a Countdown numbers round solver in Java. The idea was taken from <a href="http://rubyquiz.com/quiz7.html">Ruby Quiz 7</a> so you can go there for more details and to see some example answers where they had longer to work on them.</p>
@@ -209,7 +209,7 @@
   fields:
     datetime: "2014-09-11 19:00:00+00:00"
     sponsor: 4
-    eventbrite_url: http://southamptoncodedojo6.eventbrite.co.uk
+    # eventbrite_url: http://southamptoncodedojo6.eventbrite.co.uk
     challenge_language: Javascript
     challenge_title: Sodoku Solver
     challenge_text: <p>This month's challenge was to implement a Sodoku solver in Javascript. We left the choice of using Node or doing it in-browser up to the groups.</p>
@@ -241,7 +241,7 @@
   fields:
     datetime: "2014-10-09 19:00:00+00:00"
     sponsor: 3
-    eventbrite_url: http://southamptoncodedojo7.eventbrite.co.uk
+    # eventbrite_url: http://southamptoncodedojo7.eventbrite.co.uk
     challenge_language: Java
     challenge_title: Minesweeper AI
     challenge_text: <p>This month's challenge was to implement a Minesweeper AI using Java. We had a pre-prepared engine and API that everyone could code to - so teams were only responsible for implementing the actual logic of choosing which space to click on next.</p>
@@ -289,7 +289,7 @@
   pk: 8
   fields:
     datetime: "2014-11-13 19:00:00+00:00"
-    eventbrite_url: http://southamptoncodedojo8.eventbrite.co.uk
+    # eventbrite_url: http://southamptoncodedojo8.eventbrite.co.uk
     challenge_language: Python
     challenge_title: Poetry Generator
     challenge_text: <p>We started out by attempting to run a pre-prepared challenge, however networking issues put an end to that and we voted on a replacement task - we decided to develop poetry generators.</p>
@@ -335,4 +335,4 @@
   pk: 9
   fields:
     datetime: "2014-12-04 19:00:00+00:00"
-    eventbrite_url: http://southamptoncodedojo9.eventbrite.co.uk
+    # eventbrite_url: http://southamptoncodedojo9.eventbrite.co.uk

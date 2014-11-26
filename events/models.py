@@ -35,7 +35,7 @@ class Event(models.Model):
     sponsor = models.ForeignKey(Sponsor, blank=True, null=True)
 
     # The number of tickets available in total for this event
-    available_tickets = models.IntegerField()
+    available_tickets = models.IntegerField(default=30)
 
     # If completed, this information will be used on the "info" page
     challenge_language = models.CharField(max_length=200, blank=True,
