@@ -99,3 +99,18 @@ a {
 table.solutions {
     width: 100%;
 }
+
+.ticket-purchase {
+    table {
+        width: 100%;
+        border: none;
+    }
+
+    .register-button {
+        text-align: right;
+    }
+
+    border: 1px solid #F5F5F5;
+    padding: 20px;
+    padding-bottom: 0px;
+}
