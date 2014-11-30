@@ -14,4 +14,4 @@ bower install;
 
 python manage.py migrate;
 
-python manage.py loaddata fixtures/users fixtures/southamptoncodedojo;
+python manage.py loaddata fixtures/common fixtures/users fixtures/southamptoncodedojo;

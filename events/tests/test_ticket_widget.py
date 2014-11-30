@@ -86,4 +86,3 @@ class TestTicketWidget(TestCase):
         self.assertIsNone(widget.find("option"))
         tickets = widget.find("td", {"class": "remaining-tickets"}).text
         self.assertEqual("Sold Out", tickets.strip())
-

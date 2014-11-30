@@ -1,0 +1,5 @@
+- model: sites.Site
+  pk: 1
+  fields:
+    domain: southamptoncodedojo.com
+    name: Southampton Code Dojo

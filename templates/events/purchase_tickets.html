@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load loops %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>{{event.heading}}</h2>
+                <h3>Purchase Tickets</h3>
+
+                <form action="{% url "purchase_tickets" event.id %}" method="POST">
+                    {% csrf_token %}
+                    {{form}}
+                    <button type="submit">Submit</button>
+                </form>
+
+                {% if event.sponsor %}
+                    <p>The {{event}} is kindly sponsored by <a href="{{event.sponsor.url}}">{{event.sponsor.name}}</a>.</p>
+             
+                    <blockquote>
+                        <div style="text-align: center; margin-bottom: 2em;">
+                            <a href="http://www.parcelmonkey.co.uk"><img style="max-width: 100%;" src="{{event.sponsor.logo.url}}"></a>
+                        </div>
+                        {{event.sponsor.description|safe}}
+                    </blockquote>
+                {% endif %}
+            </div>
+        </p>
+    </div>
+{% endblock %}

@@ -9,6 +9,10 @@ pillow==2.6.1 # For image uploading
 django_compressor # This allows us to use Coffeescript and SCSS
 django-libsass==0.2 # Plugin for compressor to use SCSS
 
+# Authentication
+
+django-allauth==0.18.0 # Authentication and social auth
+
 # General
 
 pytz # To stop python moaning about naive timezones

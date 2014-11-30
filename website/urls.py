@@ -11,5 +11,7 @@ urlpatterns = patterns('',
                        url(r'^events/', include('events.urls')),
                        # Include general external pages as fallback
                        url(r'^', include('external.urls')),
+
+                       (r'^accounts/', include('allauth.urls')),
                        ) + static(settings.MEDIA_URL,
                                   document_root=settings.MEDIA_ROOT)

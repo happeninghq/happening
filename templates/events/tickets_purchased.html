@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>{{event.heading}}</h2>
+                <h3>Purchase Tickets</h3>
+
+                <p>You have purchased <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize:"s"}} to the {{ticket.event}}.</p>
+
+                <p>You will be emailed with more information about the event soon.</p>
+
+                <a href="{% url "index" %}">Click here to return to the index</a>
+            </div>
+        </p>
+    </div>
+{% endblock %}
