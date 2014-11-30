@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load loops %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>{{ticket.event.heading}}</h2>
+                <h3>Cancel Ticket</h3>
+
+                <form action="{% url "cancel_ticket" ticket.id %}" method="POST">
+                    <p>Are you sure you wish to cancel your <strong>{{ticket.number}}</strong> tickets to The {{ticket.event}}?</p>
+                    {% csrf_token %}
+                    <button class="warning" type="submit">Confirm</button>
+                    <a class="button" href="{% url "my_tickets" %}">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

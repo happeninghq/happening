@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 
 {% load loops %}
-{% load staticfiles %}
 
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="small-12 column">
-                <h2>{{event.heading}}</h2>
-                <h3>Purchase Tickets</h3>
+                <h2>{{ticket.event.heading}}</h2>
+                <h3>Edit Tickets</h3>
 
-                <form action="{% url "purchase_tickets" event.id %}" method="POST">
+                <form action="{% url "edit_ticket" ticket.id %}" method="POST">
                     {% csrf_token %}
                     {{form}}
                     <button type="submit">Submit</button>

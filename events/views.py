@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from models import Event, Ticket
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
-from forms import PurchaseForm
+from forms import TicketForm
 
 
 def view(request, pk):
@@ -25,9 +25,9 @@ def purchase_tickets(request, pk):
     if event.remaining_tickets == 0:
         return redirect("view_event", event.pk)
 
-    form = PurchaseForm(event=event)
+    form = TicketForm(event=event)
     if request.method == "POST":
-        form = PurchaseForm(request.POST, event=event)
+        form = TicketForm(request.POST, event=event)
         if form.is_valid():
             ticket = event.buy_ticket(request.user,
                                       form.cleaned_data['quantity'])

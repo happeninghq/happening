@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>My Tickets</h2>
+                {% for ticket in request.user.tickets.all %}
+                    <div class="ticket {% if ticket.cancelled %}cancelled{% endif %}">
+                        <div class="row">
+                            <div class="small-9 column">
+                                <h3>{{ticket.event}}</h3>
+                                {% if ticket.cancelled %}
+                                    <p>You cancelled <strong>{{ticket.number}}</strong> tickets.</p>
+                                {% else %}
+                                    <p>You have <strong>{{ticket.number}}</strong> tickets.</p>
+                                {% endif %}
+                            </div>
+                            <div class="small-3 column">
+                                {% if not ticket.cancelled %}
+                                    {% if ticket.event.is_future %}
+                                        <ul class="stack button-group">
+                                          <li><a href="{% url "edit_ticket" ticket.pk %}" class="button">Edit</a></li>
+                                          <li><a href="{% url "cancel_ticket" ticket.pk %}" class="button warning">Cancel</a></li>
+                                        </ul>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </p>
+    </div>
+{% endblock %}

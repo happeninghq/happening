@@ -13,5 +13,6 @@ urlpatterns = patterns('',
                        url(r'^', include('external.urls')),
 
                        (r'^accounts/', include('allauth.urls')),
+                       (r'^member/', include('members.urls')),
                        ) + static(settings.MEDIA_URL,
                                   document_root=settings.MEDIA_ROOT)
