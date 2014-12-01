@@ -9,4 +9,6 @@ urlpatterns = patterns('events.views',
                            'purchase_tickets', name='purchase_tickets'),
                        url(r'^tickets_purchased/(?P<pk>\d+)',
                            'tickets_purchased', name='tickets_purchased'),
+                       url(r'^previous',
+                           'previous_events', name='previous_events'),
                        )

@@ -4,6 +4,7 @@ from models import Event, Ticket
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from forms import TicketForm
+from django.utils import timezone
 
 
 def view(request, pk):
@@ -46,3 +47,11 @@ def tickets_purchased(request, pk):
 
     # TODO: Ensure that this ticket belongs to this user
     return render(request, "events/tickets_purchased.html", {"ticket": ticket})
+
+
+def previous_events(request):
+    """ List previous events. """
+    previous_events = Event.objects.filter(
+        datetime__lte=timezone.now()).order_by("-datetime")
+    return render(request, "events/previous_events.html",
+                  {"previous_events": previous_events})

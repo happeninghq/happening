@@ -134,6 +134,9 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     # allauth specific context processors
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
+
+
+    "events.context_processors.previous_events",
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -145,3 +148,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
+
+
+LOGIN_REDIRECT_URL = '/'

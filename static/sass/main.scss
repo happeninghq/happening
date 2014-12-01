@@ -7,10 +7,13 @@ body {
     color: rgb(24,24,24);
 }
 
-.top-container {
+.top-container, .full-navbar {
     background: #65afdc;
 
     border-bottom: 3px solid darken(#65afdc, 0%);
+}
+
+.top-container {
     height: 0.5em;
 }
 

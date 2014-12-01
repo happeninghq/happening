@@ -1,26 +1,29 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
 {% load loops %}
+
+{% block navbar %}
+    <div class="top-container">
+    </div>
+    <div id="logo-container">
+        <div class="container">
+            <div class="row">
+                <div class="small-12 column">
+                    <a href="/"><img id="logo" src="{% static "img/dojo-logo.png" %}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+        {% include "_navbar.html" %}
+{% endblock %}
 
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="small-12 column">
-                <h2>Who are we?</h2>
-
-                <p>The Southampton Code Dojo is a monthly meetup of technical people from around the Southampton area.</p>
-
-                <p>We meet on the second Thursday of each month, decide on a small challenge to work on, split up into groups and solve the problem separately, then come together and talk about the different ways we solved it.</p>
-
-                <p>It's a good way of improving our coding abilities by learning from each other, it's a lot of fun, and programmers of any ability are welcome.</p>
-
-                <h2>Who are you?</h2>
-                <p>We welcome anyone with an interest in coding. We have members ranging from the very experienced to no experience at all, in languages from D to Javascript.</p>
-
-                <p>We decide on the programming language to use on the day of the dojo, and will tend to choose languages most familiar to those attending. Whatever your experience level please feel free to come along.</p>
-
-                <h2 id="next">Come along</h2>
                 {% if latest_event %}
+                    <h2 id="next">{{latest_event}}</h2>
                     {% if latest_event.is_future %}
                         <div id="next-event">
                             <p>Our next dojo will be on {{latest_event.datetime}} Get your tickets now.</p>
@@ -82,9 +85,6 @@
 
                 <p>To recieve updates about how to vote for future dojo languages, and to be alerted when tickets are available, join our <a href="http://facebook.com/groups/SouthamptonCodeDojo/">Facebook group</a>, <a href="http://www.meetup.com/Southampton-Code-Dojo/">Meetup group</a>, or <a href="http://twitter.com/sotoncodedojo">follow us on Twitter</a>.
 
-                <h2>Get Involved</h2>
-                <p>We organise via a <a href="http://facebook.com/groups/SouthamptonCodeDojo/">Facebook Group</a> and <a href="http://twitter.com/sotoncodedojo">Twitter account</a> so please follow us on there.</p>
-
                 {% if latest_event.sponsor %}
                     <div id="sponsors">
                         <h2>Sponsors</h2>
@@ -101,15 +101,6 @@
 
                 <h2>Interested in Sponsoring a dojo?</h2>
                 <p>It costs around &pound;130 to run a dojo. In exchange for that, sponsors gain exposure amongst highly motivated technical people. This helps when hiring and creates connections which allow for easier recruiting of contractors and freelancers. For more details check our <a href="{% url "sponsorship" %}">sponsorship page</a>, or if you're interested in sponsoring a future dojo, <a href="mailto:jonathan@jscott.me">get in touch</a>.</p>
-
-                <h2>Previous Dojos</h2>
-                <p>
-                    <ul id="previous-dojos">
-                        {% for event in previous_events %}
-                            <li><a href="{% url "view_event" event.pk %}">{{event.year_heading}}</a></li>
-                        {% endfor %}
-                    </ul>
-                </p>
             </p>
         </div>
     </div>

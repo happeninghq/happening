@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Previous Events</h2>
+                {% if previous_events %}
+                    <ul id="all-previous-dojos">
+                        {% for event in previous_events %}
+                            <li><a href="{% url "view_event" event.pk %}">{{event.year_heading}}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
