@@ -8,3 +8,6 @@ install:
 script: ./.run-ci
 after_success:
     coveralls
+before_script:
+    - npm install -g bower
+    - bower install
