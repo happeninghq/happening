@@ -68,6 +68,19 @@ class TestMyTickets(TestCase):
         response = self.client.post(edit_url, {"quantity": 3})
         self.assertEqual(3, Ticket.objects.get(pk=self.ticket2.pk).number)
 
+    def test_edit_another_users_ticket(self):
+        """ Test we can't edit tickets that don't belong to us. """
+        user = mommy.make("auth.User")
+        user.set_password("password")
+        user.save()
+
+        edit_url = "/member/tickets/%s" % self.ticket2.pk
+
+        self.client.login(username=user.username, password="password")
+        response = self.client.post(edit_url, {"quantity": 3})
+        self.assertEqual(404, response.status_code)
+        self.assertEqual(5, Ticket.objects.get(pk=self.ticket2.pk).number)
+
     def test_cancel_ticket(self):
         """ Test that we can cancel tickets. """
         self.client.login(username=self.user.username, password="password")
@@ -86,6 +99,25 @@ class TestMyTickets(TestCase):
         # Then POST to the link
         response = self.client.post(cancel_url)
         self.assertTrue(Ticket.objects.get(pk=self.ticket2.pk).cancelled)
+
+    def test_cancel_another_users_ticket(self):
+        """ Test we can't cancel tickets that don't belong to us. """
+        user = mommy.make("auth.User")
+        user.set_password("password")
+        user.save()
+
+        cancel_url = "/member/tickets/%s/cancel" % self.ticket2.pk
+
+        self.client.login(username=user.username, password="password")
+
+        # Then GET the link
+        response = self.client.get(cancel_url)
+        self.assertEqual(404, response.status_code)
+
+        # Then POST to the link
+        response = self.client.post(cancel_url)
+        self.assertEqual(404, response.status_code)
+        self.assertFalse(Ticket.objects.get(pk=self.ticket2.pk).cancelled)
 
     def test_edit_ticket_quantity(self):
         """ Test that the quantity for editing tickets is correct. """
