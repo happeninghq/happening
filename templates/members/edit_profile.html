@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Edit {{member}}</h2>
+                <div class="panel">
+                    <h3>Profile</h3>
+                    <form method="POST" action="{% url "edit_profile" member.pk %}">
+                        {% csrf_token %}
+                        {{form}}
+                        <button type="submit">Save</button>
+                        <a class="button warning" href="{% url "view_profile" member.pk %}">Cancel</a>
+                    </form>
+                </div>
+                <div class="panel">
+                    <h3>Profile Image</h3>
+                    <div>
+                        <img src="{{member.profile.photo_url}}" style="width: 100px;">
+                    </div>
+                    {% if member.photo %}
+                        <p>Uploaded profile photo. <a href="#">Delete photo</a>.</p>
+                    {% else %}
+                        {% if member.has_gravatar %}
+                            <p>Profile image from <a href="https://gravatar.com">Gravatar</a>.</p>
+                        {% else %}
+                            <p>No profile image</p>
+                        {% endif %}
+                    {% endif %}
+
+                    <form method="POST" action="{% url "upload_profile_photo" member.pk %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{profile_photo_form}}
+                        <button type="submit">Upload Image</button>
+                    </form>
+                </div>
+            </div>
+        </p>
+    </div>
+{% endblock %}

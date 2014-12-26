@@ -133,3 +133,15 @@ table.solutions {
         opacity: 0.2;
     }
 }
+
+.members-list {
+    list-style: none;
+
+    li {
+        display: inline-block;
+
+        img {
+            width: 50px;
+        }
+    }
+}

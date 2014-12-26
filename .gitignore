@@ -7,3 +7,5 @@ bower_components
 mock-img_*.jpeg
 mock-img.jpeg
 .coverage
+media/profile_photos
+htmlcov

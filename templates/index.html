@@ -70,6 +70,14 @@
                                         </div>
                                     {% endif %}
                                 </form>
+                                {% if latest_event.tickets.count > 0 %}
+                                    <p><strong>{{latest_event.tickets.count}}</strong> member{{latest_event.tickets.count|pluralize:",s"}} attending.</p>
+                                {% endif %}
+                                <ul class="members-list">
+                                    {% for user in latest_event.attending_users %}
+                                        <li><a title="{{user.profile}}" href="{% url "view_profile" user.pk %}"><img src="{{user.profile.photo_url}}"></a></li>
+                                    {% endfor %}
+                                </ul>
                             </div>
                         </div>
                     {% else %}

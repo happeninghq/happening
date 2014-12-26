@@ -45,7 +45,7 @@ class TestTicketWidget(TestCase):
         response = self.client.get("/")
         widget = response.soup.find(id="ticket-purchase")
         end_date = widget.find("td", {"class": "end-date"}).text
-        self.assertEqual(event.datetime.strftime("%b. %d, %Y"),
+        self.assertEqual(event.datetime.strftime("%b. %-d, %Y"),
                          end_date.strip())
 
     def test_past_event(self):
@@ -86,3 +86,36 @@ class TestTicketWidget(TestCase):
         self.assertIsNone(widget.find("option"))
         tickets = widget.find("td", {"class": "remaining-tickets"}).text
         self.assertEqual("Sold Out", tickets.strip())
+
+    def test_lists_attending_members(self):
+        """ Test that the widget shows a list of attending members. """
+        member1 = mommy.make("auth.User")
+        member1.set_password("password")
+        member1.save()
+
+        member2 = mommy.make("auth.User")
+        member2.set_password("password")
+        member2.save()
+
+        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+                           timedelta(days=20), available_tickets=30)
+
+        # Check that there are no attendees listed
+        response = self.client.get("/")
+        self.assertEqual(0, len(
+            response.soup.find("ul", {"class": "members-list"}).findAll("li")))
+        # 1 Attendee
+        mommy.make("Ticket", event=event, user=member1, number=1)
+        response = self.client.get("/")
+        self.assertEqual(1, len(
+            response.soup.find("ul", {"class": "members-list"}).findAll("li")))
+        # 1 Attendee, two tickets
+        mommy.make("Ticket", event=event, user=member1, number=1)
+        response = self.client.get("/")
+        self.assertEqual(1, len(
+            response.soup.find("ul", {"class": "members-list"}).findAll("li")))
+        # 2 Attendees
+        mommy.make("Ticket", event=event, user=member2, number=5)
+        response = self.client.get("/")
+        self.assertEqual(2, len(
+            response.soup.find("ul", {"class": "members-list"}).findAll("li")))

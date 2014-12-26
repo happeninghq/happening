@@ -3,6 +3,8 @@
 django==1.7.1 # Django
 pyyaml==3.11 # Used for fixtures
 pillow==2.6.1 # For image uploading
+django-gravatar2==1.1.4 # For gravatar
+django-cleanup==0.1.10 # Remove images when replacing them
 
 # Static files
 
@@ -16,3 +18,4 @@ django-allauth==0.18.0 # Authentication and social auth
 # General
 
 pytz # To stop python moaning about naive timezones
+cached-property==0.1.5 # Add cachable properties

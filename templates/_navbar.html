@@ -16,7 +16,7 @@
                     <li class="has-dropdown">
                         <a href="#">{{request.user}}</a>
                         <ul class="dropdown">
-                            <!-- <li><a href="#">My Profile</a></li> -->
+                            <li><a href="{% url "view_profile" request.user.pk %}">My Profile</a></li>
                             <li><a href="{% url "my_tickets" %}">My Tickets</a></li>
                             <li><a href="{% url "account_logout" %}">Sign Out</a></li>
                         </ul>

@@ -5,4 +5,4 @@ if [ ! -d "ve" ]; then
 fi
 
 source ve/bin/activate
-python manage.py test
+python manage.py test $1

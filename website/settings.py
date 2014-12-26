@@ -46,11 +46,17 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
 
+    'django_gravatar',
+
     'website',
     'external',
     'events',
     'sponsorship',
     'members',
+
+
+
+    'django_cleanup',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -151,3 +157,5 @@ SITE_ID = 1
 
 
 LOGIN_REDIRECT_URL = '/'
+
+TEST_RUNNER = 'website.runner.CustomTestSuiteRunner'

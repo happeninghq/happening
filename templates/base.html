@@ -46,12 +46,13 @@
           ga('create', 'UA-13066747-5', 'auto');
           ga('send', 'pageview');
         </script> -->
-        {% block scripts %}
-        {% endblock %}
 
         <script src="{% static "jquery/dist/jquery.min.js" %}"></script>
         <script src="{% static "foundation/js/foundation.min.js" %}"></script>
         <script src="{% static "foundation/js/foundation/foundation.topbar.js" %}"></script>
+
+        {% block scripts %}
+        {% endblock %}
 
         <script>
             $(document).foundation();

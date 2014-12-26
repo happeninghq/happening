@@ -16,11 +16,11 @@ class EventManager(models.Manager):
         This will be either the next one in future or the most recent one
         if there are no future events.
         """
-        next_event = self.filter(
+        next_event = self.all().filter(
             datetime__gte=timezone.now()).order_by("datetime").first()
         if next_event:
             return next_event
-        return self.order_by("-datetime").first()
+        return self.all().order_by("-datetime").first()
 
 
 class Event(models.Model):
@@ -96,6 +96,13 @@ class Event(models.Model):
         ticket = Ticket(event=self, user=user, number=tickets)
         ticket.save()
         return ticket
+
+    def attending_users(self):
+        """ Get a list of attending users.
+
+        Guaranteed unique, even if they purchase multiple tickets.
+        """
+        return set([t.user for t in self.tickets.all()])
 
     def __unicode__(self):
         """ Return the title of this dojo. """
