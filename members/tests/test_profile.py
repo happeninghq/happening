@@ -2,9 +2,6 @@
 
 from django_bs_test import TestCase
 from model_mommy import mommy
-from datetime import datetime, timedelta
-import pytz
-from events.models import Ticket
 from django.contrib.auth.models import User
 from model_mommy.generators import gen_image_field
 from django.conf import settings
@@ -113,4 +110,4 @@ class TestProfile(TestCase):
 
     def test_resize_crop_photo(self):
         """ Test resizing and cropping a photo. """
-        pass # TODO
+        pass  # TODO
