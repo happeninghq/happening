@@ -18,7 +18,9 @@
         {% include "_navbar.html" %}
     {% endblock %}
     <div class="container">
-        {% block content %}
+        {% block container %}
+            {% block content %}
+            {% endblock %}
         {% endblock %}
     </div>
     <div id="bottom">
