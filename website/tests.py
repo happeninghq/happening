@@ -1,7 +1,7 @@
 """ Test helper functionality. """
 from django_bs_test import TestCase as bsTestCase
 import vcr
-
+import os
 
 class VCRPyAllMeta(type):
 
@@ -22,3 +22,8 @@ class TestCase(bsTestCase):
     """ Test case which includes beautifulsoup and http mocking. """
 
     __metaclass__ = VCRPyAllMeta
+
+if 'travis' in os.environ:
+    # We don't use VCRPy on the CI server
+    # (for some reason it doesn't work anyway...)
+    TestCase = bsTestCase
