@@ -60,7 +60,7 @@ INSTALLED_APPS = (
 
 )
 
-if 'scdtest' not in os.environ:
+if 'scdtest' not in os.environ and 'travis' not in os.environ:
     INSTALLED_APPS += ('allauth.socialaccount.providers.facebook',
                        'allauth.socialaccount.providers.github',)
 
