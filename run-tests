@@ -4,5 +4,6 @@ if [ ! -d "ve" ]; then
     exit
 fi
 
-source ve/bin/activate
+export scdtest="true";
+source ve/bin/activate;
 python manage.py test $1

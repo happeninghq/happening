@@ -45,8 +45,6 @@ INSTALLED_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.github',
 
     'django_gravatar',
 
@@ -61,6 +59,10 @@ INSTALLED_APPS = (
     'django_cleanup',
 
 )
+
+if 'scdtest' not in os.environ:
+    INSTALLED_APPS += ('allauth.socialaccount.providers.facebook',
+                       'allauth.socialaccount.providers.github',)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

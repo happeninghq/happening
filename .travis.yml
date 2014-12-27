@@ -11,4 +11,6 @@ after_success:
 before_script:
     - npm install -g bower
     - ./setup
-env: travis=true
+env:
+    - travis=true
+    - scdtest=true
