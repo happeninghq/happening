@@ -101,23 +101,27 @@ class TestTicketWidget(TestCase):
 
         # Check that there are no attendees listed
         response = self.client.get("/")
-        self.assertIsNone(response.soup.find("strong", {"class": "members-attending-count"}))
+        self.assertIsNone(response.soup.find("strong",
+                          {"class": "members-attending-count"}))
         self.assertIsNone(response.soup.find("ul", {"class": "members-list"}))
         # 1 Attendee
         mommy.make("Ticket", event=event, user=member1, number=1)
         response = self.client.get("/")
         self.assertEqual(1, len(
             response.soup.find("ul", {"class": "members-list"}).findAll("li")))
-        self.assertEqual("1", response.soup.find("strong", {"class": "members-attending-count"}).text)
+        self.assertEqual("1", response.soup.find("strong",
+                         {"class": "members-attending-count"}).text)
         # 1 Attendee, two tickets
         mommy.make("Ticket", event=event, user=member1, number=1)
         response = self.client.get("/")
         self.assertEqual(1, len(
             response.soup.find("ul", {"class": "members-list"}).findAll("li")))
-        self.assertEqual("1", response.soup.find("strong", {"class": "members-attending-count"}).text)
+        self.assertEqual("1", response.soup.find("strong",
+                         {"class": "members-attending-count"}).text)
         # 2 Attendees
         mommy.make("Ticket", event=event, user=member2, number=5)
         response = self.client.get("/")
         self.assertEqual(2, len(
             response.soup.find("ul", {"class": "members-list"}).findAll("li")))
-        self.assertEqual("2", response.soup.find("strong", {"class": "members-attending-count"}).text)
+        self.assertEqual("2", response.soup.find("strong",
+                         {"class": "members-attending-count"}).text)
