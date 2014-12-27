@@ -1,6 +1,10 @@
 @import "foundation_settings";
 @import "../../bower_components/foundation/scss/foundation";
 
+$fi-path: "../foundation-icon-fonts/";
+
+@import "../bower_components/foundation-icon-fonts/foundation-icons";
+
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: lighter;
@@ -142,6 +146,34 @@ table.solutions {
 
         img {
             width: 50px;
+        }
+    }
+}
+
+
+.socialaccount_providers {
+    list-style: none;
+
+    li {
+        display: inline-block;
+
+        a {
+            @extend .button;
+
+            &.github {
+                @extend .fi-social-github;
+            }
+
+            &.facebook {
+                @extend .fi-social-facebook;
+            }
+
+            color: #FFF;
+            text-align: center;
+
+            &::before {
+                padding-right: 5px;
+            }
         }
     }
 }

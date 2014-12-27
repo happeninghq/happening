@@ -1,0 +1,18 @@
+- model: socialaccount.SocialApp
+  pk: 1
+  fields:
+    provider: facebook
+    name: Southampton Code Dojo Dev
+    secret: 7a1b810c8936340fa3d6d25c2d7ebb5c
+    client_id: 344872042384053
+    sites:
+      - 1
+- model: socialaccount.SocialApp
+  pk: 2
+  fields:
+    provider: github
+    name: Southampton Code Dojo Dev
+    secret: f105b8f1925665b00372a39ff9ef23247850d5a9
+    client_id: ec9f3bd2a9fbf1b90f2b
+    sites:
+      - 1

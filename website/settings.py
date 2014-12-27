@@ -45,6 +45,8 @@ INSTALLED_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
 
     'django_gravatar',
 
@@ -57,6 +59,7 @@ INSTALLED_APPS = (
 
 
     'django_cleanup',
+
 )
 
 MIDDLEWARE_CLASSES = (
