@@ -69,17 +69,11 @@ class Event(models.Model):
 
     def heading(self):
         """ Return the title and challenge. """
-        s = self.__unicode__()
-        if self.challenge():
-            s += " (%s)" % self.challenge()
         return "%s (%s)" % (self.__unicode__(), self.challenge()) if\
             self.challenge() else self.__unicode__()
 
     def year_heading(self):
         """ Return the month, year, and challenge. """
-        s = self.month_year()
-        if self.challenge():
-            s += " (%s)" % self.challenge()
         return "%s (%s)" % (self.__unicode__(), self.challenge()) if\
             self.challenge() else self.__unicode__()
 
@@ -169,3 +163,7 @@ class Ticket(models.Model):
             self.cancelled = True
             self.cancelled_datetime = timezone.now()
             self.save()
+
+    def __unicode__(self):
+        """ Return the . """
+        return "%s's ticket to %s" % (self.user, self.event)
