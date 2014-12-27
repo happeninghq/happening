@@ -10,5 +10,5 @@ after_success:
     coveralls
 before_script:
     - npm install -g bower
-    - bower install
+    - ./setup
 env: travis=true
