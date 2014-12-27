@@ -19,3 +19,4 @@ django-allauth==0.18.0 # Authentication and social auth
 
 pytz # To stop python moaning about naive timezones
 cached-property==0.1.5 # Add cachable properties
+vcrpy==1.1.3 # For mocking HTTP requests

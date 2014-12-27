@@ -1,6 +1,6 @@
 """ Test about page. """
 
-from django_bs_test import TestCase
+from website.tests import TestCase
 
 
 class TestAbout(TestCase):

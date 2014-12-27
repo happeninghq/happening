@@ -9,3 +9,4 @@ mock-img.jpeg
 .coverage
 media/profile_photos
 htmlcov
+vcr.yaml

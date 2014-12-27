@@ -1,6 +1,6 @@
 """ Test basic index page. """
 
-from django_bs_test import TestCase
+from website.tests import TestCase
 from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz
