@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from model_mommy.generators import gen_image_field
 from django.conf import settings
 import os.path
+from StringIO import StringIO
+from PIL import Image
 
 
 class TestProfile(TestCase):
@@ -79,6 +81,7 @@ class TestProfile(TestCase):
         self.assertTrue("/member/%s/edit/photo/crop" % self.user.id
                         in response.redirect_chain[0][0])
         self.user = User.objects.get(pk=self.user.id)
+        self.assertIsNotNone(self.user.profile.photo)
         self.assertFalse("dojo-logo" in self.user.profile.photo_url())
 
         # Check that when overwriting image, the original image is deleted
@@ -110,4 +113,37 @@ class TestProfile(TestCase):
 
     def test_resize_crop_photo(self):
         """ Test resizing and cropping a photo. """
-        pass  # TODO
+        self.client.login(username=self.user.username, password="password")
+        # Upload the image
+        f = gen_image_field()
+
+        imagedata = StringIO(f.read())
+        f.seek(0)
+        image = Image.open(imagedata)
+
+        X1 = 10
+        X2 = 30
+        Y1 = 10
+        Y2 = 30
+
+        top_left_pixel = image.getpixel((X1, Y1))
+
+        response = self.client.post('/member/%s/edit/photo' % self.user.id,
+                                    {'photo': f}, follow=True)
+
+        self.user = User.objects.get(pk=self.user.id)
+
+        # Now we post the crop
+
+        response = self.client.post(
+            '/member/%s/edit/photo/crop' % self.user.id,
+            {'x1': X1, 'y1': Y1, 'x2': X2, 'y2': Y2}, follow=True)
+        self.assertTrue(
+            "/member/%s" % self.user.id in response.redirect_chain[0][0])
+
+        self.user = User.objects.get(pk=self.user.id)
+        imagedata = StringIO(self.user.profile.photo.read())
+        image = Image.open(imagedata)
+        self.assertEqual((X2-X1, Y2-Y1), image.size)
+
+        self.assertEqual(top_left_pixel, image.getpixel((0, 0)))
