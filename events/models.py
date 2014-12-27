@@ -95,6 +95,9 @@ class Event(models.Model):
             raise NoTicketsError()
         ticket = Ticket(event=self, user=user, number=tickets)
         ticket.save()
+
+        user.send_email("events/registered_for_event", {"ticket": ticket})
+
         return ticket
 
     def attending_users(self):
