@@ -164,3 +164,5 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
 TEST_RUNNER = 'website.runner.CustomTestSuiteRunner'
+
+ACCOUNT_ADAPTER = 'members.allauth_config.AccountAdapter'
