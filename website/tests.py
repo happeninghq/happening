@@ -3,6 +3,7 @@ from django_bs_test import TestCase as bsTestCase
 import vcr
 import os
 
+
 class VCRPyAllMeta(type):
 
     """ Add VCRPy to all methods. """
@@ -26,4 +27,4 @@ class TestCase(bsTestCase):
 if 'travis' in os.environ:
     # We don't use VCRPy on the CI server
     # (for some reason it doesn't work anyway...)
-    TestCase = bsTestCase
+    TestCase = bsTestCase  # NOQA
