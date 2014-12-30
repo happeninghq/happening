@@ -16,6 +16,7 @@ if [ -f bin/install_nodejs ]; then
  
     # PUT YOUR NPM INSTALL LINES HERE: (less and iced-coffee-script for example)
     npm install -g bower
+    npm install -g coffee-script
 fi
  
 # PUT ANY POST-BUILD STUFF HERE (like database migrations)
