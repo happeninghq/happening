@@ -13,6 +13,8 @@ gunicorn==19.1.1 # For hosting on heroku
 dj-database-url==0.3.0 # Heroku databases
 dj-static==0.0.6 # Static files
 psycopg2==2.5.4 # Postgres driver
+django-storages==1.1.8 # Media storage on AWS
+boto==2.34.0 # Media storage on AWS
 
 # Static files
 
