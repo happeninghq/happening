@@ -12,6 +12,7 @@ django-periodically==0.3.0 # Periodic tasks
 gunicorn==19.1.1 # For hosting on heroku
 dj-database-url==0.3.0 # Heroku databases
 dj-static==0.0.6 # Static files
+psycopg2==2.5.4 # Postgres driver
 
 # Static files
 
