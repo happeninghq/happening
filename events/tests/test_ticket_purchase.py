@@ -4,6 +4,7 @@ from website.tests import TestCase
 from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz
+from django.core import mail
 
 
 class TestTicketPurchase(TestCase):
@@ -12,7 +13,7 @@ class TestTicketPurchase(TestCase):
 
     def setUp(self):
         """ Set up a common user. """
-        self.user = mommy.make("auth.User")
+        self.user = mommy.make("auth.User", email="test@example.com")
         self.user.set_password("password")
         self.user.save()
 
@@ -100,3 +101,78 @@ class TestTicketPurchase(TestCase):
 
         response = self.client.get("/events/tickets_purchased/%s" % ticket.pk)
         self.assertEquals(404, response.status_code)
+
+    def test_ticket_purchase_sends_confirmation_email(self):
+        """ Test that we send a confirmation email after purchasing ticket. """
+        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+                           timedelta(days=20), available_tickets=30)
+        self.client.login(username=self.user.username, password="password")
+        response = self.client.post(
+            "/events/%s/purchase_tickets" % event.pk,
+            {"quantity": 5},
+            follow=True)
+        self.assertTrue(
+            "events/tickets_purchased" in response.redirect_chain[0][0])
+
+        self.assertEqual(1, len(mail.outbox))
+
+        # Addressed to the user
+        self.assertTrue(str(self.user) in mail.outbox[0].body)
+        self.assertEqual("test@example.com", mail.outbox[0].to[0])
+        self.assertEqual(1, len(mail.outbox[0].to))
+
+        # Mentions the event
+        self.assertTrue(str(event) in mail.outbox[0].body)
+
+        # TODO: Test this when I figure out subjects
+        # print mail.outbox[0].subject
+
+    def test_ticket_purchase_sends_extra_notifications_notification_1(self):
+        """ Test that the one week notification is sent when needed. """
+        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+                           timedelta(days=4), available_tickets=30)
+        event.buy_ticket(self.user)
+        # We should just have the purchase email as this event hasn't
+        # sent notifications yet
+        self.assertEqual(1, len(mail.outbox))
+
+        mail.outbox = []  # Clear previous purchase notification
+
+        event2 = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+                            timedelta(days=4), available_tickets=30,
+                            upcoming_notification_1_sent=True)
+        event2.buy_ticket(self.user)
+
+        # Purchase email and notification email
+        self.assertEqual(2, len(mail.outbox))
+        self.assertTrue(str(event2) in mail.outbox[1].body)
+        self.assertTrue("in 3 days" in mail.outbox[1].body)
+
+        event2.buy_ticket(self.user)
+        # Should only recieve one additional email (no more notification)
+        self.assertEqual(3, len(mail.outbox))
+
+    def test_ticket_purchase_sends_extra_notifications_notification_2(self):
+        """ Test that the one day notification is sent when needed. """
+        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+                           timedelta(hours=7), available_tickets=30)
+        event.buy_ticket(self.user)
+        # We should just have the purchase email as this event hasn't
+        # sent notifications yet
+        self.assertEqual(1, len(mail.outbox))
+
+        mail.outbox = []  # Clear previous purchase notification
+
+        event2 = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+                            timedelta(days=4), available_tickets=30,
+                            upcoming_notification_1_sent=True)
+        event2.buy_ticket(self.user)
+
+        # Purchase email and notification email
+        self.assertEqual(2, len(mail.outbox))
+        self.assertTrue(str(event2) in mail.outbox[1].body)
+        self.assertTrue("in 3 days" in mail.outbox[1].body)
+
+        event2.buy_ticket(self.user)
+        # Should only recieve one additional email (no more notification)
+        self.assertEqual(3, len(mail.outbox))

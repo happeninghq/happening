@@ -4,6 +4,7 @@ from sponsorship.models import Sponsor
 from django.utils import timezone
 from exceptions import DojoFinishedError, NoTicketsError
 from exceptions import TicketCancelledError
+from arrow import Arrow
 
 
 class EventManager(models.Manager):
@@ -45,6 +46,17 @@ class Event(models.Model):
     challenge_text = models.TextField(blank=True, null=True)
     solution_text = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to="event_images", blank=True, null=True)
+
+    # Has the first "upcoming event" notification been sent?
+    upcoming_notification_1_sent = models.BooleanField(default=False)
+
+    # Has the second "upcoming event" notification been sent?
+    upcoming_notification_2_sent = models.BooleanField(default=False)
+
+    @property
+    def time_to_string(self):
+        """ Return the event time as a humanized string. """
+        return Arrow.fromdatetime(self.datetime).humanize()
 
     @property
     def remaining_tickets(self):
@@ -92,6 +104,16 @@ class Event(models.Model):
 
         user.send_email("events/registered_for_event", {"ticket": ticket})
 
+        # We only send notifications if we haven't already purchased
+        # a ticket for this event (otherwise we will already have
+        # this notification)
+        num_tickets = len([t for t in self.tickets.all() if t.user == user])
+        if num_tickets == 1:
+            if self.upcoming_notification_2_sent:
+                self.send_upcoming_notification_2(user)
+            elif self.upcoming_notification_1_sent:
+                self.send_upcoming_notification_1(user)
+
         return ticket
 
     def attending_users(self):
@@ -104,6 +126,29 @@ class Event(models.Model):
     def __unicode__(self):
         """ Return the title of this dojo. """
         return "%s Code Dojo" % self.datetime.strftime("%B")
+
+    def send_upcoming_notification_2(self, user=None):
+        """ Second the second "upcoming event" notification. """
+        if user is None:
+            users = set([ticket.user for ticket in self.tickets.all()])
+            for user in users:
+                user.send_email("events/upcoming_2", {"event": self})
+            self.upcoming_notification_2_sent = True
+            self.upcoming_notification_1_sent = True
+            self.save()
+        else:
+            user.send_email("events/upcoming_2", {"event": self})
+
+    def send_upcoming_notification_1(self, user=None):
+        """ Second the first "upcoming event" notification. """
+        if user is None:
+            users = set([ticket.user for ticket in self.tickets.all()])
+            for user in users:
+                user.send_email("events/upcoming_1", {"event": self})
+            self.upcoming_notification_1_sent = True
+            self.save()
+        else:
+            user.send_email("events/upcoming_1", {"event": self})
 
 
 class EventSolution(models.Model):

@@ -46,6 +46,8 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
 
+    'periodically',
+
     'django_gravatar',
 
     'website',
@@ -174,3 +176,8 @@ if DEBUG:
 else:
     # TODO: Implement real email handling
     pass
+
+
+# Notification configuration
+FIRST_NOTIFICATION_TIME = 7 * 24 * 60  # 1 Week
+SECOND_NOTIFICATION_TIME = 24 * 60     # 1 Day
