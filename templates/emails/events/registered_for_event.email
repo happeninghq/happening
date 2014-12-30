@@ -1,6 +1,6 @@
 {% extends "emails/base.email" %}
 
-{% block subject %}Hello!{% endblock %}
+{% block subject %}You have registered for {{ticket.event}}{% endblock %}
 
 {% block plain_content %}
 
