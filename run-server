@@ -4,5 +4,6 @@ if [ ! -d "ve" ]; then
     exit
 fi
 
+export DJANGO_DEBUG="1"
 source ve/bin/activate
 python manage.py runserver

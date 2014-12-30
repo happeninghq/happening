@@ -1,5 +1,4 @@
 # Django requirements
-
 django==1.7.1 # Django
 pyyaml==3.11 # Used for fixtures
 pillow==2.6.1 # For image uploading
@@ -7,7 +6,12 @@ django-gravatar2==1.1.4 # For gravatar
 django-cleanup==0.1.10 # Remove images when replacing them
 django-templated-email==0.4.9 # For sending emails
 django-periodically==0.3.0 # Periodic tasks
+
+
+# Heroku
 gunicorn==19.1.1 # For hosting on heroku
+dj-database-url==0.3.0 # Heroku databases
+dj-static==0.0.6 # Static files
 
 # Static files
 

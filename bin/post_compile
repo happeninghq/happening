@@ -23,5 +23,8 @@ fi
 #python app/manage.py migrate --noinput
 
 bower install
+
+# python manage.py migrate --noinput
+python manage.py collectstatic --noinput
  
 echo "-----> Post-compile done"
