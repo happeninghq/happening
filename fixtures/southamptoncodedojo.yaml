@@ -336,3 +336,33 @@
   fields:
     datetime: "2014-12-04 19:00:00+00:00"
     # eventbrite_url: http://southamptoncodedojo9.eventbrite.co.uk
+    challenge_language: C
+    challenge_title: Secret Santa Organiser
+    challenge_text: <p>We decided to solve the <a href="http://rubyquiz.com/quiz2.html">Secret Santas</a> challenge from RubyQuiz. In our version of this challenge, the teams were given a .txt file with a list of people's names (firstname SPACE lastname NEWLINE).</p> <p>The teams had to write a C program which would input this list, and print out a list of secret santa allocations. Every person should give one gift and get one gift, and people cannot be santa for people with the same surname as themselves..</p>
+    solution_text: <p>A lot of the teams lacked much C experience, so this dojo took a while to get going. But in the end almost everyone managed to pull together something good. A few teams submitted code which worked by hill climbing, one used a circular linked list, and one grouped by family then assigned downwards.</p>
+    image: /media/event_images/report9-result.jpg
+
+- model: events.EventSolution
+  pk: 25
+  fields:
+    event: 9
+    team_name: Group 1
+    github_url: https://github.com/jscott1989/DecDojo
+- model: events.EventSolution
+  pk: 26
+  fields:
+    event: 9
+    team_name: Group 2
+    github_url: https://github.com/steppers/Dec-2014-Southampton-CodeDojo
+- model: events.EventSolution
+  pk: 27
+  fields:
+    event: 9
+    team_name: Group 3
+    github_url: https://github.com/rprince/secret-santa-december-2014-dojo
+- model: events.EventSolution
+  pk: 28
+  fields:
+    event: 9
+    team_name: Group 5
+    github_url: https://github.com/nbojinov/CodoDojo
