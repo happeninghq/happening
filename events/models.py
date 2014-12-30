@@ -45,7 +45,8 @@ class Event(models.Model):
 
     challenge_text = models.TextField(blank=True, null=True)
     solution_text = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to="event_images", blank=True, null=True)
+    image = models.ImageField(upload_to="media/event_images", blank=True,
+                              null=True)
 
     # Has the first "upcoming event" notification been sent?
     upcoming_notification_1_sent = models.BooleanField(default=False)

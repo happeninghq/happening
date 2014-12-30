@@ -33,7 +33,7 @@ class Profile(models.Model):
     user = models.OneToOneField("auth.User", related_name="existing_profile")
 
     bio = models.TextField()
-    photo = models.ImageField(null=True, upload_to="profile_photos")
+    photo = models.ImageField(null=True, upload_to="media/profile_photos")
 
     def __unicode__(self):
         """ Return the name of the user. """
