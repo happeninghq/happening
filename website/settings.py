@@ -21,7 +21,8 @@ SECRET_KEY = os.environ.get(
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', ''))
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', '')) or 'travis' in os.environ
+
 TEMPLATE_DEBUG = DEBUG
 
 TEMPLATE_DEBUG = True
