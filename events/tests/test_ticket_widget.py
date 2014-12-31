@@ -119,9 +119,18 @@ class TestTicketWidget(TestCase):
         self.assertEqual("1", response.soup.find("strong",
                          {"class": "members-attending-count"}).text)
         # 2 Attendees
-        mommy.make("Ticket", event=event, user=member2, number=5)
+        ticket = mommy.make("Ticket", event=event, user=member2, number=5)
         response = self.client.get("/")
         self.assertEqual(2, len(
             response.soup.find("ul", {"class": "members-list"}).findAll("li")))
         self.assertEqual("2", response.soup.find("strong",
+                         {"class": "members-attending-count"}).text)
+
+        # Doesn't list cancelled tickets
+        ticket.cancelled = True
+        ticket.save()
+        response = self.client.get("/")
+        self.assertEqual(1, len(
+            response.soup.find("ul", {"class": "members-list"}).findAll("li")))
+        self.assertEqual("1", response.soup.find("strong",
                          {"class": "members-attending-count"}).text)

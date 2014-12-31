@@ -122,7 +122,7 @@ class Event(models.Model):
 
         Guaranteed unique, even if they purchase multiple tickets.
         """
-        return set([t.user for t in self.tickets.all()])
+        return set([t.user for t in self.tickets.all() if not t.cancelled])
 
     def __unicode__(self):
         """ Return the title of this dojo. """
