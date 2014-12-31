@@ -24,11 +24,29 @@
                                 <th>Last Name</th>
                                 <td>{{member.last_name}}</td>
                             </tr>
-                            {% if member.profile.github_url %}
-                                <tr>
-                                    <th>Github URL</th>
-                                    <td><a href="{{member.profile.github_url}}" target="_BLANK">{{member.profile.github_url}}</a></td>
-                                </tr>
+                            {% if member.profile.show_github_urls %}
+                                {% if member.profile.github_urls|length > 0 %}
+                                    <tr>
+                                        <th>Github</th>
+                                        <td>
+                                            {% for url in member.profile.github_urls %}
+                                                <a href="{{url}}" target="_BLANK">{{url}}</a><br />
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endif %}
+                            {% if member.profile.show_facebook_urls %}
+                                {% if member.profile.facebook_urls|length > 0 %}
+                                    <tr>
+                                        <th>Facebook</th>
+                                        <td>
+                                            {% for url in member.profile.facebook_urls %}
+                                                <a href="{{url}}" target="_BLANK">{{url}}</a><br />
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
                             {% endif %}
                         </table>
                         <p>{{member.profile.bio|linebreaks}}</p>

@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'periodically',
 
     'django_gravatar',
+    'foundationform',
 
     'website',
     'external',

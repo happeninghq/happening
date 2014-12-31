@@ -35,6 +35,9 @@ class Profile(models.Model):
     bio = models.TextField()
     photo = models.ImageField(null=True, upload_to="media/profile_photos")
 
+    show_facebook_urls = models.BooleanField(default=False)
+    show_github_urls = models.BooleanField(default=False)
+
     def __unicode__(self):
         """ Return the name of the user. """
         if self.user.first_name is not None or self.user.last_name is not None:
@@ -53,8 +56,12 @@ class Profile(models.Model):
             return get_gravatar_url(self.user.email, size=500)
         return "%simg/dojo-logo.png" % settings.STATIC_URL
 
-    def github_url(self):
-        """ Return the user's github URL, or None if they do not have one. """
-        for x in self.user.socialaccount_set.filter(provider="github"):
-            return x.get_profile_url()
-        return None
+    def github_urls(self):
+        """ Return a list of the user's github URLs. """
+        return [x.get_profile_url() for x in
+                self.user.socialaccount_set.filter(provider="github")]
+
+    def facebook_urls(self):
+        """ Return a list of the user's facebook URLs. """
+        return [x.get_profile_url() for x in
+                self.user.socialaccount_set.filter(provider="facebook")]

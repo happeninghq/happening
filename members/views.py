@@ -93,7 +93,9 @@ def edit_profile(request, pk):
         initial={
             "first_name": request.user.first_name,
             "last_name": request.user.last_name,
-            "bio": request.user.profile.bio
+            "bio": request.user.profile.bio,
+            "show_facebook_urls": request.user.profile.show_facebook_urls,
+            "show_github_urls": request.user.profile.show_github_urls
         })
 
     if request.method == "POST":
@@ -102,6 +104,10 @@ def edit_profile(request, pk):
             request.user.first_name = form.cleaned_data['first_name']
             request.user.last_name = form.cleaned_data['last_name']
             request.user.profile.bio = form.cleaned_data['bio']
+            request.user.profile.show_facebook_urls = \
+                form.cleaned_data['show_facebook_urls']
+            request.user.profile.show_github_urls = \
+                form.cleaned_data['show_github_urls']
 
             request.user.profile.save()
             request.user.save()

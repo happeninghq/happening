@@ -11,6 +11,10 @@ class ProfileForm(forms.Form):
     first_name = forms.CharField()
     last_name = forms.CharField()
     bio = forms.CharField(widget=forms.Textarea(), required=False)
+    show_facebook_urls = forms.BooleanField(label="Show Facebook Profiles",
+                                            required=False)
+    show_github_urls = forms.BooleanField(label="Show Github Profiles",
+                                          required=False)
 
 
 class ProfilePhotoForm(forms.Form):
