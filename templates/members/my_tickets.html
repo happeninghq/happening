@@ -14,7 +14,7 @@
                                 {% if ticket.cancelled %}
                                     <p>You cancelled <strong>{{ticket.number}}</strong> tickets.</p>
                                 {% else %}
-                                    <p>You have <strong>{{ticket.number}}</strong> tickets.</p>
+                                    <p>You have <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize:",s"}}.</p>
                                 {% endif %}
                             </div>
                             <div class="small-3 column">
