@@ -124,8 +124,7 @@ class TestTicketPurchase(TestCase):
         # Mentions the event
         self.assertTrue(str(event) in mail.outbox[0].body)
 
-        # TODO: Test this when I figure out subjects
-        # print mail.outbox[0].subject
+        self.assertTrue(str(event) in mail.outbox[0].subject)
 
     def test_ticket_purchase_sends_extra_notifications_notification_1(self):
         """ Test that the one week notification is sent when needed. """

@@ -21,7 +21,8 @@ SECRET_KEY = os.environ.get(
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', '')) or 'travis' in os.environ
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', '')) or \
+    'travis' in os.environ or 'scdtest' in os.environ
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -176,8 +177,12 @@ TEMPLATED_EMAIL_TEMPLATE_DIR = "emails/"
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
-    # TODO: Implement real email handling
-    pass
+    # Using SENDGRID
+    EMAIL_HOST = 'smtp.sendgrid.net'
+    EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
+    EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
 
 
 # Notification configuration

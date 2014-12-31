@@ -1,6 +1,6 @@
 {% extends "emails/base.email" %}
 
-{% block subject %}{{event}}{% endblock %}
+{% block subject_content %}{{event}}{% endblock %}
 
 {% block plain_content %}
 

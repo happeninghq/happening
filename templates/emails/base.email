@@ -1,3 +1,4 @@
+{% block subject %}{% block subject_content %}Southampton Code Dojo{% endblock %}{% endblock %}
 {% block plain %}
 Hello {{user}},
 
