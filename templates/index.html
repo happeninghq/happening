@@ -70,7 +70,7 @@
                                         </div>
                                     {% endif %}
                                 </form>
-                                {% if latest_event.tickets.count > 0 %}
+                                {% if latest_event.attending_users|length > 0 %}
                                     <p><strong class="members-attending-count">{{latest_event.attending_users|length}}</strong> member{{latest_event.attending_users|length|pluralize:",s"}} attending.</p>
                                     <ul class="members-list">
                                         {% for user in latest_event.attending_users %}

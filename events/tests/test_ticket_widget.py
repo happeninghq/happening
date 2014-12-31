@@ -101,25 +101,26 @@ class TestTicketWidget(TestCase):
 
         # Check that there are no attendees listed
         response = self.client.get("/")
+        self.assertTrue("members attending" not in response.content)
         self.assertIsNone(response.soup.find("strong",
                           {"class": "members-attending-count"}))
         self.assertIsNone(response.soup.find("ul", {"class": "members-list"}))
         # 1 Attendee
-        mommy.make("Ticket", event=event, user=member1, number=1)
+        t1 = mommy.make("Ticket", event=event, user=member1, number=1)
         response = self.client.get("/")
         self.assertEqual(1, len(
             response.soup.find("ul", {"class": "members-list"}).findAll("li")))
         self.assertEqual("1", response.soup.find("strong",
                          {"class": "members-attending-count"}).text)
         # 1 Attendee, two tickets
-        mommy.make("Ticket", event=event, user=member1, number=1)
+        t2 = mommy.make("Ticket", event=event, user=member1, number=1)
         response = self.client.get("/")
         self.assertEqual(1, len(
             response.soup.find("ul", {"class": "members-list"}).findAll("li")))
         self.assertEqual("1", response.soup.find("strong",
                          {"class": "members-attending-count"}).text)
         # 2 Attendees
-        ticket = mommy.make("Ticket", event=event, user=member2, number=5)
+        t3 = mommy.make("Ticket", event=event, user=member2, number=5)
         response = self.client.get("/")
         self.assertEqual(2, len(
             response.soup.find("ul", {"class": "members-list"}).findAll("li")))
@@ -127,10 +128,21 @@ class TestTicketWidget(TestCase):
                          {"class": "members-attending-count"}).text)
 
         # Doesn't list cancelled tickets
-        ticket.cancelled = True
-        ticket.save()
+        t3.cancelled = True
+        t3.save()
         response = self.client.get("/")
         self.assertEqual(1, len(
             response.soup.find("ul", {"class": "members-list"}).findAll("li")))
         self.assertEqual("1", response.soup.find("strong",
                          {"class": "members-attending-count"}).text)
+
+        t2.cancelled = True
+        t2.save()
+        t1.cancelled = True
+        t1.save()
+
+        response = self.client.get("/")
+        self.assertIsNone(response.soup.find("strong",
+                          {"class": "members-attending-count"}))
+        self.assertIsNone(response.soup.find("ul", {"class": "members-list"}))
+        self.assertTrue("members attending" not in response.content)
