@@ -6,6 +6,7 @@ from unittest import TestCase
 from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz
+from django.core import mail
 
 
 class TestTickets(TestCase):
@@ -72,7 +73,11 @@ class TestTickets(TestCase):
 
         self.assertEqual(25, event.remaining_tickets)
 
+        mail.outbox = []
+
         ticket.change_number(1)
+
+        self.assertEqual(1, len(mail.outbox))
 
         self.assertEqual(29, event.remaining_tickets)
 
@@ -130,7 +135,11 @@ class TestTickets(TestCase):
 
         self.assertEqual(25, event.remaining_tickets)
 
+        mail.outbox = []
+
         ticket.cancel()
+
+        self.assertEqual(1, len(mail.outbox))
 
         self.assertEqual(30, event.remaining_tickets)
         # Test that the cancellation date is recorded

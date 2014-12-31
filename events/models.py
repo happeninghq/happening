@@ -200,6 +200,7 @@ class Ticket(models.Model):
 
         self.number = number
         self.save()
+        self.user.send_email("events/edited_tickets", {"ticket": self})
 
     def cancel(self):
         """ Cancel the ticket. """
@@ -209,6 +210,7 @@ class Ticket(models.Model):
             self.cancelled = True
             self.cancelled_datetime = timezone.now()
             self.save()
+            self.user.send_email("events/cancelled_tickets", {"ticket": self})
 
     def __unicode__(self):
         """ Return the . """
