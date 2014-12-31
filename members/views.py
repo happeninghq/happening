@@ -108,6 +108,16 @@ def edit_profile(request, pk):
                 form.cleaned_data['show_facebook_urls']
             request.user.profile.show_github_urls = \
                 form.cleaned_data['show_github_urls']
+            request.user.profile.show_linkedin_urls = \
+                form.cleaned_data['show_linkedin_urls']
+            request.user.profile.show_twitter_urls = \
+                form.cleaned_data['show_twitter_urls']
+            request.user.profile.show_google_urls = \
+                form.cleaned_data['show_google_urls']
+            request.user.profile.show_stackexchange_urls = \
+                form.cleaned_data['show_stackexchange_urls']
+            request.user.profile.show_github_urls = \
+                form.cleaned_data['show_github_urls']
 
             request.user.profile.save()
             request.user.save()

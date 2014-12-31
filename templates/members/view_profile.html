@@ -48,6 +48,54 @@
                                     </tr>
                                 {% endif %}
                             {% endif %}
+                            {% if member.profile.show_linkedin_urls %}
+                                {% if member.profile.linkedin_urls|length > 0 %}
+                                    <tr>
+                                        <th>LinkedIn</th>
+                                        <td>
+                                            {% for url in member.profile.linkedin_urls %}
+                                                <a href="{{url}}" target="_BLANK">{{url}}</a><br />
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endif %}
+                            {% if member.profile.show_twitter_urls %}
+                                {% if member.profile.twitter_urls|length > 0 %}
+                                    <tr>
+                                        <th>Twitter</th>
+                                        <td>
+                                            {% for url in member.profile.twitter_urls %}
+                                                <a href="{{url}}" target="_BLANK">{{url}}</a><br />
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endif %}
+                            {% if member.profile.show_google_urls %}
+                                {% if member.profile.google_urls|length > 0 %}
+                                    <tr>
+                                        <th>Google</th>
+                                        <td>
+                                            {% for url in member.profile.google_urls %}
+                                                <a href="{{url}}" target="_BLANK">{{url}}</a><br />
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endif %}
+                            {% if member.profile.show_stackexchange_urls %}
+                                {% if member.profile.stackexchange_urls|length > 0 %}
+                                    <tr>
+                                        <th>Stack Exchange</th>
+                                        <td>
+                                            {% for url in member.profile.stackexchange_urls %}
+                                                <a href="{{url}}" target="_BLANK">{{url}}</a><br />
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endif %}
                         </table>
                         <p>{{member.profile.bio|linebreaks}}</p>
                     </div>

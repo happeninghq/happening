@@ -37,6 +37,10 @@ class Profile(models.Model):
 
     show_facebook_urls = models.BooleanField(default=False)
     show_github_urls = models.BooleanField(default=False)
+    show_linkedin_urls = models.BooleanField(default=False)
+    show_twitter_urls = models.BooleanField(default=False)
+    show_google_urls = models.BooleanField(default=False)
+    show_stackexchange_urls = models.BooleanField(default=False)
 
     def __unicode__(self):
         """ Return the name of the user. """
@@ -65,3 +69,23 @@ class Profile(models.Model):
         """ Return a list of the user's facebook URLs. """
         return [x.get_profile_url() for x in
                 self.user.socialaccount_set.filter(provider="facebook")]
+
+    def linkedin_urls(self):
+        """ Return a list of the user's linkedin URLs. """
+        return [x.get_profile_url() for x in
+                self.user.socialaccount_set.filter(provider="linkedin")]
+
+    def twitter_urls(self):
+        """ Return a list of the user's twitter URLs. """
+        return [x.get_profile_url() for x in
+                self.user.socialaccount_set.filter(provider="twitter")]
+
+    def google_urls(self):
+        """ Return a list of the user's google URLs. """
+        return [x.get_profile_url() for x in
+                self.user.socialaccount_set.filter(provider="google")]
+
+    def stackexchange_urls(self):
+        """ Return a list of the user's stackexchange URLs. """
+        return [x.get_profile_url() for x in
+                self.user.socialaccount_set.filter(provider="stackexchange")]

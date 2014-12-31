@@ -1,3 +1,3 @@
 export DJANGO_DEBUG="1"
 source ve/bin/activate
-python manage.py $1
+python manage.py $@

@@ -168,6 +168,18 @@ table.solutions {
                 @extend .fi-social-facebook;
             }
 
+            &.twitter {
+                @extend .fi-social-twitter;
+            }
+
+            &.linkedin {
+                @extend .fi-social-linkedin;
+            }
+
+            &.google {
+                @extend .fi-social-google-plus;
+            }
+
             color: #FFF;
             text-align: center;
 
