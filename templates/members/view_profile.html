@@ -16,6 +16,12 @@
                     </div>
                     <div class="small-6 column">
                         <table style="width: 100%">
+                            {% if member == request.user %} 
+                            <tr>
+                                <th>Email Address (private)</th>
+                                <td>{{member.email}}</td>
+                            </tr>
+                            {% endif %}
                             <tr>
                                 <th>First Name</th>
                                 <td>{{member.first_name}}</td>
