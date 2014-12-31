@@ -9,7 +9,7 @@ class ProfileForm(forms.Form):
 
     first_name = forms.CharField()
     last_name = forms.CharField()
-    bio = forms.CharField(widget=forms.Textarea())
+    bio = forms.CharField(widget=forms.Textarea(), required=False)
 
 
 class ProfilePhotoForm(forms.Form):
