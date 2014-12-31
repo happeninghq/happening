@@ -102,7 +102,7 @@
                             <div style="text-align: center; margin-bottom: 2em;">
                                 <a href="{{latest_event.sponsor.url}}"><img style="max-width: 100%;" src="{{latest_event.sponsor.logo.url}}"></a>
                             </div>
-                            {{latest_event.sponsor.description}}
+                            {{latest_event.sponsor.description|safe}}
                         </blockquote>
                     </div>
                 {% endif %}
