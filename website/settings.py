@@ -174,6 +174,8 @@ ACCOUNT_ADAPTER = 'members.allauth_config.AccountAdapter'
 ACCOUNT_EMAIL_REQUIRED = True
 
 TEMPLATED_EMAIL_TEMPLATE_DIR = "emails/"
+DEFAULT_FROM_EMAIL = 'Southampton Code Dojo <admin@southamptoncodedojo.com>'
+
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:

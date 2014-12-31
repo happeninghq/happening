@@ -19,7 +19,7 @@ def send_email_to_user(user, template, context):
 
     send_templated_mail(
         template_name=template,
-        from_email='admin@southamptoncodedojo.com',
+        from_email='Southampton Code Dojo <admin@southamptoncodedojo.com>',
         recipient_list=[user.email],
         context=context,
     )
