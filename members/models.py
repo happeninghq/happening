@@ -52,3 +52,9 @@ class Profile(models.Model):
         elif self.has_gravatar():
             return get_gravatar_url(self.user.email, size=500)
         return "%simg/dojo-logo.png" % settings.STATIC_URL
+
+    def github_url(self):
+        """ Return the user's github URL, or None if they do not have one. """
+        for x in self.user.socialaccount_set.filter(provider="github"):
+            return x.get_profile_url()
+        return None
