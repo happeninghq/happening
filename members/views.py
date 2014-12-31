@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from events.models import Ticket
 from events.forms import TicketForm
 from forms import ProfileForm, ProfilePhotoForm, CroppingImageForm
+from forms import UsernameForm
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -158,4 +159,25 @@ def resize_crop_profile_photo(request, pk):
     return render(request, "members/resize_crop_photo.html",
                   {"member": request.user,
                    "profile_photo": request.user.profile.photo,
+                   "form": form})
+
+
+@require_editing_own_profile
+def settings(request, pk):
+    """ Overview settings. """
+    return render(request, "members/settings.html", {"member": request.user})
+
+
+@require_editing_own_profile
+def edit_username(request, pk):
+    """ Change username. """
+    form = UsernameForm(initial={"username": request.user.username})
+    if request.method == "POST":
+        form = UsernameForm(request.POST)
+        if form.is_valid():
+            request.user.username = form.cleaned_data['username']
+            request.user.save()
+            return redirect("settings", request.user.pk)
+    return render(request, "members/edit_username.html",
+                  {"member": request.user,
                    "form": form})

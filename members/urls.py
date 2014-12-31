@@ -3,6 +3,10 @@
 from django.conf.urls import patterns, url
 
 urlpatterns = patterns('members.views',
+                       url(r'^(?P<pk>\d+)/settings$', 'settings',
+                           name='settings'),
+                       url(r'^(?P<pk>\d+)/settings/username$', 'edit_username',
+                           name='edit_username'),
                        url(r'^(?P<pk>\d+)$', 'view_profile',
                            name='view_profile'),
                        url(r'^(?P<pk>\d+)/edit$', 'edit_profile',

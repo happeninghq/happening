@@ -1,6 +1,7 @@
 """ Profile form. """
 
 from django import forms
+from django.contrib.auth.models import User
 
 
 class ProfileForm(forms.Form):
@@ -27,3 +28,18 @@ class CroppingImageForm(forms.Form):
     y1 = forms.FloatField(widget=forms.HiddenInput)
     x2 = forms.FloatField(widget=forms.HiddenInput)
     y2 = forms.FloatField(widget=forms.HiddenInput)
+
+
+class UsernameForm(forms.Form):
+
+    """ Form for changing username. """
+
+    username = forms.CharField()
+
+    def clean_username(self):
+        """ Ensure the username is unique. """
+        data = self.cleaned_data['username']
+        if len(User.objects.filter(username=data)) > 0:
+            # Not unique
+            raise forms.ValidationError("Your username must be unique")
+        return data
