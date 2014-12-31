@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
 
     'compressor',
+    'ganalytics',
 
     'storages',
 
@@ -201,3 +202,6 @@ if not DEBUG:
     AWS_STORAGE_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
     MEDIA_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
+
+
+GANALYTICS_TRACKING_CODE = 'UA-13066747-5'

@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load compress %}
+{% load ganalytics %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,7 @@
     {% endcompress %}
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <script src="{% static "modernizr/modernizr.js" %}"></script>
+    {% ganalytics %}
 </head>
 <body>
     {% block navbar %}
