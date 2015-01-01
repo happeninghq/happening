@@ -57,12 +57,24 @@ def edit_sponsor(request, pk):
     sponsor = get_object_or_404(Sponsor, pk=pk)
     form = SponsorForm(instance=sponsor)
     if request.method == "POST":
-        form = SponsorForm(request.POST, instance=sponsor)
+        form = SponsorForm(request.POST, request.FILES, instance=sponsor)
         if form.is_valid():
             form.save()
             return redirect("staff_sponsors")
     return render(request, "staff/edit_sponsor.html",
                   {"sponsor": sponsor, "form": form})
+
+
+@staff_member_required
+def create_sponsor(request):
+    """ Create sponsor. """
+    form = SponsorForm()
+    if request.method == "POST":
+        form = SponsorForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("staff_sponsors")
+    return render(request, "staff/create_sponsor.html", {"form": form})
 
 
 @staff_member_required
@@ -95,3 +107,15 @@ def edit_event(request, pk):
             return redirect("staff_events")
     return render(request, "staff/edit_event.html",
                   {"event": event, "form": form})
+
+
+@staff_member_required
+def create_event(request):
+    """ Create event. """
+    form = EventForm()
+    if request.method == "POST":
+        form = EventForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("staff_events")
+    return render(request, "staff/create_event.html", {"form": form})

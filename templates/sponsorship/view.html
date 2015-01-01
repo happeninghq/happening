@@ -14,12 +14,14 @@
                     {{sponsor.description|safe}}
                 </blockquote>
 
-                <h3>Sponsored Events</h3>
-                <ul>
-                    {% for event in sponsor.event_set.all %}
-                        <li><a href="{% url "view_event" event.pk %}">{{event.year_heading}}</a></li>
-                    {% endfor %}
-                </ul>
+                {% if sponsor.event_set.count > 0 %}
+                    <h3>Sponsored Events</h3>
+                    <ul>
+                        {% for event in sponsor.event_set.all %}
+                            <li><a href="{% url "view_event" event.pk %}">{{event.year_heading}}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
         </p>
     </div>

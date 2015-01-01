@@ -6,13 +6,13 @@
     <div class="container">
         <div class="row">
             <div class="small-12 column">
-                <h2>Edit {{sponsor}}</h2>
+                <h2>New Event</h2>
                     
-                <form method="POST" action="{% url "edit_sponsor" sponsor.pk %}" enctype="multipart/form-data">
+                <form method="POST" action="{% url "create_event" %}">
                     {% csrf_token %}
                     {{form|foundation}}
                     <button type="submit">Save</button>
-                    <a class="button warning" href="{% url "staff_sponsors" %}">Cancel</a>
+                    <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
                 </form>
             </div>
         </p>
