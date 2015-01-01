@@ -1,6 +1,8 @@
 """ Event and ticket forms. """
 
 from django import forms
+from django.forms import ModelForm
+from models import Event
 
 
 class TicketForm(forms.Form):
@@ -20,3 +22,12 @@ class TicketForm(forms.Form):
         self.fields['quantity'].choices = choices
 
     quantity = forms.ChoiceField(label='Quantity', choices=(("1", "1"),))
+
+
+class EventForm(ModelForm):
+
+    """ Form for creating/editing events. """
+
+    class Meta:
+        model = Event
+        fields = ['datetime', 'sponsor', 'available_tickets']

@@ -6,12 +6,13 @@
     <div class="container">
         <div class="row">
             <div class="small-12 column">
-                <h2>Edit Username</h2>
-                <form method="POST" action="{% url "edit_username" member.pk %}">
+                <h2>Edit {{event}}</h2>
+                    
+                <form method="POST" action="{% url "edit_event" event.pk %}">
                     {% csrf_token %}
                     {{form|foundation}}
                     <button type="submit">Save</button>
-                    <a class="button warning" href="{% url "settings" member.pk %}">Cancel</a>
+                    <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
                 </form>
             </div>
         </p>

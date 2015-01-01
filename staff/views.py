@@ -1,9 +1,10 @@
 """ Staff views. """
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from sponsorship.models import Sponsor
 from events.models import Event
+from events.forms import EventForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -65,3 +66,17 @@ def events(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         events = paginator.page(paginator.num_pages)
     return render(request, "staff/events.html", {"events": events})
+
+
+@staff_member_required
+def edit_event(request, pk):
+    """ Edit event. """
+    event = get_object_or_404(Event, pk=pk)
+    form = EventForm(instance=event)
+    if request.method == "POST":
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect("staff_events")
+    return render(request, "staff/edit_event.html",
+                  {"event": event, "form": form})
