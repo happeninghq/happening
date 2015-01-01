@@ -18,8 +18,7 @@ def require_editing_own_profile(f):
     """ Require that the pk passed is equal to the current user's pk. """
     def inner_require_editing_own_profile(request, pk):
         member = get_object_or_404(User, pk=pk)
-        if not member == request.user:
-            # TODO: Allow admins to edit profiles too
+        if not member == request.user and not request.user.is_staff:
             raise Http404
         return f(request, pk)
     return login_required(inner_require_editing_own_profile)
@@ -89,45 +88,46 @@ def view_profile(request, pk):
 @require_editing_own_profile
 def edit_profile(request, pk):
     """ Edit a member's profile. """
+    member = get_object_or_404(User, pk=pk)
     form = ProfileForm(
         initial={
-            "first_name": request.user.first_name,
-            "last_name": request.user.last_name,
-            "bio": request.user.profile.bio,
-            "show_facebook_urls": request.user.profile.show_facebook_urls,
-            "show_github_urls": request.user.profile.show_github_urls
+            "first_name": member.first_name,
+            "last_name": member.last_name,
+            "bio": member.profile.bio,
+            "show_facebook_urls": member.profile.show_facebook_urls,
+            "show_github_urls": member.profile.show_github_urls
         })
 
     if request.method == "POST":
         form = ProfileForm(request.POST)
         if form.is_valid():
-            request.user.first_name = form.cleaned_data['first_name']
-            request.user.last_name = form.cleaned_data['last_name']
-            request.user.profile.bio = form.cleaned_data['bio']
-            request.user.profile.show_facebook_urls = \
+            member.first_name = form.cleaned_data['first_name']
+            member.last_name = form.cleaned_data['last_name']
+            member.profile.bio = form.cleaned_data['bio']
+            member.profile.show_facebook_urls = \
                 form.cleaned_data['show_facebook_urls']
-            request.user.profile.show_github_urls = \
+            member.profile.show_github_urls = \
                 form.cleaned_data['show_github_urls']
-            request.user.profile.show_linkedin_urls = \
+            member.profile.show_linkedin_urls = \
                 form.cleaned_data['show_linkedin_urls']
-            request.user.profile.show_twitter_urls = \
+            member.profile.show_twitter_urls = \
                 form.cleaned_data['show_twitter_urls']
-            request.user.profile.show_google_urls = \
+            member.profile.show_google_urls = \
                 form.cleaned_data['show_google_urls']
-            request.user.profile.show_stackexchange_urls = \
+            member.profile.show_stackexchange_urls = \
                 form.cleaned_data['show_stackexchange_urls']
-            request.user.profile.show_github_urls = \
+            member.profile.show_github_urls = \
                 form.cleaned_data['show_github_urls']
 
-            request.user.profile.save()
-            request.user.save()
+            member.profile.save()
+            member.save()
 
-            return redirect("view_profile", request.user.pk)
+            return redirect("view_profile", member.pk)
 
     profile_photo_form = ProfilePhotoForm()
 
     return render(request, "members/edit_profile.html",
-                  {"member": request.user,
+                  {"member": member,
                    "form": form,
                    "profile_photo_form": profile_photo_form})
 
@@ -136,26 +136,28 @@ def edit_profile(request, pk):
 @require_editing_own_profile
 def upload_profile_photo(request, pk):
     """ Upload a new profile photo and forward for cropping. """
+    member = get_object_or_404(User, pk=pk)
     form = ProfilePhotoForm(request.POST, request.FILES)
 
     if form.is_valid():
-        request.user.profile.photo = request.FILES['photo']
-        request.user.profile.save()
+        member.profile.photo = request.FILES['photo']
+        member.profile.save()
         return redirect("resize_crop_profile_photo", pk)
-    return redirect("edit_profile", request.user.pk)
+    return redirect("edit_profile", member.pk)
 
 
 @require_editing_own_profile
 def resize_crop_profile_photo(request, pk):
     """ Resize and crop profile photo. """
-    if not request.user.profile.photo:
-        return redirect("edit_profile", request.user.pk)
+    member = get_object_or_404(User, pk=pk)
+    if not member.profile.photo:
+        return redirect("edit_profile", member.pk)
     form = CroppingImageForm()
     if request.method == "POST":
         form = CroppingImageForm(request.POST)
         if form.is_valid():
             # Crop the image to the correct size
-            imagedata = StringIO(request.user.profile.photo.file.read())
+            imagedata = StringIO(member.profile.photo.file.read())
             image = Image.open(imagedata)
             image = image.crop([int(form.cleaned_data['x1']),
                                 int(form.cleaned_data['y1']),
@@ -167,33 +169,35 @@ def resize_crop_profile_photo(request, pk):
             im_data.seek(0)
             image.close()
 
-            request.user.profile.photo.save("%s.png" % request.user.id,
-                                            File(im_data))
+            member.profile.photo.save("%s.png" % member.id,
+                                      File(im_data))
 
             return redirect("view_profile", pk)
 
     return render(request, "members/resize_crop_photo.html",
-                  {"member": request.user,
-                   "profile_photo": request.user.profile.photo,
+                  {"member": member,
+                   "profile_photo": member.profile.photo,
                    "form": form})
 
 
 @require_editing_own_profile
 def settings(request, pk):
     """ Overview settings. """
-    return render(request, "members/settings.html", {"member": request.user})
+    member = get_object_or_404(User, pk=pk)
+    return render(request, "members/settings.html", {"member": member})
 
 
 @require_editing_own_profile
 def edit_username(request, pk):
     """ Change username. """
-    form = UsernameForm(initial={"username": request.user.username})
+    member = get_object_or_404(User, pk=pk)
+    form = UsernameForm(initial={"username": member.username})
     if request.method == "POST":
         form = UsernameForm(request.POST)
         if form.is_valid():
-            request.user.username = form.cleaned_data['username']
-            request.user.save()
-            return redirect("settings", request.user.pk)
+            member.username = form.cleaned_data['username']
+            member.save()
+            return redirect("settings", member.pk)
     return render(request, "members/edit_username.html",
-                  {"member": request.user,
+                  {"member": member,
                    "form": form})

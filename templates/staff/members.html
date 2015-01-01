@@ -6,12 +6,16 @@
             <th>Name</th>
             <th>Email</th>
             <th>Staff</th>
+            <th>Active</th>
+            <th></th>
         </tr>
         {% for member in members %}
             <tr>
                 <td><a href="{% url "view_profile" member.pk %}">{{member.profile}}</a></td>
                 <td>{{member.email}}</td>
                 <td>{{member.is_staff}}</td>
+                <td>{{member.is_active}}</td>
+                <td><a href="{% url "edit_profile" member.pk %}">Edit Profile</a></td>
             </tr>
         {% endfor %}
     </table>
