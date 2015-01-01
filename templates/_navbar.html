@@ -12,6 +12,9 @@
         <section class="top-bar-section">
             <!-- Right Nav Section -->
             <ul class="right">
+                {% if request.user.is_staff %}
+                    <li><a href="{% url "staff" %}">Admin</a></li>
+                {% endif %}
                 {% if request.user.is_authenticated %}
                     <li class="has-dropdown">
                         <a href="#">{{request.user}}</a>
