@@ -84,7 +84,8 @@
                                     </tr>
                                 {% endif %}
                             {% endif %}
-                            {% if member.profile.show_stackexchange_urls %}
+                            <!-- Removed the profile below for the time being as we're not getting the correct profile URL -->
+                            <!-- {% if member.profile.show_stackexchange_urls %}
                                 {% if member.profile.stackexchange_urls|length > 0 %}
                                     <tr>
                                         <th>Stack Exchange</th>
@@ -95,7 +96,7 @@
                                         </td>
                                     </tr>
                                 {% endif %}
-                            {% endif %}
+                            {% endif %} -->
                         </table>
                         <p>{{member.profile.bio|linebreaks}}</p>
                     </div>
