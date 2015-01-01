@@ -4,10 +4,12 @@
     <table style="width: 100%;">
         <tr>
             <th>Name</th>
+            <th>Sponsored Events</th>
         </tr>
         {% for sponsor in sponsors %}
             <tr>
-                <td>{{sponsor.name}}</td>
+                <td><a href="{% url "view_sponsor" sponsor.pk %}">{{sponsor.name}}</a></td>
+                <td>{{sponsor.event_set.count}} event{{sponsor.event_set.count|pluralize:",s"}}</td>
             </tr>
         {% endfor %}
     </table>

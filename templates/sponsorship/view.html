@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>{{sponsor}}</h2>
+
+                <blockquote>
+                    <div style="text-align: center; margin-bottom: 2em;">
+                        <a href="{{sponsor.url}}"><img style="max-width: 100%;" src="{{sponsor.logo.url}}"></a>
+                    </div>
+                    {{sponsor.description|safe}}
+                </blockquote>
+
+                <h3>Sponsored Events</h3>
+                <ul>
+                    {% for event in sponsor.event_set.all %}
+                        <li><a href="{% url "view_event" event.pk %}">{{event.year_heading}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </p>
+    </div>
+{% endblock %}

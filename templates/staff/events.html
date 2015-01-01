@@ -9,7 +9,7 @@
         </tr>
         {% for event in events %}
             <tr>
-                <td>{{event}}</td>
+                <td><a href="{% url "view_event" event.pk %}">{{event}}</a></td>
                 <td>{{event.datetime}}</td>
                 <td>{{event.tickets.count}} of {{event.available_tickets}}</td>
             </tr>
