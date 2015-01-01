@@ -15,11 +15,14 @@ class ProfileForm(forms.Form):
                                             required=False)
     show_github_urls = forms.BooleanField(label="Show Github Profiles",
                                           required=False)
-    show_linkedin_urls = forms.BooleanField(label="Show LinkedIn Profiles")
-    show_twitter_urls = forms.BooleanField(label="Show Twitter Profiles")
-    show_google_urls = forms.BooleanField(label="Show Google Profiles")
+    show_linkedin_urls = forms.BooleanField(label="Show LinkedIn Profiles",
+                                            required=False)
+    show_twitter_urls = forms.BooleanField(label="Show Twitter Profiles",
+                                           required=False)
+    show_google_urls = forms.BooleanField(label="Show Google Profiles",
+                                          required=False)
     show_stackexchange_urls = forms.BooleanField(
-        label="Show StackExchange Profiles")
+        label="Show StackExchange Profiles", required=False)
 
 
 class ProfilePhotoForm(forms.Form):
