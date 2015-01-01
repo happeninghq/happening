@@ -1,0 +1,34 @@
+{% extends "staff/base.html" %}
+
+{% block staff_content %}
+    <table style="width: 100%;">
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Tickets Sold</th>
+        </tr>
+        {% for event in events %}
+            <tr>
+                <td>{{event}}</td>
+                <td>{{event.datetime}}</td>
+                <td>{{event.tickets.count}} of {{event.available_tickets}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+    <ul class="pagination">
+        {% if events.has_previous %}
+            <li class="arrow"><a href="?page={{ events.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+            <li class="arrow unavailable"><a href="">&laquo;</a></li>
+        {% endif %}
+
+        <li class="current"><a href="">Page {{events.number}} of {{events.paginator.num_pages}}.</a></li>
+        {% if events.has_next %}
+            <li class="arrow"><a href="?page={{ events.next_page_number }}">&raquo;</a></li>
+        {% else %}
+            <li class="arrow unavailable"><a href="">&raquo;</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}

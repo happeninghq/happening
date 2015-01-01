@@ -1,0 +1,34 @@
+{% extends "staff/base.html" %}
+
+{% block staff_content %}
+    <table style="width: 100%;">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Staff</th>
+        </tr>
+        {% for member in members %}
+            <tr>
+                <td><a href="{% url "view_profile" member.pk %}">{{member.profile}}</a></td>
+                <td>{{member.email}}</td>
+                <td>{{member.is_staff}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+    <ul class="pagination">
+        {% if members.has_previous %}
+            <li class="arrow"><a href="?page={{ members.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+            <li class="arrow unavailable"><a href="">&laquo;</a></li>
+        {% endif %}
+
+        <li class="current"><a href="">Page {{members.number}} of {{members.paginator.num_pages}}.</a></li>
+        {% if members.has_next %}
+            <li class="arrow"><a href="?page={{ members.next_page_number }}">&raquo;</a></li>
+        {% else %}
+            <li class="arrow unavailable"><a href="">&raquo;</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}

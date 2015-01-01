@@ -1,0 +1,30 @@
+{% extends "staff/base.html" %}
+
+{% block staff_content %}
+    <table style="width: 100%;">
+        <tr>
+            <th>Name</th>
+        </tr>
+        {% for sponsor in sponsors %}
+            <tr>
+                <td>{{sponsor.name}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+    <ul class="pagination">
+        {% if sponsors.has_previous %}
+            <li class="arrow"><a href="?page={{ sponsors.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+            <li class="arrow unavailable"><a href="">&laquo;</a></li>
+        {% endif %}
+
+        <li class="current"><a href="">Page {{sponsors.number}} of {{sponsors.paginator.num_pages}}.</a></li>
+        {% if sponsors.has_next %}
+            <li class="arrow"><a href="?page={{ sponsors.next_page_number }}">&raquo;</a></li>
+        {% else %}
+            <li class="arrow unavailable"><a href="">&raquo;</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}

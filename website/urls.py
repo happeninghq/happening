@@ -6,8 +6,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = patterns('',
+                       # For the time being we will keep the default admin
+                       # until all functionality is duplicated
                        url(r'^admin/', include(admin.site.urls)),
-
+                       url(r'^staff/', include('staff.urls')),
                        url(r'^events/', include('events.urls')),
                        # Include general external pages as fallback
                        url(r'^', include('external.urls')),
