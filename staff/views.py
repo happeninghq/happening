@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from sponsorship.models import Sponsor
 from events.models import Event
 from events.forms import EventForm
+from sponsorship.forms import SponsorForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -48,6 +49,20 @@ def sponsors(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         sponsors = paginator.page(paginator.num_pages)
     return render(request, "staff/sponsors.html", {"sponsors": sponsors})
+
+
+@staff_member_required
+def edit_sponsor(request, pk):
+    """ Edit sponsor. """
+    sponsor = get_object_or_404(Sponsor, pk=pk)
+    form = SponsorForm(instance=sponsor)
+    if request.method == "POST":
+        form = SponsorForm(request.POST, instance=sponsor)
+        if form.is_valid():
+            form.save()
+            return redirect("staff_sponsors")
+    return render(request, "staff/edit_sponsor.html",
+                  {"sponsor": sponsor, "form": form})
 
 
 @staff_member_required
