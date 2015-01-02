@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% load foundation %}
+{% load widget_tweaks %}
+{% load markdown_deux_tags %}
 
 {% block content %}
     <div class="container">
@@ -11,7 +12,18 @@
                     <h3>Profile</h3>
                     <form method="POST" action="{% url "edit_profile" member.pk %}">
                         {% csrf_token %}
-                        {{form|foundation}}
+                        <label>First Name {{form.first_name}}</label>
+                        <label>Last Name {{form.last_name}}</label>
+                        <label>Bio<br />{% markdown_allowed %} {{form.bio|add_class:"edit_markdown"}}</label>
+                        <label>Social Accounts</label>
+                        Select the accounts you wish to show on your profile.<br />
+                        {{form.show_facebook_urls}}<label for="id_show_facebook_urls">Facebook</label>
+                        {{form.show_github_urls}}<label for="id_show_github_urls">Github</label>
+                        {{form.show_linkedin_urls}}<label for="id_show_linkedin_urls">LinkedIn</label>
+                        {{form.show_twitter_urls}}<label for="id_show_twitter_urls">Twitter</label>
+                        {{form.show_google_urls}}<label for="id_show_google_urls">Google</label>
+                        {{form.show_stackexchange_urls}}<label for="id_show_stackexchange_urls">Stack Exchange</label>
+                        <br />
                         <button type="submit">Save</button>
                         <a class="button warning" href="{% url "view_profile" member.pk %}">Cancel</a>
                     </form>
@@ -40,4 +52,8 @@
             </div>
         </p>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/coffeescript" src="{% static "coffeescript/edit_markdown.coffee" %}"></script>
 {% endblock %}

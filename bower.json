@@ -8,6 +8,7 @@
         "underscore": "1.7.0",
         "foundation": "zurb/bower-foundation",
         "foundation-icon-fonts": "zurb/foundation-icon-fonts",
-        "jcrop": "0.9.12"
+        "jcrop": "0.9.12",
+        "epiceditor": "0.2.3"
     }
 }
