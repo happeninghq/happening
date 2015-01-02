@@ -16,6 +16,15 @@ class TestPeriodicTasks(TestCase):
         """ Set up a common user. """
         self.user = mommy.make("auth.User", email="test@example.com")
 
+    def test_doesnt_send_reminder_more_than_one_week(self):
+        """ Test that no reminder is sent more than 1 week in advance. """
+        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+                           timedelta(days=8))
+        event.buy_ticket(self.user, tickets=5)
+        mail.outbox = []  # Remove purchase email
+        send_event_notifications()
+        self.assertEqual(0, len(mail.outbox))
+
     def test_sends_reminder_email_one_week_in_advance(self):
         """ Test that the 1 week reminder is sent. """
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +

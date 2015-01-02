@@ -3,13 +3,9 @@
 {% block subject_content %}Your ticket{{ticket.number|pluralize:",s"}} for {{ticket.event}}{% endblock %}
 
 {% block plain_content %}
-
 You have edited {{ticket.number}} ticket{{ticket.number|pluralize:",s"}} for {{ticket.event}}.
-
 {% endblock %}
 
 {% block html_content %}
-
 <p>You have edited <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize:",s"}} for <strong>{{ticket.event}}</strong>.</p>
-
 {% endblock %}

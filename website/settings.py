@@ -205,8 +205,8 @@ else:
 
 
 # Notification configuration
-FIRST_NOTIFICATION_TIME = 7 * 24 * 60  # 1 Week
-SECOND_NOTIFICATION_TIME = 24 * 60     # 1 Day
+FIRST_NOTIFICATION_TIME = 7 * 24  # 1 Week
+SECOND_NOTIFICATION_TIME = 24     # 1 Day
 
 
 # AWS

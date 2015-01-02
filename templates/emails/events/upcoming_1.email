@@ -3,9 +3,6 @@
 {% block subject_content %}{{event}}{% endblock %}
 
 {% block plain_content %}
-
-Hi Everyone,
-
 The {{event}} is {{event.time_to_string}} and you have tickets. This email is to remind you to attend (or cancel your ticket if you're unable). You will be reminded once more before the dojo.
 
 The dojo format is: 20 minutes mingling/eating pizza/group forming, 80 minutes coding in groups, 20 minutes talking about what we did. The timing is quite tight so try to be on time.
@@ -29,13 +26,9 @@ ABOUT THE SPONSORS
 
 {{event.sponsor.description}}
 {% endif %}
-
 {% endblock %}
 
 {% block html_content %}
-
-<p>Hi Everyone,</p>
-
 <p>The {{event}} is {{event.time_to_string}} and you have tickets. This email is to remind you to attend (or cancel your ticket if you're unable). You will be reminded once more before the dojo.</p>
 
 <p>The dojo format is: 20 minutes mingling/eating pizza/group forming, 80 minutes coding in groups, 20 minutes talking about what we did. The timing is quite tight so try to be on time.</p>
@@ -62,5 +55,4 @@ ABOUT THE SPONSORS
         {{event.sponsor.description}}
     </blockquote>
 {% endif %}
-
 {% endblock %}
