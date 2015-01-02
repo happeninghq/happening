@@ -95,7 +95,11 @@ def edit_profile(request, pk):
             "last_name": member.last_name,
             "bio": member.profile.bio,
             "show_facebook_urls": member.profile.show_facebook_urls,
-            "show_github_urls": member.profile.show_github_urls
+            "show_github_urls": member.profile.show_github_urls,
+            "show_linkedin_urls": member.profile.show_linkedin_urls,
+            "show_twitter_urls": member.profile.show_twitter_urls,
+            "show_google_urls": member.profile.show_google_urls,
+            "show_stackexchange_urls": member.profile.show_stackexchange_urls,
         })
 
     if request.method == "POST":
@@ -116,8 +120,6 @@ def edit_profile(request, pk):
                 form.cleaned_data['show_google_urls']
             member.profile.show_stackexchange_urls = \
                 form.cleaned_data['show_stackexchange_urls']
-            member.profile.show_github_urls = \
-                form.cleaned_data['show_github_urls']
 
             member.profile.save()
             member.save()
