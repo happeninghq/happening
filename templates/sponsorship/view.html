@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load markdown_deux_tags %}
 
 {% block content %}
     <div class="container">
@@ -11,7 +12,7 @@
                     <div style="text-align: center; margin-bottom: 2em;">
                         <a href="{{sponsor.url}}"><img style="max-width: 100%;" src="{{sponsor.logo.url}}"></a>
                     </div>
-                    {{sponsor.description|safe}}
+                    {{sponsor.description|markdown}}
                 </blockquote>
 
                 {% if sponsor.event_set.count > 0 %}

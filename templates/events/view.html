@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load markdown_deux_tags %}
 
 {% block content %}
     <div class="container">
@@ -14,13 +15,13 @@
                         <div style="text-align: center; margin-bottom: 2em;">
                             <a href="{{event.sponsor.url}}"><img style="max-width: 100%;" src="{{event.sponsor.logo.url}}"></a>
                         </div>
-                        {{event.sponsor.description|safe}}
+                        {{event.sponsor.description|markdown}}
                     </blockquote>
                 {% endif %}
                 {% if event.challenge_text %}
                     <h2>The Challenge</h2>
                     <div id="challenge-text">
-                        {{event.challenge_text|safe}}
+                        {{event.challenge_text|markdown}}
                     </div>
                 {% endif %}
                 <h2>Solutions</h2>
@@ -31,7 +32,7 @@
                 {% endif %}
                 {% if event.solution_text %}
                     <div id="solution-text">
-                        {{event.solution_text|safe}}
+                        {{event.solution_text|markdown}}
                     </div>
                 {% endif %}
                 {% if event.solutions.count > 0 %}

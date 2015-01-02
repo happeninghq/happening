@@ -2,6 +2,7 @@
 
 {% load staticfiles %}
 {% load loops %}
+{% load markdown_deux_tags %}
 
 {% block navbar %}
     <div class="top-container">
@@ -102,7 +103,7 @@
                             <div style="text-align: center; margin-bottom: 2em;">
                                 <a href="{{latest_event.sponsor.url}}"><img style="max-width: 100%;" src="{{latest_event.sponsor.logo.url}}"></a>
                             </div>
-                            {{latest_event.sponsor.description|safe}}
+                            {{latest_event.sponsor.description|markdown}}
                         </blockquote>
                     </div>
                 {% endif %}

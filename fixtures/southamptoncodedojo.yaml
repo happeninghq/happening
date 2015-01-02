@@ -8,12 +8,22 @@
     url: http://www.parcelmonkey.co.uk/
     logo: /media/sponsors/parcelmonkey.png
     description:
-            <p>The Parcel Monkey Group of Companies are a group of software/service businesses developed with a mind to offer an end to end SME business solution that is designed to grow with you as your business does.</p>
-            <p>The group is comprised of Parcel Monkey, Cloud Fulfilment, Alight Design Agency and Kong.</p>
-            <p>Parcel Monkey is a low cost, Pay-As You Go parcel delivery service.</p>
-            <p>Cloud Fulfilment is a flexible, low cost, fully automated fulfilment service that's revolutionising the way businesses run their fulfilment operations in the UK.</p>
-            <p>Alight is an award winning digital design agency, providing UX web design and build, branding, video and more.</p>
-            <p>Kong is a fully integrated multichannel eCommerce platform, bringing eCommerce to everyone for £20 a month.</p>
+            The Parcel Monkey Group of Companies are a group of software/service businesses developed with a mind to offer an end to end SME business solution that is designed to grow with you as your business does.
+
+
+            The group is comprised of Parcel Monkey, Cloud Fulfilment, Alight Design Agency and Kong.
+
+
+            Parcel Monkey is a low cost, Pay-As You Go parcel delivery service.
+
+
+            Cloud Fulfilment is a flexible, low cost, fully automated fulfilment service that's revolutionising the way businesses run their fulfilment operations in the UK.
+
+
+            Alight is an award winning digital design agency, providing UX web design and build, branding, video and more.
+
+
+            Kong is a fully integrated multichannel eCommerce platform, bringing eCommerce to everyone for £20 a month.
 - model: sponsorship.Sponsor
   pk: 2
   fields:
@@ -21,8 +31,10 @@
     url: http://www.spectrumit.co.uk/
     logo: /media/sponsors/spectrumit.png
     description:
-        <p>We began as a small, passionate group of individuals who wanted to provide a distinctive and exceptional IT recruitment service. We'd seen agencies offering a division devoted to IT recruitment, but there was still a niche that we could fill. Combining our collective knowledge about the IT industry, the team has continued to grow and develop an extensive understanding of the local IT and IS sectors and their needs. The local focus of Spectrum IT gives us a unique advantage in finding those ideal and elusive roles in the area, and it also forms part of our company ethic. Although we work hard, we like to be able to work well with our clients and candidates and offer advice and guidance throughout (and after) the recruitment process.</p>
-        <p>If you are looking for a new position or looking to recruit please give us a call on 02380 765 800 or <a href="mailto:contactus@spectrumit.co.uk">contactus@spectrumit.co.uk</a>.</p>
+        We began as a small, passionate group of individuals who wanted to provide a distinctive and exceptional IT recruitment service. We'd seen agencies offering a division devoted to IT recruitment, but there was still a niche that we could fill. Combining our collective knowledge about the IT industry, the team has continued to grow and develop an extensive understanding of the local IT and IS sectors and their needs. The local focus of Spectrum IT gives us a unique advantage in finding those ideal and elusive roles in the area, and it also forms part of our company ethic. Although we work hard, we like to be able to work well with our clients and candidates and offer advice and guidance throughout (and after) the recruitment process.
+
+
+        If you are looking for a new position or looking to recruit please give us a call on 02380 765 800 or [contactus@spectrumit.co.uk](mailto:contactus@spectrumit.co.uk).
 - model: sponsorship.Sponsor
   pk: 3
   fields:
@@ -30,18 +42,30 @@
     url: http://www.insync.tv/
     logo: /media/sponsors/insync.png
     description:
-        <p>InSync Technology is a UK based company with 10+ year history in advanced research and development.</p>
-        <p>-- Specialists in image processing and standards conversion</p>
-        <p>-- Broadcast electronics product design and manufacture</p>
-        <p>-- Modular and 1U box hardware products</p>
-        <p>-- Software products for integration into customer systems</p>
-        <p>-- Sales exclusively through worldwide OEM agreements</p>
-        <p>Currently looking for engineers specifically to work on next generation products; graduate programmers in C, C++, Python;  Maths, Physics, Engineering background.</p>
-        <p>We are an employee owned business.</p>
-        <p>
-            <a href="http://www.insync.tv">www.insync.tv</a><br>
-            <a href="http://www.insync.tv/index.php/about/recruitment">www.insync.tv/index.php/about/recruitment</a>
-        </p>
+        InSync Technology is a UK based company with 10+ year history in advanced research and development.
+
+
+        - Specialists in image processing and standards conversion
+
+        - Broadcast electronics product design and manufacture
+
+        - Modular and 1U box hardware products
+
+        - Software products for integration into customer systems
+
+        - Sales exclusively through worldwide OEM agreements
+
+
+        Typically looking for engineers specifically to work on next generation products; graduate programmers in C, C++, Python;  Maths, Physics, Engineering background.
+
+
+        We are an employee owned business.
+
+
+        [www.insync.tv](http://www.insync.tv)
+
+
+        [www.insync.tv/index.php/about/recruitment](http://www.insync.tv/index.php/about/recruitment)
 - model: sponsorship.Sponsor
   pk: 4
   fields:
@@ -49,18 +73,35 @@
     url: http://www.snowflakesoftware.com/
     logo: /media/sponsors/snowflake.png
     description:
-        <p>Snowflake Software, the data exchange company, has been at the forefront of standards-based solutions for data exchange since 2001. We develop and sell our off-the-shelf GO Loader and GO Publisher products, consultancy and training to enterprise data organizations around the World, particularly within the Aviation and Geospatial industries.</p>
-        <p>We have offices in Southampton, UK and also in Washington DC, USA - and we are expanding our team.</p>
-        <p><br><strong>Current Vacancies</strong><br>
-        Software Developer<br>
-        Senior Software Developer<br>
-        QA Engineer<br><br>
-        </p>
-        <p>Do you want to join a growing company with a unique culture and passion for software engineering?</p>
-        <p>Are you positive and pro active with an enthusiasm for emerging technologies?</p>
-        <p>Do you enjoy building technical products for technical people?</p>
-        <p><br>We're looking for a motivated and enthusiastic individuals to join our talented software development team.</p>
-        <p><a href="http://www.snowflakesoftware.com/company/jobs/">http://www.snowflakesoftware.com/company/jobs/</a></p>
+        Snowflake Software, the data exchange company, has been at the forefront of standards-based solutions for data exchange since 2001. We develop and sell our off-the-shelf GO Loader and GO Publisher products, consultancy and training to enterprise data organizations around the World, particularly within the Aviation and Geospatial industries.
+
+
+        We have offices in Southampton, UK and also in Washington DC, USA - and we are expanding our team.
+
+
+        **Current Vacancies**
+
+        
+        - Software Developer
+
+        - Senior Software Developer
+
+        - QA Engineer
+
+
+        Do you want to join a growing company with a unique culture and passion for software engineering?
+
+
+        Are you positive and pro active with an enthusiasm for emerging technologies?
+
+
+        Do you enjoy building technical products for technical people?
+
+
+        We're looking for a motivated and enthusiastic individuals to join our talented software development team.
+
+
+        [http://www.snowflakesoftware.com/company/jobs/](http://www.snowflakesoftware.com/company/jobs/)
 
 
 
@@ -73,8 +114,8 @@
     # eventbrite_url: http://southamptoncodedojo.eventbrite.co.uk
     challenge_language: Python
     challenge_title: Battleships
-    challenge_text: <p>This month's challenge was to implement a Battleships AI in Python. These AIs played against each other using the <a href="https://github.com/southampton-code-dojo/battleships">Battleships competition</a> created for this dojo.</p>
-    solution_text: <p>One group attempted a too complicated solution and didn't finish (though their solution probably would have won if it did). This left four AIs competing in the competition.</p>
+    challenge_text: This month's challenge was to implement a Battleships AI in Python. These AIs played against each other using the [Battleships competition](https://github.com/southampton-code-dojo/battleships) created for this dojo.
+    solution_text: One group attempted a too complicated solution and didn't finish (though their solution probably would have won if it did). This left four AIs competing in the competition.
     image: /media/event_images/report1-result.jpg
 
 - model: events.EventSolution
@@ -109,8 +150,8 @@
     # eventbrite_url: http://southamptoncodedojo2.eventbrite.co.uk
     challenge_language: Python
     challenge_title: Daily Mail Headline Generator
-    challenge_text: <p>This month's challenge was to create a Daily Mail headline generator in Python.</p>
-    solution_text: <p>Most groups attempted some sort of templating, though they all went about it in different ways.</p>
+    challenge_text: This month's challenge was to create a Daily Mail headline generator in Python.
+    solution_text: Most groups attempted some sort of templating, though they all went about it in different ways.
 
 - model: events.EventSolution
   pk: 4
@@ -135,8 +176,8 @@
     # eventbrite_url: http://southamptoncodedojo3.eventbrite.co.uk
     challenge_language: Javascript
     challenge_title: Mastermind
-    challenge_text: <p>This month's challenge was more open than usual - and involved implementing the game <a href="http://en.wikipedia.org/wiki/Mastermind_(board_game)">Mastermind</a>, for either one or two players. Everything else was left up to the participants.</p>
-    solution_text: <p>All groups except one managed to produce a version of Mastermind where the user can guess the code selected by the computer. Some groups used HTML tables for the UI, with CSS border-radius for the pegs, and at least one used canvas to draw the interface.</p>
+    challenge_text: This month's challenge was more open than usual - and involved implementing the game [Mastermind](http://en.wikipedia.org/wiki/Mastermind_(board_game)), for either one or two players. Everything else was left up to the participants.
+    solution_text: All groups except one managed to produce a version of Mastermind where the user can guess the code selected by the computer. Some groups used HTML tables for the UI, with CSS border-radius for the pegs, and at least one used canvas to draw the interface.
     image: /media/event_images/report3-result.jpg
 
 - model: events.EventSolution
@@ -163,7 +204,7 @@
     # eventbrite_url: http://southamptoncodedojo4.eventbrite.co.uk
     challenge_language: Python
     challenge_title: Roman Numeral Calculator
-    challenge_text: <p>This month's challenge was to implement a Roman Numerals calculator in Python. The challenge was open in that people could decide how it should work, how the user should interface with it, etc.</p>
+    challenge_text: This month's challenge was to implement a Roman Numerals calculator in Python. The challenge was open in that people could decide how it should work, how the user should interface with it, etc.
     image: /media/event_images/report4-result.jpg
 
 - model: events.EventSolution
@@ -194,7 +235,7 @@
     # eventbrite_url: http://southamptoncodedojo5.eventbrite.co.uk
     challenge_language: Java
     challenge_title: Countdown Solver
-    challenge_text: <p>This month's challenge was to implement a Countdown numbers round solver in Java. The idea was taken from <a href="http://rubyquiz.com/quiz7.html">Ruby Quiz 7</a> so you can go there for more details and to see some example answers where they had longer to work on them.</p>
+    challenge_text: This month's challenge was to implement a Countdown numbers round solver in Java. The idea was taken from [Ruby Quiz 7](http://rubyquiz.com/quiz7.html) so you can go there for more details and to see some example answers where they had longer to work on them.
     image: /media/event_images/report5-result.jpg
 
 - model: events.EventSolution
@@ -212,7 +253,7 @@
     # eventbrite_url: http://southamptoncodedojo6.eventbrite.co.uk
     challenge_language: Javascript
     challenge_title: Sodoku Solver
-    challenge_text: <p>This month's challenge was to implement a Sodoku solver in Javascript. We left the choice of using Node or doing it in-browser up to the groups.</p>
+    challenge_text: This month's challenge was to implement a Sodoku solver in Javascript. We left the choice of using Node or doing it in-browser up to the groups.
     image: /media/event_images/report6-result.jpg
 
 - model: events.EventSolution
@@ -244,10 +285,11 @@
     # eventbrite_url: http://southamptoncodedojo7.eventbrite.co.uk
     challenge_language: Java
     challenge_title: Minesweeper AI
-    challenge_text: <p>This month's challenge was to implement a Minesweeper AI using Java. We had a pre-prepared engine and API that everyone could code to - so teams were only responsible for implementing the actual logic of choosing which space to click on next.</p>
+    challenge_text: This month's challenge was to implement a Minesweeper AI using Java. We had a pre-prepared engine and API that everyone could code to - so teams were only responsible for implementing the actual logic of choosing which space to click on next.
     solution_text:
-        <p>At the end of the dojo we played the entries against each other, starting on a small map(9*9, 10 mines), then medium (16*16, 40 mines), then large(22*22, 99 mines). Two teams failed in the first round, One in the second, and neither of our finalists were able to complete the final round.</p>
-        <p>Everyone went for basically the same solution - which was to first check if any coordinates had a number which matched the number of surrounding spaces (in which case, flag them all) or had a number equal to the surrounding flags (in which case, click on the non-flagged spaces). After this, there was talk of trying to take into account patterns which were only visible when looking at multiple coordinates at once, or using some statistical methods to pick the best choice. Nobody really had time for that though so it was mostly random at this stage.</p>
+        At the end of the dojo we played the entries against each other, starting on a small map(9*9, 10 mines), then medium (16*16, 40 mines), then large(22*22, 99 mines). Two teams failed in the first round, One in the second, and neither of our finalists were able to complete the final round.
+
+        Everyone went for basically the same solution - which was to first check if any coordinates had a number which matched the number of surrounding spaces (in which case, flag them all) or had a number equal to the surrounding flags (in which case, click on the non-flagged spaces). After this, there was talk of trying to take into account patterns which were only visible when looking at multiple coordinates at once, or using some statistical methods to pick the best choice. Nobody really had time for that though so it was mostly random at this stage.
     image: /media/event_images/report7-result.jpg
 
 - model: events.EventSolution
@@ -292,8 +334,8 @@
     # eventbrite_url: http://southamptoncodedojo8.eventbrite.co.uk
     challenge_language: Python
     challenge_title: Poetry Generator
-    challenge_text: <p>We started out by attempting to run a pre-prepared challenge, however networking issues put an end to that and we voted on a replacement task - we decided to develop poetry generators.</p>
-    solution_text: <p>This dojo was unique in that we had totally different solutions from each of the groups. Many generated Haikus but did so in different ways, and some generated entirely different forms of poetry. </p>
+    challenge_text: We started out by attempting to run a pre-prepared challenge, however networking issues put an end to that and we voted on a replacement task - we decided to develop poetry generators.
+    solution_text: This dojo was unique in that we had totally different solutions from each of the groups. Many generated Haikus but did so in different ways, and some generated entirely different forms of poetry. 
     image: /media/event_images/report8-result.jpg
 
 - model: events.EventSolution
@@ -338,8 +380,11 @@
     # eventbrite_url: http://southamptoncodedojo9.eventbrite.co.uk
     challenge_language: C
     challenge_title: Secret Santa Organiser
-    challenge_text: <p>We decided to solve the <a href="http://rubyquiz.com/quiz2.html">Secret Santas</a> challenge from RubyQuiz. In our version of this challenge, the teams were given a .txt file with a list of people's names (firstname SPACE lastname NEWLINE).</p> <p>The teams had to write a C program which would input this list, and print out a list of secret santa allocations. Every person should give one gift and get one gift, and people cannot be santa for people with the same surname as themselves..</p>
-    solution_text: <p>A lot of the teams lacked much C experience, so this dojo took a while to get going. But in the end almost everyone managed to pull together something good. A few teams submitted code which worked by hill climbing, one used a circular linked list, and one grouped by family then assigned downwards.</p>
+    challenge_text:
+        We decided to solve the [Secret Santas](http://rubyquiz.com/quiz2.html) challenge from RubyQuiz. In our version of this challenge, the teams were given a .txt file with a list of people's names (firstname SPACE lastname NEWLINE).
+
+        The teams had to write a C program which would input this list, and print out a list of secret santa allocations. Every person should give one gift and get one gift, and people cannot be santa for people with the same surname as themselves.
+    solution_text: A lot of the teams lacked much C experience, so this dojo took a while to get going. But in the end almost everyone managed to pull together something good. A few teams submitted code which worked by hill climbing, one used a circular linked list, and one grouped by family then assigned downwards.
     image: /media/event_images/report9-result.jpg
 
 - model: events.EventSolution

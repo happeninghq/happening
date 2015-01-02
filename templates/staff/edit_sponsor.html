@@ -1,6 +1,8 @@
 {% extends "staff/base.html" %}
 {% load staticfiles %}
 {% load foundation %}
+{% load widget_tweaks %}
+{% load markdown_deux_tags %}
 
 {% block staff_content %}
     <div class="container">
@@ -10,11 +12,18 @@
                     
                 <form method="POST" action="{% url "edit_sponsor" sponsor.pk %}" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{form|foundation}}
+                    <label>Name {{form.name}}</label>
+                    <label>Description<br />{% markdown_allowed %} {{form.description|add_class:"edit_markdown"}}</label>
+                    <label>URL {{form.url}}</label>
+                    <label>Logo {{form.logo}}</label>
                     <button type="submit">Save</button>
                     <a class="button warning" href="{% url "staff_sponsors" %}">Cancel</a>
                 </form>
             </div>
         </p>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/coffeescript" src="{% static "coffeescript/edit_markdown.coffee" %}"></script>
 {% endblock %}
