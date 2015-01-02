@@ -17,14 +17,18 @@
                     </div>
                     <div class="small-6 column">
                         <table style="width: 100%">
-                            <tr>
-                                <th>First Name</th>
-                                <td>{{member.first_name}}</td>
-                            </tr>
-                            <tr>
-                                <th>Last Name</th>
-                                <td>{{member.last_name}}</td>
-                            </tr>
+                            {% if member.first_name %}
+                                <tr>
+                                    <th>First Name</th>
+                                    <td>{{member.first_name}}</td>
+                                </tr>
+                            {% endif %}
+                            {% if member.last_name %}
+                                <tr>
+                                    <th>Last Name</th>
+                                    <td>{{member.last_name}}</td>
+                                </tr>
+                            {% endif %}
                             {% if member.profile.show_github_urls %}
                                 {% if member.profile.github_urls|length > 0 %}
                                     <tr>

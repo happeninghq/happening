@@ -44,8 +44,9 @@ class Profile(models.Model):
 
     def __unicode__(self):
         """ Return the name of the user. """
-        if self.user.first_name is not None or self.user.last_name is not None:
-            return "%s %s" % (self.user.first_name, self.user.last_name)
+        formatted_name = "%s %s" % (self.user.first_name, self.user.last_name)
+        if len(formatted_name) > 1:
+            return formatted_name
         return self.user.username
 
     def has_gravatar(self):
