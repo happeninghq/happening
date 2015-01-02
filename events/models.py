@@ -131,7 +131,8 @@ class Event(models.Model):
     def send_upcoming_notification_2(self, user=None):
         """ Second the second "upcoming event" notification. """
         if user is None:
-            users = set([ticket.user for ticket in self.tickets.all()])
+            users = set([ticket.user for ticket in self.tickets.all()
+                         if not ticket.cancelled])
             for user in users:
                 user.send_email("events/upcoming_2", {"event": self})
             self.upcoming_notification_2_sent = True
@@ -143,7 +144,8 @@ class Event(models.Model):
     def send_upcoming_notification_1(self, user=None):
         """ Second the first "upcoming event" notification. """
         if user is None:
-            users = set([ticket.user for ticket in self.tickets.all()])
+            users = set([ticket.user for ticket in self.tickets.all()
+                         if not ticket.cancelled])
             for user in users:
                 user.send_email("events/upcoming_1", {"event": self})
             self.upcoming_notification_1_sent = True
