@@ -4,7 +4,9 @@ from sponsorship.models import Sponsor
 from django.utils import timezone
 from exceptions import DojoFinishedError, NoTicketsError
 from exceptions import TicketCancelledError
-from arrow import Arrow
+from datetime import datetime, timedelta
+import pytz
+from website.utils import custom_strftime
 
 
 class EventManager(models.Manager):
@@ -57,7 +59,27 @@ class Event(models.Model):
     @property
     def time_to_string(self):
         """ Return the event time as a humanized string. """
-        return Arrow.fromdatetime(self.datetime).humanize()
+        now = datetime.now(pytz.utc).date()
+        other_date = self.datetime.date()
+
+        datestr = custom_strftime("%A %B {S}, %Y", self.datetime)
+        shortdate = "(%s)" % custom_strftime("{S}", self.datetime)
+
+        if now == other_date:
+            datestr = "today %s" % shortdate
+        elif other_date == now - timedelta(days=1):
+            datestr = "yesterday %s" % shortdate
+        elif other_date == now + timedelta(days=1):
+            datestr = "tomorrow %s" % shortdate
+        elif now < other_date < now + timedelta(days=7):
+            datestr = "next " + other_date.strftime("%A") + " %s" % shortdate
+        elif now > other_date > now - timedelta(days=7):
+            datestr = "last " + other_date.strftime("%A") + " %s" % shortdate
+
+        time = self.datetime.strftime("%I:%M%p").lstrip("0")
+        if self.datetime.minute == 0:
+            time = self.datetime.strftime("%I%p").lstrip("0")
+        return datestr + " at " + time
 
     @property
     def remaining_tickets(self):
