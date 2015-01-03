@@ -7,6 +7,7 @@
     <title>Southampton Code Dojo</title>
     {% compress css %}
         <link rel="stylesheet" type="text/x-scss" href="{% static "sass/main.scss" %}" />
+        <link rel="stylesheet" type="text/css" href="{% static "lib/responsive-tables/css/responsive-tables.css" %}" />
         {% block style %}
 
         {% endblock style %}
@@ -47,6 +48,7 @@
         <!-- We put this here rather that at each point to make it easier to replace later if needed. Will also need to edit
              edit_markdown.coffee -->
         <script src="{% static "epiceditor/epiceditor/js/epiceditor.min.js" %}"></script>
+        <script src="{% static "lib/responsive-tables/js/responsive-tables.js" %}"></script>
 
         {% block scripts %}
         {% endblock %}

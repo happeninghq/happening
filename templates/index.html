@@ -31,7 +31,7 @@
                             <div class="ticket-purchase" id="ticket-purchase">
                                 <form action="{% url "purchase_tickets" latest_event.pk %}" method="POST">
                                     {% csrf_token %}
-                                    <table>
+                                    <table class="responsive">
                                         <thead>
                                             <tr>
                                                 <th></th>
