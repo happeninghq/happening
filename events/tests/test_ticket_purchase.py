@@ -145,7 +145,6 @@ class TestTicketPurchase(TestCase):
         # Purchase email and notification email
         self.assertEqual(2, len(mail.outbox))
         self.assertTrue(str(event2) in mail.outbox[1].body)
-        self.assertTrue("in 3 days" in mail.outbox[1].body)
 
         event2.buy_ticket(self.user)
         # Should only recieve one additional email (no more notification)
@@ -170,7 +169,6 @@ class TestTicketPurchase(TestCase):
         # Purchase email and notification email
         self.assertEqual(2, len(mail.outbox))
         self.assertTrue(str(event2) in mail.outbox[1].body)
-        self.assertTrue("in 3 days" in mail.outbox[1].body)
 
         event2.buy_ticket(self.user)
         # Should only recieve one additional email (no more notification)

@@ -101,14 +101,7 @@ class TestProfile(TestCase):
         self.assertFalse(os.path.isfile(filepath))
 
     def test_default_photo(self):
-        """ Test that default photos are correct. Including gravatar. """
-        # Test without gravatar
-        self.assertTrue("dojo-logo" in self.user.profile.photo_url())
-
-        # Test with gravatar
-        self.user.email = "jonathan@jscott.me"
-        self.user.save()
-
+        """ Test that default photos are correct."""
         self.assertTrue("gravatar" in self.user.profile.photo_url())
 
     def test_resize_crop_photo(self):

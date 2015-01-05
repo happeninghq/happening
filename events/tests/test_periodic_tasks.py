@@ -44,7 +44,6 @@ class TestPeriodicTasks(TestCase):
         send_event_notifications()
         self.assertEqual(1, len(mail.outbox))
         self.assertTrue(str(event) in mail.outbox[0].body)
-        self.assertTrue("in 5 days" in mail.outbox[0].body)
 
     def test_sends_reminder_email_one_day_in_advance(self):
         """ Test that the 1 day reminder is sent. """
@@ -55,7 +54,6 @@ class TestPeriodicTasks(TestCase):
         send_event_notifications()
         self.assertEqual(1, len(mail.outbox))
         self.assertTrue(str(event) in mail.outbox[0].body)
-        self.assertTrue("in a day" in mail.outbox[0].body)
 
     def test_sends_only_single_email_at_a_time(self):
         """ Test that it will only send the most recent notification. """
@@ -66,7 +64,6 @@ class TestPeriodicTasks(TestCase):
         send_event_notifications()
         self.assertEqual(1, len(mail.outbox))
         self.assertTrue(str(event) in mail.outbox[0].body)
-        self.assertTrue("in 5 days" in mail.outbox[0].body)
 
     def test_sends_emails_to_all_attendees(self):
         """ Test that multiple attendees recieve the emails. """
