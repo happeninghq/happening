@@ -60,7 +60,7 @@ class Profile(models.Model):
         """ Return the most appropriate profile photo URL for the user. """
         if self.photo:
             return "%s%s" % (settings.MEDIA_URL, self.photo)
-        return get_gravatar_url(self.user.email, size=500)
+        return get_gravatar_url(self.user.email, size=500, default='retro')
 
     def github_urls(self):
         """ Return a list of the user's github URLs. """
