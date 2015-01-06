@@ -1,0 +1,54 @@
+{% load loops %}
+
+<div class="ticket-purchase" id="ticket-purchase">
+    <form action="{% url "purchase_tickets" event.pk %}" method="POST">
+        {% csrf_token %}
+        <table class="responsive">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Remaining</th>
+                    <th>End</th>
+                    <th></th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ticket</td>
+                    <td class="remaining-tickets">
+                        {% if event.remaining_tickets < 1 %}
+                            Sold Out
+                        {% else %}
+                            {{event.remaining_tickets}} Ticket{{event.remaining_tickets|pluralize:",s"}}
+                        {% endif %}
+                    </td>
+                    <td class="end-date">{{event.datetime.date}}</td>
+                    <td>Free</td>
+                    <td>
+                        {% if event.remaining_tickets > 0 %}
+                            <select name="quantity">
+                                {% for n in event.remaining_tickets|times1 %}
+                                    <option value="{{n}}">{{n}}</option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        {% if event.remaining_tickets > 0 %}
+            <div class="register-button">
+                <button type="submit">Register</button>
+            </div>
+        {% endif %}
+    </form>
+    {% if event.attending_users|length > 0 %}
+        <p><strong class="members-attending-count">{{event.attending_users|length}}</strong> member{{event.attending_users|length|pluralize:",s"}} attending.</p>
+        <ul class="members-list">
+            {% for user in event.attending_users %}
+                <li><a title="{{user.profile}}" href="{% url "view_profile" user.pk %}"><img src="{{user.profile.photo_url}}"></a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>

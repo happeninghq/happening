@@ -10,9 +10,17 @@ from django.utils import timezone
 def view(request, pk):
     """ View an event (typically a past event). """
     event = get_object_or_404(Event, pk=pk)
-    if event.is_future():
-        raise Http404
-    return render(request, "events/view.html", {"event": event})
+
+    valid_tickets = []
+    if request.user.is_authenticated():
+        valid_tickets = [t for t in request.user.
+                         tickets.filter(event=event, cancelled=False)]
+
+    return render(request,
+                  "events/view.html",
+                  {"event": event,
+                   "has_tickets": len(valid_tickets) > 0}
+                  )
 
 
 @login_required

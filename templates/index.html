@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% load staticfiles %}
-{% load loops %}
 {% load markdown_deux_tags %}
 
 {% block navbar %}
@@ -24,62 +23,11 @@
         <div class="row">
             <div class="small-12 column">
                 {% if latest_event %}
-                    <h2 id="next">{{latest_event}}</h2>
                     {% if latest_event.is_future %}
+                        <h2 id="next"><a href="{% url "view_event" latest_event.pk %}">{{latest_event}}</a></h2>
                         <div id="next-event">
                             <p>Our next dojo will be on {{latest_event.datetime}} Get your tickets now.</p>
-                            <div class="ticket-purchase" id="ticket-purchase">
-                                <form action="{% url "purchase_tickets" latest_event.pk %}" method="POST">
-                                    {% csrf_token %}
-                                    <table class="responsive">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>Remaining</th>
-                                                <th>End</th>
-                                                <th></th>
-                                                <th>Quantity</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Ticket</td>
-                                                <td class="remaining-tickets">
-                                                    {% if latest_event.remaining_tickets < 1 %}
-                                                        Sold Out
-                                                    {% else %}
-                                                        {{latest_event.remaining_tickets}} Ticket{{latest_event.remaining_tickets|pluralize:",s"}}
-                                                    {% endif %}
-                                                </td>
-                                                <td class="end-date">{{latest_event.datetime.date}}</td>
-                                                <td>Free</td>
-                                                <td>
-                                                    {% if latest_event.remaining_tickets > 0 %}
-                                                        <select name="quantity">
-                                                            {% for n in latest_event.remaining_tickets|times1 %}
-                                                                <option value="{{n}}">{{n}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    {% if latest_event.remaining_tickets > 0 %}
-                                        <div class="register-button">
-                                            <button type="submit">Register</button>
-                                        </div>
-                                    {% endif %}
-                                </form>
-                                {% if latest_event.attending_users|length > 0 %}
-                                    <p><strong class="members-attending-count">{{latest_event.attending_users|length}}</strong> member{{latest_event.attending_users|length|pluralize:",s"}} attending.</p>
-                                    <ul class="members-list">
-                                        {% for user in latest_event.attending_users %}
-                                            <li><a title="{{user.profile}}" href="{% url "view_profile" user.pk %}"><img src="{{user.profile.photo_url}}"></a></li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </div>
+                            {% include "events/_ticket_widget.html" with event=latest_event%}
                         </div>
                     {% else %}
                         <p id="recent-event">Our most recent dojo was the <a href="{% url "view_event" latest_event.pk %}">{{latest_event}}</a> on {{latest_event.datetime.date}}.</p>
