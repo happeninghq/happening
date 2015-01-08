@@ -98,7 +98,9 @@ class Event(models.Model):
         """ Return the languages which have the most votes. """
         votes = dict((language, self.votes.filter(language=language).count())
                      for language in settings.LANGUAGES)
-        return max(votes.iteritems(), key=operator.itemgetter(1))[0]
+        max_votes = max(votes.values())
+
+        return [l[0] for l in votes.items() if l[1] == max_votes]
 
     @property
     def remaining_tickets(self):
