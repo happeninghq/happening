@@ -43,6 +43,7 @@
                             {% else %}
                                 {% include "events/_ticket_widget.html" with event=latest_event %}
                             {% endif %}
+                                {% include "events/_attending_members.html" with event=latest_event %}
                         </div>
                     {% else %}
                         <p id="recent-event">Our most recent dojo was the <a href="{% url "view_event" latest_event.pk %}">{{latest_event}}</a> on {{latest_event.datetime.date}}.</p>
