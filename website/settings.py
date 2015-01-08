@@ -208,8 +208,8 @@ else:
 
 
 # Notification configuration
-FIRST_NOTIFICATION_TIME = 7 * 24  # 1 Week
-SECOND_NOTIFICATION_TIME = 24     # 1 Day
+FIRST_NOTIFICATION_TIME = 8 * 24  # 1 Week (+ 1 day due to emails at 10am)
+SECOND_NOTIFICATION_TIME = 48     # 1 Day (+ 1 day due to emails at 10am)
 
 
 # AWS
@@ -223,3 +223,26 @@ if not DEBUG:
 
 
 GANALYTICS_TRACKING_CODE = 'UA-13066747-5'
+
+LANGUAGES = [
+    "Scala",
+    "PHP",
+    "Python",
+    "Javascript",
+    "Coffeescript",
+    "Perl",
+    "Ruby",
+    # "Haskell",
+    # "C",
+    "C++",
+    "Lua",
+    "Go",
+    # "Rust",
+    # "Matlab",
+    # "R",
+    # "Julia",
+    # "Clojure",
+    # "Scheme",
+    # "Prolog",
+    "Java"
+]
