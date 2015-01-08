@@ -10,7 +10,7 @@
             </tr>
             <tr>
                 {% for language in event.eligible_languages %}
-                    {% if language in event.winning_languages %}
+                    {% if language == event.winning_languages %}
                         <td class="winning">{{event|votes_for_language:language}}</td>
                     {% else %}
                         <td>{{event|votes_for_language:language}}</td>
