@@ -10,14 +10,18 @@
                 <h2>{{event.heading}}</h2>
 
                 {% if event.is_future %}
-                    {% if user|has_tickets:event %}
-                        <div class="panel">
-                            <p>You have tickets for the {{event}}. <a href="{% url "my_tickets" %}">View my tickets.</a></p>
-                        </div>
+                    {% if user.is_authenticated %}
+                        {% if user|has_tickets:event %}
+                            <div class="panel">
+                                <p>You have tickets for the {{event}}. <a href="{% url "my_tickets" %}">View my tickets.</a></p>
+                            </div>
 
-                        {% if event.is_voting %}
-                            <h2>Vote for the language to be used.</h2>
-                            {% include "events/_vote_widget.html" %}
+                            {% if event.is_voting %}
+                                <h2>Vote for the language to be used.</h2>
+                                {% include "events/_vote_widget.html" %}
+                            {% endif %}
+                        {% else %}
+                            {% include "events/_ticket_widget.html" %}
                         {% endif %}
                     {% else %}
                         {% include "events/_ticket_widget.html" %}
