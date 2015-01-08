@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load markdown_deux_tags %}
+{% load tickets %}
 
 {% block content %}
     <div class="container">
@@ -9,13 +10,18 @@
                 <h2>{{event.heading}}</h2>
 
                 {% if event.is_future %}
-                    {% if has_tickets %}
+                    {% if user|has_tickets:event %}
                         <div class="panel">
                             <p>You have tickets for the {{event}}. <a href="{% url "my_tickets" %}">View my tickets.</a></p>
                         </div>
-                    {% endif %}
 
-                    {% include "events/_ticket_widget.html" %}
+                        {% if event.is_voting %}
+                            <h2>Vote for the language to be used.</h2>
+                            {% include "events/_vote_widget.html" %}
+                        {% endif %}
+                    {% else %}
+                        {% include "events/_ticket_widget.html" %}
+                    {% endif %}
 
                     {% if event.sponsor %}
                         <h2>Sponsor</h2>

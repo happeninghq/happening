@@ -236,13 +236,13 @@ LANGUAGES = [
     # "C",
     "C++",
     "Lua",
-    "Go",
+    # "Go",
     # "Rust",
     # "Matlab",
     # "R",
     # "Julia",
     # "Clojure",
     # "Scheme",
-    # "Prolog",
+    "Prolog",
     "Java"
 ]

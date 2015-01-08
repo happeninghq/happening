@@ -7,7 +7,11 @@ The {{event}} is {{event.time_to_string}} and you have tickets. This email is to
 
 The dojo format is: 20 minutes mingling/eating pizza/group forming, 80 minutes coding in groups, 20 minutes talking about what we did. The timing is quite tight so try to be on time.
 
-It's preferable that you bring a laptop along. We only need one laptop per group so if you're unable to do this don't worry about it - it'll probably be fine.
+{% if event.is_voting %}
+We are currently voting for the language to use. To cast your vote go to http://southamptoncodedojo.com/ and pick your preferred languages.
+{% else %}
+It's preferable that you bring a laptop along configured to program in {{event.challenge_language}}. We only need one laptop per group so if you're unable to do this don't worry about it - it'll probably be fine.
+{% endif %}
 
 If you're not a member of the university (or your university ID hasn't got permission) the doors to the building may not open for you. I'll ensure there is someone at the door to let you in but if there's nobody there (if you're late, etc.) give me a call on 07506137293 and someone will come to let you in. 
 
@@ -33,7 +37,11 @@ ABOUT THE SPONSORS
 
 <p>The dojo format is: 20 minutes mingling/eating pizza/group forming, 80 minutes coding in groups, 20 minutes talking about what we did. The timing is quite tight so try to be on time.</p>
 
-<p>It's preferable that you bring a laptop along. We only need one laptop per group so if you're unable to do this don't worry about it - it'll probably be fine.</p>
+{% if event.is_voting %}
+    <p>We are currently voting for the language to use. To cast your vote go to <a href="http://southamptoncodedojo.com/">The website</a> and pick your preferred languages.</p>
+{% else %}
+    <p>It's preferable that you bring a laptop along configured to program in <strong>{{event.challenge_language}}</strong>. We only need one laptop per group so if you're unable to do this don't worry about it - it'll probably be fine.</p>
+{% endif %}
 
 <p>If you're not a member of the university (or your university ID hasn't got permission) the doors to the building may not open for you. I'll ensure there is someone at the door to let you in but if there's nobody there (if you're late, etc.) give me a call on 07506137293 and someone will come to let you in.</p>
 

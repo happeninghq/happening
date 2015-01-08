@@ -1,6 +1,6 @@
 {% load loops %}
 
-<div class="ticket-purchase" id="ticket-purchase">
+<div class="ticket-purchase">
     <form action="{% url "purchase_tickets" event.pk %}" method="POST">
         {% csrf_token %}
         <table class="responsive">
@@ -38,7 +38,7 @@
             </tbody>
         </table>
         {% if event.remaining_tickets > 0 %}
-            <div class="register-button">
+            <div class="submit-button">
                 <button type="submit">Register</button>
             </div>
         {% endif %}

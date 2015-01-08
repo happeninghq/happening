@@ -1,0 +1,44 @@
+{% load votes %}
+<div class="language-vote">
+    {% if event|user_has_voted:request.user %}
+        <p>We are currently voting on the language to be used. You have already voted.</p>
+        <table>
+            <tr>
+                {% for language in event.eligible_languages %}
+                    <th>{{language}}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for language in event.eligible_languages %}
+                    {% if language in event.winning_languages %}
+                        <td class="winning">{{event|votes_for_language:language}}</td>
+                    {% else %}
+                        <td>{{event|votes_for_language:language}}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </table>
+    {% else %}
+        <p>Select the languages you would like to use at the {{event}}.</p>
+
+        <form method="POST" action="{% url "vote" event.pk %}">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    {% for language in event.eligible_languages %}
+                        <th><label for="{{language}}">{{language}}</label></th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for language in event.eligible_languages %}
+                        <td><input type="checkbox" name="{{language}}" id="{{language}}"></td>
+                    {% endfor %}
+                </tr>
+            </table>
+
+            <div class="submit-button">
+                <button type="submit">Save Votes</button>
+            </div>
+        </form>
+    {% endif %}
+</div>

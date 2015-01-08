@@ -11,4 +11,6 @@ urlpatterns = patterns('events.views',
                            'tickets_purchased', name='tickets_purchased'),
                        url(r'^previous',
                            'previous_events', name='previous_events'),
+                       url(r'^(?P<pk>\d+)/vote',
+                           'vote', name='vote'),
                        )

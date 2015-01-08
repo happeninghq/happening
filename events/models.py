@@ -7,6 +7,8 @@ from exceptions import TicketCancelledError
 from datetime import datetime, timedelta
 import pytz
 from website.utils import custom_strftime
+from django.conf import settings
+import operator
 
 
 class EventManager(models.Manager):
@@ -80,6 +82,23 @@ class Event(models.Model):
         if self.datetime.minute == 0:
             time = self.datetime.strftime("%I%p").lstrip("0")
         return datestr + " at " + time
+
+    @property
+    def is_voting(self):
+        """ Return True if the event is currently accepting language votes. """
+        return self.is_future() and not self.challenge_language
+
+    @property
+    def eligible_languages(self):
+        """ Return the languages attendees can vote for for this event. """
+        return settings.LANGUAGES
+
+    @property
+    def winning_languages(self):
+        """ Return the languages which have the most votes. """
+        votes = dict((language, self.votes.filter(language=language).count())
+                     for language in settings.LANGUAGES)
+        return max(votes.iteritems(), key=operator.itemgetter(1))[0]
 
     @property
     def remaining_tickets(self):
@@ -239,3 +258,12 @@ class Ticket(models.Model):
     def __unicode__(self):
         """ Return the . """
         return "%s's ticket to %s" % (self.user, self.event)
+
+
+class Vote(models.Model):
+
+    """ A vote by a user to use a particular language at an event. """
+
+    event = models.ForeignKey(Event, related_name="votes")
+    user = models.ForeignKey("auth.User", related_name="votes")
+    language = models.CharField(max_length=255)

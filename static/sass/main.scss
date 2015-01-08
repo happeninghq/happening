@@ -107,19 +107,23 @@ table.solutions {
     width: 100%;
 }
 
-.ticket-purchase {
+.ticket-purchase, .language-vote {
     table {
         width: 100%;
         border: none;
     }
 
-    .register-button {
+    .submit-button {
         text-align: right;
     }
 
     border: 1px solid #F5F5F5;
     padding: 20px;
     padding-bottom: 0px;
+
+    .winning {
+        font-weight: bold;
+    }
 }
 
 

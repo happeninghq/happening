@@ -1,6 +1,6 @@
 """ Event views. """
 from django.shortcuts import render, get_object_or_404, redirect
-from models import Event, Ticket
+from models import Event, Ticket, Vote
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from forms import TicketForm
@@ -11,15 +11,9 @@ def view(request, pk):
     """ View an event (typically a past event). """
     event = get_object_or_404(Event, pk=pk)
 
-    valid_tickets = []
-    if request.user.is_authenticated():
-        valid_tickets = [t for t in request.user.
-                         tickets.filter(event=event, cancelled=False)]
-
     return render(request,
                   "events/view.html",
-                  {"event": event,
-                   "has_tickets": len(valid_tickets) > 0}
+                  {"event": event}
                   )
 
 
@@ -63,3 +57,24 @@ def previous_events(request):
         datetime__lte=timezone.now()).order_by("-datetime")
     return render(request, "events/previous_events.html",
                   {"previous_events": previous_events})
+
+
+@login_required
+def vote(request, pk):
+    """ Vote for languages for an event. """
+    event = get_object_or_404(Event, pk=pk)
+
+    if not event.is_voting:
+        return redirect("view_event", event.pk)
+
+    # Check that we have tickets
+    if event.tickets.filter(user=request.user).count() < 1:
+        return redirect("view_event", event.pk)
+
+    # Record the vote
+    for language in request.POST:
+        if not language == "csrfmiddlewaretoken":
+            v = Vote(event=event, user=request.user, language=language)
+            v.save()
+
+    return redirect("view_event", event.pk)

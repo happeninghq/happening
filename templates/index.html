@@ -2,6 +2,7 @@
 
 {% load staticfiles %}
 {% load markdown_deux_tags %}
+{% load tickets %}
 
 {% block navbar %}
     <div class="top-container">
@@ -26,8 +27,19 @@
                     {% if latest_event.is_future %}
                         <h2 id="next"><a href="{% url "view_event" latest_event.pk %}">{{latest_event}}</a></h2>
                         <div id="next-event">
-                            <p>Our next dojo will be on {{latest_event.datetime}} Get your tickets now.</p>
-                            {% include "events/_ticket_widget.html" with event=latest_event%}
+                            <p>Our next dojo will be on {{latest_event.datetime}}.</p>
+
+                            {% if user|has_tickets:latest_event %}
+                                <div class="panel">
+                                    <p>You have tickets for the {{latest_event}}. <a href="{% url "my_tickets" %}">View my tickets.</a></p>
+                                </div>
+
+                                {% if latest_event.is_voting %}
+                                    {% include "events/_vote_widget.html" with event=latest_event %}
+                                {% endif %}
+                            {% else %}
+                                {% include "events/_ticket_widget.html" with event=latest_event %}
+                            {% endif %}
                         </div>
                     {% else %}
                         <p id="recent-event">Our most recent dojo was the <a href="{% url "view_event" latest_event.pk %}">{{latest_event}}</a> on {{latest_event.datetime.date}}.</p>
