@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from sponsorship.models import Sponsor
 from events.models import Event
 from events.forms import EventForm
+from forms import EmailForm
 from sponsorship.forms import SponsorForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -119,3 +120,19 @@ def create_event(request):
             form.save()
             return redirect("staff_events")
     return render(request, "staff/create_event.html", {"form": form})
+
+
+@staff_member_required
+def email_event(request, pk):
+    """ Send an email to attendees. """
+    event = get_object_or_404(Event, pk=pk)
+    form = EmailForm()
+    if request.method == "POST":
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            # Send email to attendees
+            for user in event.attending_users():
+                user.send_email("events/email", {"content": form.cleaned_data["content"]})
+                print "sent"
+    return render(request, "staff/email_event.html",
+                  {"event": event, "form": form})

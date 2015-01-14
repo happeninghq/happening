@@ -9,6 +9,7 @@
             <th>Date</th>
             <th>Tickets Sold</th>
             <th></th>
+            <th></th>
         </tr>
         {% for event in events %}
             <tr>
@@ -16,6 +17,7 @@
                 <td>{{event.datetime}}</td>
                 <td>{{event.tickets.count}} of {{event.available_tickets}}</td>
                 <td><a href="{% url "edit_event" event.pk %}">Edit</a></td>
+                <td><a href="{% url "email_event" event.pk %}">Send Email</a></td>
             </tr>
         {% endfor %}
     </table>

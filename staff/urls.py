@@ -15,4 +15,6 @@ urlpatterns = patterns('staff.views',
                            name='create_event'),
                        url(r'^events/(?P<pk>\d+)$', 'edit_event',
                            name='edit_event'),
+                       url(r'^events/(?P<pk>\d+)/email$', 'email_event',
+                           name='email_event'),
                        )

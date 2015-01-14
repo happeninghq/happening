@@ -1,0 +1,26 @@
+{% extends "staff/base.html" %}
+{% load staticfiles %}
+{% load foundation %}
+{% load widget_tweaks %}
+{% load markdown_deux_tags %}
+
+{% block staff_content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Email attendees of {{event}}</h2>
+                    
+                <form method="POST" action="{% url "email_event" event.pk %}">
+                    {% csrf_token %}
+                    <label>Content<br />{% markdown_allowed %} {{form.content|add_class:"edit_markdown"}}</label>
+                    <button type="submit">Send</button>
+                    <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
+                </form>
+            </div>
+        </p>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/coffeescript" src="{% static "coffeescript/edit_markdown.coffee" %}"></script>
+{% endblock %}
