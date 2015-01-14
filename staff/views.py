@@ -132,7 +132,8 @@ def email_event(request, pk):
         if form.is_valid():
             # Send email to attendees
             for user in event.attending_users():
-                user.send_email("events/email", {"content": form.cleaned_data["content"]})
-                print "sent"
+                user.send_email("events/email",
+                                {"content": form.cleaned_data["content"]})
+            return redirect("staff_events")
     return render(request, "staff/email_event.html",
                   {"event": event, "form": form})
