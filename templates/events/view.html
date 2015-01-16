@@ -53,13 +53,13 @@
                         {{event.challenge_text|markdown}}
                     </div>
                 {% endif %}
+                {% if event.image %}
+                    <div class="image" id="event-image">
+                        <img src="{{ event.image.url }}">
+                    </div>
+                {% endif %}
                 {% if event.solutions.count > 0 %}
                     <h2>Solutions</h2>
-                    {% if event.image %}
-                        <div class="image" id="event-image">
-                            <img src="{{ event.image.url }}">
-                        </div>
-                    {% endif %}
                     {% if event.solution_text %}
                         <div id="solution-text">
                             {{event.solution_text|markdown}}
@@ -77,6 +77,8 @@
                             </tr>
                         {% endfor %}
                     </table>
+                {% else %}
+                
                 {% endif %}
             </div>
         </p>

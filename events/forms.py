@@ -31,4 +31,5 @@ class EventForm(ModelForm):
     class Meta:
         model = Event
         fields = ['datetime', 'sponsor', 'available_tickets',
-                  'challenge_language']
+                  'challenge_language', 'challenge_title',
+                  'challenge_text', 'solution_text', 'image']
