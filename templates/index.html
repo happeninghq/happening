@@ -56,7 +56,9 @@
 
                 <p>We hold the dojos at the University of Southampton Highfield Campus, Building 32. You can <a href="http://www.southampton.ac.uk/visitus/campuses/maps/highfield_3d_key.pdf">see a map of the campus here</a> where number 6 is next to the Highfield Interchange bus stop and number 32 is the building we meet in.</p>
 
-                <p>To recieve updates about how to vote for future dojo languages, and to be alerted when tickets are available, join our <a href="http://facebook.com/groups/SouthamptonCodeDojo/">Facebook group</a>, <a href="http://www.meetup.com/Southampton-Code-Dojo/">Meetup group</a>, or <a href="http://twitter.com/sotoncodedojo">follow us on Twitter</a>.
+            {% if not request.user.is_authenticated %}
+                <p>To to be alerted when future events are announced and tickets are available, <a href="{% url "account_signup" %}">Register for an account</a>.
+            {% endif %}
 
                 {% if latest_event.sponsor %}
                     <div id="sponsors">
