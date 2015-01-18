@@ -13,4 +13,8 @@ urlpatterns = patterns('events.views',
                            'previous_events', name='previous_events'),
                        url(r'^(?P<pk>\d+)/vote',
                            'vote', name='vote'),
+                       url(r'^(?P<pk>\d+)/set_group',
+                           'set_group', name='set_group'),
+                       url(r'^(?P<pk>\d+)/group',
+                           'group_submission', name='group_submission'),
                        )

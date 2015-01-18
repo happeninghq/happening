@@ -8,7 +8,6 @@ from datetime import datetime, timedelta
 import pytz
 from website.utils import custom_strftime
 from django.conf import settings
-import operator
 
 
 class EventManager(models.Manager):
@@ -86,7 +85,7 @@ class Event(models.Model):
     @property
     def is_voting(self):
         """ Return True if the event is currently accepting language votes. """
-        return self.is_future() and not self.challenge_language
+        return self.is_future and not self.challenge_language
 
     @property
     def eligible_languages(self):
@@ -109,6 +108,7 @@ class Event(models.Model):
             [t.number for t in self.tickets.all() if not t.cancelled])
         return self.available_tickets - taken_tickets
 
+    @property
     def is_future(self):
         """ Return True if this event is in the future. False otherwise. """
         return self.datetime > timezone.now()
@@ -139,7 +139,7 @@ class Event(models.Model):
 
     def buy_ticket(self, user, tickets=1):
         """ Buy the given number of tickets for the given user. """
-        if not self.is_future():
+        if not self.is_future:
             raise DojoFinishedError()
         if self.remaining_tickets == 0:
             raise NoTicketsError()
@@ -202,14 +202,16 @@ class EventSolution(models.Model):
     """ A solution from a team at a dojo. """
 
     event = models.ForeignKey(Event, related_name="solutions")
-    team_name = models.CharField(max_length=200, blank=True, null=True)
+    team_number = models.IntegerField(default=0)
+    team_name = models.CharField(max_length=200, null=True)
     description = models.TextField(blank=True, null=True)
     github_url = models.URLField()
 
     @property
     def name(self):
         """ Return the team name, or team number if there is none. """
-        return self.team_name if self.team_name else "No Name"  # TODO
+        return self.team_name if self.team_name else \
+            "Group %s" % self.team_number
 
     def __unicode__(self):
         """ Return the title of this solution. """
@@ -227,13 +229,20 @@ class Ticket(models.Model):
     last_edited_datetime = models.DateTimeField(auto_now=True)
     cancelled = models.BooleanField(default=False)
     cancelled_datetime = models.DateTimeField(blank=True, null=True)
+    did_not_attend = models.NullBooleanField()
+    group = models.IntegerField(null=True)
+
+    @property
+    def has_submitted_group_info(self):
+        """ True if the member submitted their group information. """
+        return self.did_not_attend is not None or self.group is not None
 
     def change_number(self, number):
         """ Change the number on the ticket. """
         if number == 0:
             return self.cancel()
 
-        if not self.event.is_future():
+        if not self.event.is_future:
             raise DojoFinishedError()
 
         if ((self.event.remaining_tickets + self.number) - number) < 0:
@@ -249,7 +258,7 @@ class Ticket(models.Model):
 
     def cancel(self):
         """ Cancel the ticket. """
-        if not self.event.is_future():
+        if not self.event.is_future:
             raise DojoFinishedError()
         if not self.cancelled:
             self.cancelled = True

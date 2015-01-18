@@ -33,3 +33,20 @@ class EventForm(ModelForm):
         fields = ['datetime', 'sponsor', 'available_tickets',
                   'challenge_language', 'challenge_title',
                   'challenge_text', 'solution_text', 'image']
+
+
+class GroupNumberForm(forms.Form):
+
+    """ Form for members to indicate their group number if they attended. """
+
+    group_number = forms.ChoiceField(
+        [(0, "Did Not Attend")] + [(i, str(i)) for i in range(1, 10)])
+
+
+class GroupSubmissionForm(forms.Form):
+
+    """ Form for members to pass the info for their group. """
+
+    description = forms.CharField(label="Short description of attempt",
+                                  required=False)
+    github_url = forms.URLField(label="Code URL")

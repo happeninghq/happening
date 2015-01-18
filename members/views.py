@@ -38,7 +38,7 @@ def edit_ticket(request, pk):
     if not ticket.user == request.user:
         raise Http404
 
-    if not ticket.event.is_future():
+    if not ticket.event.is_future:
         return redirect("my_tickets")
 
     max_tickets = ticket.event.remaining_tickets + ticket.number + 1
@@ -68,7 +68,7 @@ def cancel_ticket(request, pk):
     if not ticket.user == request.user:
         raise Http404
 
-    if not ticket.event.is_future():
+    if not ticket.event.is_future:
         return redirect("my_tickets")
 
     if request.method == "POST":
