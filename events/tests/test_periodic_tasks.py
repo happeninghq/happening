@@ -19,7 +19,7 @@ class TestPeriodicTasks(TestCase):
     def test_doesnt_send_reminder_more_than_one_week(self):
         """ Test that no reminder is sent more than 1 week in advance. """
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
-                           timedelta(days=8))
+                           timedelta(days=9))  # +1 day as we send at 10am
         event.buy_ticket(self.user, tickets=5)
         mail.outbox = []  # Remove purchase email
         send_event_notifications()

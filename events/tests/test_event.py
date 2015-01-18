@@ -16,10 +16,10 @@ class TestEvent(TestCase):
         """ Test that is_future works. """
         past_event = mommy.prepare("Event", datetime=datetime.now(pytz.utc) -
                                    timedelta(days=20))
-        self.assertFalse(past_event.is_future())
+        self.assertFalse(past_event.is_future)
         future_event = mommy.prepare("Event", datetime=datetime.now(pytz.utc) +
                                      timedelta(days=20))
-        self.assertTrue(future_event.is_future())
+        self.assertTrue(future_event.is_future)
 
     def test_humanize(self):
         """ Test that time_to_string humanizes correctly. """

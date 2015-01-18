@@ -14,26 +14,26 @@ class TestTicketWidget(TestCase):
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         response = self.client.get("/")
-        widget = response.soup.find(id="ticket-purchase")
+        widget = response.soup.find("div", {"class": "ticket-purchase"})
         self.assertIsNotNone(widget)
         tickets = widget.find("td", {"class": "remaining-tickets"}).text
         self.assertEqual("30 Tickets", tickets.strip())
 
         mommy.make("Ticket", event=event, number=1)
         response = self.client.get("/")
-        widget = response.soup.find(id="ticket-purchase")
+        widget = response.soup.find("div", {"class": "ticket-purchase"})
         tickets = widget.find("td", {"class": "remaining-tickets"}).text
         self.assertEqual("29 Tickets", tickets.strip())
 
         mommy.make("Ticket", event=event, number=5)
         response = self.client.get("/")
-        widget = response.soup.find(id="ticket-purchase")
+        widget = response.soup.find("div", {"class": "ticket-purchase"})
         tickets = widget.find("td", {"class": "remaining-tickets"}).text
         self.assertEqual("24 Tickets", tickets.strip())
 
         mommy.make("Ticket", event=event, number=23)
         response = self.client.get("/")
-        widget = response.soup.find(id="ticket-purchase")
+        widget = response.soup.find("div", {"class": "ticket-purchase"})
         tickets = widget.find("td", {"class": "remaining-tickets"}).text
         self.assertEqual("1 Ticket", tickets.strip())
 
@@ -42,7 +42,7 @@ class TestTicketWidget(TestCase):
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         response = self.client.get("/")
-        widget = response.soup.find(id="ticket-purchase")
+        widget = response.soup.find("div", {"class": "ticket-purchase"})
         end_date = widget.find("td", {"class": "end-date"}).text
         self.assertEqual(event.datetime.strftime("%b. %-d, %Y"),
                          end_date.strip())
@@ -52,7 +52,7 @@ class TestTicketWidget(TestCase):
         mommy.make("Event", datetime=datetime.now(pytz.utc) -
                    timedelta(days=20), available_tickets=30)
         response = self.client.get("/")
-        widget = response.soup.find(id="ticket-purchase")
+        widget = response.soup.find("div", {"class": "ticket-purchase"})
         self.assertIsNone(widget)
 
     def test_quantity(self):
@@ -60,12 +60,12 @@ class TestTicketWidget(TestCase):
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         response = self.client.get("/")
-        widget = response.soup.find(id="ticket-purchase")
+        widget = response.soup.find("div", {"class": "ticket-purchase"})
         self.assertEquals("30", widget.findAll("option")[-1]['value'])
 
         mommy.make("Ticket", event=event, number=5)
         response = self.client.get("/")
-        widget = response.soup.find(id="ticket-purchase")
+        widget = response.soup.find("div", {"class": "ticket-purchase"})
         self.assertEquals("25", widget.findAll("option")[-1]['value'])
 
     def test_sold_out(self):
@@ -74,13 +74,13 @@ class TestTicketWidget(TestCase):
                            timedelta(days=20), available_tickets=30)
         # First check that the register button is visible
         response = self.client.get("/")
-        widget = response.soup.find(id="ticket-purchase")
+        widget = response.soup.find("div", {"class": "ticket-purchase"})
         self.assertIsNotNone(widget.find("button"))
 
         mommy.make("Ticket", event=event, number=30)
 
         response = self.client.get("/")
-        widget = response.soup.find(id="ticket-purchase")
+        widget = response.soup.find("div", {"class": "ticket-purchase"})
         self.assertIsNone(widget.find("button"))
         self.assertIsNone(widget.find("option"))
         tickets = widget.find("td", {"class": "remaining-tickets"}).text

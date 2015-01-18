@@ -18,9 +18,13 @@ class TestEventView(TestCase):
     def test_future_event(self):
         """ Test view for an event in the future. """
         future_event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
-                                  timedelta(days=20))
+                                  timedelta(days=20), available_tickets=30)
         response = self.client.get("/events/%s" % future_event.id)
-        self.assertEquals(response.status_code, 404)
+        self.assertEquals(response.status_code, 200)
+        widget = response.soup.find("div", {"class": "ticket-purchase"})
+        self.assertIsNotNone(widget)
+        tickets = widget.find("td", {"class": "remaining-tickets"}).text
+        self.assertEqual("30 Tickets", tickets.strip())
 
     def test_past_event(self):
         """ Test view for an event in the past. """
