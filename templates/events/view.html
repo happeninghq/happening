@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load markdown_deux_tags %}
 {% load tickets %}
+{% load groups %}
 
 {% block content %}
     <div class="container">
@@ -35,14 +36,16 @@
                     {% if user|has_tickets:event %}
                         {% with user|tickets:event as a %}
                             {% if a.0.group %}
-                                <div class="panel" class="update-group">
-                                    <p>Please share the link where people can see your group's code.</p>
-                                    <form method="POST" action="{% url "group_submission" event.pk %}">
-                                        {% csrf_token %}
-                                        {{group_submission_form}}
-                                        <button type="submit">Submit</button>
-                                    </form>
-                                </div>
+                                {% if not event|has_info_for_group:a.0.group %}
+                                    <div class="panel" class="update-group">
+                                        <p>Please share the link where people can see your group's code.</p>
+                                        <form method="POST" action="{% url "group_submission" event.pk %}">
+                                            {% csrf_token %}
+                                            {{group_submission_form}}
+                                            <button type="submit">Submit</button>
+                                        </form>
+                                    </div>
+                                {% endif %}
                             {% else %}
                                 <div class="panel" class="set-group">
                                     <p>Did you attend the event? tell us which group you were in</p>

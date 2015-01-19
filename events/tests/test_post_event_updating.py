@@ -70,7 +70,7 @@ class TestPostEventUpdating(TestCase):
         self.assertTrue("/events/%s" % event.id in
                         response.redirect_chain[0][0])
         widget = response.soup.find("div", {"class": "update-group"})
-        self.assertIsNotNone(widget)
+        self.assertIsNone(widget)
         solutions = response.soup.find(id="event-solutions")
         self.assertIsNotNone(solutions)
         self.assertEqual("Group 1", solutions.find("a").text)
