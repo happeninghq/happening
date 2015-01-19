@@ -85,3 +85,20 @@ class TestEventView(TestCase):
         response = self.client.get("/events/%s" % event.id)
         self.assertEqual(2, len(response.soup.find(id="event-solutions")
                                 .findAll("tr")))
+
+    def test_event_solutions_order(self):
+        """ Test that the view shows the correctly ordered solutions. """
+        event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+                           timedelta(days=20))
+
+        # Create a solution, ensure it appears in the list
+        mommy.make("EventSolution", event=event, team_number=3)
+        mommy.make("EventSolution", event=event, team_number=1)
+        mommy.make("EventSolution", event=event, team_number=2)
+        response = self.client.get("/events/%s" % event.id)
+        self.assertIsNotNone(response.soup.find(id="event-solutions"))
+        trs = response.soup.find(id="event-solutions").findAll("tr")
+        self.assertEqual(3, len(trs))
+        self.assertEqual("Group 1", trs[0].find("th").text)
+        self.assertEqual("Group 2", trs[1].find("th").text)
+        self.assertEqual("Group 3", trs[2].find("th").text)

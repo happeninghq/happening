@@ -93,7 +93,7 @@
                 {% endif %}
                 {% if event.solutions.count > 0 %}
                     <table class="solutions" id="event-solutions">
-                        {% for solution in event.solutions.all %}
+                        {% for solution in event.ordered_solutions %}
                             <tr>
                                 {% if solution.description %}
                                     <th><a href="{{solution.github_url}}">{{solution.name}}</a></th>

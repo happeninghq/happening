@@ -82,6 +82,10 @@ class Event(models.Model):
             time = self.datetime.strftime("%I%p").lstrip("0")
         return datestr + " at " + time
 
+    def ordered_solutions(self):
+        """ Return solutions sorted by group number. """
+        return self.solutions.all().order_by('team_number')
+
     @property
     def is_voting(self):
         """ Return True if the event is currently accepting language votes. """
