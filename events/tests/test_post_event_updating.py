@@ -1,7 +1,7 @@
 """ Test event view. """
 
 from website.tests import TestCase
-from model_mommy import mommy, generators
+from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz
 
@@ -77,7 +77,6 @@ class TestPostEventUpdating(TestCase):
         self.assertEqual("http://google.com/", solutions.find("a")['href'])
         self.assertEqual("DESCRIPTION", solutions.find("td").text)
 
-
     def test_group_already_updated(self):
         """ Test that we can't update a group a second time. """
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
@@ -101,7 +100,6 @@ class TestPostEventUpdating(TestCase):
         response = self.client.get("/events/%s" % event.id)
         widget = response.soup.find("div", {"class": "update-group"})
         self.assertIsNone(widget)
-
 
     def test_did_not_attend(self):
         """ Test that marking did not attent does not allow update group. """
