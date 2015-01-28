@@ -83,7 +83,7 @@ def create_sponsor(request):
 @staff_member_required
 def events(request):
     """ Administrate events. """
-    events = Event.objects.all()
+    events = Event.objects.all().order_by('-datetime')
     paginator = Paginator(events, 10)
 
     page = request.GET.get('page')
