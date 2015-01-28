@@ -2,7 +2,7 @@
 
 {% load markdown_deux_tags %}
 
-{% block subject_content %}{{event}}{% endblock %}
+{% block subject_content %}{% if subject %}{{subject}}{% else %}{{event}}{% endif %}{% endblock %}
 
 {% block plain_content %}
 

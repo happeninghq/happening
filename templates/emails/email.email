@@ -1,0 +1,17 @@
+{% extends "emails/base.email" %}
+
+{% load markdown_deux_tags %}
+
+{% block subject_content %}{% if subject %}{{subject}}{% else %}Southampton Code Dojo{% endif %}{% endblock %}
+
+{% block plain_content %}
+
+{{content}}
+
+{% endblock %}
+
+{% block html_content %}
+
+{{content|markdown}}
+
+{% endblock %}

@@ -8,14 +8,14 @@
     <div class="container">
         <div class="row">
             <div class="small-12 column">
-                <h2>Email attendees of {{event}}</h2>
+                <h2>Email all members</h2>
                     
-                <form method="POST" action="{% url "email_event" event.pk %}">
+                <form method="POST" action="{% url "staff_send_email" %}">
                     {% csrf_token %}
                     <label>Subject (Optional)<br />{{form.subject}}</label>
                     <label>Content<br />{% markdown_allowed %} {{form.content|add_class:"edit_markdown"}}</label>
                     <button type="submit">Send</button>
-                    <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
+                    <a class="button warning" href="{% url "staff" %}">Cancel</a>
                 </form>
             </div>
         </p>

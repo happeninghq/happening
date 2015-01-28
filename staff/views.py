@@ -136,10 +136,29 @@ def email_event(request, pk):
             for user in event.attending_users():
                 user.send_email("events/email",
                                 {"content": form.cleaned_data["content"],
+                                 "subject": form.cleaned_data.get("subject"),
                                  "event": event})
             return redirect("staff_events")
     return render(request, "staff/email_event.html",
                   {"event": event, "form": form})
+
+
+@staff_member_required
+def send_email(request):
+    """ Send an email to all members. """
+    form = EmailForm()
+    if request.method == "POST":
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            # Send email to members
+            for user in User.objects.filter(is_active=True):
+                user.send_email("email",
+                                {"content": form.cleaned_data["content"],
+                                 "subject": form.cleaned_data.get("subject")
+                                 })
+            return redirect("staff_send_email")
+    return render(request, "staff/send_email.html",
+                  {"form": form})
 
 
 @staff_member_required
