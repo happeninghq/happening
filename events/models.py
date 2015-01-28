@@ -105,8 +105,8 @@ class Event(models.Model):
         return all_votes
 
     @property
-    def winning_languages(self):
-        """ Return the languages which have the most votes. """
+    def winning_language(self):
+        """ Return the language which has the most votes. """
         from voting import AVVote
         vote = AVVote()
         for ticket in self.tickets.all():

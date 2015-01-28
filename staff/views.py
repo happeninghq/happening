@@ -8,6 +8,8 @@ from events.forms import EventForm
 from forms import EmailForm
 from sponsorship.forms import SponsorForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import HttpResponse
+import json
 
 
 @staff_member_required
@@ -138,3 +140,11 @@ def email_event(request, pk):
             return redirect("staff_events")
     return render(request, "staff/email_event.html",
                   {"event": event, "form": form})
+
+
+@staff_member_required
+def get_vote_winner(request, pk):
+    """ Get an AJAX response of the winning language for an event. """
+    event = get_object_or_404(Event, pk=pk)
+    return HttpResponse(json.dumps({"value": event.winning_language}),
+                        content_type="application/json")
