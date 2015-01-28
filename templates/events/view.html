@@ -85,7 +85,9 @@
                         <img src="{{ event.image.url }}">
                     </div>
                 {% endif %}
-                <h2>Solutions</h2>
+                {% if event.solution_text or event.solutions.count > 0 %}
+                    <h2>Solutions</h2>
+                {% endif %}
                 {% if event.solution_text %}
                     <div id="solution-text">
                         {{event.solution_text|markdown}}
