@@ -193,3 +193,18 @@ table.solutions {
         }
     }
 }
+
+.language-list {
+    min-height: 100px;
+    width: 100%;
+
+    li {
+        cursor: pointer;
+    }
+}
+
+p {
+    &.small {
+        font-size: 0.7em;
+    }
+}

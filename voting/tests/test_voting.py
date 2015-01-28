@@ -1,0 +1,33 @@
+""" Test voting algorithm. """
+
+from unittest import TestCase
+from voting import AVVote
+
+
+class TestVoting(TestCase):
+
+    """ Test voting algorithm. """
+
+    def setUp(self):
+        """ Create AVVote. """
+        self.avvote = AVVote()
+
+    def test_basic_vote(self):
+        """ Test all vote for one candidate. """
+        self.avvote.add_preference(["A", "B"])
+        self.avvote.add_preference(["A", "B"])
+        self.avvote.add_preference(["A", "B"])
+        self.assertEquals("A", self.avvote.winner)
+
+    def test_second_choice(self):
+        """ Test second round. """
+        self.avvote.add_preference(["A", "B"])
+        self.avvote.add_preference(["A", "B"])
+        self.avvote.add_preference(["A", "B"])
+        self.avvote.add_preference(["B", "A"])
+        self.avvote.add_preference(["B", "A"])
+        self.avvote.add_preference(["C"])
+        self.avvote.add_preference(["C"])
+        self.avvote.add_preference(["C"])
+        self.avvote.add_preference(["C"])
+        self.assertEquals("A", self.avvote.winner)

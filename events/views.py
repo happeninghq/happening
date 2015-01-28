@@ -1,12 +1,13 @@
 """ Event views. """
 from django.shortcuts import render, get_object_or_404, redirect
-from models import Event, Ticket, Vote, EventSolution
+from models import Event, Ticket, EventSolution
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from forms import TicketForm, GroupNumberForm
 from forms import GroupSubmissionForm
 from django.utils import timezone
 from django.views.decorators.http import require_POST
+import json
 
 
 def view(request, pk):
@@ -76,14 +77,13 @@ def vote(request, pk):
         return redirect("view_event", event.pk)
 
     # Check that we have tickets
-    if event.tickets.filter(user=request.user).count() < 1:
+    ticket = event.tickets.get(user=request.user)
+    if not ticket:
         return redirect("view_event", event.pk)
 
     # Record the vote
-    for language in request.POST:
-        if not language == "csrfmiddlewaretoken":
-            v = Vote(event=event, user=request.user, language=language)
-            v.save()
+    ticket.votes = json.loads(request.POST['languages'])
+    ticket.save()
 
     return redirect("view_event", event.pk)
 

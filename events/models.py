@@ -7,7 +7,8 @@ from exceptions import TicketCancelledError
 from datetime import datetime, timedelta
 import pytz
 from website.utils import custom_strftime
-from django.conf import settings
+from jsonfield import JSONField
+import random
 
 
 class EventManager(models.Manager):
@@ -92,18 +93,26 @@ class Event(models.Model):
         return self.is_future and not self.challenge_language
 
     @property
-    def eligible_languages(self):
-        """ Return the languages attendees can vote for for this event. """
-        return settings.LANGUAGES
+    def recommended_languages(self):
+        """ Return all languages suggested so far. """
+        all_votes = [t.votes for t in self.tickets.all()
+                     if t.votes is not None]
+        # Flatten the list
+        all_votes = list(set([item for sublist in all_votes
+                              for item in sublist]))
+        random.shuffle(all_votes)
+        print all_votes
+        return all_votes
 
     @property
     def winning_languages(self):
         """ Return the languages which have the most votes. """
-        votes = dict((language, self.votes.filter(language=language).count())
-                     for language in settings.LANGUAGES)
-        max_votes = max(votes.values())
-
-        return [l[0] for l in votes.items() if l[1] == max_votes]
+        from voting import AVVote
+        vote = AVVote()
+        for ticket in self.tickets.all():
+            if ticket.votes is not None:
+                vote.add_preference(ticket.votes)
+        return vote.winner
 
     @property
     def remaining_tickets(self):
@@ -235,6 +244,7 @@ class Ticket(models.Model):
     cancelled_datetime = models.DateTimeField(blank=True, null=True)
     did_not_attend = models.NullBooleanField()
     group = models.IntegerField(null=True)
+    votes = JSONField(null=True)
 
     @property
     def has_submitted_group_info(self):
@@ -273,12 +283,3 @@ class Ticket(models.Model):
     def __unicode__(self):
         """ Return the . """
         return "%s's ticket to %s" % (self.user, self.event)
-
-
-class Vote(models.Model):
-
-    """ A vote by a user to use a particular language at an event. """
-
-    event = models.ForeignKey(Event, related_name="votes")
-    user = models.ForeignKey("auth.User", related_name="votes")
-    language = models.CharField(max_length=255)

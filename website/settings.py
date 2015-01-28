@@ -65,6 +65,8 @@ INSTALLED_APPS = (
     'sponsorship',
     'members',
 
+    'voting',
+
 
 
     'django_cleanup',
@@ -223,26 +225,3 @@ if not DEBUG:
 
 
 GANALYTICS_TRACKING_CODE = 'UA-13066747-5'
-
-LANGUAGES = [
-    "Scala",
-    "PHP",
-    "Python",
-    "Javascript",
-    "Coffeescript",
-    "Perl",
-    "Ruby",
-    # "Haskell",
-    # "C",
-    "C++",
-    "Lua",
-    # "Go",
-    # "Rust",
-    # "Matlab",
-    # "R",
-    # "Julia",
-    # "Clojure",
-    # "Scheme",
-    "Prolog",
-    "Java"
-]

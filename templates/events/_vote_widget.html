@@ -1,44 +1,42 @@
 {% load votes %}
 <div class="language-vote">
     {% if event|user_has_voted:request.user %}
-        <p>We are currently voting on the language to be used. You have already voted.</p>
-        <table>
-            <tr>
-                {% for language in event.eligible_languages %}
-                    <th>{{language}}</th>
-                {% endfor %}
-            </tr>
-            <tr>
-                {% for language in event.eligible_languages %}
-                    {% if language in event.winning_languages %}
-                        <td class="winning">{{event|votes_for_language:language}}</td>
-                    {% else %}
-                        <td>{{event|votes_for_language:language}}</td>
-                    {% endif %}
-                {% endfor %}
-            </tr>
-        </table>
-    {% else %}
-        <p>Select the languages you would like to use at the {{event}}.</p>
-
-        <form method="POST" action="{% url "vote" event.pk %}">
-            {% csrf_token %}
-            <table>
-                <tr>
-                    {% for language in event.eligible_languages %}
-                        <th><label for="{{language}}">{{language}}</label></th>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    {% for language in event.eligible_languages %}
-                        <td><input type="checkbox" name="{{language}}" id="{{language}}"></td>
-                    {% endfor %}
-                </tr>
-            </table>
-
-            <div class="submit-button">
-                <button type="submit">Save Votes</button>
-            </div>
-        </form>
+        <p>Your preferences have been saved. You may change them up until the voting closes.</p>
     {% endif %}
+    
+    <p>Put the languages in order of preference to use at the {{event}}.</p>
+
+    <form method="POST" action="{% url "vote" event.pk %}" class="vote-form">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="small-6 columns">
+                <h3>Your Preferences</h3>
+                <p class="small">(We will attempt to use languages higher in the list)</p>
+                <ol class="language-list preferences">
+                    {% for language in event|languages_for_event:user %}
+                        <li>{{language}}</li>
+                    {% endfor %}
+                </ol>
+            </div>
+            <div class="small-6 columns">
+                <h3>Other Languages</h3>
+                <p class="small">(Move these to the left to indicate a preference)</p>
+                <ul class="language-list other-languages">
+                    {% for language in event.recommended_languages %}
+                        {% if not language in event|languages_for_event:user %}
+                            <li>{{language}}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <input type="text" placeholder="Add another language" class="add-language">
+            </div>
+        </div>
+
+        <div class="submit-button">
+            <input type="hidden" name="languages" value=[]>
+            <button type="submit">Save Preferences</button>
+        </div>
+    </form>
+    
 </div>
