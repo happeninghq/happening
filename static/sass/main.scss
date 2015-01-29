@@ -195,7 +195,16 @@ table.solutions {
 }
 
 .language-list {
-    min-height: 100px;
+
+    &.preferences {
+        min-height: 100px;
+    }
+
+    &.other-languages {
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+        column-count: 3;
+    }
     width: 100%;
 
     li {
