@@ -159,7 +159,7 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
-COMPRESS_ENABLED = True
+COMPRESS_ENABLED = False
 
 FIXTURE_DIRS = (
     os.path.join(BASE_DIR, 'fixtures'),
