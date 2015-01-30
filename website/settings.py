@@ -225,3 +225,18 @@ if not DEBUG:
 
 
 GANALYTICS_TRACKING_CODE = 'UA-13066747-5'
+
+
+# Sentry error tracking
+if not DEBUG:
+    # Set your DSN value
+    RAVEN_CONFIG = {
+        'dsn': 'https://ebd16d59c09c45dc87ebdf7d27e8bd08:' +
+               '64f24482964b43d7847f2af6828e96b7@app.getsentry.com/36991',
+    }
+
+    # Add raven to the list of installed apps
+    INSTALLED_APPS = INSTALLED_APPS + (
+        # ...
+        'raven.contrib.django.raven_compat',
+    )

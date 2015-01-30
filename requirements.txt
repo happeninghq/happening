@@ -11,6 +11,7 @@ django-ganalytics==0.3 # Include analytics from settings
 django-widget-tweaks==1.3 # For editing form attributes in templates
 django-markdown-deux==1.0.5 # For rendering markdown
 jsonfield==1.0.0 # For JSON serialization
+raven==5.1.1 # for Sentry error reporting
 
 # Heroku
 gunicorn==19.1.1 # For hosting on heroku
