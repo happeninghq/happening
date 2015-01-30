@@ -10,6 +10,8 @@ class AVVote(object):
         def _winner(preferences):
             counts = {}
 
+            preferences = [p for p in preferences if len(p) > 0]
+
             # First count up all first choice votes
             for p in preferences:
                 first_choice = p[0]
