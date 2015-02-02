@@ -77,7 +77,7 @@ def vote(request, pk):
         return redirect("view_event", event.pk)
 
     # Check that we have tickets
-    ticket = event.tickets.get(user=request.user)
+    ticket = event.tickets.get(user=request.user, cancelled=False)
     if not ticket:
         return redirect("view_event", event.pk)
 

@@ -8,6 +8,8 @@ This is the website for the Southampton Code Dojo. It's currently a work
 in progress but will eventually support management of the 
 Facebook/Twitter/Meetup accounts, ticketing, membership, and sponsorship.
 
+Pull requests are welcomed.
+
 Requirements
 -------
 The following must be available and configured:
@@ -20,7 +22,8 @@ Development Requirements
 
 Getting started
 --------
-Clone the repository to your disk, and then run setup - this will download all requirements and set up the database with some sample events.
+Clone the repository to your disk, and then run setup - this will download 
+all requirements and set up the database with some sample events.
 
 Coding Conventions
 -------
@@ -36,10 +39,7 @@ should be changed (split up into multiple methods).
 Requirements files should be separated into logical groups, with each
 individual requirement commented. All requirements should specify a version.
 
-Development is managed on [Pivotal Tracker](https://www.pivotaltracker.com/n/projects/1215654).
-When working on a feature from the backlog, that feature should not be marked
-as complete until it is has fully implemented the requirements from the
-backlog item, has tests to prove it, and all of this code follows the coding
-conventions mentioned above.
+All functionality implemented should have tests, and all code should follow the
+coding conventions mentioned above.
 
 Code coverage should not fall below 90%.
