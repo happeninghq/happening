@@ -160,7 +160,12 @@ class Event(models.Model):
         # First check if they already have tickets - in which case just
         # add this ticket to theirs
 
-        ticket = Ticket(event=self, user=user, number=tickets)
+        ticket, created = Ticket.objects.get_or_create(event=self, user=user,
+                                                       cancelled=False)
+        if created:
+            ticket.number = tickets
+        else:
+            ticket.number += tickets
         ticket.save()
 
         user.send_email("events/registered_for_event", {"ticket": ticket})
@@ -168,8 +173,7 @@ class Event(models.Model):
         # We only send notifications if we haven't already purchased
         # a ticket for this event (otherwise we will already have
         # this notification)
-        num_tickets = len([t for t in self.tickets.all() if t.user == user])
-        if num_tickets == 1:
+        if created:
             if self.upcoming_notification_2_sent:
                 self.send_upcoming_notification_2(user)
             elif self.upcoming_notification_1_sent:
