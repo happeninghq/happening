@@ -1,12 +1,21 @@
+""" Alternative vote. """
+
+
 class AVVote(object):
+
+    """ Alternative vote. """
+
     def __init__(self):
+        """ Initialize alternative vote. """
         self.preferences = []
 
     def add_preference(self, preference):
+        """ Add a user's preferences to the vote (as a list). """
         self.preferences.append(preference)
 
     @property
     def winner(self):
+        """ Get the winning preference. """
         def _winner(preferences):
             counts = {}
 

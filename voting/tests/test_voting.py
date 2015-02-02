@@ -39,4 +39,3 @@ class TestVoting(TestCase):
         self.avvote.add_preference(["B", "A"])
         self.avvote.add_preference([])
         self.assertEquals("A", self.avvote.winner)
-

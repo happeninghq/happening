@@ -1,0 +1,1 @@
+""" Test voting algorithm. """
