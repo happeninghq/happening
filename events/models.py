@@ -101,7 +101,6 @@ class Event(models.Model):
         all_votes = list(set([item for sublist in all_votes
                               for item in sublist]))
         random.shuffle(all_votes)
-        print all_votes
         return all_votes
 
     @property
@@ -154,8 +153,13 @@ class Event(models.Model):
         """ Buy the given number of tickets for the given user. """
         if not self.is_future:
             raise DojoFinishedError()
-        if self.remaining_tickets == 0:
+
+        if self.remaining_tickets < tickets:
             raise NoTicketsError()
+
+        # First check if they already have tickets - in which case just
+        # add this ticket to theirs
+
         ticket = Ticket(event=self, user=user, number=tickets)
         ticket.save()
 
@@ -208,6 +212,22 @@ class Event(models.Model):
             self.save()
         else:
             user.send_email("events/upcoming_1", {"event": self})
+
+
+class EventTodo(models.Model):
+
+    """ Represents actions which need to be taken to prepare for an event. """
+
+    event = models.ForeignKey(Event, related_name="todos")
+    title = models.CharField(max_length=255)
+    notes = models.TextField()
+    # May be unassigned
+    assigned_to = models.ForeignKey("auth.User", null=True,
+                                    related_name="assigned_todos")
+    # May be uncompleted
+    completed_by = models.ForeignKey("auth.User", null=True,
+                                     related_name="completed_todos")
+    completed_at = models.DateTimeField(null=True)
 
 
 class EventSolution(models.Model):

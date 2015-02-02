@@ -41,7 +41,7 @@ def purchase_tickets(request, pk):
         form = TicketForm(request.POST, event=event)
         if form.is_valid():
             ticket = event.buy_ticket(request.user,
-                                      form.cleaned_data['quantity'])
+                                      int(form.cleaned_data['quantity']))
             return redirect("tickets_purchased", ticket.pk)
     return render(request, "events/purchase_tickets.html",
                   {"event": event, "form": form})

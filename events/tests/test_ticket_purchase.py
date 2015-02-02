@@ -5,6 +5,7 @@ from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz
 from django.core import mail
+from events.exceptions import NoTicketsError
 
 
 class TestTicketPurchase(TestCase):
@@ -16,6 +17,13 @@ class TestTicketPurchase(TestCase):
         self.user = mommy.make("auth.User", email="test@example.com")
         self.user.set_password("password")
         self.user.save()
+
+    def test_buy_ticket_method(self):
+        """ Test that buy_ticket doesn't allow us too many tickets. """
+        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+                           timedelta(days=20), available_tickets=30)
+        with self.assertRaises(NoTicketsError):
+            event.buy_ticket(self.user, tickets=31)
 
     def test_purchase_requires_login(self):
         """ Test you need to be logged in to purchase tickets. """
