@@ -114,11 +114,15 @@ class Event(models.Model):
         return vote.winner
 
     @property
+    def taken_tickets(self):
+        """ Return the number of tickets purchased. """
+        return sum(
+            [t.number for t in self.tickets.all() if not t.cancelled])
+
+    @property
     def remaining_tickets(self):
         """ Return the number of tickets available to purchase. """
-        taken_tickets = sum(
-            [t.number for t in self.tickets.all() if not t.cancelled])
-        return self.available_tickets - taken_tickets
+        return self.available_tickets - self.taken_tickets
 
     @property
     def is_future(self):
