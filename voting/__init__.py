@@ -5,13 +5,17 @@ class AVVote(object):
 
     """ Alternative vote. """
 
-    def __init__(self):
+    def __init__(self, ignore=None):
         """ Initialize alternative vote. """
         self.preferences = []
+        if not ignore:
+            ignore = []
+        self.ignored = ignore
 
     def add_preference(self, preference):
         """ Add a user's preferences to the vote (as a list). """
-        self.preferences.append(preference)
+        self.preferences.append(
+            [p for p in preference if p not in self.ignored])
 
     @property
     def winner(self):

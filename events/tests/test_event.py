@@ -1,6 +1,6 @@
 """ Test event model. """
 
-from unittest import TestCase
+from website.tests import TestCase
 from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz
@@ -222,3 +222,54 @@ class TestEvent(TestCase):
         event = mommy.prepare("Event", datetime=datetime(2011, 01, 01, 7, 30))
         self.assertEquals(event.time_to_string,
                           "Saturday January 1st, 2011 at 7:30AM")
+
+    def test_previous_event(self):
+        """ Test that previous event returns correctly. """
+        event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+                           timedelta(days=2))
+
+        self.assertEquals(event.previous_event, None)
+
+        event2 = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+                            timedelta(days=4))
+
+        self.assertEquals(event.previous_event, event2)
+
+        mommy.make("Event", datetime=datetime.now(pytz.utc) -
+                   timedelta(days=6))
+
+        self.assertEquals(event.previous_event, event2)
+
+    def test_winning_language(self):
+        """ Test that winning language works. """
+        event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+                           timedelta(days=2))
+
+        mommy.make("Ticket", event=event, number=1, votes=["A", "B"])
+        mommy.make("Ticket", event=event, number=1, votes=["A", "B"])
+        mommy.make("Ticket", event=event, number=1, votes=["A", "B"])
+        mommy.make("Ticket", event=event, number=1, votes=["B", "A"])
+        mommy.make("Ticket", event=event, number=1, votes=["B", "A"])
+        mommy.make("Ticket", event=event, number=1, votes=["C"])
+        mommy.make("Ticket", event=event, number=1, votes=["C"])
+        mommy.make("Ticket", event=event, number=1, votes=["C"])
+
+        self.assertEquals(event.winning_language, "A")
+
+    def test_winning_language_ignore(self):
+        """ Test that winning language ignores last month's language. """
+        event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+                           timedelta(days=2))
+        mommy.make("Event", datetime=datetime.now(pytz.utc) -
+                   timedelta(days=4), challenge_language="A")
+
+        mommy.make("Ticket", event=event, number=1, votes=["A", "B"])
+        mommy.make("Ticket", event=event, number=1, votes=["A", "B"])
+        mommy.make("Ticket", event=event, number=1, votes=["A", "B"])
+        mommy.make("Ticket", event=event, number=1, votes=["B", "A"])
+        mommy.make("Ticket", event=event, number=1, votes=["B", "A"])
+        mommy.make("Ticket", event=event, number=1, votes=["C"])
+        mommy.make("Ticket", event=event, number=1, votes=["C"])
+        mommy.make("Ticket", event=event, number=1, votes=["C"])
+
+        self.assertEquals(event.winning_language, "B")

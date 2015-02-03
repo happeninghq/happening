@@ -88,6 +88,12 @@ class Event(models.Model):
         return self.solutions.all().order_by('team_number')
 
     @property
+    def previous_event(self):
+        """ Return the event immediately prior to this one. """
+        return Event.objects.all().filter(
+            datetime__lt=self.datetime).order_by("-datetime").first()
+
+    @property
     def is_voting(self):
         """ Return True if the event is currently accepting language votes. """
         return self.is_future and not self.challenge_language
@@ -108,6 +114,8 @@ class Event(models.Model):
         """ Return the language which has the most votes. """
         from voting import AVVote
         vote = AVVote()
+        if self.previous_event and self.previous_event.challenge_language:
+            vote = AVVote(ignore=[self.previous_event.challenge_language])
         for ticket in self.tickets.all():
             if ticket.votes is not None:
                 vote.add_preference(ticket.votes)
