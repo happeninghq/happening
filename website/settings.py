@@ -26,7 +26,8 @@ DEBUG = bool(os.environ.get('DJANGO_DEBUG', '')) or \
 
 TEMPLATE_DEBUG = DEBUG
 
-TEMPLATE_DEBUG = True
+# Don't force SSL locally
+SSLIFY_DISABLE = DEBUG
 
 ALLOWED_HOSTS = ["*"]
 
@@ -93,6 +94,7 @@ if 'scdtest' not in os.environ and 'travis' not in os.environ:
 
 
 MIDDLEWARE_CLASSES = (
+    'sslify.middleware.SSLifyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -240,3 +242,14 @@ if not DEBUG:
         # ...
         'raven.contrib.django.raven_compat',
     )
+
+
+# Payment details
+STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY",
+                                   "pk_test_cmv1GZH3Q5AKXQo05ZVrWkwU")
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY",
+                                   "sk_test_orNiGg0RhCP2pmksDKgaDGst")
+
+
+# For SSL redirect on Heroku
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
