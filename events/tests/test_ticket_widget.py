@@ -44,7 +44,7 @@ class TestTicketWidget(TestCase):
         response = self.client.get("/")
         widget = response.soup.find("div", {"class": "ticket-purchase"})
         end_date = widget.find("td", {"class": "end-date"}).text
-        self.assertEqual(event.datetime.strftime("%b. %-d, %Y"),
+        self.assertEqual(event.datetime.strftime("%B %-d, %Y"),
                          end_date.strip())
 
     def test_past_event(self):

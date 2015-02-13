@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from cached_property import threaded_cached_property
 from django_gravatar.helpers import get_gravatar_url, has_gravatar
 from templated_email import send_templated_mail
-from datetime import datetime
 from django.utils import timezone
 # from notifications import send_notification_to_user
 
@@ -109,8 +108,8 @@ class PaidMembership(models.Model):
     end_time = models.DateTimeField()
     amount = models.IntegerField()
     receipt_id = models.CharField(max_length=200)
-    
+
     @property
     def is_active(self):
-        """ Is this membership still active. """
+        """ True if the membership is still active. """
         return self.end_time > timezone.now()
