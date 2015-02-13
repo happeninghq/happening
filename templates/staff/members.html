@@ -7,6 +7,7 @@
             <th>Email</th>
             <th>Staff</th>
             <th>Active</th>
+            <th>Paid</th>
             <th></th>
         </tr>
         {% for member in members %}
@@ -15,6 +16,13 @@
                 <td>{{member.email}}</td>
                 <td>{{member.is_staff}}</td>
                 <td>{{member.is_active}}</td>
+                <td>
+                    {% if member.profile.active_paid_membership == None %}
+                        False
+                    {% else %}
+                        True
+                    {% endif %}
+                </td>
                 <td><a href="{% url "edit_profile" member.pk %}">Edit Profile</a></td>
             </tr>
         {% endfor %}
