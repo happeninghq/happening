@@ -19,6 +19,7 @@
                     <li class="has-dropdown">
                         <a href="#">{{request.user}}</a>
                         <ul class="dropdown">
+                            <li><a href="{% url "membership" request.user.pk %}">Membership</a></li>
                             <li><a href="{% url "settings" request.user.pk %}">Settings</a></li>
                             <li><a href="{% url "view_profile" request.user.pk %}">My Profile</a></li>
                             <li><a href="{% url "my_tickets" %}">My Tickets</a></li>

@@ -21,6 +21,33 @@
         {% include "_navbar.html" %}
     {% endblock %}
     <div class="container">
+        {% if messages %}
+            <div class="row">
+                <div class="small-12 columns">
+                    <div id="messages">
+                        {% for message in messages %}
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                <div data-alert class="alert-box alert">
+                            {% else %}
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                                    <div data-alert class="alert-box info">
+                                {% else %}
+                                    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                        <div data-alert class="alert-box success">
+                                    {% else %}
+                                        <div data-alert class="alert-box secondary">
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+
+                            {{message}}
+                            <a href="#" class="close">&times;</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         {% block container %}
             {% block content %}
             {% endblock %}
@@ -41,6 +68,8 @@
             </div>
         </div>
     </div>
+    {% block external_scripts %}
+    {% endblock %}
     {% compress js %}
         <script src="{% static "jquery/dist/jquery.min.js" %}"></script>
         <script src="{% static "foundation/js/foundation.min.js" %}"></script>

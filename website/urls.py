@@ -17,5 +17,8 @@ urlpatterns = patterns('',
                        (r'^accounts/', include('allauth.urls')),
                        (r'^member/', include('members.urls')),
                        (r'^sponsor/', include('sponsorship.urls')),
+
+                       url(r"^payments/", include("payments.urls")),
+
                        ) + static(settings.MEDIA_URL,
                                   document_root=settings.MEDIA_ROOT)

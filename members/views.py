@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from events.models import Ticket
 from events.forms import TicketForm
 from forms import ProfileForm, ProfilePhotoForm, CroppingImageForm
-from forms import UsernameForm
+from forms import UsernameForm, PaymentForm, CompletePaymentForm
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -12,6 +12,15 @@ from django.views.decorators.http import require_POST
 from StringIO import StringIO
 from PIL import Image
 from django.core.files import File
+from django.conf import settings as django_settings
+import stripe
+from django.contrib import messages
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from members.models import PaidMembership
+
+# First set up stripe
+stripe.api_key = django_settings.STRIPE_SECRET_KEY
 
 
 def require_editing_own_profile(f):
@@ -203,3 +212,92 @@ def edit_username(request, pk):
     return render(request, "members/edit_username.html",
                   {"member": member,
                    "form": form})
+
+
+@login_required
+def my_membership(request):
+    """ Redirect to our own membership page. """
+    return redirect("membership", request.user.pk)
+
+
+@require_editing_own_profile
+def membership(request, pk):
+    """ Show our activate memberships. """
+    member = get_object_or_404(User, pk=pk)
+
+    # TODO: Decide what the initial amount should actually be
+    initial_amount = "100"
+
+    form = PaymentForm(initial={"amount": initial_amount})
+
+    if request.method == "POST":
+        form = PaymentForm(request.POST, initial={"amount": initial_amount})
+        if form.is_valid():
+            response = redirect("membership_payment", member.pk)
+            response['Location'] += "?amount=" + str(form.selected_amount)
+            return response
+
+    memberships = member.memberships.order_by('-start_time')
+
+    return render(request, "members/membership.html",
+                  {"member": member, "form": form, "memberships": memberships})
+
+
+@require_editing_own_profile
+def membership_payment(request, pk):
+    """ Accept payment for membership. """
+    member = get_object_or_404(User, pk=pk)
+    if request.method == "GET" and 'amount' not in request.GET:
+        return redirect("membership", pk)
+
+    if request.method == "POST":
+        form = CompletePaymentForm(request.POST)
+        if form.is_valid():
+            try:
+                charge = stripe.Charge.create(
+                    # We work in pennies, not pounds
+                    amount=form.cleaned_data['amount'] * 100,
+                    currency="gbp",
+                    card=form.cleaned_data['stripe_token'],
+                    description="Southampton Code Dojo Membership",
+                    metadata={"paid_by_id": request.user.pk,
+                              "member_email": member.email,
+                              "member_id": member.pk},
+                    statement_descriptor="SotonCodeDojo Member",
+                    receipt_email=member.email
+                )
+
+                membership = PaidMembership(user=member,
+                                            start_time=datetime.now(),
+                                            end_time=datetime.now() +
+                                            relativedelta(years=1),
+                                            amount=form.cleaned_data['amount'],
+                                            receipt_id=charge.id)
+                membership.save()
+
+            except stripe.CardError, e:
+                # Card declined, TODO
+                messages.error(request, e)
+                response = redirect("membership_payment", member.pk)
+                response['Location'] += "?amount=" +\
+                    str(form.cleaned_data['amount'])
+                return response
+
+            messages.success(request, "Your payment has been made " +
+                                      "successfully. Thank you very much!")
+
+            request.user.send_email(
+                "members/payment_successful",
+                {"amount": form.cleaned_data['amount']})
+
+            return redirect("membership", pk)
+    else:
+        form = CompletePaymentForm(initial={"amount": request.GET['amount']})
+
+    return render(request, "members/membership_payment.html",
+                  {"member": member,
+                   "amount": request.GET['amount'],
+                   "stripe_key": django_settings.STRIPE_PUBLIC_KEY,
+                   "payment_form": form
+                   }
+                  )

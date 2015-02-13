@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Membership</h2>
+                <p>You are paying <strong>&pound;{{amount}}</strong> for one year membership to the Southampton Code Dojo.</p>
+
+                <form method="POST" id="payment-form" action="{% url "membership_payment" member.pk %}" style="display: none">
+                    {% csrf_token %}
+                    {{payment_form}}
+                </form>
+
+                <form method="POST" id="stripe-form">
+                    <span class="payment-errors"></span>
+
+
+                    <label>Card Number:
+                         <input type="text" size="20" data-stripe="number"/>
+                    </label>
+                    <label>CVC:
+                        <input type="text" size="4" data-stripe="cvc"/>
+                    </label>
+                    <label>Expiration (MM/YYYY)
+                        <div class="row">
+                            <div class="small-5 columns">
+                                <input type="text" size="2" data-stripe="exp-month" placeholder="MM" />
+                            </div>
+                            <div class="small-7 columns">
+                                <input type="text" size="4" data-stripe="exp-year" placeholder="YYYY" />
+                            </div>
+                        </div>
+                    </label>
+                    <button type="submit">Submit Payment</button>
+                </form>
+            </div>
+        </p>
+    </div>
+{% endblock %}
+
+
+{% block external_scripts %}
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+{% endblock %}
+{% block scripts %}
+    <script type="text/coffeescript" src="{% static "coffeescript/members/membership.coffee" %}"></script>
+    <script type="text/javascript">
+        Stripe.setPublishableKey("{{stripe_key}}");
+    </script>
+    <script type="text/coffeescript" src="{% static "coffeescript/members/payment.coffee" %}"></script>
+{% endblock %}

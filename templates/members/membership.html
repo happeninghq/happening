@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Membership</h2>
+                <p>The Southampton Code Dojo is completely free to attend. However it does cost money to run and we get by thanks to help from <a href="{% url "sponsorship" %}">our awesome sponsors</a> and from voluntary payment from our members.</p>
+
+                <p>Right now there are no overt benefits of membership (except the continued existence of the dojo!), though it is likely we will add some <em>small</em> benefits in future. Membership will automatically expire one year from registration date, unless set to recur.</p>
+
+                {% if memberships|length > 0 %}
+                    <h2>Your Membership</h2>
+                    <table id="memberships">
+                        <tr>
+                            <th>#</th>
+                            <th>Begin</th>
+                            <th>End</th>
+                            <th>Amount</th>
+                        </tr>
+                        {% for membership in memberships %}
+                            <tr {% if membership.is_active %}class="active"{% endif %}>
+                                <td>{{membership.receipt_id}}</td>
+                                <td>{{membership.start_time}}</td>
+                                <td>{{membership.end_time}}</td>
+                                <td>&pound;{{membership.amount}}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+
+
+                <h2>Purchase Membership</h2>
+
+                {% if member.profile.active_paid_membership %}
+                    <p>You already have an active membership. However, if you would still like to contribute to the dojo you may do so by purchasing another one year membership.</p>
+                {% endif %}
+
+                <p>Select the amount of money you feel your membership of the dojo is worth.</p>
+                <form method="POST" action="{% url "membership" member.pk %}">
+                    {% csrf_token %}
+                    <label>Amount: {{form.amount}}</label>
+                    <label id="other_amount">Other Amount (£): {{form.other_amount}}</label>
+                    <button type="submit">Continue to payment</button>
+                </form>
+            </div>
+        </p>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/coffeescript" src="{% static "coffeescript/members/membership.coffee" %}"></script>
+{% endblock %}

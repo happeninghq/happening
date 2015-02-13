@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from cached_property import threaded_cached_property
 from django_gravatar.helpers import get_gravatar_url, has_gravatar
 from templated_email import send_templated_mail
+from datetime import datetime
+from django.utils import timezone
 # from notifications import send_notification_to_user
 
 # Ensure that every user has an associated profile
@@ -91,3 +93,24 @@ class Profile(models.Model):
         """ Return a list of the user's stackexchange URLs. """
         return [x.get_profile_url() for x in
                 self.user.socialaccount_set.filter(provider="stackexchange")]
+
+    def active_paid_membership(self):
+        """ Return most recent active membership, None if there is none. """
+        return self.user.memberships.filter(
+            end_time__gt=timezone.now()).order_by("start_time").first()
+
+
+class PaidMembership(models.Model):
+
+    """ A payment made to upgrade membership. """
+
+    user = models.ForeignKey("auth.User", related_name="memberships")
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    amount = models.IntegerField()
+    receipt_id = models.CharField(max_length=200)
+    
+    @property
+    def is_active(self):
+        """ Is this membership still active. """
+        return self.end_time > timezone.now()
