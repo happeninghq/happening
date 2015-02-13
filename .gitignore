@@ -11,3 +11,4 @@ media/profile_photos
 htmlcov
 vcr.yaml
 fixtures/socialauth_live.yaml
+media/media
