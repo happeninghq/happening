@@ -1,7 +1,7 @@
 @import "foundation_settings";
 @import "../../bower_components/foundation/scss/foundation";
 
-$fi-path: "../foundation-icon-fonts/";
+$fi-path: "../../foundation-icon-fonts/";
 
 @import "../bower_components/foundation-icon-fonts/foundation-icons";
 
@@ -221,4 +221,25 @@ p {
 
 #messages {
     margin-top: 1em;
+}
+
+.member_image {
+    position: relative;
+
+    .paid {
+        position: absolute;
+        bottom: -0.4em;
+        right: 0px;
+        color: #FFF;
+        font-size: 1em;
+    }
+}
+
+.paid_member_status {
+    @extend .panel;
+    @extend .callout;
+    width: 10em;
+    text-align: center;
+    margin-top: 1em;
+
 }

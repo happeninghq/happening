@@ -226,7 +226,7 @@ def membership(request, pk):
     member = get_object_or_404(User, pk=pk)
 
     # TODO: Decide what the initial amount should actually be
-    initial_amount = "100"
+    initial_amount = "50"
 
     form = PaymentForm(initial={"amount": initial_amount})
 

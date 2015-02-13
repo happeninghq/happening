@@ -2,7 +2,11 @@
     <p><strong class="members-attending-count">{{event.attending_users|length}}</strong> member{{event.attending_users|length|pluralize:",s"}} attending.</p>
     <ul class="members-list">
         {% for user in event.attending_users %}
-            <li><a title="{{user.profile}}" href="{% url "view_profile" user.pk %}"><img src="{{user.profile.photo_url}}"></a></li>
+            <li>
+                <a title="{{user.profile}}" href="{% url "view_profile" user.pk %}">
+                    {% include "members/_member_image.html" with member=user %}
+                </a>
+            </li>
         {% endfor %}
     </ul>
 {% endif %}

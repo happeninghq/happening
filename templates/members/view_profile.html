@@ -14,6 +14,11 @@
                 <div class="row">
                     <div class="small-6 column">
                         <img src="{{member.profile.photo_url}}" style="max-width: 300px;">
+                        {% if member.profile.active_paid_membership %}
+                            <div class="paid_member_status">
+                                <i class="paid fi-plus"></i> Paid Member
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="small-6 column">
                         <table style="width: 100%">
