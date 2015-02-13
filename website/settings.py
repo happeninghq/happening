@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+import dj_database_url
 import django.conf.global_settings as DEFAULT_SETTINGS
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -112,7 +113,6 @@ WSGI_APPLICATION = 'website.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-import dj_database_url
 DATABASES = {
     'default': dj_database_url.config(default="sqlite:///db.sqlite3")
 }
