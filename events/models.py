@@ -266,6 +266,11 @@ class EventSolution(models.Model):
         """ Return the title of this solution. """
         return "%s %s" % (self.event, self.team_name)
 
+    def members(self):
+        """ List members of this group. """
+        return [t.user for t in Ticket.objects.filter(
+            event=self.event, group=self.team_number)]
+
 
 class Ticket(models.Model):
 

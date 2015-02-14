@@ -102,7 +102,11 @@
                                     <td>{{solution.description}}</td>
                                 {% else %}
                                     <th colspan="2"><a href="{{solution.github_url}}">{{solution.name}}</a></th>
+                                    <td></td>
                                 {% endif %}
+                                <td>
+                                    {% include "members/_list.html" with members=solution.members %}
+                                </td>
                             </tr>
                         {% endfor %}
                     </table>
