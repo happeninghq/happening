@@ -111,6 +111,10 @@
                         {% endfor %}
                     </table>
                 {% endif %}
+                {% if event.ungrouped_attendees|length > 0 %}
+                    <h2>Other attendees</h2>
+                    {% include "members/_list.html" with members=event.ungrouped_attendees %}
+                {% endif %}
             </div>
         </p>
     </div>

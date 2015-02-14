@@ -194,11 +194,13 @@ class Event(models.Model):
         return ticket
 
     def attending_users(self):
-        """ Get a list of attending users.
+        """ Get a list of attending users. """
+        return [t.user for t in self.tickets.all() if not t.cancelled]
 
-        Guaranteed unique, even if they purchase multiple tickets.
-        """
-        return set([t.user for t in self.tickets.all() if not t.cancelled])
+    def ungrouped_attendees(self):
+        """ Get a list of attending users who have not assigned a group. """
+        return [t.user for t in self.tickets.all() if not t.cancelled and
+                not t.group]
 
     def __unicode__(self):
         """ Return the title of this dojo. """
