@@ -111,10 +111,16 @@
                         {% endfor %}
                     </table>
                 {% endif %}
-                {% if event.ungrouped_attendees|length > 0 %}
-                    <h2>Other attendees</h2>
-                    {% include "members/_list.html" with members=event.ungrouped_attendees %}
+
+                {% if not event.is_future %}
+                    {% if event.ungrouped_attendees|length > 0 %}
+                        <h2>Other attendees</h2>
+                        {% include "members/_list.html" with members=event.ungrouped_attendees %}
+                    {% endif %}
                 {% endif %}
+
+                <h2>Discuss</h2>
+                {% include "comments/_comments.html" with object=event %}
             </div>
         </p>
     </div>
@@ -123,4 +129,5 @@
 {% block scripts %}
     <script type="text/javascript" src="{% static "lib/html5sortable/js/jquery.sortable.min.js" %}"></script>
     <script type="text/coffeescript" src="{% static "coffeescript/vote.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffeescript/edit_markdown.coffee" %}"></script>
 {% endblock %}

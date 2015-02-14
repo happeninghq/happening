@@ -18,5 +18,7 @@ urlpatterns = patterns('',
                        (r'^member/', include('members.urls')),
                        (r'^sponsor/', include('sponsorship.urls')),
 
+                       (r'^comments/', include('django_comments.urls')),
+
                        ) + static(settings.MEDIA_URL,
                                   document_root=settings.MEDIA_ROOT)

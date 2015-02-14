@@ -1,0 +1,21 @@
+{% load comments %}
+{% load widget_tweaks %}
+{% load markdown_deux_tags %}
+
+{% if user.is_authenticated %}
+    <form action="{% comment_form_target %}" method="post">
+        {% csrf_token %}
+        {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
+        <label>Comment<br />{% markdown_allowed %} {{form.comment|add_class:"edit_markdown"}}</label>
+        {{ form.honeypot }}
+        {{ form.content_type }}
+        {{ form.object_pk }}
+        {{ form.timestamp }}
+        {{ form.security_hash }}
+        <p class="submit">
+            <button type="submit" name="post">Submit</button>
+        </p>
+    </form>
+{% else %}
+    <p>Please <a href="{% url 'auth_login' %}">log in</a> to leave a comment.</p>
+{% endif %}

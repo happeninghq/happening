@@ -1,0 +1,23 @@
+{% load comments %}
+{% load markdown_deux_tags %}
+
+<div class="comments">
+    {% for comment in comment_list %}
+        <div class="comment row">
+            <div class="small-2 columns info">
+                <a name="c{{ comment.id }}"></a>
+                <a title="{{comment.user.profile}}" href="{% url "view_profile" comment.user.pk %}">
+                    {% include "members/_member_image.html" with member=comment.user%}
+                </a>
+                <a title="{{comment.user.profile}}" href="{% url "view_profile" comment.user.pk %}" class="author">
+                    {{comment.user.profile}}
+                </a>
+
+                <a href="{% get_comment_permalink comment %}">{{comment.submit_date}}</a>
+            </div>
+            <div class="small-10 columns">
+                {{comment.comment|markdown}}
+            </div>
+        </div>
+    {% endfor %}
+</div>

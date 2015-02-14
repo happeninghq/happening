@@ -249,3 +249,34 @@ p {
         font-size: 0.8em;
     }
 }
+
+#id_honeypot {
+    display: none;
+}
+
+.comment {
+    font-size: 0.8em;
+    border-bottom: 1px solid black;
+    padding-top: 10px;
+
+    &:last-child {
+        border: none;
+    }
+
+    .member_image {
+        text-align: center;
+        img {
+            max-width: 50px;
+            margin: auto;
+        }
+    }
+    .author {
+        font-weight: bold;
+        text-align: center;
+        display: block;
+    }
+
+    .info {
+        text-align: center
+    }
+}
