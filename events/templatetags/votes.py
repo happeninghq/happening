@@ -11,8 +11,7 @@ def languages_for_event(event, user):
     ticket = event.tickets.get(user=user, cancelled=False)
     if not ticket:
         return []
-    print ticket.votes
-    return ticket.votes
+    return ticket.default_votes
 
 
 @register.filter(name='user_has_voted')

@@ -106,8 +106,8 @@ class Event(models.Model):
     @property
     def recommended_languages(self):
         """ Return all languages suggested so far. """
-        all_votes = [t.votes for t in self.tickets.all()
-                     if t.votes is not None]
+        all_votes = [t.default_votes for t in self.tickets.all()
+                     if t.default_votes is not None]
         # Flatten the list
         all_votes = list(set([item for sublist in all_votes
                               for item in sublist]))
@@ -122,8 +122,8 @@ class Event(models.Model):
         if self.previous_event and self.previous_event.challenge_language:
             vote = AVVote(ignore=[self.previous_event.challenge_language])
         for ticket in self.tickets.all():
-            if ticket.votes is not None:
-                vote.add_preference(ticket.votes)
+            if ticket.default_votes is not None:
+                vote.add_preference(ticket.default_votes)
         return vote.winner
 
     @property
@@ -293,6 +293,21 @@ class Ticket(models.Model):
     did_not_attend = models.NullBooleanField()
     group = models.IntegerField(null=True)
     votes = JSONField(null=True)
+
+    @property
+    def default_votes(self):
+        """ Return the votes for this event, or previous event. """
+        if self.votes is not None:
+            return self.votes
+
+        # Otherwise find if we have a previous ticket
+        previous_tickets = self.user.tickets.filter(
+            cancelled=False,
+            purchased_datetime__lt=self.purchased_datetime).order_by(
+            '-purchased_datetime')
+        if len(previous_tickets) == 0:
+            return None
+        return previous_tickets[0].default_votes
 
     @property
     def has_submitted_group_info(self):
