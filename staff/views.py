@@ -37,6 +37,26 @@ def members(request):
 
 
 @staff_member_required
+def make_staff(request, pk):
+    """ Make a member staff. """
+    user = get_object_or_404(User, pk=pk)
+    if request.method == "POST":
+        user.is_staff = True
+        user.save()
+    return redirect("staff_members")
+
+
+@staff_member_required
+def make_not_staff(request, pk):
+    """ Make a member not staff. """
+    user = get_object_or_404(User, pk=pk)
+    if request.method == "POST":
+        user.is_staff = False
+        user.save()
+    return redirect("staff_members")
+
+
+@staff_member_required
 def sponsors(request):
     """ Administrate sponsors. """
     sponsors = Sponsor.objects.all()

@@ -10,6 +10,7 @@
         "foundation-icon-fonts": "zurb/foundation-icon-fonts",
         "jcrop": "0.9.12",
         "epiceditor": "0.2.3",
-        "jquery-timeago": "1.4.1"
+        "jquery-timeago": "1.4.1",
+        "jquery-cookie": "1.4.1"
     }
 }
