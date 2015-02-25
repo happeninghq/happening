@@ -91,14 +91,6 @@ def view_profile(request, pk):
     """ View a member's profile. """
     member = get_object_or_404(User, pk=pk)
 
-    from django_comments import Comment
-    comment = Comment.objects.all()[0]
-
-    from notifications.notifications import CommentNotification
-    c = CommentNotification(request.user, comment=comment,
-                            author_photo_url=comment.user.profile.photo_url())
-    c.send()
-
     return render(request, "members/view_profile.html", {"member": member})
 
 

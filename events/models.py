@@ -60,7 +60,8 @@ class Event(models.Model):
     upcoming_notification_2_sent = models.BooleanField(default=False)
 
     def get_absolute_url(self):
-        return reverse('view_event', kwargs={"pk":self.pk})
+        """ Get the url to the event. """
+        return reverse('view_event', kwargs={"pk": self.pk})
 
     @property
     def time_to_string(self):

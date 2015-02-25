@@ -63,4 +63,3 @@ class Notification(models.Model):
             match.attrs = {}
             # match.replaceWithChildren()
         return str(soup)
-
