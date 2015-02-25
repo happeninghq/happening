@@ -112,15 +112,8 @@ class TestTicketWidget(TestCase):
             response.soup.find("ul", {"class": "members-list"}).findAll("li")))
         self.assertEqual("1", response.soup.find("strong",
                          {"class": "members-attending-count"}).text)
-        # 1 Attendee, two tickets
-        t2 = mommy.make("Ticket", event=event, user=member1, number=1)
-        response = self.client.get("/")
-        self.assertEqual(1, len(
-            response.soup.find("ul", {"class": "members-list"}).findAll("li")))
-        self.assertEqual("1", response.soup.find("strong",
-                         {"class": "members-attending-count"}).text)
         # 2 Attendees
-        t3 = mommy.make("Ticket", event=event, user=member2, number=5)
+        t2 = mommy.make("Ticket", event=event, user=member2, number=5)
         response = self.client.get("/")
         self.assertEqual(2, len(
             response.soup.find("ul", {"class": "members-list"}).findAll("li")))
@@ -128,16 +121,13 @@ class TestTicketWidget(TestCase):
                          {"class": "members-attending-count"}).text)
 
         # Doesn't list cancelled tickets
-        t3.cancelled = True
-        t3.save()
+        t2.cancelled = True
+        t2.save()
         response = self.client.get("/")
         self.assertEqual(1, len(
             response.soup.find("ul", {"class": "members-list"}).findAll("li")))
         self.assertEqual("1", response.soup.find("strong",
                          {"class": "members-attending-count"}).text)
-
-        t2.cancelled = True
-        t2.save()
         t1.cancelled = True
         t1.save()
 

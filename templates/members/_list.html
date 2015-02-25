@@ -1,0 +1,9 @@
+<ul class="members-list">
+    {% for member in members %}
+        <li>
+            <a title="{{member.profile}}" href="{% url "view_profile" member.pk %}">
+                {% include "members/_member_image.html" %}
+            </a>
+        </li>
+    {% endfor %}
+</ul>

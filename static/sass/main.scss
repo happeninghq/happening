@@ -249,3 +249,72 @@ p {
         font-size: 0.8em;
     }
 }
+
+#id_honeypot {
+    display: none;
+}
+
+.comment {
+    font-size: 0.8em;
+    border-bottom: 1px solid black;
+    padding-top: 10px;
+
+    &:last-child {
+        border: none;
+    }
+
+    .member_image {
+        text-align: center;
+        img {
+            max-width: 50px;
+            margin: auto;
+        }
+    }
+    .author {
+        font-weight: bold;
+        text-align: center;
+        display: block;
+    }
+
+    .info {
+        text-align: center
+    }
+}
+
+#notifications {
+    &.unread {
+        a {
+            background: darken(#65afdc, 30%)
+        }
+    }
+
+    .dropdown {
+        display: none;
+        width: 300px;
+
+        li {
+            p {
+                font-size: 0.7em;
+            }
+
+            &.unread {
+                background: lighten(#65afdc, 10%)
+            }
+
+            &:hover {
+                background: darken(#65afdc, 10%)
+            }
+
+            .time {
+                font-size: 0.7em;
+                text-align: right;
+            }
+
+            cursor: pointer;
+        }
+    }
+
+    a:after {
+        display: none !important;
+    }
+}

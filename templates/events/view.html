@@ -102,10 +102,21 @@
                                     <td>{{solution.description}}</td>
                                 {% else %}
                                     <th colspan="2"><a href="{{solution.github_url}}">{{solution.name}}</a></th>
+                                    <td></td>
                                 {% endif %}
+                                <td>
+                                    {% include "members/_list.html" with members=solution.members %}
+                                </td>
                             </tr>
                         {% endfor %}
                     </table>
+                {% endif %}
+
+                {% if not event.is_future %}
+                    {% if event.ungrouped_attendees|length > 0 %}
+                        <h2>Other attendees</h2>
+                        {% include "members/_list.html" with members=event.ungrouped_attendees %}
+                    {% endif %}
                 {% endif %}
             </div>
         </p>
@@ -115,4 +126,5 @@
 {% block scripts %}
     <script type="text/javascript" src="{% static "lib/html5sortable/js/jquery.sortable.min.js" %}"></script>
     <script type="text/coffeescript" src="{% static "coffeescript/vote.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffeescript/edit_markdown.coffee" %}"></script>
 {% endblock %}

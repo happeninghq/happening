@@ -12,12 +12,12 @@
             <!-- Right Nav Section -->
             <ul class="right">
                 {% if request.user.is_authenticated %}
-                    <li class="has-dropdown" id="notifications" {% if user.notifications.unread.count > 0 %}class="unread"{% endif %}>
+                    <!-- <li class="has-dropdown" id="notifications" {% if user.notifications.unread.count > 0 %}class="unread"{% endif %}>
                         <a href="#"><i class="fi-alert"></i> {% if user.notifications.unread.count > 0 %}{{user.notifications.unread.count}}{% endif %}</a>
                         <div class="dropdown" id="notification-dropdown-content">
                             
                         </div>
-                    </li>
+                    </li> -->
 
                 {% endif %}
                 {% if request.user.is_staff %}

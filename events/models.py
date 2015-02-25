@@ -9,6 +9,7 @@ import pytz
 from website.utils import custom_strftime
 from jsonfield import JSONField
 import random
+from django.core.urlresolvers import reverse
 
 
 class EventManager(models.Manager):
@@ -57,6 +58,10 @@ class Event(models.Model):
 
     # Has the second "upcoming event" notification been sent?
     upcoming_notification_2_sent = models.BooleanField(default=False)
+
+    def get_absolute_url(self):
+        """ Get the url to the event. """
+        return reverse('view_event', kwargs={"pk": self.pk})
 
     @property
     def time_to_string(self):
@@ -194,11 +199,13 @@ class Event(models.Model):
         return ticket
 
     def attending_users(self):
-        """ Get a list of attending users.
+        """ Get a list of attending users. """
+        return [t.user for t in self.tickets.all() if not t.cancelled]
 
-        Guaranteed unique, even if they purchase multiple tickets.
-        """
-        return set([t.user for t in self.tickets.all() if not t.cancelled])
+    def ungrouped_attendees(self):
+        """ Get a list of attending users who have not assigned a group. """
+        return [t.user for t in self.tickets.all() if not t.cancelled and
+                not t.group]
 
     def __unicode__(self):
         """ Return the title of this dojo. """
@@ -265,6 +272,11 @@ class EventSolution(models.Model):
     def __unicode__(self):
         """ Return the title of this solution. """
         return "%s %s" % (self.event, self.team_name)
+
+    def members(self):
+        """ List members of this group. """
+        return [t.user for t in Ticket.objects.filter(
+            event=self.event, group=self.team_number)]
 
 
 class Ticket(models.Model):
