@@ -3,6 +3,7 @@ from django.db import models
 from django.template.loader import render_to_string
 import json
 from cached_property import threaded_cached_property
+from bs4 import BeautifulSoup
 
 
 class Notification(models.Model):
@@ -38,8 +39,8 @@ class Notification(models.Model):
 
     def url(self):
         """ Return the URL this notification links to. """
-        # TODO: Use beautifulsoup to extract the main link
-        return "http://google.com"
+        soup = BeautifulSoup(self.full)
+        return soup.find(id="main-link")['href']
 
     @threaded_cached_property
     def image(self):
@@ -56,5 +57,10 @@ class Notification(models.Model):
     @threaded_cached_property
     def short(self):
         """ Return the short text for this notification. """
-        # TODO: Remove inner links using beautifulsoup
-        return self.full
+        soup = BeautifulSoup(self.full)
+        for match in soup.findAll("a"):
+            match.name = "strong"
+            match.attrs = {}
+            # match.replaceWithChildren()
+        return str(soup)
+
