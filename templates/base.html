@@ -74,10 +74,10 @@
         <script src="{% static "jquery/dist/jquery.min.js" %}"></script>
         <script src="{% static "foundation/js/foundation.min.js" %}"></script>
         <script src="{% static "foundation/js/foundation/foundation.topbar.js" %}"></script>
-        <!-- We put this here rather that at each point to make it easier to replace later if needed. Will also need to edit
-             edit_markdown.coffee -->
+        <!-- We put this here rather that at each point to make it easier to replace later if needed. Will also need to edit edit_markdown.coffee -->
         <script src="{% static "epiceditor/epiceditor/js/epiceditor.min.js" %}"></script>
         <script src="{% static "lib/responsive-tables/js/responsive-tables.js" %}"></script>
+        <script type="text/coffeescript" src="{% static "coffeescript/notifications.coffee" %}"></script>
 
         {% block scripts %}
         {% endblock %}

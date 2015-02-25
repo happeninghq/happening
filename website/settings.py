@@ -67,6 +67,7 @@ INSTALLED_APPS = (
     'events',
     'sponsorship',
     'members',
+    'notifications',
 
     'voting',
 
@@ -254,3 +255,6 @@ STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY",
 
 # For SSL redirect on Heroku
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Allow arbitrary date to be part of a notification
+# NOTIFY_USE_JSONFIELD = True

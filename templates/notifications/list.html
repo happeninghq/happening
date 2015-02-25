@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Notifications</h2>
+                <div id="full_notifications">
+                    {% for notification in request.user.notifications.all %}
+                        <div class="row">
+                            <div class="small-1 columns">
+                                {{notification.image|safe}}
+                            </div>
+                            <div class="small-11 columns">
+                                {{notification.full|safe}}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </p>
+    </div>
+{% endblock %}

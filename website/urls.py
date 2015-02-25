@@ -17,6 +17,7 @@ urlpatterns = patterns('',
                        (r'^accounts/', include('allauth.urls')),
                        (r'^member/', include('members.urls')),
                        (r'^sponsor/', include('sponsorship.urls')),
+                       (r'^notifications/', include('notifications.urls')),
 
                        (r'^comments/', include('django_comments.urls')),
 

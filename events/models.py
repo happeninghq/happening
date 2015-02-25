@@ -9,6 +9,7 @@ import pytz
 from website.utils import custom_strftime
 from jsonfield import JSONField
 import random
+from django.core.urlresolvers import reverse
 
 
 class EventManager(models.Manager):
@@ -57,6 +58,9 @@ class Event(models.Model):
 
     # Has the second "upcoming event" notification been sent?
     upcoming_notification_2_sent = models.BooleanField(default=False)
+
+    def get_absolute_url(self):
+        return reverse('view_event', kwargs={"pk":self.pk})
 
     @property
     def time_to_string(self):

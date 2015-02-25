@@ -280,3 +280,39 @@ p {
         text-align: center
     }
 }
+
+#notifications {
+    &.unread {
+        a {
+            background: darken(#65afdc, 30%)
+        }
+    }
+
+    .dropdown {
+        display: none;
+        width: 300px;
+
+        li {
+            p {
+                font-size: 0.7em;
+            }
+
+            &.unread {
+                background: lighten(#65afdc, 10%)
+            }
+
+            &:hover {
+                background: darken(#65afdc, 10%)
+            }
+
+            .time {
+                font-size: 0.7em;
+                text-align: right;
+            }
+        }
+    }
+
+    a:after {
+        display: none !important;
+    }
+}

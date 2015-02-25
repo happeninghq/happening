@@ -1,0 +1,15 @@
+<ul>
+    {% for notification in request.user.notifications.all %}
+        <li data-url="{{notification.url}}" {% if notification.unread %}class="unread"{% endif %}>
+            <div class="row">
+                <div class="small-3 columns">
+                    {{notification.image|safe}}
+                </div>
+                <div class="small-9 columns">
+                    {{notification.short|safe}}
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+    <li class="see_more" data-url="{% url "notifications_list" %}"><a>See More</a></li>
+</ul>
