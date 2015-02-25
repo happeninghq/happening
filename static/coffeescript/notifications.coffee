@@ -9,6 +9,6 @@ $ ->
         notifications.find(".dropdown").show()
       false
 
-  $('#notifications li').click ->
+  $("html").on 'click', '#notifications li', ->
     window.location = $(this).data('url')
     false

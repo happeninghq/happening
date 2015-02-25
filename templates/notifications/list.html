@@ -12,7 +12,10 @@
                                 {{notification.image|safe}}
                             </div>
                             <div class="small-11 columns">
-                                {{notification.full|safe}}
+                                <div>
+                                    {{notification.full|safe}}
+                                </div>
+                                <p class="time" title="{{notification.sent_datetime.isoformat}}">{{notification.sent_datetime.isoformat}}</p>
                             </div>
                         </div>
                     {% endfor %}
@@ -20,4 +23,9 @@
             </div>
         </p>
     </div>
+{% endblock %}
+{% block scripts %}
+<script>
+    $("p.time").timeago();
+</script>
 {% endblock %}
