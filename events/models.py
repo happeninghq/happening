@@ -13,6 +13,7 @@ from django.core.urlresolvers import reverse
 from notifications.notifications import EventInformationNotification
 from notifications.notifications import CancelledTicketNotification
 from notifications.notifications import EditedTicketNotification
+from notifications.notifications import PurchasedTicketNotification
 
 
 class EventManager(models.Manager):
@@ -188,7 +189,12 @@ class Event(models.Model):
             ticket.number += tickets
         ticket.save()
 
-        user.send_email("events/registered_for_event", {"ticket": ticket})
+        n = PurchasedTicketNotification(
+            user,
+            ticket=ticket,
+            event=self,
+            event_name=str(self))
+        n.send()
 
         # We only send notifications if we haven't already purchased
         # a ticket for this event (otherwise we will already have

@@ -1,7 +1,7 @@
 {% extends "notifications/notification.html" %}
 
 {% block text %}
-    <p>You have edited <strong>{{ticket.number}} ticket{{ticket.number|pluralize}} for <a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a>.</p>
+    <p>You have edited <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize}} for <a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a>.</p>
 {% endblock %}
 
 {% block subject %}Your ticket{{ticket.number|pluralize}} for {{event_name}}{% endblock %}

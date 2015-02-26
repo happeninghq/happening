@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block text %}
-    <p>You have cancelled <strong>{{ticket.number}} ticket{{ticket.number|pluralize}} to <a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a>.</p>
+    <p>You have cancelled <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize}} to <a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a>.</p>
 {% endblock %}
 
 {% block subject %}Cancelled ticket{{ticket.number|pluralize}} for {{event_name}}{% endblock %}

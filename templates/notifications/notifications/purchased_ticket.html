@@ -1,0 +1,13 @@
+{% extends "notifications/notification.html" %}
+
+{% block text %}
+    <p>You have purchased <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize}} for <a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a>.</p>
+{% endblock %}
+
+{% block subject %}Your ticket{{ticket.number|pluralize}} for {{event_name}}{% endblock %}
+
+{% block email %}
+You have purchased **{{ticket.number}}** ticket{{ticket.number|pluralize}} for **{{event_name}}**.
+
+You will recieve another email with details of the event location, the language to be used, and instructions.
+{% endblock %}

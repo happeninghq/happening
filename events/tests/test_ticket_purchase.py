@@ -131,7 +131,6 @@ class TestTicketPurchase(TestCase):
 
         # Mentions the event
         self.assertTrue(str(event) in mail.outbox[0].body)
-
         self.assertTrue(str(event) in mail.outbox[0].subject)
 
     def test_ticket_purchase_sends_extra_notifications_notification_1(self):
