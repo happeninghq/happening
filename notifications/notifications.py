@@ -11,6 +11,9 @@ class Notification(object):
     optional_data = []
     category = "Other"
 
+    send_notification = True
+    send_email = True
+
     def __init__(self, recipient, **data):
         """ Specify the user to notify and the data to pass. """
         self.recipient = recipient

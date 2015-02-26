@@ -6,7 +6,7 @@
             <div class="small-12 column">
                 <h2>Notifications</h2>
                 <div id="full_notifications">
-                    {% for notification in request.user.notifications.all %}
+                    {% for notification in request.user.notifications.ordered %}
                         <div class="row">
                             <div class="small-1 columns">
                                 {{notification.image|safe}}

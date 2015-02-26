@@ -1,5 +1,5 @@
 <ul>
-    {% for notification in request.user.notifications.all %}
+    {% for notification in request.user.notifications.ordered %}
         <li data-url="{{notification.url}}" {% if notification.unread %}class="unread"{% endif %}>
             <div class="row">
                 <div class="small-3 columns">

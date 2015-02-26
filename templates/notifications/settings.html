@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Notification Settings</h2>
+                <form method="POST" action="{% url "notifications_settings" %}">
+                    {% csrf_token %}
+                    <table id="notifications_settings">
+                        <tr>
+                            <th></th>
+                            <th>Notification</th>
+                            <th>Email</th>
+                        </tr>
+                        {% for category, notifications in categories.items %}
+                            <tr>
+                                <th colspan="3">
+                                    {{category}}
+                                </th>
+                            </tr>
+                            {% for notification_name, notification_description, notification_notification, notification_email in notifications %}
+                            <tr>
+                                <td>
+                                    <strong>{{notification_name}}</strong>
+                                    <p>{{notification_description}}</p>
+                                </td>
+                                <td>
+                                    <input name="{{notification_name}}_notification" type="checkbox" {% if notification_notification %}checked{% endif %}/>
+                                </td>
+                                <td>
+                                    <input name="{{notification_name}}_email" type="checkbox" {% if notification_email %}checked{% endif %}/>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
+        </p>
+    </div>
+{% endblock %}

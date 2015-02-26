@@ -4,11 +4,34 @@ from django.template.loader import render_to_string
 import json
 from cached_property import threaded_cached_property
 from bs4 import BeautifulSoup
+from datetime import datetime
+
+
+class NotificationManager(models.Manager):
+
+    """ Custom Notification manager for unread. """
+
+    def unread(self):
+        """ Get unread notifications. """
+        return self.ordered().filter(read=False)
+
+    def mark_all_as_read(self):
+        """ Mark all notifications as read. """
+        for n in self.unread():
+            n.read = True
+            n.read_datetime = datetime.now()
+            n.save()
+
+    def ordered(self):
+        """ Return time-ordered notifications. """
+        return self.all().order_by("-sent_datetime")
 
 
 class Notification(models.Model):
 
     """ A notification sent to a user. """
+
+    objects = NotificationManager()
 
     user = models.ForeignKey("auth.User", related_name="notifications")
     template = models.CharField(max_length=200)
@@ -63,3 +86,14 @@ class Notification(models.Model):
             match.attrs = {}
             # match.replaceWithChildren()
         return str(soup)
+
+
+class NotificationPreference(models.Model):
+
+    """ A user's notification preference. """
+
+    user = models.ForeignKey("auth.User",
+                             related_name="notification_preferences")
+    notification = models.CharField(max_length=255)
+    send_notifications = models.BooleanField(default=True)
+    send_emails = models.BooleanField(default=True)
