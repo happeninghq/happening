@@ -43,3 +43,35 @@ All functionality implemented should have tests, and all code should follow the
 coding conventions mentioned above.
 
 Code coverage should not fall below 90%.
+
+Flash messages
+-------
+Flash messages are used to indicate the success/failure of an action (for example, posting a comment, purchasing a ticket, etc.). To manage flash messages we use the django messages framework.
+
+```
+from django.contrib import messages
+messages.debug(request, '%s SQL statements were executed.' % count)
+messages.info(request, 'Three credits remain in your account.')
+messages.success(request, 'Profile details updated.')
+messages.warning(request, 'Your account expires in three days.')
+messages.error(request, 'Document deleted.')
+```
+
+Notifications
+-------
+Notifications are used for communicating events to users. To create a new notification
+type add a class to notifications/notifications.py. You must also create a template in templates/notifications/ which will provide the layout for the notifications pages. Check existing notifications for examples.
+
+To send a notification create an instance of your class (ensuring you provide 
+the required parameters and no unexpected parameters) and then call .send()
+
+e.g.
+
+```
+n = CancelledTicketNotification(
+                self.user,
+                ticket=self,
+                event=self.event,
+                event_name=str(self.event))
+n.send()
+```
