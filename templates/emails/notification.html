@@ -1,0 +1,7 @@
+{% extends "emails/base.email" %}
+
+{% block subject_content %}{{notification.subject}}{% endblock %}
+
+{% block plain_content %}{{notification.email_text}}{% endblock %}
+
+{% block html_content %}{{notification.email_html}}{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "notifications/notification.html" %}
+{% load staticfiles %}
+{% load markdown %}
+
+{% block image %}
+    <img src="{% static "img/dojo-logo-small.png" %}" />
+{% endblock %}
+
+{% block text %}
+    <p><a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a> is coming up {{time_to_event}}.</p>
+{% endblock %}
+
+{% block subject %}{{event_name}}{% endblock %}
+
+{% block email %}
+The {{event_name}} is {{time_to_event}} and you have tickets. This email is to remind you to attend (or cancel your ticket if you're unable). {% if not is_final_notification %}You will be reminded once more before the dojo.{% else %}This is the final reminder.{% endif %}
+
+The dojo format is: 20 minutes mingling/eating pizza/group forming, 80 minutes coding in groups, 20 minutes talking about what we did. The timing is quite tight so try to be on time.
+
+{% if is_voting %}
+We are currently voting for the language to use. To cast your vote go to [the website](https://southamptoncodedojo.com/) and pick your preferred languages.
+{% else %}
+It's preferable that you bring a laptop along configured to program in **{{event.challenge_language}}**. We only need one laptop per group so if you're unable to do this don't worry about it - it'll probably be fine.
+{% endif %}
+
+If you're not a member of the university (or your university ID hasn't got permission) the doors to the building may not open for you. I'll ensure there is someone at the door to let you in but if there's nobody there (if you're late, etc.) give me a call on 07506137293 and someone will come to let you in.
+
+The general location is shown on the ticket, but if you're unsure of your way around campus you can [access a map](http://www.southampton.ac.uk/visitus/campuses/maps/highfield_3d_key.pdf) - Number 6 is next to the Highfield Interchange bus stop and number 32 is the building we're going to be meeting in.
+
+{% if sponsor %}
+Pizza and refreshments are kindly provided by this month's sponsors {{sponsor.name}}.
+{% else %}
+Pizza and refreshments will be provided.
+{% endif %}
+
+If you have any questions you can contact me at [admin@southamptoncodedojo.com](mailto:admin@southamptoncodedojo.com)
+
+{% if sponsor %}
+**ABOUT THE SPONSORS**
+
+> [![{{sponsor.name}} logo]({{sponsor_logo_url}})]({{sponsor.url}})
+{{sponsor.description|blockquote|safe}}
+{% endif %}
+{% endblock %}

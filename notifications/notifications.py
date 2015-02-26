@@ -40,7 +40,17 @@ class Notification(object):
         n = notification_model(user=self.recipient,
                                data=dump_django(self.data),
                                template=template)
-        n.save()
+
+        # If we should show it, we save the notification
+        notification_preferences = self.recipient.notification_preferences.\
+            get_with_default(template)
+
+        if notification_preferences['send_notifications']:
+            n.save()
+
+        # If we should email it, we do so
+        if notification_preferences['send_emails']:
+            n.email_notification()
 
 # All notification types go under here
 
@@ -51,3 +61,13 @@ class CommentNotification(Notification):
 
     required_data = ["comment", "author_photo_url"]
     category = "Comments"
+
+
+class EventInformationNotification(Notification):
+
+    """ An event you have tickets to is coming up. """
+
+    required_data = ["event", "event_name", "time_to_event",
+                     "is_final_notification", "is_voting"]
+    optional_data = ["sponsor", "sponsor_logo_url"]
+    category = "Events"

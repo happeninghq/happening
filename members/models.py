@@ -7,13 +7,10 @@ from cached_property import threaded_cached_property
 from django_gravatar.helpers import get_gravatar_url, has_gravatar
 from templated_email import send_templated_mail
 from django.utils import timezone
-# from notifications import send_notification_to_user
 
 # Ensure that every user has an associated profile
 User.profile = threaded_cached_property(
     lambda u: Profile.objects.get_or_create(user=u)[0])
-
-# User.send_notification = send_notification_to_user
 
 
 def send_email_to_user(user, template, context):

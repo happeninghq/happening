@@ -22,6 +22,17 @@ def convert_to_underscore(name):
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 
+def convert_to_spaces(name):
+    """ Convert CamelCase string to Space Separated. """
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1 \2', name)
+    return re.sub('([a-z0-9])([A-Z])', r'\1 \2', s1)
+
+
+def convert_to_camelcase(value):
+    """ Convert underscore_separated string to CamelCase. """
+    return ''.join(word[0].upper() + word[1:] for word in value.split('_'))
+
+
 class DjangoJSONEncoder(JSONEncoder):
 
     """ Dump JSON, using model_to_dict for django models. """
@@ -32,6 +43,11 @@ class DjangoJSONEncoder(JSONEncoder):
             return model_to_dict(obj)
         if isinstance(obj, datetime.datetime):
             return obj.isoformat()
+        if isinstance(obj, models.fields.files.FieldFile):
+            try:
+                return obj.url
+            except ValueError:
+                return None
         return JSONEncoder.default(self, obj)
 
 

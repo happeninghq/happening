@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load strings %}
 
 {% block content %}
     <div class="container">
@@ -23,7 +24,7 @@
                             {% for notification_name, notification_description, notification_notification, notification_email in notifications %}
                             <tr>
                                 <td>
-                                    <strong>{{notification_name}}</strong>
+                                    <strong>{{notification_name|spaces}}</strong>
                                     <p>{{notification_description}}</p>
                                 </td>
                                 <td>

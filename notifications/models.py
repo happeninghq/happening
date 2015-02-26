@@ -5,6 +5,9 @@ import json
 from cached_property import threaded_cached_property
 from bs4 import BeautifulSoup
 from datetime import datetime
+from markdown_deux import markdown
+from website.utils import convert_to_camelcase
+import notifications
 
 
 class NotificationManager(models.Manager):
@@ -78,6 +81,34 @@ class Notification(models.Model):
                    .split("</notification_text>")[0]
 
     @threaded_cached_property
+    def email_text(self):
+        """ Return the text email for this notification. """
+        content = self._rendered_notification.split("<notification_email>")[1]\
+                      .split("</notification_email>")[0]
+        if content:
+            return content
+
+        # If there is no content, for now just send the notification title
+        return "You have a " + self.template + " notification." +\
+               " Visit https://www.southamptoncodedojo.com to check it."
+
+    @threaded_cached_property
+    def email_html(self):
+        """ Return the text email for this notification. """
+        content = self._rendered_notification.split("<notification_email>")[1]\
+                      .split("</notification_email>")[0]
+        if content:
+            return markdown(content)
+        else:
+            return self.full
+
+    @threaded_cached_property
+    def subject(self):
+        """ Return the email subject for this notification. """
+        return self._rendered_notification.split("<notification_subject>")[1]\
+                   .split("</notification_subject>")[0]
+
+    @threaded_cached_property
     def short(self):
         """ Return the short text for this notification. """
         soup = BeautifulSoup(self.full)
@@ -87,10 +118,36 @@ class Notification(models.Model):
             # match.replaceWithChildren()
         return str(soup)
 
+    def email_notification(self):
+        """ Send an email of the notification to the user. """
+        self.user.send_email("notification", {"notification": self})
+
+
+class NotificationPreferenceManager(models.Manager):
+
+    """ Custom Notification manager for unread. """
+
+    def get_with_default(self, notification):
+        """ Get notification. """
+        notification = convert_to_camelcase(notification)
+        n = self.all().filter(notification=notification).first()
+        if n:
+            return {
+                "send_notifications": n.send_notifications,
+                "send_emails": n.send_emails}
+
+        notification_name = notification + "Notification"
+        n = getattr(notifications, notification_name)
+        return {
+            "send_notifications": n.send_notification,
+            "send_emails": n.send_email}
+
 
 class NotificationPreference(models.Model):
 
     """ A user's notification preference. """
+
+    objects = NotificationPreferenceManager()
 
     user = models.ForeignKey("auth.User",
                              related_name="notification_preferences")

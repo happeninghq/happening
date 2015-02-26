@@ -10,6 +10,7 @@ from website.utils import custom_strftime
 from jsonfield import JSONField
 import random
 from django.core.urlresolvers import reverse
+from notifications.notifications import EventInformationNotification
 
 
 class EventManager(models.Manager):
@@ -211,18 +212,31 @@ class Event(models.Model):
         """ Return the title of this dojo. """
         return "%s Code Dojo" % self.datetime.strftime("%B")
 
+    def _send_upcoming_notification(self, user, is_final):
+        kwargs = {"event": self,
+                  "event_name": str(self),
+                  "time_to_event": self.time_to_string,
+                  "is_voting": self.is_voting,
+                  "is_final_notification": is_final
+                  }
+        if self.sponsor:
+            kwargs["sponsor"] = self.sponsor
+            kwargs["sponsor_logo_url"] = self.sponsor.logo.url
+        e = EventInformationNotification(user, **kwargs)
+        e.send()
+
     def send_upcoming_notification_2(self, user=None):
         """ Second the second "upcoming event" notification. """
         if user is None:
             users = set([ticket.user for ticket in self.tickets.all()
                          if not ticket.cancelled])
             for user in users:
-                user.send_email("events/upcoming_2", {"event": self})
+                self._send_upcoming_notification(user, True)
             self.upcoming_notification_2_sent = True
             self.upcoming_notification_1_sent = True
             self.save()
         else:
-            user.send_email("events/upcoming_2", {"event": self})
+            self._send_upcoming_notification(user, True)
 
     def send_upcoming_notification_1(self, user=None):
         """ Second the first "upcoming event" notification. """
@@ -230,11 +244,11 @@ class Event(models.Model):
             users = set([ticket.user for ticket in self.tickets.all()
                          if not ticket.cancelled])
             for user in users:
-                user.send_email("events/upcoming_1", {"event": self})
+                self._send_upcoming_notification(user, False)
             self.upcoming_notification_1_sent = True
             self.save()
         else:
-            user.send_email("events/upcoming_1", {"event": self})
+            self._send_upcoming_notification(user, False)
 
 
 class EventTodo(models.Model):
