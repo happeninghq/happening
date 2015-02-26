@@ -11,6 +11,7 @@ from jsonfield import JSONField
 import random
 from django.core.urlresolvers import reverse
 from notifications.notifications import EventInformationNotification
+from notifications.notifications import CancelledTicketNotification
 
 
 class EventManager(models.Manager):
@@ -355,7 +356,12 @@ class Ticket(models.Model):
             self.cancelled = True
             self.cancelled_datetime = timezone.now()
             self.save()
-            self.user.send_email("events/cancelled_tickets", {"ticket": self})
+            n = CancelledTicketNotification(
+                self.user,
+                ticket=self,
+                event=self.event,
+                event_name=str(self.event))
+            n.send()
 
     def __unicode__(self):
         """ Return the . """

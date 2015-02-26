@@ -71,3 +71,11 @@ class EventInformationNotification(Notification):
                      "is_final_notification", "is_voting"]
     optional_data = ["sponsor", "sponsor_logo_url"]
     category = "Events"
+
+
+class CancelledTicketNotification(Notification):
+
+    """ You have cancelled your tickets for an event. """
+
+    required_data = ["ticket", "event", "event_name"]
+    category = "Events"
