@@ -12,6 +12,7 @@ import random
 from django.core.urlresolvers import reverse
 from notifications.notifications import EventInformationNotification
 from notifications.notifications import CancelledTicketNotification
+from notifications.notifications import EditedTicketNotification
 
 
 class EventManager(models.Manager):
@@ -346,7 +347,12 @@ class Ticket(models.Model):
 
         self.number = number
         self.save()
-        self.user.send_email("events/edited_tickets", {"ticket": self})
+        n = EditedTicketNotification(
+            self.user,
+            ticket=self,
+            event=self.event,
+            event_name=str(self.event))
+        n.send()
 
     def cancel(self):
         """ Cancel the ticket. """

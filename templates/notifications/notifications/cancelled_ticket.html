@@ -1,10 +1,6 @@
 {% extends "notifications/notification.html" %}
 {% load staticfiles %}
 
-{% block image %}
-    <img src="{% static "img/dojo-logo-small.png" %}" />
-{% endblock %}
-
 {% block text %}
     <p>You have cancelled <strong>{{ticket.number}} ticket{{ticket.number|pluralize}} to <a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a>.</p>
 {% endblock %}

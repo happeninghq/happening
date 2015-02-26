@@ -79,3 +79,11 @@ class CancelledTicketNotification(Notification):
 
     required_data = ["ticket", "event", "event_name"]
     category = "Events"
+
+
+class EditedTicketNotification(Notification):
+
+    """ You have edited your tickets for an event. """
+
+    required_data = ["ticket", "event", "event_name"]
+    category = "Events"

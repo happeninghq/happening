@@ -1,10 +1,5 @@
 {% extends "notifications/notification.html" %}
-{% load staticfiles %}
 {% load markdown %}
-
-{% block image %}
-    <img src="{% static "img/dojo-logo-small.png" %}" />
-{% endblock %}
 
 {% block text %}
     <p><a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a> is coming up {{time_to_event}}.</p>

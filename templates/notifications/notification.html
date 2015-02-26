@@ -1,4 +1,5 @@
-<notification_image>{% block image %}{% endblock %}</notification_image>
+{% load staticfiles %}
+<notification_image>{% block image %}<img src="{% static "img/dojo-logo-small.png" %}" />{% endblock %}</notification_image>
 
 <notification_text>{% block text %}{% endblock %}</notification_text>
 
