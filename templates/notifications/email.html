@@ -1,0 +1,21 @@
+<email_subject>{{notification.subject}}</email_subject>
+<email_text>
+Hello {{notification.user}},
+
+{{notification.email_text|safe}}
+
+Jonny
+Southampton Code Dojo
+http://southamptoncodedojo.com
+</email_text>
+
+<email_html>
+<p>Hello <strong>{{notification.user}}</strong>,</p>
+
+{{notification.email_html|safe}}
+
+<p>
+    <strong>Jonny</strong><br />
+    <a href="http://southamptoncodedojo.com">Southampton Code Dojo</a>
+</p>
+</email_html>

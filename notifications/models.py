@@ -8,6 +8,7 @@ from datetime import datetime
 from markdown_deux import markdown
 from website.utils import convert_to_camelcase
 import notifications
+from django.core.mail import send_mail
 
 
 class NotificationManager(models.Manager):
@@ -125,7 +126,15 @@ class Notification(models.Model):
 
     def email_notification(self):
         """ Send an email of the notification to the user. """
-        self.user.send_email("notification", {"notification": self})
+        data = render_to_string("notifications/email.html",
+                                {"notification": self})
+        text_content = data.split("<email_text>")[1].split("</email_text>")[0]
+        html_content = data.split("<email_html>")[1].split("</email_html>")[0]
+        send_mail(self.subject,
+                  text_content,
+                  "admin@southamptoncodedojo.com",
+                  [self.user.email],
+                  html_message=html_content)
 
 
 class NotificationPreferenceManager(models.Manager):
