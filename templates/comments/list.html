@@ -2,7 +2,7 @@
 {% load markdown_deux_tags %}
 
 <div class="comments">
-    {% for comment in comment_list %}
+    {% for comment in comment_list reversed %}
         <div class="comment row">
             <div class="small-2 columns info">
                 <a name="c{{ comment.id }}"></a>
@@ -13,7 +13,7 @@
                     {{comment.user.profile}}
                 </a>
 
-                <a href="{% get_comment_permalink comment %}">{{comment.submit_date}}</a>
+                <a href="{{comment.content_object.get_absolute_url}}#c{{comment.pk}}">{{comment.submit_date}}</a>
             </div>
             <div class="small-10 columns">
                 {{comment.comment|markdown}}

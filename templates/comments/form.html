@@ -6,7 +6,7 @@
     <form action="{% comment_form_target %}" method="post">
         {% csrf_token %}
         {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
-        <label>Comment<br />{% markdown_allowed %} {{form.comment|add_class:"edit_markdown"}}</label>
+        <label><strong>Post Reply</strong><br />{% markdown_allowed %} {{form.comment|add_class:"edit_markdown"}}</label>
         {{ form.honeypot }}
         {{ form.content_type }}
         {{ form.object_pk }}

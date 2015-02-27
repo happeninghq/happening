@@ -19,6 +19,8 @@ urlpatterns = patterns('',
                        (r'^sponsor/', include('sponsorship.urls')),
                        (r'^notifications/', include('notifications.urls')),
 
+                       # Overriding comments posted redirect
+                       (r'^comments/posted/$', 'website.views.comment_posted'),
                        (r'^comments/', include('django_comments.urls')),
 
                        ) + static(settings.MEDIA_URL,

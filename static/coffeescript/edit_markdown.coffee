@@ -8,6 +8,7 @@ setup_markdown_editor = (elem) ->
 
   editor = new EpicEditor(
     container: new_elem[0]
+    clientSideStorage: false
     textarea: elem[0]
     basePath: '/static/epiceditor/epiceditor'
     theme:
@@ -16,7 +17,6 @@ setup_markdown_editor = (elem) ->
       preview: '/themes/preview/github.css'
   )
   editor.load()
-  console.log(editor)
 
 $ ->
   $('.edit_markdown').each ->

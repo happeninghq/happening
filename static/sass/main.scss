@@ -256,12 +256,7 @@ p {
 
 .comment {
     font-size: 0.8em;
-    border-bottom: 1px solid black;
     padding-top: 10px;
-
-    &:last-child {
-        border: none;
-    }
 
     .member_image {
         text-align: center;

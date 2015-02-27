@@ -118,6 +118,9 @@
                         {% include "members/_list.html" with members=event.ungrouped_attendees %}
                     {% endif %}
                 {% endif %}
+
+                <h2>Discussion</h2>
+                {% include "comments/_comments.html" with object=event %}
             </div>
         </p>
     </div>
