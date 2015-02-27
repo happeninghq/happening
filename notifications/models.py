@@ -59,7 +59,12 @@ class Notification(models.Model):
 
     @threaded_cached_property
     def _rendered_notification(self):
+        notification_name = convert_to_camelcase(self.template) +\
+            "Notification"
+        n = getattr(notifications, notification_name)
+
         data = render_to_string("notifications/notifications/" +
+                                n.category.lower() + "/" +
                                 self.template + ".html", self.data2)
         return data
 
