@@ -144,17 +144,21 @@ class NotificationPreferenceManager(models.Manager):
     def get_with_default(self, notification):
         """ Get notification. """
         notification = convert_to_camelcase(notification)
+        notification_name = notification + "Notification"
+        notification_type = getattr(notifications, notification_name)
+
+        to_return = {
+            "send_notifications": notification_type.send_notification,
+            "send_emails": notification_type.send_email}
+
         n = self.all().filter(notification=notification).first()
         if n:
-            return {
-                "send_notifications": n.send_notifications,
-                "send_emails": n.send_emails}
+            if notification_type.can_edit_send_notification:
+                to_return["send_notifications"] = n.send_notifications
+            if notification_type.can_edit_send_email:
+                to_return["send_emails"] = n.send_emails
 
-        notification_name = notification + "Notification"
-        n = getattr(notifications, notification_name)
-        return {
-            "send_notifications": n.send_notification,
-            "send_emails": n.send_email}
+        return to_return
 
 
 class NotificationPreference(models.Model):

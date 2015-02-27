@@ -21,17 +21,21 @@
                                     {{category}}
                                 </th>
                             </tr>
-                            {% for notification_name, notification_description, notification_notification, notification_email in notifications %}
+                            {% for notification_name, notification_description, can_edit_send_notification, notification_notification, can_edit_send_email, notification_email in notifications %}
                             <tr>
                                 <td>
                                     <strong>{{notification_name|spaces}}</strong>
                                     <p>{{notification_description}}</p>
                                 </td>
                                 <td>
-                                    <input name="{{notification_name}}_notification" type="checkbox" {% if notification_notification %}checked{% endif %}/>
+                                    {% if can_edit_send_notification %}
+                                        <input name="{{notification_name}}_notification" type="checkbox" {% if notification_notification %}checked{% endif %}/>
+                                    {% endif %}
                                 </td>
                                 <td>
-                                    <input name="{{notification_name}}_email" type="checkbox" {% if notification_email %}checked{% endif %}/>
+                                    {% if can_edit_send_email %}
+                                        <input name="{{notification_name}}_email" type="checkbox" {% if notification_email %}checked{% endif %}/>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}

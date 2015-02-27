@@ -9,7 +9,10 @@ class Notification(object):
 
     required_data = []
     optional_data = []
-    category = "Other"
+    category = "General"
+
+    can_edit_send_notification = True
+    can_edit_send_email = True
 
     send_notification = True
     send_email = True
@@ -106,3 +109,26 @@ class MembershipPaymentSuccessfulNotification(Notification):
 
     required_data = ["amount"]
     category = "Membership"
+
+
+class AdminEventMessageNotification(Notification):
+
+    """ A message from administrators regarding an event. """
+
+    required_data = ["message", "event_name"]
+    optional_data = ["subject", "sponsor", "sponsor_logo_url"]
+    category = "Events"
+
+    send_notification = False
+    can_edit_send_notification = False
+
+
+class AdminMessageNotification(Notification):
+
+    """ A message from administrators. """
+
+    required_data = ["message"]
+    optional_data = ["subject", "sponsor", "sponsor_logo_url"]
+
+    send_notification = False
+    can_edit_send_notification = False

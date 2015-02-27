@@ -44,6 +44,32 @@ def save_settings(request, notification_types):
     return redirect("notifications_settings")
 
 
+def format_notification_settings(user, notification_types):
+    """ Convert notification types into a user's formatted settings. """
+    categories = {}
+    for n, o in notification_types.items():
+        if not o.can_edit_send_notification and not o.can_edit_send_email:
+            continue
+
+        if o.category not in categories:
+            categories[o.category] = []
+
+        send_notifications = o.send_notification
+        send_emails = o.send_email
+
+        # Check if the user has saved this notification before
+        preference = user.notification_preferences.filter(
+            notification=n[:-12]).first()
+        if preference:
+            send_notifications = preference.send_notifications
+            send_emails = preference.send_emails
+
+        categories[o.category].append(
+            (n[:-12], o.__doc__, o.can_edit_send_notification,
+                send_notifications, o.can_edit_send_email, send_emails))
+    return categories
+
+
 @login_required
 def settings(request):
     """ Change the user's notification settings. """
@@ -58,25 +84,7 @@ def settings(request):
         return save_settings(request, notification_types)
 
     # Otherwise render the settings
-    categories = {}
-
-    for n, o in notification_types.items():
-        if o.category not in categories:
-            categories[o.category] = []
-
-        send_notifications = o.send_notification
-        send_emails = o.send_email
-
-        # Check if the user has saved this notification before
-        preference = request.user.notification_preferences.filter(
-            notification=n[:-12]).first()
-        print preference
-        if preference:
-            send_notifications = preference.send_notifications
-            send_emails = preference.send_emails
-
-        categories[o.category].append(
-            (n[:-12], o.__doc__, send_notifications, send_emails))
+    categories = format_notification_settings(request.user, notification_types)
 
     return render(request, "notifications/settings.html",
                   {"categories": categories})

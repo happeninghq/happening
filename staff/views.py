@@ -10,6 +10,8 @@ from sponsorship.forms import SponsorForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 import json
+from notifications.notifications import AdminEventMessageNotification
+from notifications.notifications import AdminMessageNotification
 
 
 @staff_member_required
@@ -154,10 +156,14 @@ def email_event(request, pk):
         if form.is_valid():
             # Send email to attendees
             for user in event.attending_users():
-                user.send_email("events/email",
-                                {"content": form.cleaned_data["content"],
-                                 "subject": form.cleaned_data.get("subject"),
-                                 "event": event})
+                kwargs = {"event_name": str(event),
+                          "subject": form.cleaned_data.get("subject"),
+                          "message": form.cleaned_data['content']}
+                if event.sponsor:
+                    kwargs["sponsor"] = event.sponsor
+                    kwargs["sponsor_logo_url"] = event.sponsor.logo.url
+                n = AdminEventMessageNotification(user, **kwargs)
+                n.send()
             return redirect("staff_events")
     return render(request, "staff/email_event.html",
                   {"event": event, "form": form})
@@ -172,10 +178,11 @@ def send_email(request):
         if form.is_valid():
             # Send email to members
             for user in User.objects.filter(is_active=True):
-                user.send_email("email",
-                                {"content": form.cleaned_data["content"],
-                                 "subject": form.cleaned_data.get("subject")
-                                 })
+                n = AdminMessageNotification(
+                    user,
+                    subject=form.cleaned_data.get("subject"),
+                    message=form.cleaned_data['content'])
+                n.send()
             return redirect("staff_send_email")
     return render(request, "staff/send_email.html",
                   {"form": form})
