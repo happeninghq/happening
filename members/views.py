@@ -18,6 +18,7 @@ from django.contrib import messages
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from members.models import PaidMembership
+from notifications.notifications import MembershipPaymentSuccessfulNotification
 
 # First set up stripe
 stripe.api_key = django_settings.STRIPE_SECRET_KEY
@@ -286,9 +287,9 @@ def membership_payment(request, pk):
             messages.success(request, "Your payment has been made " +
                                       "successfully. Thank you very much!")
 
-            request.user.send_email(
-                "members/payment_successful",
-                {"amount": form.cleaned_data['amount']})
+            n = MembershipPaymentSuccessfulNotification(
+                request.user, amount=form.cleaned_data['amount'])
+            n.send()
 
             return redirect("membership", pk)
     else:

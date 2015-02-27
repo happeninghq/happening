@@ -1,0 +1,14 @@
+{% extends "notifications/notification.html" %}
+{% load staticfiles %}
+
+{% block text %}
+    <p>You have paid £<strong>{{amount}}</strong> for <a id="main-link" href="{% url "my_membership" %}">Southampton Code Dojo Membership</a>.</p>
+{% endblock %}
+
+{% block subject %}Southampton Code Dojo Membership Payment{% endblock %}
+
+{% block email %}
+This email is to confirm that payment of **£{{amount}}** was successfully recieved. You should recieve a full receipt in a separate email.
+
+Thank you very much for your contribution to the running of the dojo. Your money will go towards ensuring that we can continue to run enjoyable and inclusive programming events.
+{% endblock %}

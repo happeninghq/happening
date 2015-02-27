@@ -98,3 +98,11 @@ class PurchasedTicketNotification(Notification):
     required_data = ["ticket", "event", "event_name"]
     optional_data = ["sponsor", "sponsor_logo_url"]
     category = "Events"
+
+
+class MembershipPaymentSuccessfulNotification(Notification):
+
+    """ Your membership payment has been received. """
+
+    required_data = ["amount"]
+    category = "Membership"
