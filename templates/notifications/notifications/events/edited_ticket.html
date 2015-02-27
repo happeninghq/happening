@@ -1,4 +1,4 @@
-{% extends "notifications/notification.html" %}
+{% extends "notifications/notifications/events/base.html" %}
 
 {% block text %}
     <p>You have edited <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize}} for <a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a>.</p>
@@ -6,6 +6,6 @@
 
 {% block subject %}Your ticket{{ticket.number|pluralize}} for {{event_name}}{% endblock %}
 
-{% block email %}
+{% block email_content %}
 You have edited **{{ticket.number}}** ticket{{ticket.number|pluralize}} for **{{event_name}}**.
 {% endblock %}

@@ -189,11 +189,16 @@ class Event(models.Model):
             ticket.number += tickets
         ticket.save()
 
+        kwargs = {"ticket": ticket,
+                  "event": self,
+                  "event_name": str(self)}
+
+        if self.sponsor:
+            kwargs["sponsor"] = self.sponsor
+            kwargs["sponsor_logo_url"] = self.sponsor.logo.url
         n = PurchasedTicketNotification(
             user,
-            ticket=ticket,
-            event=self,
-            event_name=str(self))
+            **kwargs)
         n.send()
 
         # We only send notifications if we haven't already purchased
@@ -353,11 +358,16 @@ class Ticket(models.Model):
 
         self.number = number
         self.save()
+        kwargs = {"ticket": self,
+                  "event": self.event,
+                  "event_name": str(self.event)}
+
+        if self.event.sponsor:
+            kwargs["sponsor"] = self.event.sponsor
+            kwargs["sponsor_logo_url"] = self.event.sponsor.logo.url
         n = EditedTicketNotification(
             self.user,
-            ticket=self,
-            event=self.event,
-            event_name=str(self.event))
+            **kwargs)
         n.send()
 
     def cancel(self):
@@ -368,11 +378,18 @@ class Ticket(models.Model):
             self.cancelled = True
             self.cancelled_datetime = timezone.now()
             self.save()
+
+            kwargs = {"ticket": self,
+                      "event": self.event,
+                      "event_name": str(self.event)}
+
+            if self.event.sponsor:
+                kwargs["sponsor"] = self.event.sponsor
+                kwargs["sponsor_logo_url"] = self.event.sponsor.logo.url
+
             n = CancelledTicketNotification(
                 self.user,
-                ticket=self,
-                event=self.event,
-                event_name=str(self.event))
+                **kwargs)
             n.send()
 
     def __unicode__(self):

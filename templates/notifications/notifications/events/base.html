@@ -1,0 +1,13 @@
+{% extends "notifications/notification.html" %}
+{% load markdown %}
+
+{% block email %}
+{% block email_content %}{% endblock %}
+
+{% if sponsor %}
+**ABOUT THE SPONSORS**
+
+> [![{{sponsor.name}} logo]({{sponsor_logo_url}})]({{sponsor.url}})
+{{sponsor.description|blockquote|safe}}
+{% endif %}
+{% endblock %}

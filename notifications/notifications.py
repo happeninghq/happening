@@ -78,6 +78,7 @@ class CancelledTicketNotification(Notification):
     """ You have cancelled your tickets for an event. """
 
     required_data = ["ticket", "event", "event_name"]
+    optional_data = ["sponsor", "sponsor_logo_url"]
     category = "Events"
 
 
@@ -86,6 +87,7 @@ class EditedTicketNotification(Notification):
     """ You have edited your tickets for an event. """
 
     required_data = ["ticket", "event", "event_name"]
+    optional_data = ["sponsor", "sponsor_logo_url"]
     category = "Events"
 
 
@@ -94,4 +96,5 @@ class PurchasedTicketNotification(Notification):
     """ You have purchased tickets for an event. """
 
     required_data = ["ticket", "event", "event_name"]
+    optional_data = ["sponsor", "sponsor_logo_url"]
     category = "Events"

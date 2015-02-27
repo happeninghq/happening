@@ -1,5 +1,4 @@
-{% extends "notifications/notification.html" %}
-{% load markdown %}
+{% extends "notifications/notifications/events/base.html" %}
 
 {% block text %}
     <p><a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a> is coming up {{time_to_event}}.</p>
@@ -7,7 +6,7 @@
 
 {% block subject %}{{event_name}}{% endblock %}
 
-{% block email %}
+{% block email_content %}
 The {{event_name}} is {{time_to_event}} and you have tickets. This email is to remind you to attend (or cancel your ticket if you're unable). {% if not is_final_notification %}You will be reminded once more before the dojo.{% else %}This is the final reminder.{% endif %}
 
 The dojo format is: 20 minutes mingling/eating pizza/group forming, 80 minutes coding in groups, 20 minutes talking about what we did. The timing is quite tight so try to be on time.
@@ -29,11 +28,4 @@ Pizza and refreshments will be provided.
 {% endif %}
 
 If you have any questions you can contact me at [admin@southamptoncodedojo.com](mailto:admin@southamptoncodedojo.com)
-
-{% if sponsor %}
-**ABOUT THE SPONSORS**
-
-> [![{{sponsor.name}} logo]({{sponsor_logo_url}})]({{sponsor.url}})
-{{sponsor.description|blockquote|safe}}
-{% endif %}
 {% endblock %}
