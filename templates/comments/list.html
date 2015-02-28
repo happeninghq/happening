@@ -1,8 +1,9 @@
 {% load comments %}
+{% load threaded_comments %}
 {% load markdown_deux_tags %}
 
 <div class="comments">
-    {% for comment in comment_list reversed %}
+    {% for comment in comment_list|reverse_comments:object %}
         <div class="comment row">
             <div class="small-2 columns info">
                 <a name="c{{ comment.id }}"></a>
@@ -17,6 +18,9 @@
             </div>
             <div class="small-10 columns">
                 {{comment.comment|markdown}}
+                {% if comment|is_root_comment %}
+                    {% include "comments/_comments.html" with object=comment %}
+                {% endif %}
             </div>
         </div>
     {% endfor %}

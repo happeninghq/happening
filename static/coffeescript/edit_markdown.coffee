@@ -1,4 +1,4 @@
-setup_markdown_editor = (elem) ->
+window.setup_markdown_editor = (elem) ->
   elem = $(elem)
   new_elem = $("<div></div>")
 

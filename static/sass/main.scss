@@ -277,6 +277,12 @@ p {
     }
 }
 
+.comment-form {
+    form {
+        display: none;
+    }
+}
+
 #notifications {
     &.unread {
         a {
