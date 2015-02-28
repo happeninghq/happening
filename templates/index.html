@@ -27,7 +27,7 @@
                     {% if latest_event.is_future %}
                         <h2 id="next"><a href="{% url "view_event" latest_event.pk %}">{{latest_event.heading}}</a></h2>
                         <div id="next-event">
-                            <p>Our next dojo will be on {{latest_event.datetime}}.</p>
+                            <p>Our next dojo will be on {{latest_event.datetime}}</p>
                             {% if user.is_authenticated %}
                                 {% if user|has_tickets:latest_event %}
                                     <div class="panel">

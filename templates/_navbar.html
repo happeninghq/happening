@@ -41,23 +41,14 @@
 
             <!-- Left Nav Section -->
             <ul class="left">
-                <li><a href="/">Home</a></li>
+                {{pages_navigation|safe}}
                 <li class="has-dropdown">
-                    <a href="#">About</a>
-                    <ul class="dropdown">
-                        <li><a href="{% url "about" %}">About</a></li>
-                        <!-- <li><a href="#">Getting here</a></li> -->
-                        <!-- <li><a href="#">Finances</a></li> -->
-                        <li><a href="{% url "sponsorship" %}">Sponsorship</a></li>
-                    </ul>
-                </li>
-                <li class="has-dropdown">
-                    <a href="#">Previous Dojos</a>
-                    <ul class="dropdown" id="previous-dojos">
-                        {% for event in previous_events %}
-                            <li class="dojo"><a href="{% url "view_event" event.pk %}">{{event.year_heading}}</a></li>
+                    <a href="#">Events</a>
+                    <ul class="dropdown" id="events-list">
+                        {% for event in events %}
+                            <li class="event"><a href="{% url "view_event" event.pk %}">{{event.year_heading}}</a></li>
                         {% endfor %}
-                        <li><a href="{% url "previous_events" %}">View All</a></li>
+                        <li><a href="{% url "events" %}">View All</a></li>
                     </ul>
                 </li>
             </ul>

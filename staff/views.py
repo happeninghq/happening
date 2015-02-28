@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from sponsorship.models import Sponsor
 from events.models import Event
 from events.forms import EventForm
+from pages.models import Page
+from pages.forms import PageForm
 from forms import EmailForm
 from sponsorship.forms import SponsorForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -194,3 +196,54 @@ def get_vote_winner(request, pk):
     event = get_object_or_404(Event, pk=pk)
     return HttpResponse(json.dumps({"value": event.winning_language}),
                         content_type="application/json")
+
+
+@staff_member_required
+def pages(request):
+    """ Administrate pages. """
+    pages = Page.objects.all()
+    paginator = Paginator(pages, 10)
+
+    page = request.GET.get('page')
+    try:
+        pages = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        pages = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        pages = paginator.page(paginator.num_pages)
+    return render(request, "staff/pages.html", {"pages": pages})
+
+
+@staff_member_required
+def edit_page(request, pk):
+    """ Edit page. """
+    page = get_object_or_404(Page, pk=pk)
+    form = PageForm(instance=page)
+    if request.method == "POST":
+        form = PageForm(request.POST, request.FILES, instance=page)
+        if form.is_valid():
+            form.save()
+            return redirect("staff_pages")
+    return render(request, "staff/edit_page.html",
+                  {"page": page, "form": form})
+
+@staff_member_required
+def delete_page(request, pk):
+    """ Delete page. """
+    page = get_object_or_404(Page, pk=pk)
+    # TODO
+    return redirect("staff_pages")
+
+
+@staff_member_required
+def create_page(request):
+    """ Create page. """
+    form = PageForm()
+    if request.method == "POST":
+        form = PageForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("staff_pages")
+    return render(request, "staff/create_page.html", {"form": form})

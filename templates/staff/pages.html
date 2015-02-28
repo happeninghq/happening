@@ -1,0 +1,40 @@
+{% extends "staff/base.html" %}
+
+{% block staff_content %}
+    <a class="button" href="{% url "create_page" %}">New Page</a>
+
+    <table style="width: 100%;">
+        <tr>
+            <th>Title</th>
+            <th>URL</th>
+            <th>Path</th>
+            <th></th>
+            <th></th>
+        </tr>
+        {% for page in pages %}
+            <tr>
+                <td><a href="{% url "view_page" page.url %}">{{page.title}}</a></td>
+                <td>{{page.url}}</td>
+                <td>{% if page.path %}{{page.path}}{% endif %}</td>
+                <td><a href="{% url "edit_page" page.pk %}">Edit</a></td>
+                <td><a href="{% url "delete_page" page.pk %}">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+    <ul class="pagination">
+        {% if pages.has_previous %}
+            <li class="arrow"><a href="?page={{ pages.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+            <li class="arrow unavailable"><a href="">&laquo;</a></li>
+        {% endif %}
+
+        <li class="current"><a href="">Page {{pages.number}} of {{pages.paginator.num_pages}}.</a></li>
+        {% if pages.has_next %}
+            <li class="arrow"><a href="?page={{ pages.next_page_number }}">&raquo;</a></li>
+        {% else %}
+            <li class="arrow unavailable"><a href="">&raquo;</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}

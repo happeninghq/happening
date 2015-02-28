@@ -59,12 +59,11 @@ def tickets_purchased(request, pk):
     return render(request, "events/tickets_purchased.html", {"ticket": ticket})
 
 
-def previous_events(request):
-    """ List previous events. """
-    previous_events = Event.objects.filter(
-        datetime__lte=timezone.now()).order_by("-datetime")
-    return render(request, "events/previous_events.html",
-                  {"previous_events": previous_events})
+def events(request):
+    """ List events. """
+    events = Event.objects.all().order_by("-datetime")
+    return render(request, "events/events.html",
+                  {"all_events": events})
 
 
 @require_POST

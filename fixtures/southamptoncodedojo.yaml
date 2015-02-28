@@ -411,3 +411,69 @@
     event: 9
     team_name: Group 5
     github_url: https://github.com/nbojinov/CodoDojo
+
+# Pages
+- model: pages.Page
+  pk: 1
+  fields:
+    url: about
+    title: About Southampton Code Dojo
+    path: About/About
+    content:
+        About
+        
+        **Who are we?**
+
+        The Southampton Code Dojo is a monthly meetup of technical people from around the Southampton area.
+
+
+        We meet on the second Thursday of each month, decide on a small challenge to work on, split up into groups and solve the problem separately, then come together and talk about the different ways we solved it.
+
+
+        It's a good way of improving our coding abilities by learning from each other, it's a lot of fun, and programmers of any ability are welcome.
+
+
+        **Who are you?**
+        We welcome anyone with an interest in coding. We have members ranging from the very experienced to no experience at all, in languages from D to Javascript.
+
+
+        We decide on the programming language to use on the day of the dojo, and will tend to choose languages most familiar to those attending. Whatever your experience level please feel free to come along.
+- model: pages.Page
+  pk: 2
+  fields:
+    url: sponsorship
+    title: Southampton Code Dojo Sponsorship
+    path: About/Sponsorship
+    content:
+        Our Sponsors
+        The dojo exists to create a place for Southampton's technical community to come together. The attendees are different to those who attend typical hack events, as the dojo starts at 7pm and lasts for only two hours, which allows for a much wider range of people to attend.
+
+
+        We hope that the dojo, as well as being a place for these people to meet, will become a place for them to connect to businesses in need of developers. At any given point very few of the attendees are unemployed but making these connections now means that, when they are, they already know of high quality employers and the employers know what they can do.
+
+
+        Ideally, we'd like sponsors to commit to three or four dojos per year, which will allow us stability and to ensure that the dojo will continue long term. One-off sponsors are also welcomed but are more difficult to manage.
+
+
+        **Why do we need sponsorship?**
+        Running a dojo costs around £130. This covers pizza and drinks for 25-30 people.
+
+
+        We have considered charging for tickets to cover this instead, and that's something we'll continue to discuss, but we want to remove as many hurdles as possible for good developers to attend the dojo.
+
+
+        **What's in it for the sponsors?**
+        By sponsoring the dojo, an organisation gains awareness amongst skilled and motivated technical people. Unmotivated students and developers tend not to attend programming events out of hours.
+
+
+        As a sponsor, we will promote your organisation on our emails, facebook group, meetup group, twitter account, website, and tickets in the lead up to the event(s) that you sponsor. You are welcome to have a member of your staff (or yourself) attend the event and say a few words at the beginning about your organisation, which helps increase awareness and gives an idea of the skills of the attendees.
+
+
+        If in the future your organisation needs technical staff, either permanent or as a contractor or freelancer, you can contact us and we will relay that to the attendees. This has already paid dividends for our previous sponsors.
+
+
+        Less directly than that - supporting intiatives such as the dojo helps to foster a better technical community in Southampton which is good for all technical businesses in the area.
+
+
+        **Get in touch**
+        If you or your organisation are interested in sponsoring the dojo, come along to [our next meetup](/#next) or [drop us an email](mailto:admin@southamptoncodedojo.com).

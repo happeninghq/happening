@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Events</h2>
+                <ul id="all-events">
+                    {% for event in all_events %}
+                        <li><a href="{% url "view_event" event.pk %}">{{event.year_heading}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

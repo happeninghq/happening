@@ -1,0 +1,29 @@
+{% extends "staff/base.html" %}
+{% load staticfiles %}
+{% load foundation %}
+{% load widget_tweaks %}
+{% load markdown_deux_tags %}
+
+{% block staff_content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Edit {{page.title}}</h2>
+                    
+                <form method="POST" action="{% url "edit_page" page.pk %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label>URL {{form.url}}</label>
+                    <label>Title {{form.title}}</label>
+                    <label>Path {{form.path}}</label>
+                    <label>Content<br />{% markdown_allowed %} {{form.content|add_class:"edit_markdown"}}</label>
+                    <button type="submit">Save</button>
+                    <a class="button warning" href="{% url "staff_pages" %}">Cancel</a>
+                </form>
+            </div>
+        </p>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/coffeescript" src="{% static "coffeescript/edit_markdown.coffee" %}"></script>
+{% endblock %}

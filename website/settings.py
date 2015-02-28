@@ -68,7 +68,7 @@ INSTALLED_APPS = (
     'sponsorship',
     'members',
     'notifications',
-
+    'pages',
     'voting',
 
 
@@ -178,7 +178,8 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     "allauth.socialaccount.context_processors.socialaccount",
 
 
-    "events.context_processors.previous_events",
+    "events.context_processors.events",
+    "pages.context_processors.pages_navigation",
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -252,6 +253,3 @@ STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY",
 
 # For SSL redirect on Heroku
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Allow arbitrary date to be part of a notification
-# NOTIFY_USE_JSONFIELD = True
