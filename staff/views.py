@@ -229,10 +229,11 @@ def edit_page(request, pk):
     return render(request, "staff/edit_page.html",
                   {"page": page, "form": form})
 
+
 @staff_member_required
 def delete_page(request, pk):
     """ Delete page. """
-    page = get_object_or_404(Page, pk=pk)
+    # page = get_object_or_404(Page, pk=pk)
     # TODO
     return redirect("staff_pages")
 

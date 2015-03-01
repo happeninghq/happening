@@ -5,7 +5,6 @@ from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from forms import TicketForm, GroupNumberForm
 from forms import GroupSubmissionForm
-from django.utils import timezone
 from django.views.decorators.http import require_POST
 import json
 

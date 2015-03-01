@@ -32,36 +32,28 @@ class TestLayout(TestCase):
         self.assertIsNotNone(
             response.soup.find("a", {"href": "/accounts/logout/"}))
 
-    def test_previous_dojos_no_events(self):
-        """ Test there are no previous dojos listed. """
+    def test_previous_events_no_events(self):
+        """ Test there are no previous events listed. """
         response = self.client.get("/")
-        self.assertIsNone(response.soup.find(id="previous-dojos").find(
-            "li", {"class": "dojo"}))
+        self.assertIsNone(response.soup.find(id="events-list").find(
+            "li", {"class": "event"}))
 
-    def test_previous_dojos(self):
-        """ Test is lists previous dojos in the correct order. """
+    def test_previous_events(self):
+        """ Test is lists previous events in the correct order. """
         later_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                                  timedelta(days=20))
         response = self.client.get("/")
         self.assertEqual(1, len(
-            response.soup.find(id="previous-dojos").findAll(
-                "li", {"class": "dojo"})))
+            response.soup.find(id="events-list").findAll(
+                "li", {"class": "event"})))
         earlier_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                                    timedelta(days=50))
         response = self.client.get("/")
-        lis = response.soup.find(id="previous-dojos").findAll(
-            "li", {"class": "dojo"})
+        lis = response.soup.find(id="events-list").findAll(
+            "li", {"class": "event"})
         self.assertEqual(2, len(lis))
         self.assertEqual(later_event.year_heading(), lis[0].find("a").text)
         self.assertEqual(earlier_event.year_heading(), lis[1].find("a").text)
-
-        # Make a future event which shouldn't appear in the list
-        mommy.make("Event", datetime=datetime.now(pytz.utc) +
-                   timedelta(days=50))
-        response = self.client.get("/")
-        self.assertEqual(2, len(
-            response.soup.find(id="previous-dojos").findAll(
-                "li", {"class": "dojo"})))
 
         # Check that links work correctly
         response = self.client.get(lis[0].find("a")['href'])
@@ -74,5 +66,5 @@ class TestLayout(TestCase):
 
         response = self.client.get("/")
         self.assertEqual(5, len(
-            response.soup.find(id="previous-dojos").findAll(
-                "li", {"class": "dojo"})))
+            response.soup.find(id="events-list").findAll(
+                "li", {"class": "event"})))
