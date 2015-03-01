@@ -419,10 +419,10 @@
     url: about
     title: About Southampton Code Dojo
     path: About/About
-    content:
-        About
+    content: |
+        ## About
         
-        **Who are we?**
+        ### Who are we?
 
         The Southampton Code Dojo is a monthly meetup of technical people from around the Southampton area.
 
@@ -433,7 +433,7 @@
         It's a good way of improving our coding abilities by learning from each other, it's a lot of fun, and programmers of any ability are welcome.
 
 
-        **Who are you?**
+        ### Who are you?
         We welcome anyone with an interest in coding. We have members ranging from the very experienced to no experience at all, in languages from D to Javascript.
 
 
@@ -444,8 +444,8 @@
     url: sponsorship
     title: Southampton Code Dojo Sponsorship
     path: About/Sponsorship
-    content:
-        Our Sponsors
+    content: |
+        ## Our Sponsors
         The dojo exists to create a place for Southampton's technical community to come together. The attendees are different to those who attend typical hack events, as the dojo starts at 7pm and lasts for only two hours, which allows for a much wider range of people to attend.
 
 
@@ -455,14 +455,14 @@
         Ideally, we'd like sponsors to commit to three or four dojos per year, which will allow us stability and to ensure that the dojo will continue long term. One-off sponsors are also welcomed but are more difficult to manage.
 
 
-        **Why do we need sponsorship?**
+        ### Why do we need sponsorship?
         Running a dojo costs around £130. This covers pizza and drinks for 25-30 people.
 
 
         We have considered charging for tickets to cover this instead, and that's something we'll continue to discuss, but we want to remove as many hurdles as possible for good developers to attend the dojo.
 
 
-        **What's in it for the sponsors?**
+        ### What's in it for the sponsors?
         By sponsoring the dojo, an organisation gains awareness amongst skilled and motivated technical people. Unmotivated students and developers tend not to attend programming events out of hours.
 
 
@@ -475,5 +475,5 @@
         Less directly than that - supporting intiatives such as the dojo helps to foster a better technical community in Southampton which is good for all technical businesses in the area.
 
 
-        **Get in touch**
+        ### Get in touch
         If you or your organisation are interested in sponsoring the dojo, come along to [our next meetup](/#next) or [drop us an email](mailto:admin@southamptoncodedojo.com).
