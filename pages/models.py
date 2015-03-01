@@ -25,7 +25,6 @@ class PageManager(models.Manager):
         "About" container there is a link "A Third Page" which links to the
         "anotherpage" page.
         """
-
         def add_path(level, path, page):
             if len(path) == 1:
                 level[path[0]] = page.url
