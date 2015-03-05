@@ -5,6 +5,14 @@ from django.db import models
 from django.forms.models import model_to_dict
 from functools import partial
 import datetime
+from django.contrib.admin.views.decorators import staff_member_required as smr
+
+
+def staff_member_required(view_func, **kwargs):
+    """ Require a staff member, and log in with the correct url. """
+    if 'login_url' not in kwargs:
+        kwargs['login_url'] = 'account_login'
+    return smr(view_func, **kwargs)
 
 
 def custom_strftime(format, t):
