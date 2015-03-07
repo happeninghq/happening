@@ -255,6 +255,7 @@ def membership_payment(request, pk):
         form = CompletePaymentForm(request.POST)
         if form.is_valid():
             try:
+                # TODO: This payment information should be generic
                 charge = stripe.Charge.create(
                     # We work in pennies, not pounds
                     amount=form.cleaned_data['amount'] * 100,

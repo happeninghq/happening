@@ -35,7 +35,7 @@ class EventManager(models.Manager):
 
 class Event(models.Model):
 
-    """ A code dojo event. """
+    """ An event. """
 
     objects = EventManager()
 
@@ -222,7 +222,8 @@ class Event(models.Model):
                 not t.group]
 
     def __unicode__(self):
-        """ Return the title of this dojo. """
+        """ Return the title of this event. """
+        # TODO: Make event name a field
         return "%s Code Dojo" % self.datetime.strftime("%B")
 
     def _send_upcoming_notification(self, user, is_final):
@@ -280,6 +281,7 @@ class EventTodo(models.Model):
     completed_at = models.DateTimeField(null=True)
 
 
+# TODO: EventSolution should be moved into its own module
 class EventSolution(models.Model):
 
     """ A solution from a team at a dojo. """

@@ -58,6 +58,7 @@ class UsernameForm(forms.Form):
         return data
 
 
+# TODO: This needs to be moved into configuration
 class PaymentForm(forms.Form):
 
     """ Form for paying for a new membership. """

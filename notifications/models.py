@@ -95,6 +95,7 @@ class Notification(models.Model):
             return content
 
         # If there is no content, for now just send the notification title
+        # TODO: Make this configurable
         return "You have a " + self.template + " notification." +\
                " Visit https://www.southamptoncodedojo.com to check it."
 
@@ -132,7 +133,7 @@ class Notification(models.Model):
         html_content = data.split("<email_html>")[1].split("</email_html>")[0]
         send_mail(self.subject,
                   text_content,
-                  "admin@southamptoncodedojo.com",
+                  "admin@southamptoncodedojo.com",  # TODO: Make configurable
                   [self.user.email],
                   html_message=html_content)
 

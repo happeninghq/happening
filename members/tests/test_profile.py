@@ -82,7 +82,6 @@ class TestProfile(TestCase):
                         in response.redirect_chain[0][0])
         self.user = User.objects.get(pk=self.user.id)
         self.assertIsNotNone(self.user.profile.photo)
-        self.assertFalse("dojo-logo" in self.user.profile.photo_url())
 
         # Check that when overwriting image, the original image is deleted
         filepath = "%s/%s" % (settings.MEDIA_ROOT, self.user.profile.photo)
