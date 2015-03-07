@@ -1,6 +1,6 @@
 """ Test ticket purchasing. """
 
-from events.exceptions import DojoFinishedError, NoTicketsError
+from events.exceptions import EventFinishedError, NoTicketsError
 from events.exceptions import TicketCancelledError
 from unittest import TestCase
 from model_mommy import mommy
@@ -43,7 +43,7 @@ class TestTickets(TestCase):
                                 timedelta(days=20), available_tickets=30)
         user = mommy.make("auth.User")
 
-        with self.assertRaises(DojoFinishedError):
+        with self.assertRaises(EventFinishedError):
             past_event.buy_ticket(user)
 
         self.assertEqual(30, past_event.remaining_tickets)
@@ -95,7 +95,7 @@ class TestTickets(TestCase):
         event.datetime = datetime.now(pytz.utc) - timedelta(days=20)
         event.save()
 
-        with self.assertRaises(DojoFinishedError):
+        with self.assertRaises(EventFinishedError):
             ticket.change_number(3)
 
     def test_edit_tickets_zero(self):
@@ -150,7 +150,7 @@ class TestTickets(TestCase):
         event.datetime = datetime.now(pytz.utc) - timedelta(days=20)
         event.save()
 
-        with self.assertRaises(DojoFinishedError):
+        with self.assertRaises(EventFinishedError):
             ticket.cancel()
 
         self.assertIsNone(ticket.cancelled_datetime)

@@ -1,7 +1,7 @@
 """ Event exceptions. """
 
 
-class DojoFinishedError(Exception):
+class EventFinishedError(Exception):
 
     """ Trying to interact with an event which has already finished. """
 

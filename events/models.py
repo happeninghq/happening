@@ -2,7 +2,7 @@
 from django.db import models
 from sponsorship.models import Sponsor
 from django.utils import timezone
-from exceptions import DojoFinishedError, NoTicketsError
+from exceptions import EventFinishedError, NoTicketsError
 from exceptions import TicketCancelledError
 from datetime import datetime, timedelta
 import pytz
@@ -173,7 +173,7 @@ class Event(models.Model):
     def buy_ticket(self, user, tickets=1):
         """ Buy the given number of tickets for the given user. """
         if not self.is_future:
-            raise DojoFinishedError()
+            raise EventFinishedError()
 
         if self.remaining_tickets < tickets:
             raise NoTicketsError()
@@ -347,7 +347,7 @@ class Ticket(models.Model):
             return self.cancel()
 
         if not self.event.is_future:
-            raise DojoFinishedError()
+            raise EventFinishedError()
 
         if ((self.event.remaining_tickets + self.number) - number) < 0:
             # We've ran out of tickets
@@ -373,7 +373,7 @@ class Ticket(models.Model):
     def cancel(self):
         """ Cancel the ticket. """
         if not self.event.is_future:
-            raise DojoFinishedError()
+            raise EventFinishedError()
         if not self.cancelled:
             self.cancelled = True
             self.cancelled_datetime = timezone.now()
