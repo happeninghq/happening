@@ -12,10 +12,3 @@ before_script:
   - bower install
   - python manage.py migrate
 env: travis=true
-deploy:
-  provider: heroku
-  api_key:
-    secure: lXgNHi18FP6gA4lWztyvL9+nbIx9xkWqXPIrnKGrzMUbzOkvpoy2HSuHpTronyj/fEw25dx3xb56CyDNGsYTALbgJAIZUVWD4WgSeIWwnnXq9B1JgYDwuAf91qCVeyTk8a9k7zbqBszaiibzvde5JwB8R34AwSsRIkNwc+pLvaM=
-  app: southamptoncodedojo
-  on:
-    repo: southampton-code-dojo/website

@@ -1,12 +1,12 @@
-Southampton Code Dojo Website
+Happening
 =========
 
-[![Build Status](https://travis-ci.org/southampton-code-dojo/website.svg?branch=master)](https://travis-ci.org/southampton-code-dojo/website)
-[![Coverage Status](https://img.shields.io/coveralls/southampton-code-dojo/website.svg)](https://coveralls.io/r/southampton-code-dojo/website?branch=master)
+[![Build Status](https://travis-ci.org/jscott1989/happening.svg?branch=master)](https://travis-ci.org/jscott1989/happening)
+[![Coverage Status](https://img.shields.io/coveralls/jscott1989/happening.svg)](https://coveralls.io/r/jscott1989/happening?branch=master)
 
-This is the website for the Southampton Code Dojo. It's currently a work
-in progress but will eventually support management of the 
-Facebook/Twitter/Meetup accounts, ticketing, membership, and sponsorship.
+This is a WIP project for Happening: an open source event/community management tool.
+
+Think Eventbrite meets Meetup, running on your own domain with your own branding.
 
 Pull requests are welcomed.
 
@@ -23,7 +23,7 @@ Development Requirements
 Getting started
 --------
 Clone the repository to your disk, and then run setup - this will download 
-all requirements and set up the database with some sample events.
+all requirements and set up the database with some sample events (from [Southampton Code Dojo](https://southamptoncodedojo.com)).
 
 Coding Conventions
 -------
