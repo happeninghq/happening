@@ -45,3 +45,4 @@ beautifulsoup4==4.3.2 # For parsing HTML
 # For debugging pages TODO: Move this to dev-requirements
 # and add to settings.py installed_apps only in dev
 django-debug-toolbar==1.2.2
+django-debug-toolbar-template-profiler==1.0.1
