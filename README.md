@@ -2,7 +2,7 @@ Happening
 =========
 
 [![Build Status](https://travis-ci.org/jscott1989/happening.svg?branch=master)](https://travis-ci.org/jscott1989/happening)
-[![Coverage Status](https://img.shields.io/coveralls/jscott1989/happening.svg)](https://coveralls.io/r/jscott1989/happening?branch=master)
+[![Coverage Status](https://coveralls.io/repos/jscott1989/happening/badge.svg?branch=master)](https://coveralls.io/r/jscott1989/happening?branch=master)
 
 This is a WIP project for Happening: an open source event/community management tool.
 
