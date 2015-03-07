@@ -177,7 +177,7 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
 
-
+    "website.context_processors.site_settings",
     "events.context_processors.events",
     "pages.context_processors.pages_navigation",
 )
@@ -226,9 +226,6 @@ if not DEBUG:
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 
 
-GANALYTICS_TRACKING_CODE = 'UA-13066747-5'
-
-
 # Sentry error tracking
 if not DEBUG:
     # Set your DSN value
@@ -253,3 +250,16 @@ STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY",
 
 # For SSL redirect on Heroku
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Configure Django Debug Toolbar
+JQUERY_URL = ""
+
+# ---------------------------
+# EDIT THINGS BELOW THIS LINE
+# ---------------------------
+# TODO: Make these site-specific settings
+
+# IF YOU USE GOOGLE ANALYTICS, ENTER YOUR CODE BELOW
+GANALYTICS_TRACKING_CODE = None
+
+SITE_TITLE = "Happening Demo Site"

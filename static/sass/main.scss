@@ -4,6 +4,7 @@
 $fi-path: "../../foundation-icon-fonts/";
 
 @import "../bower_components/foundation-icon-fonts/foundation-icons";
+@import "config.scss";
 
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -12,9 +13,9 @@ body {
 }
 
 .top-container, .full-navbar {
-    background: #65afdc;
+    background: $MAIN_COLOUR;
 
-    border-bottom: 3px solid darken(#65afdc, 0%);
+    border-bottom: 3px solid darken($MAIN_COLOUR, 0%);
 }
 
 .top-container {
@@ -47,7 +48,7 @@ p {
 }
 
 #bottom {
-    background: #65afdc;
+    background: $MAIN_COLOUR;
 }
 
 #contacts {
@@ -55,7 +56,7 @@ p {
     padding-top: 1em;
     padding-bottom: 1em;
 
-    border-top: 3px solid darken(#65afdc, 0%);
+    border-top: 3px solid darken($MAIN_COLOUR, 0%);
 
     img {
         filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
@@ -70,8 +71,8 @@ p {
 }
 
 blockquote {
-    background: lighten(#65afdc, 30%);
-    border: 2px solid lighten(#65afdc, 10%);
+    background: lighten($MAIN_COLOUR, 30%);
+    border: 2px solid lighten($MAIN_COLOUR, 10%);
     padding: 10px;
     font-size: 0.6em;
     margin-bottom: 3em;
@@ -82,15 +83,15 @@ blockquote {
 }
 
 .top-container {
-    background: #65afdc;
+    background: $MAIN_COLOUR;
 
-    border-bottom: 3px solid darken(#65afdc, 0%);
+    border-bottom: 3px solid darken($MAIN_COLOUR, 0%);
     height: 0.5em;
 }
 
 a {
     text-decoration: none;
-    color: #65afdc;
+    color: $MAIN_COLOUR;
 }
 
 #mc_embed_signup {
@@ -286,7 +287,7 @@ p {
 #notifications {
     &.unread {
         a {
-            background: darken(#65afdc, 30%)
+            background: darken($MAIN_COLOUR, 30%)
         }
     }
 
@@ -300,11 +301,11 @@ p {
             }
 
             &.unread {
-                background: lighten(#65afdc, 10%)
+                background: lighten($MAIN_COLOUR, 10%)
             }
 
             &:hover {
-                background: darken(#65afdc, 10%)
+                background: darken($MAIN_COLOUR, 10%)
             }
 
             .time {

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Southampton Code Dojo</title>
+    <title>{{SITE_SETTINGS.SITE_TITLE}}</title>
     {% compress css %}
         <link rel="stylesheet" type="text/x-scss" href="{% static "sass/main.scss" %}" />
         <link rel="stylesheet" type="text/css" href="{% static "lib/responsive-tables/css/responsive-tables.css" %}" />
@@ -40,8 +40,8 @@
                                 {% endif %}
                             {% endif %}
 
-                            {{message}}
-                            <a href="#" class="close">&times;</a>
+                                {{message}}
+                                <a href="#" class="close">&times;</a>
                             </div>
                         {% endfor %}
                     </div>

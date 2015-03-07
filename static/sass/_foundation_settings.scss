@@ -1,3 +1,5 @@
+@import "config.scss";
+
 // Foundation by ZURB
 // foundation.zurb.com
 // Licensed under MIT Open Source
@@ -1130,7 +1132,7 @@
 // $include-html-top-bar-classes: $include-html-classes;
 
 // Background color for the top bar
-$topbar-bg-color: #65afdc;
+$topbar-bg-color: $MAIN_COLOUR;
 $topbar-bg: $topbar-bg-color;
 
 // Height and margin
