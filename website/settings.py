@@ -62,6 +62,8 @@ INSTALLED_APPS = (
     'django_gravatar',
     'foundationform',
 
+    'debug_toolbar',
+
     'website',
     'external',
     'events',
@@ -74,7 +76,6 @@ INSTALLED_APPS = (
 
 
     'django_cleanup',
-
 )
 
 SOCIALACCOUNT_PROVIDERS = {
