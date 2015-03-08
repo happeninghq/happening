@@ -14,6 +14,7 @@ from django.http import HttpResponse
 import json
 from notifications.notifications import AdminEventMessageNotification
 from notifications.notifications import AdminMessageNotification
+from django.contrib import messages
 
 
 @staff_member_required
@@ -246,5 +247,6 @@ def create_page(request):
         form = PageForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Page created.')
             return redirect("staff_pages")
     return render(request, "staff/create_page.html", {"form": form})
