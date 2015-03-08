@@ -1,0 +1,18 @@
+{% extends "staff/base.html" %}
+
+{% block staff_content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Edit {{event}} sponsor</h2>
+                    
+                <form method="POST" action="{% url "sponsor_edit_on_event" event.pk %}">
+                    {% csrf_token %}
+                    {{form}}
+                    <button type="submit">Save</button>
+                    <a class="button warning" href="{% url "staff_event" event.pk %}">Cancel</a>
+                </form>
+            </div>
+        </p>
+    </div>
+{% endblock %}

@@ -24,3 +24,12 @@ class EventSponsor(models.Model):
 
     sponsor = models.ForeignKey(Sponsor, related_name="event_sponsors")
     event = models.ForeignKey(Event, related_name="event_sponsors")
+
+
+def get_event_sponsor(event):
+    """ Get a single sponsor for an event. """
+    if event.event_sponsors.count() == 0:
+        return None
+    return event.event_sponsors.all()[0].sponsor
+
+Event.sponsor = get_event_sponsor

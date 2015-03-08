@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 import dj_database_url
 import django.conf.global_settings as DEFAULT_SETTINGS
+import importlib
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -80,6 +81,9 @@ PLUGINS = []
 for f in os.listdir("plugins"):
     if os.path.isdir("plugins/%s" % f):
         PLUGINS.append("plugins.%s" % f)
+        p = importlib.import_module("plugins.%s" % f)
+        if os.path.isfile("plugins/%s/blocks.py" % f):
+            importlib.import_module("plugins.%s.blocks" % f)
 INSTALLED_APPS += tuple(PLUGINS)
 
 SOCIALACCOUNT_PROVIDERS = {

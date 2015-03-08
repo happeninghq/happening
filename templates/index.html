@@ -3,6 +3,7 @@
 {% load staticfiles %}
 {% load markdown_deux_tags %}
 {% load tickets %}
+{% load plugins %}
 
 {% block navbar %}
     <div class="top-container">
@@ -43,10 +44,15 @@
                             {% else %}
                                 {% include "events/_ticket_widget.html" with event=latest_event %}
                             {% endif %}
-                                {% include "events/_attending_members.html" with event=latest_event %}
+
+                            {% plugin_block "events.event_short" event %}
+
+                            {% include "events/_attending_members.html" with event=latest_event %}
                         </div>
                     {% else %}
                         <p id="recent-event">Our most recent event was the <a href="{% url "view_event" latest_event.pk %}">{{latest_event}}</a> on {{latest_event.datetime.date}}.</p>
+
+                        {% plugin_block "events.event_short" event %}
                     {% endif %}
                 {% else %}
                     <div id="no-events">

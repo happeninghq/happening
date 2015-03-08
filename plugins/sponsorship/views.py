@@ -1,9 +1,10 @@
 """ Sponsorship views. """
 from django.shortcuts import render, get_object_or_404, redirect
-from models import Sponsor
+from models import Sponsor, EventSponsor
 from website.utils import staff_member_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from forms import SponsorForm
+from forms import SponsorForm, EventSponsorForm
+from events.models import Event
 
 
 def view_sponsor(request, pk):
@@ -57,3 +58,26 @@ def create_sponsor(request):
             return redirect("staff_sponsors")
     return render(request, "sponsorship/staff/create_sponsor.html",
                   {"form": form})
+
+
+@staff_member_required
+def edit_on_event(request, pk):
+    """ Edit the sponsor for an event. """
+    event = get_object_or_404(Event, pk=pk)
+    form = EventSponsorForm(initial={"sponsor": event.sponsor})
+    if request.method == "POST":
+        form = EventSponsorForm(request.POST)
+        if form.is_valid():
+            # First delete any existing event sponsor
+            for e in event.event_sponsors.all():
+                e.delete()
+
+            # Then add the new one
+            if form.cleaned_data['sponsor'] is not None:
+                e = EventSponsor(
+                    sponsor=form.cleaned_data['sponsor'], event=event)
+                e.save()
+
+            return redirect("staff_event", event.pk)
+    return render(request, "sponsorship/staff/edit_on_event.html",
+                  {"form": form, "event": event})

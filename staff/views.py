@@ -78,6 +78,13 @@ def events(request):
 
 
 @staff_member_required
+def event(request, pk):
+    """ View event. """
+    event = get_object_or_404(Event, pk=pk)
+    return render(request, "staff/event.html", {"event": event})
+
+
+@staff_member_required
 def edit_event(request, pk):
     """ Edit event. """
     event = get_object_or_404(Event, pk=pk)
@@ -86,7 +93,7 @@ def edit_event(request, pk):
         form = EventForm(request.POST, request.FILES, instance=event)
         if form.is_valid():
             form.save()
-            return redirect("staff_events")
+            return redirect("staff_event", event.pk)
     return render(request, "staff/edit_event.html",
                   {"event": event, "form": form})
 

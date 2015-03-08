@@ -3,6 +3,7 @@
 {% load markdown_deux_tags %}
 {% load tickets %}
 {% load groups %}
+{% load plugins %}
 
 {% block content %}
     <div class="container">
@@ -99,6 +100,8 @@
                         {% include "members/_list.html" with members=event.ungrouped_attendees %}
                     {% endif %}
                 {% endif %}
+
+                {% plugin_block "events.event_long" event %}
 
                 <h2>Discussion</h2>
                 {% include "comments/_comments.html" with object=event %}

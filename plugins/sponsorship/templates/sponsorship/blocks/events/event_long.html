@@ -1,0 +1,14 @@
+{% load markdown_deux_tags %}
+{% if event.sponsor %}
+    <div id="sponsors">
+        <h2>Sponsors</h2>
+        <p>The {{event}} {% if event.is_future %}is{% else %}was{% endif %} kindly sponsored by <a href="{{event.sponsor.url}}">{{event.sponsor}}</a>.</p>
+
+        <blockquote>
+            <div style="text-align: center; margin-bottom: 2em;">
+                <a href="{{event.sponsor.url}}"><img style="max-width: 100%;" src="{{event.sponsor.logo.url}}"></a>
+            </div>
+            {{event.sponsor.description|markdown}}
+        </blockquote>
+    </div>
+{% endif %}

@@ -8,16 +8,12 @@
             <th>Name</th>
             <th>Date</th>
             <th>Tickets Sold</th>
-            <th></th>
-            <th></th>
         </tr>
         {% for event in events %}
             <tr>
-                <td><a href="{% url "view_event" event.pk %}">{{event}}</a></td>
+                <td><a href="{% url "staff_event" event.pk %}">{{event}}</a></td>
                 <td>{{event.datetime}}</td>
                 <td>{{event.taken_tickets}} of {{event.available_tickets}}</td>
-                <td><a href="{% url "edit_event" event.pk %}">Edit</a></td>
-                <td><a href="{% url "email_event" event.pk %}">Send Email</a></td>
             </tr>
         {% endfor %}
     </table>
