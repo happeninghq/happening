@@ -1,6 +1,6 @@
 """ Event models. """
 from django.db import models
-from website.db import Model, SiteManager
+from website.db import Model, Manager
 from django.utils import timezone
 from exceptions import EventFinishedError, NoTicketsError
 from exceptions import TicketCancelledError
@@ -16,7 +16,7 @@ from notifications.notifications import EditedTicketNotification
 from notifications.notifications import PurchasedTicketNotification
 
 
-class EventManager(SiteManager):
+class EventManager(Manager):
 
     """ Custom Event Manager, to add site-wide functionality. """
 

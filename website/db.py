@@ -1,6 +1,6 @@
 """ Custom happening database manipulation. """
 
-from django.contrib.sites.managers import CurrentSiteManager as SiteManager
+from django.contrib.sites.managers import CurrentSiteManager as Manager
 from django.db import models
 from django.contrib.sites.models import Site
 from multihost import sites
@@ -18,7 +18,7 @@ class Model(models.Model):
         abstract = True
 
     site = models.ForeignKey(Site)
-    objects = SiteManager()
+    objects = Manager()
 
     def save(self, *args, **kwargs):
         """ Ensure there is a site for this instance. """

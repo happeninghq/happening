@@ -1,5 +1,6 @@
 """ Notification models. """
 from django.db import models
+from website.db import Model, Manager
 from django.template.loader import render_to_string
 import json
 from cached_property import threaded_cached_property
@@ -11,7 +12,7 @@ import notifications
 from django.core.mail import send_mail
 
 
-class NotificationManager(models.Manager):
+class NotificationManager(Manager):
 
     """ Custom Notification manager for unread. """
 
@@ -31,7 +32,7 @@ class NotificationManager(models.Manager):
         return self.all().order_by("-sent_datetime")
 
 
-class Notification(models.Model):
+class Notification(Model):
 
     """ A notification sent to a user. """
 
@@ -138,7 +139,7 @@ class Notification(models.Model):
                   html_message=html_content)
 
 
-class NotificationPreferenceManager(models.Manager):
+class NotificationPreferenceManager(Manager):
 
     """ Custom Notification manager for unread. """
 
@@ -162,7 +163,7 @@ class NotificationPreferenceManager(models.Manager):
         return to_return
 
 
-class NotificationPreference(models.Model):
+class NotificationPreference(Model):
 
     """ A user's notification preference. """
 
