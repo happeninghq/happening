@@ -1,9 +1,10 @@
 """ Sponsorship models. """
 from django.db import models
+from website.db import Model, Manager
 from events.models import Event
 
 
-class Sponsor(models.Model):
+class Sponsor(Model):
 
     """ A Sponsor. """
 
@@ -18,7 +19,7 @@ class Sponsor(models.Model):
         return self.name
 
 
-class EventSponsor(models.Model):
+class EventSponsor(Model):
 
     """ A sponsor for an individual event. """
 
