@@ -36,7 +36,6 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -68,16 +67,20 @@ INSTALLED_APPS = (
     'website',
     'external',
     'events',
-    'sponsorship',
     'members',
     'notifications',
     'pages',
     'voting',
 
-
-
     'django_cleanup',
 )
+
+# Load all plugins
+PLUGINS = []
+for f in os.listdir("plugins"):
+    if os.path.isdir("plugins/%s" % f):
+        PLUGINS.append("plugins.%s" % f)
+INSTALLED_APPS += tuple(PLUGINS)
 
 SOCIALACCOUNT_PROVIDERS = {
     "persona": {
@@ -179,6 +182,7 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
 
+    "staff.context_processors.staff_urls",
     "website.context_processors.site_settings",
     "events.context_processors.events",
     "pages.context_processors.pages_navigation",

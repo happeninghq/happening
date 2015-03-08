@@ -15,17 +15,6 @@
                     {{form|foundation}}
                     <button type="submit">Submit</button>
                 </form>
-
-                {% if event.sponsor %}
-                    <p>The {{event}} is kindly sponsored by <a href="{{event.sponsor.url}}">{{event.sponsor.name}}</a>.</p>
-             
-                    <blockquote>
-                        <div style="text-align: center; margin-bottom: 2em;">
-                            <a href="{{event.sponsor.url}}"><img style="max-width: 100%;" src="{{event.sponsor.logo.url}}"></a>
-                        </div>
-                        {{event.sponsor.description|safe}}
-                    </blockquote>
-                {% endif %}
             </div>
         </div>
     </div>

@@ -1,6 +1,5 @@
 """ Event models. """
 from django.db import models
-from sponsorship.models import Sponsor
 from django.utils import timezone
 from exceptions import EventFinishedError, NoTicketsError
 from exceptions import TicketCancelledError
@@ -40,9 +39,6 @@ class Event(models.Model):
     objects = EventManager()
 
     datetime = models.DateTimeField()
-
-    # This can be null if this event isn't sponsored
-    sponsor = models.ForeignKey(Sponsor, blank=True, null=True)
 
     # The number of tickets available in total for this event
     available_tickets = models.IntegerField(default=30)
@@ -193,9 +189,6 @@ class Event(models.Model):
                   "event": self,
                   "event_name": str(self)}
 
-        if self.sponsor:
-            kwargs["sponsor"] = self.sponsor
-            kwargs["sponsor_logo_url"] = self.sponsor.logo.url
         n = PurchasedTicketNotification(
             user,
             **kwargs)
@@ -233,9 +226,6 @@ class Event(models.Model):
                   "is_voting": self.is_voting,
                   "is_final_notification": is_final
                   }
-        if self.sponsor:
-            kwargs["sponsor"] = self.sponsor
-            kwargs["sponsor_logo_url"] = self.sponsor.logo.url
         e = EventInformationNotification(user, **kwargs)
         e.send()
 
@@ -364,9 +354,6 @@ class Ticket(models.Model):
                   "event": self.event,
                   "event_name": str(self.event)}
 
-        if self.event.sponsor:
-            kwargs["sponsor"] = self.event.sponsor
-            kwargs["sponsor_logo_url"] = self.event.sponsor.logo.url
         n = EditedTicketNotification(
             self.user,
             **kwargs)
@@ -384,10 +371,6 @@ class Ticket(models.Model):
             kwargs = {"ticket": self,
                       "event": self.event,
                       "event_name": str(self.event)}
-
-            if self.event.sponsor:
-                kwargs["sponsor"] = self.event.sponsor
-                kwargs["sponsor_logo_url"] = self.event.sponsor.logo.url
 
             n = CancelledTicketNotification(
                 self.user,

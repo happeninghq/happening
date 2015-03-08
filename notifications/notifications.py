@@ -72,7 +72,6 @@ class EventInformationNotification(Notification):
 
     required_data = ["event", "event_name", "time_to_event",
                      "is_final_notification", "is_voting"]
-    optional_data = ["sponsor", "sponsor_logo_url"]
     category = "Events"
 
 
@@ -81,7 +80,6 @@ class CancelledTicketNotification(Notification):
     """ You have cancelled your tickets for an event. """
 
     required_data = ["ticket", "event", "event_name"]
-    optional_data = ["sponsor", "sponsor_logo_url"]
     category = "Events"
 
 
@@ -90,7 +88,6 @@ class EditedTicketNotification(Notification):
     """ You have edited your tickets for an event. """
 
     required_data = ["ticket", "event", "event_name"]
-    optional_data = ["sponsor", "sponsor_logo_url"]
     category = "Events"
 
 
@@ -99,7 +96,6 @@ class PurchasedTicketNotification(Notification):
     """ You have purchased tickets for an event. """
 
     required_data = ["ticket", "event", "event_name"]
-    optional_data = ["sponsor", "sponsor_logo_url"]
     category = "Events"
 
 
@@ -116,7 +112,7 @@ class AdminEventMessageNotification(Notification):
     """ A message from administrators regarding an event. """
 
     required_data = ["message", "event_name"]
-    optional_data = ["subject", "sponsor", "sponsor_logo_url"]
+    optional_data = ["subject"]
     category = "Events"
 
     send_notification = False
@@ -128,7 +124,7 @@ class AdminMessageNotification(Notification):
     """ A message from administrators. """
 
     required_data = ["message"]
-    optional_data = ["subject", "sponsor", "sponsor_logo_url"]
+    optional_data = ["subject"]
 
     send_notification = False
     can_edit_send_notification = False

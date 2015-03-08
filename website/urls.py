@@ -3,6 +3,7 @@
 from django.conf.urls import patterns, url, include
 from django.conf import settings
 from django.conf.urls.static import static
+import importlib
 
 urlpatterns = patterns('',
                        url(r'^staff/', include('staff.urls')),
@@ -12,7 +13,6 @@ urlpatterns = patterns('',
 
                        (r'^accounts/', include('allauth.urls')),
                        (r'^member/', include('members.urls')),
-                       (r'^sponsor/', include('sponsorship.urls')),
                        (r'^notifications/', include('notifications.urls')),
                        (r'^pages/', include('pages.urls')),
 
@@ -22,3 +22,10 @@ urlpatterns = patterns('',
 
                        ) + static(settings.MEDIA_URL,
                                   document_root=settings.MEDIA_ROOT)
+
+for plugin in settings.PLUGINS:
+    p = importlib.import_module(plugin)
+    if hasattr(p.Plugin, "url_root"):
+        # Include the urlpatterns
+        urlpatterns += patterns(
+            '', (p.Plugin.url_root, include("%s.urls" % plugin)))

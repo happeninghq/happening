@@ -28,10 +28,6 @@
                         {% include "events/_ticket_widget.html" %}
                     {% endif %}
                     {% include "events/_attending_members.html" %}
-
-                    {% if event.sponsor %}
-                        <h2>Sponsor</h2>
-                    {% endif %}
                 {% else %}
                     {% if user|has_tickets:event %}
                         {% with user|tickets:event as a %}
@@ -58,21 +54,6 @@
                             {% endif %}
                         {% endwith %}
                     {% endif %}
-                {% endif %}
-
-                {% if event.sponsor %}
-                    {% if event.is_future %}
-                        <p>The {{event}} is kindly sponsored by <a href="{{event.sponsor.url}}">{{event.sponsor.name}}</a>.</p>
-                    {% else %}
-                        <p>The {{event}} was kindly sponsored by <a href="{{event.sponsor.url}}">{{event.sponsor.name}}</a>.</p>
-                    {% endif %}
-             
-                    <blockquote>
-                        <div style="text-align: center; margin-bottom: 2em;">
-                            <a href="{{event.sponsor.url}}"><img style="max-width: 100%;" src="{{event.sponsor.logo.url}}"></a>
-                        </div>
-                        {{event.sponsor.description|markdown}}
-                    </blockquote>
                 {% endif %}
                 {% if event.challenge_text %}
                     <h2>The Challenge</h2>

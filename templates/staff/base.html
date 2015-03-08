@@ -5,12 +5,9 @@
     <h2>Admin</h2>
     <div class="small-2 columns">
         <ul class="side-nav">
-            <li><a href="{% url "staff" %}">Dashboard</a></li>
-            <li><a href="{% url "staff_members" %}">Members</a></li>
-            <li><a href="{% url "staff_sponsors" %}">Sponsors</a></li>
-            <li><a href="{% url "staff_events" %}">Events</a></li>
-            <li><a href="{% url "staff_pages" %}">Pages</a></li>
-            <li><a href="{% url "staff_send_email" %}">Send Email</a></li>
+            {% for text, link in staff_urls %}
+                <li><a href="{% url link %}">{{text}}</a></li>
+            {% endfor %}
         </ul>
     </div>
 

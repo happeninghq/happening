@@ -54,31 +54,10 @@
                     </div>
                 {% endif %}
 
-                <p>We hold the dojos at the University of Southampton Highfield Campus, Building 32. You can <a href="http://www.southampton.ac.uk/visitus/campuses/maps/highfield_3d_key.pdf">see a map of the campus here</a> where number 6 is next to the Highfield Interchange bus stop and number 32 is the building we meet in.</p>
-
-            {% if not request.user.is_authenticated %}
-                <p>To to be alerted when future events are announced and tickets are available, <a href="{% url "account_signup" %}">Register for an account</a>.
-            {% endif %}
-
-                {% if latest_event.sponsor %}
-                    <div id="sponsors">
-                        <h2>Sponsors</h2>
-                        <p>The {{latest_event}} {% if latest_event.is_future %}is{% else %}was{% endif %} kindly sponsored by <a href="{{latest_event.sponsor.url}}">{{latest_event.sponsor}}</a>.</p>
-
-                        <blockquote>
-                            <div style="text-align: center; margin-bottom: 2em;">
-                                <a href="{{latest_event.sponsor.url}}"><img style="max-width: 100%;" src="{{latest_event.sponsor.logo.url}}"></a>
-                            </div>
-                            {{latest_event.sponsor.description|markdown}}
-                        </blockquote>
-                    </div>
+                {% if not request.user.is_authenticated %}
+                    <p>To to be alerted when future events are announced and tickets are available, <a href="{% url "account_signup" %}">Register for an account</a>.</p>
                 {% endif %}
-
-                <h2>Interested in Sponsoring a dojo?</h2>
-                <p>It costs around &pound;130 to run a dojo. In exchange for that, sponsors gain exposure amongst highly motivated technical people. This helps when hiring and creates connections which allow for easier recruiting of contractors and freelancers. For more details check our <a href="{% url "view_page" "sponsorship" %}">sponsorship page</a>, or if you're interested in sponsoring a future dojo, <a href="mailto:admin@southamptoncodedojo.com">get in touch</a>.</p>
-
-                <p>If you don't have a company or product to promote but still want to support the dojo. Consider taking out <a href="{% url "my_membership" %}">paid membership</a>. This is entirely optional but if you do it we'll be very grateful.</p>
-            </p>
+            </div>
         </div>
     </div>
 {% endblock %}

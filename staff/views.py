@@ -2,13 +2,11 @@
 from website.utils import staff_member_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
-from sponsorship.models import Sponsor
 from events.models import Event
 from events.forms import EventForm
 from pages.models import Page
 from pages.forms import PageForm
 from forms import EmailForm
-from sponsorship.forms import SponsorForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 import json
@@ -59,50 +57,6 @@ def make_not_staff(request, pk):
         user.is_staff = False
         user.save()
     return redirect("staff_members")
-
-
-@staff_member_required
-def sponsors(request):
-    """ Administrate sponsors. """
-    sponsors = Sponsor.objects.all()
-    paginator = Paginator(sponsors, 10)
-
-    page = request.GET.get('page')
-    try:
-        sponsors = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        sponsors = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        sponsors = paginator.page(paginator.num_pages)
-    return render(request, "staff/sponsors.html", {"sponsors": sponsors})
-
-
-@staff_member_required
-def edit_sponsor(request, pk):
-    """ Edit sponsor. """
-    sponsor = get_object_or_404(Sponsor, pk=pk)
-    form = SponsorForm(instance=sponsor)
-    if request.method == "POST":
-        form = SponsorForm(request.POST, request.FILES, instance=sponsor)
-        if form.is_valid():
-            form.save()
-            return redirect("staff_sponsors")
-    return render(request, "staff/edit_sponsor.html",
-                  {"sponsor": sponsor, "form": form})
-
-
-@staff_member_required
-def create_sponsor(request):
-    """ Create sponsor. """
-    form = SponsorForm()
-    if request.method == "POST":
-        form = SponsorForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect("staff_sponsors")
-    return render(request, "staff/create_sponsor.html", {"form": form})
 
 
 @staff_member_required
@@ -162,9 +116,6 @@ def email_event(request, pk):
                 kwargs = {"event_name": str(event),
                           "subject": form.cleaned_data.get("subject"),
                           "message": form.cleaned_data['content']}
-                if event.sponsor:
-                    kwargs["sponsor"] = event.sponsor
-                    kwargs["sponsor_logo_url"] = event.sponsor.logo.url
                 n = AdminEventMessageNotification(user, **kwargs)
                 n.send()
             return redirect("staff_events")

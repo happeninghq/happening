@@ -32,7 +32,6 @@ class TestEventView(TestCase):
                                  timedelta(days=20))
         filled_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                                   timedelta(days=20),
-                                  sponsor=mommy.make("Sponsor"),
                                   challenge_text=generators.gen_text(),
                                   solution_text=generators.gen_text(),
                                   image=generators.gen_image_field())

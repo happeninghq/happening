@@ -133,30 +133,6 @@ class TestTicketPurchase(TestCase):
         self.assertTrue(str(event) in mail.outbox[0].body)
         self.assertTrue(str(event) in mail.outbox[0].subject)
 
-    def test_ticket_emails_include_sponsor(self):
-        """ Test that a sponsor is included in emails when needed. """
-        sponsor = mommy.make("Sponsor")
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=30,
-                           sponsor=sponsor)
-
-        # Purchase ticket
-        ticket = event.buy_ticket(self.user)
-        self.assertTrue(sponsor.name in mail.outbox[0].body)
-        self.assertTrue(sponsor.description in mail.outbox[0].body)
-        mail.outbox = []
-
-        # Edit ticket
-        ticket.change_number(2)
-        self.assertTrue(sponsor.name in mail.outbox[0].body)
-        self.assertTrue(sponsor.description in mail.outbox[0].body)
-        mail.outbox = []
-
-        # Cancel ticket
-        ticket.cancel()
-        self.assertTrue(sponsor.name in mail.outbox[0].body)
-        self.assertTrue(sponsor.description in mail.outbox[0].body)
-
     def test_ticket_purchase_sends_extra_notifications_notification_1(self):
         """ Test that the one week notification is sent when needed. """
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
