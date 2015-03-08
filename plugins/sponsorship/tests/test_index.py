@@ -1,9 +1,9 @@
 """ Test sponsor on index. """
 
-from website.tests import TestCase
-from model_mommy import mommy
-from datetime import datetime, timedelta
-import pytz
+# from website.tests import TestCase
+# from model_mommy import mommy
+# from datetime import datetime, timedelta
+# import pytz
 
 
 # class TestIndex(TestCase):
