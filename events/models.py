@@ -1,5 +1,6 @@
 """ Event models. """
 from django.db import models
+from website.db import Model, SiteManager
 from django.utils import timezone
 from exceptions import EventFinishedError, NoTicketsError
 from exceptions import TicketCancelledError
@@ -15,7 +16,7 @@ from notifications.notifications import EditedTicketNotification
 from notifications.notifications import PurchasedTicketNotification
 
 
-class EventManager(models.Manager):
+class EventManager(SiteManager):
 
     """ Custom Event Manager, to add site-wide functionality. """
 
@@ -32,7 +33,7 @@ class EventManager(models.Manager):
         return self.all().order_by("-datetime").first()
 
 
-class Event(models.Model):
+class Event(Model):
 
     """ An event. """
 
@@ -255,24 +256,8 @@ class Event(models.Model):
             self._send_upcoming_notification(user, False)
 
 
-class EventTodo(models.Model):
-
-    """ Represents actions which need to be taken to prepare for an event. """
-
-    event = models.ForeignKey(Event, related_name="todos")
-    title = models.CharField(max_length=255)
-    notes = models.TextField()
-    # May be unassigned
-    assigned_to = models.ForeignKey("auth.User", null=True,
-                                    related_name="assigned_todos")
-    # May be uncompleted
-    completed_by = models.ForeignKey("auth.User", null=True,
-                                     related_name="completed_todos")
-    completed_at = models.DateTimeField(null=True)
-
-
 # TODO: EventSolution should be moved into its own module
-class EventSolution(models.Model):
+class EventSolution(Model):
 
     """ A solution from a team at a dojo. """
 
@@ -298,7 +283,7 @@ class EventSolution(models.Model):
             event=self.event, group=self.team_number)]
 
 
-class Ticket(models.Model):
+class Ticket(Model):
 
     """ A claim by a user on a place at an event. """
 

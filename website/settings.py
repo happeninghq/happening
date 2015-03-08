@@ -116,6 +116,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+if 'scdtest' not in os.environ:
+    MIDDLEWARE_CLASSES += ('multihost.middleware.MultiHostMiddleware',)
+
+
 ROOT_URLCONF = 'website.urls'
 
 WSGI_APPLICATION = 'website.wsgi.application'
@@ -225,6 +229,8 @@ else:
 FIRST_NOTIFICATION_TIME = 8 * 24  # 1 Week (+ 1 day due to emails at 10am)
 SECOND_NOTIFICATION_TIME = 48     # 1 Day (+ 1 day due to emails at 10am)
 
+
+MULTIHOST_REDIRECT_URL = "http://jscott.me"
 
 # AWS
 if not DEBUG:

@@ -14,6 +14,7 @@ jsonfield==1.0.0 # For JSON serialization
 raven==5.1.1 # for Sentry error reporting
 django-sslify==0.2.5 # Force SSL
 django-contrib-comments==1.5 # Comments
+django-multihost==0.3 # For supporting multiple sites on one instance
 
 # Heroku
 gunicorn==19.1.1 # For hosting on heroku

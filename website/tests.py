@@ -2,6 +2,22 @@
 from django_bs_test import TestCase as bsTestCase
 import vcr
 import os
+from model_mommy import mommy
+from django.contrib.sites.models import Site
+
+
+def add_site_to_all_models(*args, **kwargs):
+    """ Add the site to all models. """
+    try:
+        if 'site' not in kwargs:
+            kwargs['site'] = Site.objects.first()
+        return mommy._make(*args, **kwargs)
+    except TypeError:
+        del kwargs['site']
+        return mommy._make(*args, **kwargs)
+
+mommy._make = mommy.make
+mommy.make = add_site_to_all_models
 
 
 class VCRPyAllMeta(type):
