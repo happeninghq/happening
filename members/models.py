@@ -1,7 +1,7 @@
 """ Member Profile. """
 
 from django.db import models
-from website.db import Model
+from happening.db import Model
 from django.conf import settings
 from django.contrib.auth.models import User
 from cached_property import threaded_cached_property

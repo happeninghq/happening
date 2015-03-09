@@ -1,7 +1,7 @@
 """ Sponsorship views. """
 from django.shortcuts import render, get_object_or_404, redirect
 from models import Sponsor, EventSponsor
-from website.utils import staff_member_required
+from happening.utils import staff_member_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from forms import SponsorForm, EventSponsorForm
 from events.models import Event

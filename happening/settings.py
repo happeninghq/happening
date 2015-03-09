@@ -1,5 +1,5 @@
 """
-Django settings for website project.
+Django settings for happening project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -65,13 +65,15 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'template_profiler_panel',
 
-    'website',
+    'happening',
     'external',
     'events',
     'members',
     'notifications',
     'pages',
     'voting',
+    'staff',
+    'admin',
 
     'django_cleanup',
 )
@@ -120,9 +122,9 @@ if 'scdtest' not in os.environ:
     MIDDLEWARE_CLASSES += ('multihost.middleware.MultiHostMiddleware',)
 
 
-ROOT_URLCONF = 'website.urls'
+ROOT_URLCONF = 'happening.urls'
 
-WSGI_APPLICATION = 'website.wsgi.application'
+WSGI_APPLICATION = 'happening.wsgi.application'
 
 
 # Database
@@ -191,7 +193,7 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     "allauth.socialaccount.context_processors.socialaccount",
 
     "staff.context_processors.staff_urls",
-    "website.context_processors.site_settings",
+    "happening.context_processors.site_settings",
     "events.context_processors.events",
     "pages.context_processors.pages_navigation",
 )
@@ -202,7 +204,7 @@ AUTHENTICATION_BACKENDS = (
 
     # `allauth` specific authentication methods, such as login by e-mail
     # "allauth.account.auth_backends.AuthenticationBackend",
-    "website.auth_backends.SiteBackend",
+    "happening.auth_backends.SiteBackend",
 )
 
 SITE_ID = 1
@@ -210,7 +212,7 @@ SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/'
 
-TEST_RUNNER = 'website.runner.CustomTestSuiteRunner'
+TEST_RUNNER = 'happening.runner.CustomTestSuiteRunner'
 
 ACCOUNT_ADAPTER = 'members.allauth_config.AccountAdapter'
 ACCOUNT_EMAIL_REQUIRED = True

@@ -1,6 +1,6 @@
 """ Test sending emails. """
 
-from website.tests import TestCase
+from happening.tests import TestCase
 from model_mommy import mommy
 from uuid import uuid4
 from django.core import mail

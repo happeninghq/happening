@@ -1,0 +1,1 @@
+""" Overall happening configuration. """

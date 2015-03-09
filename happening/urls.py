@@ -7,7 +7,9 @@ import importlib
 
 urlpatterns = patterns('',
                        url(r'^staff/', include('staff.urls')),
+                       url(r'^admin/', include('admin.urls')),
                        url(r'^events/', include('events.urls')),
+
                        # Include general external pages as fallback
                        url(r'^', include('external.urls')),
 
@@ -17,7 +19,8 @@ urlpatterns = patterns('',
                        (r'^pages/', include('pages.urls')),
 
                        # Overriding comments posted redirect
-                       (r'^comments/posted/$', 'website.views.comment_posted'),
+                       (r'^comments/posted/$',
+                        'happening.views.comment_posted'),
                        (r'^comments/', include('django_comments.urls')),
 
                        ) + static(settings.MEDIA_URL,

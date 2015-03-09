@@ -1,11 +1,11 @@
 """ Test event model. """
 
-from website.tests import TestCase
+from happening.tests import TestCase
 from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz
 from dateutil.relativedelta import relativedelta, MO, TU, WE, TH, FR, SA, SU
-from website.utils import custom_strftime
+from happening.utils import custom_strftime
 
 
 class TestEvent(TestCase):

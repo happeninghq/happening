@@ -1,5 +1,5 @@
 """ Staff views. """
-from website.utils import staff_member_required
+from happening.utils import staff_member_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from events.models import Event

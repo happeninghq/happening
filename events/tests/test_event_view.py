@@ -1,6 +1,6 @@
 """ Test event view. """
 
-from website.tests import TestCase
+from happening.tests import TestCase
 from model_mommy import mommy, generators
 from datetime import datetime, timedelta
 import pytz

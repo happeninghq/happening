@@ -1,4 +1,4 @@
-""" General website views. """
+""" General happening views. """
 
 from django.shortcuts import redirect, get_object_or_404
 from django_comments.models import Comment

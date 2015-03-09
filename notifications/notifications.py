@@ -1,6 +1,6 @@
 """ Notifications. """
 from models import Notification as notification_model
-from website.utils import convert_to_underscore, dump_django
+from happening.utils import convert_to_underscore, dump_django
 
 
 class Notification(object):

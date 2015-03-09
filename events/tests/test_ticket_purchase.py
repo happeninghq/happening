@@ -1,6 +1,6 @@
 """ Test ticket purchasing. """
 
-from website.tests import TestCase
+from happening.tests import TestCase
 from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz

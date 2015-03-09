@@ -1,12 +1,12 @@
 """ Event models. """
 from django.db import models
-from website.db import Model, Manager
+from happening.db import Model, Manager
 from django.utils import timezone
 from exceptions import EventFinishedError, NoTicketsError
 from exceptions import TicketCancelledError
 from datetime import datetime, timedelta
 import pytz
-from website.utils import custom_strftime
+from happening.utils import custom_strftime
 from jsonfield import JSONField
 import random
 from django.core.urlresolvers import reverse

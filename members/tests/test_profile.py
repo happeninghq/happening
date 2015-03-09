@@ -1,6 +1,6 @@
 """ Test viewing and editing profile. """
 
-from website.tests import TestCase
+from happening.tests import TestCase
 from model_mommy import mommy
 from django.contrib.auth.models import User
 from model_mommy.generators import gen_image_field

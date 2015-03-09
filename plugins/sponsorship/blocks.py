@@ -1,5 +1,5 @@
 """ Sponsorship template blocks. """
-from website.plugins import plugin_block
+from happening.plugins import plugin_block
 from django.template.loader import render_to_string
 
 

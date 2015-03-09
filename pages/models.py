@@ -1,6 +1,6 @@
 """ Page models. """
 from django.db import models
-from website.db import Model, Manager
+from happening.db import Model, Manager
 
 
 class PageManager(Manager):

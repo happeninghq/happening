@@ -1,7 +1,7 @@
 """ Template tags relating to strings. """
 
 from django import template
-from website.utils import convert_to_spaces
+from happening.utils import convert_to_spaces
 
 register = template.Library()
 

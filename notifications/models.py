@@ -1,13 +1,13 @@
 """ Notification models. """
 from django.db import models
-from website.db import Model, Manager
+from happening.db import Model, Manager
 from django.template.loader import render_to_string
 import json
 from cached_property import threaded_cached_property
 from bs4 import BeautifulSoup
 from datetime import datetime
 from markdown_deux import markdown
-from website.utils import convert_to_camelcase
+from happening.utils import convert_to_camelcase
 import notifications
 from django.core.mail import send_mail
 
