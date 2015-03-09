@@ -4,6 +4,7 @@ from happening.tests import TestCase
 from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz
+from django.conf import settings
 
 
 class TestPostEventUpdating(TestCase):
@@ -12,7 +13,7 @@ class TestPostEventUpdating(TestCase):
 
     def setUp(self):
         """ Set up a common user. """
-        self.user = mommy.make("auth.User", email="test@example.com")
+        self.user = mommy.make(settings.AUTH_USER_MODEL, email="test@example.com")
         self.user.set_password("password")
         self.user.save()
 
@@ -93,7 +94,7 @@ class TestPostEventUpdating(TestCase):
                                     {"description": "DESCRIPTION",
                                      "github_url": "http://google.com"},
                                     follow=True)
-        user = mommy.make("auth.User", email="test@example.com")
+        user = mommy.make(settings.AUTH_USER_MODEL, email="test@example.com")
         user.set_password("password")
         user.save()
         self.client.login(username=user.username, password="password")

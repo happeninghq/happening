@@ -7,6 +7,7 @@ from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz
 from django.core import mail
+from django.conf import settings
 
 
 class TestTickets(TestCase):
@@ -26,7 +27,7 @@ class TestTickets(TestCase):
         """ Test that we can buy tickets. """
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
-        user = mommy.make("auth.User")
+        user = mommy.make(settings.AUTH_USER_MODEL)
         self.assertEqual(30, event.remaining_tickets)
         event.buy_ticket(user)  # Should buy 1 ticket
         self.assertEqual(29, event.remaining_tickets)
@@ -41,7 +42,7 @@ class TestTickets(TestCase):
         """ Test that we can't buy tickets past the deadline. """
         past_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                                 timedelta(days=20), available_tickets=30)
-        user = mommy.make("auth.User")
+        user = mommy.make(settings.AUTH_USER_MODEL)
 
         with self.assertRaises(EventFinishedError):
             past_event.buy_ticket(user)
@@ -52,7 +53,7 @@ class TestTickets(TestCase):
         """ Test that we can't buy tickets once they are sold out. """
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=1)
-        user = mommy.make("auth.User")
+        user = mommy.make(settings.AUTH_USER_MODEL)
 
         event.buy_ticket(user)  # This should be the last ticket
 
@@ -67,7 +68,7 @@ class TestTickets(TestCase):
         """ Test that we can edit tickets. """
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
-        user = mommy.make("auth.User")
+        user = mommy.make(settings.AUTH_USER_MODEL)
 
         ticket = event.buy_ticket(user, tickets=5)
 
@@ -102,7 +103,7 @@ class TestTickets(TestCase):
         """ Test editing a ticket to 0 cancels it. """
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
-        user = mommy.make("auth.User")
+        user = mommy.make(settings.AUTH_USER_MODEL)
 
         ticket = event.buy_ticket(user, tickets=5)
 
@@ -117,7 +118,7 @@ class TestTickets(TestCase):
         """ Test editing a cancelled ticket. """
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
-        user = mommy.make("auth.User")
+        user = mommy.make(settings.AUTH_USER_MODEL)
 
         ticket = event.buy_ticket(user, tickets=5)
         ticket.cancel()
@@ -129,7 +130,7 @@ class TestTickets(TestCase):
         """ Test that we can cancel tickets. """
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
-        user = mommy.make("auth.User")
+        user = mommy.make(settings.AUTH_USER_MODEL)
 
         ticket = event.buy_ticket(user, tickets=5)
 

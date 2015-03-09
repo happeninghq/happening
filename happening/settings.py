@@ -134,6 +134,8 @@ DATABASES = {
     'default': dj_database_url.config(default="sqlite:///db.sqlite3")
 }
 
+# AUTH_USER_MODEL = "happening.User"
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

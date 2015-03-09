@@ -3,6 +3,7 @@
 # from happening.tests import TestCase
 # from model_mommy import mommy
 # from django.contrib.auth.models import User
+# from django.conf import settings
 
 
 # class TestPaidMembership(TestCase):
@@ -11,7 +12,7 @@
 
 #     def setUp(self):
 #         """ Set up a user. """
-#         self.user = mommy.make("auth.User")
+#         self.user = mommy.make(settings.AUTH_USER_MODEL)
 #         self.user.set_password("password")
 #         self.user.save()
 

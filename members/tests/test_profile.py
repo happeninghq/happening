@@ -16,7 +16,7 @@ class TestProfile(TestCase):
 
     def setUp(self):
         """ Set up a user. """
-        self.user = mommy.make("auth.User")
+        self.user = mommy.make(settings.AUTH_USER_MODEL)
         self.user.set_password("password")
         self.user.save()
 
@@ -33,7 +33,7 @@ class TestProfile(TestCase):
 
     def test_cannot_edit_other_profiles(self):
         """ Test that users cannot edit other people's profiles. """
-        user2 = mommy.make("auth.User")
+        user2 = mommy.make(settings.AUTH_USER_MODEL)
         user2.set_password("password")
         user2.save()
 

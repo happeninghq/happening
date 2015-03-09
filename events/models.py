@@ -14,6 +14,7 @@ from notifications.notifications import EventInformationNotification
 from notifications.notifications import CancelledTicketNotification
 from notifications.notifications import EditedTicketNotification
 from notifications.notifications import PurchasedTicketNotification
+from django.conf import settings
 
 
 class EventManager(Manager):
@@ -288,7 +289,7 @@ class Ticket(Model):
     """ A claim by a user on a place at an event. """
 
     event = models.ForeignKey(Event, related_name="tickets")
-    user = models.ForeignKey("auth.User", related_name="tickets")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="tickets")
     number = models.IntegerField(default=1)
     purchased_datetime = models.DateTimeField(auto_now_add=True)
     last_edited_datetime = models.DateTimeField(auto_now=True)

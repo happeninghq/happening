@@ -3,6 +3,7 @@
 from happening.tests import TestCase
 from model_mommy import mommy
 from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class TestSettings(TestCase):
@@ -11,7 +12,7 @@ class TestSettings(TestCase):
 
     def setUp(self):
         """ Set up a user. """
-        self.user = mommy.make("auth.User")
+        self.user = mommy.make(settings.AUTH_USER_MODEL)
         self.user.set_password("password")
         self.user.save()
 
@@ -29,7 +30,7 @@ class TestSettings(TestCase):
 
     def test_cannot_view_other_settings(self):
         """ Test that users cannot view other people's settings. """
-        user2 = mommy.make("auth.User")
+        user2 = mommy.make(settings.AUTH_USER_MODEL)
         user2.set_password("password")
         user2.save()
 
@@ -61,7 +62,7 @@ class TestSettings(TestCase):
         self.user = User.objects.get(pk=self.user.id)
         self.assertEquals("test_new_username", self.user.username)
 
-        user2 = mommy.make("auth.User")
+        user2 = mommy.make(settings.AUTH_USER_MODEL)
         user2.set_password("password")
         user2.save()
 

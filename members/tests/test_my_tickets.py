@@ -5,6 +5,7 @@ from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz
 from events.models import Ticket
+from django.conf import settings
 
 
 class TestMyTickets(TestCase):
@@ -13,7 +14,7 @@ class TestMyTickets(TestCase):
 
     def setUp(self):
         """ Set up a user with some tickets. """
-        self.user = mommy.make("auth.User")
+        self.user = mommy.make(settings.AUTH_USER_MODEL)
         self.user.set_password("password")
         self.user.save()
 
@@ -70,7 +71,7 @@ class TestMyTickets(TestCase):
 
     def test_edit_another_users_ticket(self):
         """ Test we can't edit tickets that don't belong to us. """
-        user = mommy.make("auth.User")
+        user = mommy.make(settings.AUTH_USER_MODEL)
         user.set_password("password")
         user.save()
 
@@ -102,7 +103,7 @@ class TestMyTickets(TestCase):
 
     def test_cancel_another_users_ticket(self):
         """ Test we can't cancel tickets that don't belong to us. """
-        user = mommy.make("auth.User")
+        user = mommy.make(settings.AUTH_USER_MODEL)
         user.set_password("password")
         user.save()
 

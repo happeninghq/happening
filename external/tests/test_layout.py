@@ -4,6 +4,7 @@ from happening.tests import TestCase
 from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz
+from django.conf import settings
 
 
 class TestLayout(TestCase):
@@ -20,7 +21,7 @@ class TestLayout(TestCase):
 
     def test_shows_logged_in_links(self):
         """ Test it has appropriate links for logged in users. """
-        user = mommy.make("auth.User")
+        user = mommy.make(settings.AUTH_USER_MODEL)
         user.set_password("password")
         user.save()
 

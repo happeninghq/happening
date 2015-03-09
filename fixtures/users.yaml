@@ -1,4 +1,4 @@
-- model: auth.user
+- model: happening.user
   pk: 1
   fields:
     first_name: admin

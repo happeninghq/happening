@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import pytz
 from django.core import mail
 from events.exceptions import NoTicketsError
+from django.conf import settings
 
 
 class TestTicketPurchase(TestCase):
@@ -14,7 +15,7 @@ class TestTicketPurchase(TestCase):
 
     def setUp(self):
         """ Set up a common user. """
-        self.user = mommy.make("auth.User", email="test@example.com")
+        self.user = mommy.make(settings.AUTH_USER_MODEL, email="test@example.com")
         self.user.set_password("password")
         self.user.save()
 
@@ -94,7 +95,7 @@ class TestTicketPurchase(TestCase):
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
 
-        user2 = mommy.make("auth.User")
+        user2 = mommy.make(settings.AUTH_USER_MODEL)
         user2.set_password("password")
         user2.save()
 

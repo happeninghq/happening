@@ -10,6 +10,7 @@ from markdown_deux import markdown
 from happening.utils import convert_to_camelcase
 import notifications
 from django.core.mail import send_mail
+from django.conf import settings
 
 
 class NotificationManager(Manager):
@@ -38,7 +39,7 @@ class Notification(Model):
 
     objects = NotificationManager()
 
-    user = models.ForeignKey("auth.User", related_name="notifications")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="notifications")
     template = models.CharField(max_length=200)
     data = models.TextField()
     sent_datetime = models.DateTimeField(auto_now_add=True)
@@ -169,7 +170,7 @@ class NotificationPreference(Model):
 
     objects = NotificationPreferenceManager()
 
-    user = models.ForeignKey("auth.User",
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name="notification_preferences")
     notification = models.CharField(max_length=255)
     send_notifications = models.BooleanField(default=True)

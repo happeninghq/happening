@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import pytz
 from uuid import uuid4
 from django.core import mail
+from django.conf import settings
 
 
 class TestEvents(TestCase):
@@ -14,7 +15,7 @@ class TestEvents(TestCase):
 
     def setUp(self):
         """ Set up a user. """
-        self.user = mommy.make("auth.User", is_staff=True)
+        self.user = mommy.make(settings.AUTH_USER_MODEL, is_staff=True)
         self.user.set_password("password")
         self.user.save()
 

@@ -3,6 +3,7 @@ from happening.tests import TestCase
 from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz
+from django.conf import settings
 
 
 class TestTicketWidget(TestCase):
@@ -88,11 +89,11 @@ class TestTicketWidget(TestCase):
 
     def test_lists_attending_members(self):
         """ Test that the widget shows a list of attending members. """
-        member1 = mommy.make("auth.User")
+        member1 = mommy.make(settings.AUTH_USER_MODEL)
         member1.set_password("password")
         member1.save()
 
-        member2 = mommy.make("auth.User")
+        member2 = mommy.make(settings.AUTH_USER_MODEL)
         member2.set_password("password")
         member2.save()
 

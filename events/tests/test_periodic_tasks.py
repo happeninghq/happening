@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import pytz
 from django.core import mail
 from events.periodictasks import send_event_notifications
+from django.conf import settings
 
 
 class TestPeriodicTasks(TestCase):
@@ -14,7 +15,7 @@ class TestPeriodicTasks(TestCase):
 
     def setUp(self):
         """ Set up a common user. """
-        self.user = mommy.make("auth.User", email="test@example.com")
+        self.user = mommy.make(settings.AUTH_USER_MODEL, email="test@example.com")
 
     def test_doesnt_send_reminder_more_than_one_week(self):
         """ Test that no reminder is sent more than 1 week in advance. """
@@ -69,7 +70,7 @@ class TestPeriodicTasks(TestCase):
         """ Test that multiple attendees recieve the emails. """
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=6))
-        user2 = mommy.make("auth.User", email="test2@example.com")
+        user2 = mommy.make(settings.AUTH_USER_MODEL, email="test2@example.com")
         event.buy_ticket(self.user)
         event.buy_ticket(user2)
         mail.outbox = []  # Remove purchase emails

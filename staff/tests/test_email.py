@@ -4,6 +4,7 @@ from happening.tests import TestCase
 from model_mommy import mommy
 from uuid import uuid4
 from django.core import mail
+from django.conf import settings
 
 
 class TestEmail(TestCase):
@@ -12,7 +13,7 @@ class TestEmail(TestCase):
 
     def setUp(self):
         """ Set up a user. """
-        self.user = mommy.make("auth.User", is_staff=True)
+        self.user = mommy.make(settings.AUTH_USER_MODEL, is_staff=True)
         self.user.set_password("password")
         self.user.save()
 
@@ -34,7 +35,7 @@ class TestEmail(TestCase):
         mail.outbox = []
 
         # With two members
-        mommy.make("auth.User")
+        mommy.make(settings.AUTH_USER_MODEL)
         self.client.post("/staff/send_email", {
             "subject": test_subject,
             "content": test_content
