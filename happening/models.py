@@ -1,3 +1,5 @@
+""" General site-wide models. """
+
 # from django.contrib.auth.models import AbstractUser
 
 
