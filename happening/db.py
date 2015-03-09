@@ -22,7 +22,7 @@ class Model(models.Model):
 
     def save(self, *args, **kwargs):
         """ Ensure there is a site for this instance. """
-        if 'scdtest' in os.environ:
+        if 'scdtest' in os.environ or 'travis' in os.environ:
             self.site = Site.objects.first()
         else:
             self.site = sites.by_host()
