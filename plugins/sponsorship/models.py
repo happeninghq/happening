@@ -1,6 +1,6 @@
 """ Sponsorship models. """
 from django.db import models
-from website.db import Model, Manager
+from website.db import Model
 from events.models import Event
 
 

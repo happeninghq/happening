@@ -21,7 +21,6 @@ class Migration(migrations.Migration):
                 ('challenge_text', models.TextField(null=True, blank=True)),
                 ('solution_text', models.TextField(null=True, blank=True)),
                 ('image', models.ImageField(null=True, upload_to=b'event_images', blank=True)),
-                ('sponsor', models.ForeignKey(blank=True, to='sponsorship.Sponsor', null=True)),
             ],
             options={
             },

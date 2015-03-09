@@ -1,6 +1,7 @@
 """ Member Profile. """
 
 from django.db import models
+from website.db import Model
 from django.conf import settings
 from django.contrib.auth.models import User
 from cached_property import threaded_cached_property
@@ -12,7 +13,7 @@ User.profile = threaded_cached_property(
     lambda u: Profile.objects.get_or_create(user=u)[0])
 
 
-class Profile(models.Model):
+class Profile(Model):
 
     """ Member Profile. """
 
@@ -81,7 +82,7 @@ class Profile(models.Model):
             end_time__gt=timezone.now()).order_by("start_time").first()
 
 
-class PaidMembership(models.Model):
+class PaidMembership(Model):
 
     """ A payment made to upgrade membership. """
 

@@ -3,12 +3,12 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 
-
+# Removed history of Sponsor - hence the number jump
 class Migration(migrations.Migration):
 
     dependencies = [
         ('sites', '0001_initial'),
-        ('events', '0016_remove_event_sponsor'),
+        ('events', '0015_auto_20150202_1330'),
     ]
 
     operations = [
