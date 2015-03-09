@@ -39,7 +39,8 @@ class Notification(Model):
 
     objects = NotificationManager()
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="notifications")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             related_name="notifications")
     template = models.CharField(max_length=200)
     data = models.TextField()
     sent_datetime = models.DateTimeField(auto_now_add=True)

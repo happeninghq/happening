@@ -15,7 +15,8 @@ class TestTicketPurchase(TestCase):
 
     def setUp(self):
         """ Set up a common user. """
-        self.user = mommy.make(settings.AUTH_USER_MODEL, email="test@example.com")
+        self.user = mommy.make(settings.AUTH_USER_MODEL,
+                               email="test@example.com")
         self.user.set_password("password")
         self.user.save()
 

@@ -17,7 +17,8 @@ class Profile(Model):
 
     """ Member Profile. """
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="existing_profile")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                related_name="existing_profile")
 
     bio = models.TextField()
     photo = models.ImageField(null=True, upload_to="media/profile_photos")
@@ -86,7 +87,8 @@ class PaidMembership(Model):
 
     """ A payment made to upgrade membership. """
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="memberships")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             related_name="memberships")
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     amount = models.IntegerField()

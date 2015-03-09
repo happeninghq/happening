@@ -15,7 +15,8 @@ class TestPeriodicTasks(TestCase):
 
     def setUp(self):
         """ Set up a common user. """
-        self.user = mommy.make(settings.AUTH_USER_MODEL, email="test@example.com")
+        self.user = mommy.make(settings.AUTH_USER_MODEL,
+                               email="test@example.com")
 
     def test_doesnt_send_reminder_more_than_one_week(self):
         """ Test that no reminder is sent more than 1 week in advance. """
