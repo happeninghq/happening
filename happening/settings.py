@@ -118,7 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-if 'scdtest' not in os.environ:
+if 'scdtest' not in os.environ and 'travis' not in os.environ:
     MIDDLEWARE_CLASSES += ('multihost.middleware.MultiHostMiddleware',)
 
 
