@@ -35,7 +35,7 @@ urlpatterns = patterns('staff.views',
 
 for plugin in settings.PLUGINS:
     p = importlib.import_module(plugin)
-    if hasattr(p.Plugin, "admin_url_root"):
+    if hasattr(p.Plugin, "staff_url_root"):
         # Include the urlpatterns
         urlpatterns += patterns(
-            '', (p.Plugin.admin_url_root, include("%s.admin" % plugin)))
+            '', (p.Plugin.staff_url_root, include("%s.staff" % plugin)))

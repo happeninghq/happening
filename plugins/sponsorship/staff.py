@@ -13,6 +13,6 @@ urlpatterns = patterns('plugins.sponsorship.views',
                            name='sponsor_edit_on_event'),
                        )
 
-admin_links = (
+staff_links = (
     ("Sponsors", "staff_sponsors"),
 )

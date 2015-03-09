@@ -13,8 +13,8 @@ cached_staff_urls = [
 
 for plugin in settings.PLUGINS:
     p = importlib.import_module(plugin)
-    if hasattr(p, "admin") and hasattr(p.admin, "admin_links"):
-        cached_staff_urls += p.admin.admin_links
+    if hasattr(p, "staff") and hasattr(p.staff, "staff_links"):
+        cached_staff_urls += p.staff.staff_links
 
 
 def staff_urls(request):
