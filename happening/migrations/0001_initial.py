@@ -10,6 +10,8 @@ import django.core.validators
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('contenttypes', '__first__'),
+        ('sites', '__first__'),
         ('auth', '0001_initial'),
     ]
 
@@ -36,5 +38,21 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'users',
             },
             bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='user',
+            name='site',
+            field=models.ForeignKey(default=1, to='sites.Site'),
+            preserve_default=False,
+        ),
+        migrations.AlterField(
+            model_name='user',
+            name='username',
+            field=models.CharField(help_text='Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.', max_length=30, verbose_name='username', validators=[django.core.validators.RegexValidator(b'^[\\w.@+-]+$', 'Enter a valid username.', b'invalid')]),
+            preserve_default=True,
+        ),
+        migrations.AlterUniqueTogether(
+            name='user',
+            unique_together=set([('site', 'username')]),
         ),
     ]
