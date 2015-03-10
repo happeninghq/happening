@@ -134,7 +134,7 @@ DATABASES = {
     'default': dj_database_url.config(default="sqlite:///db.sqlite3")
 }
 
-# AUTH_USER_MODEL = "happening.User"
+AUTH_USER_MODEL = "happening.User"
 
 
 # Internationalization
@@ -205,8 +205,8 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
 
     # `allauth` specific authentication methods, such as login by e-mail
-    # "allauth.account.auth_backends.AuthenticationBackend",
-    "happening.auth_backends.SiteBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+    # "happening.auth_backends.SiteBackend",
 )
 
 SITE_ID = 1

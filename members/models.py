@@ -3,7 +3,7 @@
 from django.db import models
 from happening.db import Model
 from django.conf import settings
-from django.contrib.auth.models import User
+from happening.models import User
 from cached_property import threaded_cached_property
 from django_gravatar.helpers import get_gravatar_url, has_gravatar
 from django.utils import timezone
