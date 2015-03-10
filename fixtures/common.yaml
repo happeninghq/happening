@@ -3,3 +3,8 @@
   fields:
     domain: localhost:8000
     name: Happening
+- model: sites.Site
+  pk: 2
+  fields:
+    domain: happening.dev:8000
+    name: Happening Dev

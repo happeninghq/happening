@@ -13,10 +13,12 @@ class Manager(CurrentSiteManager):
 
     def get_queryset(self):
         """ Get the current site ID from the URL. """
-        if 'scdtest' in os.environ or 'travis' in os.environ:
-            site_id = 1
-        else:
-            site_id = sites.by_host().id
+        site_id = 1
+
+        if 'scdtest' not in os.environ and 'travis' not in os.environ:
+            site = sites.by_host()
+            if site:
+                site_id = site.id
 
         return super(CurrentSiteManager, self).get_queryset().filter(
             **{self._get_field_name() + '__id': site_id})

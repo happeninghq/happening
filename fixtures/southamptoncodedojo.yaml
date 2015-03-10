@@ -4,6 +4,7 @@
 - model: events.Event
   pk: 1
   fields:
+    site: 1
     datetime: "2014-04-11 19:00:00+00:00"
     challenge_language: Python
     challenge_title: Battleships
@@ -14,6 +15,7 @@
 - model: events.EventSolution
   pk: 1
   fields:
+    site: 1
     event: 1
     team_name: Team 5
     github_url: https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/team5.py
@@ -22,6 +24,7 @@
 - model: events.EventSolution
   pk: 2
   fields:
+    site: 1
     event: 1
     team_name: Lucky Number
     github_url: https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/luckynumber.py
@@ -30,6 +33,7 @@
 - model: events.EventSolution
   pk: 3
   fields:
+    site: 1
     event: 1
     team_name: Beetleships
     github_url: https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/beetleships.py
@@ -38,6 +42,7 @@
 - model: events.Event
   pk: 2
   fields:
+    site: 1
     datetime: "2014-05-08 19:00:00+00:00"
     challenge_language: Python
     challenge_title: Daily Mail Headline Generator
@@ -47,6 +52,7 @@
 - model: events.EventSolution
   pk: 4
   fields:
+    site: 1
     event: 2
     team_name: Team 1
     github_url: https://github.com/southampton-code-dojo/daily-mail-headlines/tree/master/team1
@@ -55,6 +61,7 @@
 - model: events.EventSolution
   pk: 5
   fields:
+    site: 1
     event: 2
     team_name: Team 2
     github_url: https://github.com/southampton-code-dojo/daily-mail-headlines/tree/master/team2
@@ -63,6 +70,7 @@
 - model: events.Event
   pk: 3
   fields:
+    site: 1
     datetime: "2014-06-12 19:00:00+00:00"
     # eventbrite_url: http://southamptoncodedojo3.eventbrite.co.uk
     challenge_language: Javascript
@@ -74,6 +82,7 @@
 - model: events.EventSolution
   pk: 6
   fields:
+    site: 1
     event: 3
     team_name: Group 1
     github_url: https://github.com/sinjax/mastermind
@@ -82,6 +91,7 @@
 - model: events.EventSolution
   pk: 7
   fields:
+    site: 1
     event: 3
     team_name: Group 2
     github_url: https://github.com/southampton-code-dojo/mastermind-june-2014-dojo
@@ -90,6 +100,7 @@
 - model: events.Event
   pk: 4
   fields:
+    site: 1
     datetime: "2014-07-10 19:00:00+00:00"
     challenge_language: Python
     challenge_title: Roman Numeral Calculator
@@ -99,6 +110,7 @@
 - model: events.EventSolution
   pk: 8
   fields:
+    site: 1
     event: 4
     team_name: Group 1
     github_url: https://github.com/patrickmcsweeney/romancalc
@@ -106,6 +118,7 @@
 - model: events.EventSolution
   pk: 9
   fields:
+    site: 1
     event: 4
     team_name: Group 2
     github_url: https://gist.github.com/jscott1989/809c69e5547e9a58ef1b
@@ -113,6 +126,7 @@
 - model: events.EventSolution
   pk: 10
   fields:
+    site: 1
     event: 4
     team_name: Group 4
     github_url: https://gist.github.com/andrew804/b56395a24827fc71241e
@@ -120,8 +134,8 @@
 - model: events.Event
   pk: 5
   fields:
+    site: 1
     datetime: "2014-08-14 19:00:00+00:00"
-    # eventbrite_url: http://southamptoncodedojo5.eventbrite.co.uk
     challenge_language: Java
     challenge_title: Countdown Solver
     challenge_text: This month's challenge was to implement a Countdown numbers round solver in Java. The idea was taken from [Ruby Quiz 7](http://rubyquiz.com/quiz7.html) so you can go there for more details and to see some example answers where they had longer to work on them.
@@ -130,6 +144,7 @@
 - model: events.EventSolution
   pk: 11
   fields:
+    site: 1
     event: 5
     team_name: Solution 1
     github_url: https://github.com/southampton-code-dojo/countdown_numbers
@@ -137,6 +152,7 @@
 - model: events.Event
   pk: 6
   fields:
+    site: 1
     datetime: "2014-09-11 19:00:00+00:00"
     challenge_language: Javascript
     challenge_title: Sodoku Solver
@@ -146,6 +162,7 @@
 - model: events.EventSolution
   pk: 12
   fields:
+    site: 1
     event: 6
     team_name: Solution 1
     github_url: https://github.com/southampton-code-dojo/js-sudoku
@@ -153,6 +170,7 @@
 - model: events.EventSolution
   pk: 13
   fields:
+    site: 1
     event: 6
     team_name: Solution 2
     github_url: https://github.com/southampton-code-dojo/sudoku
@@ -160,6 +178,7 @@
 - model: events.EventSolution
   pk: 14
   fields:
+    site: 1
     event: 6
     team_name: Solution 3
     github_url: https://github.com/southampton-code-dojo/CodeDojoSudokuSolver
@@ -167,6 +186,7 @@
 - model: events.Event
   pk: 7
   fields:
+    site: 1
     datetime: "2014-10-09 19:00:00+00:00"
     challenge_language: Java
     challenge_title: Minesweeper AI
@@ -180,6 +200,7 @@
 - model: events.EventSolution
   pk: 15
   fields:
+    site: 1
     event: 7
     team_name: Group 1
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/TeamOnePlayer.java
@@ -187,6 +208,7 @@
 - model: events.EventSolution
   pk: 16
   fields:
+    site: 1
     event: 7
     team_name: Group 2
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/OrderedPlayer.java
@@ -194,6 +216,7 @@
 - model: events.EventSolution
   pk: 17
   fields:
+    site: 1
     event: 7
     team_name: Group 3
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/UltraSuperPlayer.java
@@ -201,6 +224,7 @@
 - model: events.EventSolution
   pk: 18
   fields:
+    site: 1
     event: 7
     team_name: Group 4
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/SuperPlayer.java
@@ -208,6 +232,7 @@
 - model: events.EventSolution
   pk: 19
   fields:
+    site: 1
     event: 7
     team_name: Group 5
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/CornerPlayer.java
@@ -215,8 +240,8 @@
 - model: events.Event
   pk: 8
   fields:
+    site: 1
     datetime: "2014-11-13 19:00:00+00:00"
-    # eventbrite_url: http://southamptoncodedojo8.eventbrite.co.uk
     challenge_language: Python
     challenge_title: Poetry Generator
     challenge_text: We started out by attempting to run a pre-prepared challenge, however networking issues put an end to that and we voted on a replacement task - we decided to develop poetry generators.
@@ -226,6 +251,7 @@
 - model: events.EventSolution
   pk: 20
   fields:
+    site: 1
     event: 8
     team_name: Group 1
     github_url: https://github.com/mikejewell/dojo-poetry
@@ -233,6 +259,7 @@
 - model: events.EventSolution
   pk: 21
   fields:
+    site: 1
     event: 8
     team_name: Group 2
     github_url: https://github.com/highflying/poem-generator
@@ -240,6 +267,7 @@
 - model: events.EventSolution
   pk: 22
   fields:
+    site: 1
     event: 8
     team_name: Group 3
     github_url: https://github.com/priyankasingh/haiku
@@ -247,6 +275,7 @@
 - model: events.EventSolution
   pk: 23
   fields:
+    site: 1
     event: 8
     team_name: Group 4
     github_url: https://gist.github.com/jscott1989/366a868de420b648ab51
@@ -254,6 +283,7 @@
 - model: events.EventSolution
   pk: 24
   fields:
+    site: 1
     event: 8
     team_name: Group 5
     github_url: https://github.com/rprince/poetry-november-2014-dojo
@@ -261,8 +291,8 @@
 - model: events.Event
   pk: 9
   fields:
+    site: 1
     datetime: "2014-12-04 19:00:00+00:00"
-    # eventbrite_url: http://southamptoncodedojo9.eventbrite.co.uk
     challenge_language: C
     challenge_title: Secret Santa Organiser
     challenge_text:
@@ -275,24 +305,28 @@
 - model: events.EventSolution
   pk: 25
   fields:
+    site: 1
     event: 9
     team_name: Group 1
     github_url: https://github.com/jscott1989/DecDojo
 - model: events.EventSolution
   pk: 26
   fields:
+    site: 1
     event: 9
     team_name: Group 2
     github_url: https://github.com/steppers/Dec-2014-Southampton-CodeDojo
 - model: events.EventSolution
   pk: 27
   fields:
+    site: 1
     event: 9
     team_name: Group 3
     github_url: https://github.com/rprince/secret-santa-december-2014-dojo
 - model: events.EventSolution
   pk: 28
   fields:
+    site: 1
     event: 9
     team_name: Group 5
     github_url: https://github.com/nbojinov/CodoDojo
@@ -301,6 +335,7 @@
 - model: pages.Page
   pk: 1
   fields:
+    site: 1
     url: about
     title: About Southampton Code Dojo
     path: About/About
@@ -326,6 +361,7 @@
 - model: pages.Page
   pk: 2
   fields:
+    site: 1
     url: sponsorship
     title: Southampton Code Dojo Sponsorship
     path: About/Sponsorship
