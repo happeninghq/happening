@@ -2,7 +2,7 @@
 
 from happening.tests import TestCase
 from model_mommy import mommy
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.conf import settings
 
 
@@ -59,7 +59,7 @@ class TestSettings(TestCase):
             "/member/%s/settings" % self.user.id in
             response.redirect_chain[0][0])
 
-        self.user = User.objects.get(pk=self.user.id)
+        self.user = get_user_model().objects.get(pk=self.user.id)
         self.assertEquals("test_new_username", self.user.username)
 
         user2 = mommy.make(settings.AUTH_USER_MODEL)

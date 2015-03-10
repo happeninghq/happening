@@ -2,9 +2,10 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+from django.contrib.auth import get_user_model
 
 def migrate_users(apps, schema_editor):
-    OldUser = apps.get_model("auth", "User")
+    OldUser = get_user_model()
     User = apps.get_model("happening", "User")
     for old_u in OldUser.objects.all():
         new_u = User.objects.create(

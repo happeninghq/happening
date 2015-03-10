@@ -2,7 +2,7 @@
 
 from happening.tests import TestCase
 from model_mommy import mommy
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from model_mommy.generators import gen_image_field
 from django.conf import settings
 import os.path
@@ -67,7 +67,7 @@ class TestProfile(TestCase):
         self.assertTrue(
             "/member/%s" % self.user.id in response.redirect_chain[0][0])
 
-        self.user = User.objects.get(pk=self.user.id)
+        self.user = get_user_model().objects.get(pk=self.user.id)
         self.assertEquals("j", self.user.first_name)
         self.assertEquals("s", self.user.last_name)
         self.assertEquals("test 1 2 3", self.user.profile.bio)
@@ -80,7 +80,7 @@ class TestProfile(TestCase):
                                     {'photo': f}, follow=True)
         self.assertTrue("/member/%s/edit/photo/crop" % self.user.id
                         in response.redirect_chain[0][0])
-        self.user = User.objects.get(pk=self.user.id)
+        self.user = get_user_model().objects.get(pk=self.user.id)
         self.assertIsNotNone(self.user.profile.photo)
 
         # Check that when overwriting image, the original image is deleted
@@ -93,7 +93,7 @@ class TestProfile(TestCase):
                                     {'photo': f}, follow=True)
         self.assertTrue("/member/%s/edit/photo/crop" % self.user.id
                         in response.redirect_chain[0][0])
-        self.user = User.objects.get(pk=self.user.id)
+        self.user = get_user_model().objects.get(pk=self.user.id)
         filepath2 = "%s/%s" % (settings.MEDIA_ROOT, self.user.profile.photo)
 
         self.assertNotEqual(filepath, filepath2)
@@ -123,7 +123,7 @@ class TestProfile(TestCase):
         response = self.client.post('/member/%s/edit/photo' % self.user.id,
                                     {'photo': f}, follow=True)
 
-        self.user = User.objects.get(pk=self.user.id)
+        self.user = get_user_model().objects.get(pk=self.user.id)
 
         # Now we post the crop
 
@@ -133,7 +133,7 @@ class TestProfile(TestCase):
         self.assertTrue(
             "/member/%s" % self.user.id in response.redirect_chain[0][0])
 
-        self.user = User.objects.get(pk=self.user.id)
+        self.user = get_user_model().objects.get(pk=self.user.id)
         imagedata = StringIO(self.user.profile.photo.read())
         image = Image.open(imagedata)
         self.assertEqual((X2-X1, Y2-Y1), image.size)

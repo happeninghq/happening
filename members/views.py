@@ -7,7 +7,7 @@ from forms import ProfileForm, ProfilePhotoForm, CroppingImageForm
 from forms import UsernameForm, PaymentForm, CompletePaymentForm
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.views.decorators.http import require_POST
 from StringIO import StringIO
 from PIL import Image
@@ -27,7 +27,7 @@ stripe.api_key = django_settings.STRIPE_SECRET_KEY
 def require_editing_own_profile(f):
     """ Require that the pk passed is equal to the current user's pk. """
     def inner_require_editing_own_profile(request, pk):
-        member = get_object_or_404(User, pk=pk)
+        member = get_object_or_404(get_user_model(), pk=pk)
         if not member == request.user and not request.user.is_staff:
             raise Http404
         return f(request, pk)
@@ -90,7 +90,7 @@ def cancel_ticket(request, pk):
 
 def view_profile(request, pk):
     """ View a member's profile. """
-    member = get_object_or_404(User, pk=pk)
+    member = get_object_or_404(get_user_model(), pk=pk)
 
     return render(request, "members/view_profile.html", {"member": member})
 
@@ -98,7 +98,7 @@ def view_profile(request, pk):
 @require_editing_own_profile
 def edit_profile(request, pk):
     """ Edit a member's profile. """
-    member = get_object_or_404(User, pk=pk)
+    member = get_object_or_404(get_user_model(), pk=pk)
     form = ProfileForm(
         initial={
             "first_name": member.first_name,
@@ -148,7 +148,7 @@ def edit_profile(request, pk):
 @require_editing_own_profile
 def upload_profile_photo(request, pk):
     """ Upload a new profile photo and forward for cropping. """
-    member = get_object_or_404(User, pk=pk)
+    member = get_object_or_404(get_user_model(), pk=pk)
     form = ProfilePhotoForm(request.POST, request.FILES)
 
     if form.is_valid():
@@ -161,7 +161,7 @@ def upload_profile_photo(request, pk):
 @require_editing_own_profile
 def resize_crop_profile_photo(request, pk):
     """ Resize and crop profile photo. """
-    member = get_object_or_404(User, pk=pk)
+    member = get_object_or_404(get_user_model(), pk=pk)
     if not member.profile.photo:
         return redirect("edit_profile", member.pk)
     form = CroppingImageForm()
@@ -195,14 +195,14 @@ def resize_crop_profile_photo(request, pk):
 @require_editing_own_profile
 def settings(request, pk):
     """ Overview settings. """
-    member = get_object_or_404(User, pk=pk)
+    member = get_object_or_404(get_user_model(), pk=pk)
     return render(request, "members/settings.html", {"member": member})
 
 
 @require_editing_own_profile
 def edit_username(request, pk):
     """ Change username. """
-    member = get_object_or_404(User, pk=pk)
+    member = get_object_or_404(get_user_model(), pk=pk)
     form = UsernameForm(initial={"username": member.username})
     if request.method == "POST":
         form = UsernameForm(request.POST)
@@ -224,7 +224,7 @@ def my_membership(request):
 @require_editing_own_profile
 def membership(request, pk):
     """ Show our activate memberships. """
-    member = get_object_or_404(User, pk=pk)
+    member = get_object_or_404(get_user_model(), pk=pk)
 
     # TODO: Decide what the initial amount should actually be
     initial_amount = "50"
@@ -247,7 +247,7 @@ def membership(request, pk):
 @require_editing_own_profile
 def membership_payment(request, pk):
     """ Accept payment for membership. """
-    member = get_object_or_404(User, pk=pk)
+    member = get_object_or_404(get_user_model(), pk=pk)
     if request.method == "GET" and 'amount' not in request.GET:
         return redirect("membership", pk)
 

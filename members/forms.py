@@ -2,7 +2,7 @@
 """ Profile form. """
 
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 
 class ProfileForm(forms.Form):
@@ -52,7 +52,7 @@ class UsernameForm(forms.Form):
     def clean_username(self):
         """ Ensure the username is unique. """
         data = self.cleaned_data['username']
-        if len(User.objects.filter(username=data)) > 0:
+        if len(get_user_model().objects.filter(username=data)) > 0:
             # Not unique
             raise forms.ValidationError("Your username must be unique")
         return data

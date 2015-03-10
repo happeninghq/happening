@@ -1,7 +1,7 @@
 """ Staff views. """
 from happening.utils import staff_member_required
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from events.models import Event
 from events.forms import EventForm
 from pages.models import Page
@@ -24,7 +24,7 @@ def index(request):
 @staff_member_required
 def members(request):
     """ Administrate members. """
-    members = User.objects.all()
+    members = get_user_model().objects.all()
     paginator = Paginator(members, 10)
 
     page = request.GET.get('page')
@@ -42,7 +42,7 @@ def members(request):
 @staff_member_required
 def make_staff(request, pk):
     """ Make a member staff. """
-    user = get_object_or_404(User, pk=pk)
+    user = get_object_or_404(get_user_model(), pk=pk)
     if request.method == "POST":
         user.is_staff = True
         user.save()
@@ -52,7 +52,7 @@ def make_staff(request, pk):
 @staff_member_required
 def make_not_staff(request, pk):
     """ Make a member not staff. """
-    user = get_object_or_404(User, pk=pk)
+    user = get_object_or_404(get_user_model(), pk=pk)
     if request.method == "POST":
         user.is_staff = False
         user.save()
@@ -138,7 +138,7 @@ def send_email(request):
         form = EmailForm(request.POST)
         if form.is_valid():
             # Send email to members
-            for user in User.objects.filter(is_active=True):
+            for user in get_user_model().objects.filter(is_active=True):
                 n = AdminMessageNotification(
                     user,
                     subject=form.cleaned_data.get("subject"),

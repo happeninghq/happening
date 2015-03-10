@@ -4,11 +4,12 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
+from django.contrib.auth import get_user_model
 
 
 def merge_tickets(apps, schema_editor):
     """ Merge multiple tickets for an event into a single ticket. """
-    User = apps.get_model("auth", "User")
+    User = get_user_model()
     for user in User.objects.all():
         members_tickets = user.tickets.all()
         # First, separate the tickets into bins according to which
