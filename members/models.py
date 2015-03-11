@@ -1,19 +1,18 @@
 """ Member Profile. """
 
 from django.db import models
-from happening.db import Model
 from django.conf import settings
-from happening.models import User
 from cached_property import threaded_cached_property
 from django_gravatar.helpers import get_gravatar_url, has_gravatar
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Ensure that every user has an associated profile
 User.profile = threaded_cached_property(
     lambda u: Profile.objects.get_or_create(user=u)[0])
 
 
-class Profile(Model):
+class Profile(models.Model):
 
     """ Member Profile. """
 
@@ -83,7 +82,7 @@ class Profile(Model):
             end_time__gt=timezone.now()).order_by("start_time").first()
 
 
-class PaidMembership(Model):
+class PaidMembership(models.Model):
 
     """ A payment made to upgrade membership. """
 

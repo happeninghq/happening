@@ -1,9 +1,8 @@
 """ Page models. """
 from django.db import models
-from happening.db import Model, Manager
 
 
-class PageManager(Manager):
+class PageManager(models.Manager):
 
     """ Custom Page Manager. """
 
@@ -45,7 +44,7 @@ class PageManager(Manager):
         return first_level
 
 
-class Page(Model):
+class Page(models.Model):
 
     """ A static page. """
 

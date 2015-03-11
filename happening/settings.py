@@ -118,9 +118,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-if 'scdtest' not in os.environ and 'travis' not in os.environ:
-    MIDDLEWARE_CLASSES += ('multihost.middleware.MultiHostMiddleware',)
-
 
 ROOT_URLCONF = 'happening.urls'
 
@@ -133,8 +130,6 @@ WSGI_APPLICATION = 'happening.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(default="sqlite:///db.sqlite3")
 }
-
-AUTH_USER_MODEL = "happening.User"
 
 
 # Internationalization
@@ -202,11 +197,10 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
-    "django.contrib.auth.backends.ModelBackend",
+    # "django.contrib.auth.backends.ModelBackend",
 
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
-    # "happening.auth_backends.SiteBackend",
 )
 
 SITE_ID = 1
@@ -233,9 +227,6 @@ else:
 # Notification configuration
 FIRST_NOTIFICATION_TIME = 8 * 24  # 1 Week (+ 1 day due to emails at 10am)
 SECOND_NOTIFICATION_TIME = 48     # 1 Day (+ 1 day due to emails at 10am)
-
-
-MULTIHOST_REDIRECT_URL = "http://jscott.me"
 
 # AWS
 if not DEBUG:

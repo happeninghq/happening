@@ -1,6 +1,5 @@
 """ Event models. """
 from django.db import models
-from happening.db import Model, Manager
 from django.utils import timezone
 from exceptions import EventFinishedError, NoTicketsError
 from exceptions import TicketCancelledError
@@ -17,7 +16,7 @@ from notifications.notifications import PurchasedTicketNotification
 from django.conf import settings
 
 
-class EventManager(Manager):
+class EventManager(models.Manager):
 
     """ Custom Event Manager, to add site-wide functionality. """
 
@@ -34,7 +33,7 @@ class EventManager(Manager):
         return self.all().order_by("-datetime").first()
 
 
-class Event(Model):
+class Event(models.Model):
 
     """ An event. """
 
@@ -258,7 +257,7 @@ class Event(Model):
 
 
 # TODO: EventSolution should be moved into its own module
-class EventSolution(Model):
+class EventSolution(models.Model):
 
     """ A solution from a team at a dojo. """
 
@@ -284,7 +283,7 @@ class EventSolution(Model):
             event=self.event, group=self.team_number)]
 
 
-class Ticket(Model):
+class Ticket(models.Model):
 
     """ A claim by a user on a place at an event. """
 

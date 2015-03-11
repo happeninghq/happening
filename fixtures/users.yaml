@@ -1,4 +1,4 @@
-- model: happening.user
+- model: auth.User
   pk: 1
   fields:
     first_name: admin
@@ -9,4 +9,3 @@
     is_active: True
     is_superuser: True
     is_staff: True
-    site: 1
