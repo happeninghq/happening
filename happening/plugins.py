@@ -17,7 +17,7 @@ def plugin_block(key):
         if key not in plugin_blocks:
             plugin_blocks[key] = []
         plugin_blocks[key].append((plugin_id, callback))
-        return (plugin_id, callback)
+        return callback
     return inner_plugin_block
 
 
