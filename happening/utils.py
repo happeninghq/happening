@@ -5,6 +5,7 @@ from django.db import models
 from django.forms.models import model_to_dict
 from functools import partial
 import datetime
+from django.shortcuts import redirect
 from django.contrib.admin.views.decorators import staff_member_required as smr
 from django.contrib.auth.decorators import user_passes_test
 
@@ -68,3 +69,18 @@ class DjangoJSONEncoder(JSONEncoder):
 
 
 dump_django = partial(dumps, cls=DjangoJSONEncoder)
+
+
+def plugin_enabled_decorator(plugin):
+    """Decorator which checks if a plugin is enabled.
+
+    If the plugin is not enabled. The user will be redirected to the index.
+    """
+    def decorator(f):
+        def inner(*args, **kwargs):
+            from happening.plugins import plugin_enabled
+            if not plugin_enabled(plugin):
+                return redirect("index")
+            return f(*args, **kwargs)
+        return inner
+    return decorator

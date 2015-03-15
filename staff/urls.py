@@ -3,6 +3,8 @@
 from django.conf.urls import patterns, url, include
 from django.conf import settings
 import importlib
+from happening.utils import plugin_enabled_decorator
+from lib.required import required
 
 urlpatterns = patterns('staff.views',
                        url(r'^$', 'index', name='staff'),
@@ -37,5 +39,7 @@ for plugin in settings.PLUGINS:
     p = importlib.import_module(plugin)
     if hasattr(p.Plugin, "staff_url_root"):
         # Include the urlpatterns
-        urlpatterns += patterns(
-            '', (p.Plugin.staff_url_root, include("%s.staff" % plugin)))
+        urlpatterns += required(
+            plugin_enabled_decorator(plugin),
+            patterns(
+                '', (p.Plugin.staff_url_root, include("%s.staff" % plugin))))

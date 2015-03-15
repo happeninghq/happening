@@ -4,6 +4,8 @@ from django.conf.urls import patterns, url, include
 from django.conf import settings
 from django.conf.urls.static import static
 import importlib
+from happening.utils import plugin_enabled_decorator
+from lib.required import required
 
 urlpatterns = patterns('',
                        url(r'^staff/', include('staff.urls')),
@@ -30,5 +32,7 @@ for plugin in settings.PLUGINS:
     p = importlib.import_module(plugin)
     if hasattr(p.Plugin, "url_root"):
         # Include the urlpatterns
-        urlpatterns += patterns(
-            '', (p.Plugin.url_root, include("%s.urls" % plugin)))
+        urlpatterns += required(
+            plugin_enabled_decorator(plugin),
+            patterns(
+                '', (p.Plugin.url_root, include("%s.urls" % plugin))))
