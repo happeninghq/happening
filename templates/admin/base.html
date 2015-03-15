@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <h2>Admin</h2>
+    <div class="small-2 columns">
+        <ul class="side-nav">
+            {% for text, link in admin_urls %}
+                <li><a href="{% url link %}">{{text}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="small-10 columns">
+        <div style="padding: 10px;">
+            {% block admin_content %}
+
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -6,6 +6,7 @@ from django.forms.models import model_to_dict
 from functools import partial
 import datetime
 from django.contrib.admin.views.decorators import staff_member_required as smr
+from django.contrib.auth.decorators import user_passes_test
 
 
 def staff_member_required(view_func, **kwargs):
@@ -13,6 +14,13 @@ def staff_member_required(view_func, **kwargs):
     if 'login_url' not in kwargs:
         kwargs['login_url'] = 'account_login'
     return smr(view_func, **kwargs)
+
+
+def admin_required(view_func, **kwargs):
+    """ Require a superuser. """
+    if 'login_url' not in kwargs:
+        kwargs['login_url'] = 'account_login'
+    return user_passes_test(lambda u: u.is_superuser, kwargs)(view_func)
 
 
 def custom_strftime(format, t):

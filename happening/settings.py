@@ -189,6 +189,7 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
 
+    "admin.context_processors.admin_urls",
     "staff.context_processors.staff_urls",
     "happening.context_processors.site_settings",
     "events.context_processors.events",

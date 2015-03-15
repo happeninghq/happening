@@ -6,6 +6,7 @@ import importlib
 
 urlpatterns = patterns('admin.views',
                        url(r'^$', 'index', name='admin'),
+                       url(r'^plugins$', 'plugins', name='plugins'),
                        )
 
 for plugin in settings.PLUGINS:

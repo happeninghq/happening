@@ -1,0 +1,33 @@
+{% extends "admin/base.html" %}
+{% load staticfiles %}
+
+{% block admin_content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Plugins</h2>
+                <form method="POST" action="{% url "plugins" %}">
+                    {% csrf_token %}
+                    <table id="plugins">
+                        <tr>
+                            <th>Plugin</th>
+                            <th>Enabled</th>
+                        </tr>
+                        {% for plugin_id, plugin_name, plugin_description, enabled in plugins %}
+                            <tr>
+                                <td>
+                                    <strong>{{plugin_name}}</strong>
+                                    <p>{{plugin_description}}</p>
+                                </td>
+                                <td>
+                                        <input name="{{plugin_id}}_plugin" type="checkbox" {% if enabled %}checked{% endif %}/>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
+        </p>
+    </div>
+{% endblock %}

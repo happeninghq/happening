@@ -20,8 +20,11 @@
                     </li>
 
                 {% endif %}
+                {% if request.user.is_superuser %}
+                    <li><a href="{% url "admin" %}">Admin</a></li>
+                {% endif %}
                 {% if request.user.is_staff %}
-                    <li><a href="{% url "staff" %}">Admin</a></li>
+                    <li><a href="{% url "staff" %}">Staff</a></li>
                 {% endif %}
                 {% if request.user.is_authenticated %}
                     <li class="has-dropdown">
