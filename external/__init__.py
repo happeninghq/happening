@@ -1,1 +1,1 @@
-""" External pages - typically with static information. """
+"""External pages - typically with static information."""

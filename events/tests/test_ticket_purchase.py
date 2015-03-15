@@ -1,4 +1,4 @@
-""" Test ticket purchasing. """
+"""Test ticket purchasing."""
 
 from happening.tests import TestCase
 from model_mommy import mommy
@@ -11,24 +11,24 @@ from django.conf import settings
 
 class TestTicketPurchase(TestCase):
 
-    """ Test ticket purchasing. """
+    """Test ticket purchasing."""
 
     def setUp(self):
-        """ Set up a common user. """
+        """Set up a common user."""
         self.user = mommy.make(settings.AUTH_USER_MODEL,
                                email="test@example.com")
         self.user.set_password("password")
         self.user.save()
 
     def test_buy_ticket_method(self):
-        """ Test that buy_ticket doesn't allow us too many tickets. """
+        """Test that buy_ticket doesn't allow us too many tickets."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         with self.assertRaises(NoTicketsError):
             event.buy_ticket(self.user, tickets=31)
 
     def test_purchase_requires_login(self):
-        """ Test you need to be logged in to purchase tickets. """
+        """Test you need to be logged in to purchase tickets."""
         past_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                                 timedelta(days=20))
         response = self.client.get(
@@ -36,7 +36,7 @@ class TestTicketPurchase(TestCase):
         self.assertTrue("accounts/login" in response.redirect_chain[0][0])
 
     def test_past_event(self):
-        """ Test that we can't buy tickets past the deadline. """
+        """Test that we can't buy tickets past the deadline."""
         past_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                                 timedelta(days=20))
         self.client.login(username=self.user.username, password="password")
@@ -47,7 +47,7 @@ class TestTicketPurchase(TestCase):
                 "/events/%s" % past_event.pk))
 
     def test_quantity(self):
-        """ Test that the quantity box doesn't allow > remainging tickets. """
+        """Test that the quantity box doesn't allow > remainging tickets."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         self.client.login(username=self.user.username, password="password")
@@ -64,7 +64,7 @@ class TestTicketPurchase(TestCase):
         self.assertEquals("25", highest_value)
 
     def test_sold_out(self):
-        """ Test that we can't buy tickets once they are sold out. """
+        """Test that we can't buy tickets once they are sold out."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         self.client.login(username=self.user.username, password="password")
@@ -77,7 +77,7 @@ class TestTicketPurchase(TestCase):
                 "/events/%s" % event.pk))
 
     def test_purchase(self):
-        """ Test that a purchase creates a ticket and redirects. """
+        """Test that a purchase creates a ticket and redirects."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         self.client.login(username=self.user.username, password="password")
@@ -92,7 +92,7 @@ class TestTicketPurchase(TestCase):
         self.assertEquals(event.tickets.first(), response.context["ticket"])
 
     def test_cant_view_others_confirmation(self):
-        """ Test that users can only view their own order confirmations. """
+        """Test that users can only view their own order confirmations."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
 
@@ -113,7 +113,7 @@ class TestTicketPurchase(TestCase):
         self.assertEquals(404, response.status_code)
 
     def test_ticket_purchase_sends_confirmation_email(self):
-        """ Test that we send a confirmation email after purchasing ticket. """
+        """Test that we send a confirmation email after purchasing ticket."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         self.client.login(username=self.user.username, password="password")
@@ -136,7 +136,7 @@ class TestTicketPurchase(TestCase):
         self.assertTrue(str(event) in mail.outbox[0].subject)
 
     def test_ticket_purchase_sends_extra_notifications_notification_1(self):
-        """ Test that the one week notification is sent when needed. """
+        """Test that the one week notification is sent when needed."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=4), available_tickets=30)
         event.buy_ticket(self.user)
@@ -160,7 +160,7 @@ class TestTicketPurchase(TestCase):
         self.assertEqual(3, len(mail.outbox))
 
     def test_ticket_purchase_sends_extra_notifications_notification_2(self):
-        """ Test that the one day notification is sent when needed. """
+        """Test that the one day notification is sent when needed."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(hours=7), available_tickets=30)
         event.buy_ticket(self.user)

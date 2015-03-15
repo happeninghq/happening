@@ -1,11 +1,11 @@
-""" Notifications. """
+"""Notifications."""
 from models import Notification as notification_model
 from happening.utils import convert_to_underscore, dump_django
 
 
 class Notification(object):
 
-    """ A notification that can be sent to a user. """
+    """A notification that can be sent to a user."""
 
     required_data = []
     optional_data = []
@@ -18,7 +18,7 @@ class Notification(object):
     send_email = True
 
     def __init__(self, recipient, **data):
-        """ Specify the user to notify and the data to pass. """
+        """Specify the user to notify and the data to pass."""
         self.recipient = recipient
         self.data = data
 
@@ -33,7 +33,7 @@ class Notification(object):
                 raise Exception("%s not expected" % k)
 
     def send(self):
-        """ Send the notification. """
+        """Send the notification."""
         class_name = self.__class__.__name__
         template = convert_to_underscore(class_name)
 
@@ -60,7 +60,7 @@ class Notification(object):
 
 class CommentNotification(Notification):
 
-    """ Someone has made a comment. """
+    """Someone has made a comment."""
 
     required_data = ["comment", "author_photo_url"]
     category = "Comments"
@@ -68,7 +68,7 @@ class CommentNotification(Notification):
 
 class EventInformationNotification(Notification):
 
-    """ An event you have tickets to is coming up. """
+    """An event you have tickets to is coming up."""
 
     required_data = ["event", "event_name", "time_to_event",
                      "is_final_notification", "is_voting"]
@@ -77,7 +77,7 @@ class EventInformationNotification(Notification):
 
 class CancelledTicketNotification(Notification):
 
-    """ You have cancelled your tickets for an event. """
+    """You have cancelled your tickets for an event."""
 
     required_data = ["ticket", "event", "event_name"]
     category = "Events"
@@ -85,7 +85,7 @@ class CancelledTicketNotification(Notification):
 
 class EditedTicketNotification(Notification):
 
-    """ You have edited your tickets for an event. """
+    """You have edited your tickets for an event."""
 
     required_data = ["ticket", "event", "event_name"]
     category = "Events"
@@ -93,7 +93,7 @@ class EditedTicketNotification(Notification):
 
 class PurchasedTicketNotification(Notification):
 
-    """ You have purchased tickets for an event. """
+    """You have purchased tickets for an event."""
 
     required_data = ["ticket", "event", "event_name"]
     category = "Events"
@@ -101,7 +101,7 @@ class PurchasedTicketNotification(Notification):
 
 class MembershipPaymentSuccessfulNotification(Notification):
 
-    """ Your membership payment has been received. """
+    """Your membership payment has been received."""
 
     required_data = ["amount"]
     category = "Membership"
@@ -109,7 +109,7 @@ class MembershipPaymentSuccessfulNotification(Notification):
 
 class AdminEventMessageNotification(Notification):
 
-    """ A message from administrators regarding an event. """
+    """A message from administrators regarding an event."""
 
     required_data = ["message", "event_name"]
     optional_data = ["subject"]
@@ -121,7 +121,7 @@ class AdminEventMessageNotification(Notification):
 
 class AdminMessageNotification(Notification):
 
-    """ A message from administrators. """
+    """A message from administrators."""
 
     required_data = ["message"]
     optional_data = ["subject"]

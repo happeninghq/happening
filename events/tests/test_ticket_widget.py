@@ -1,4 +1,4 @@
-""" Test ticket purchasing widget. """
+"""Test ticket purchasing widget."""
 from happening.tests import TestCase
 from model_mommy import mommy
 from datetime import datetime, timedelta
@@ -8,10 +8,10 @@ from django.conf import settings
 
 class TestTicketWidget(TestCase):
 
-    """ Test ticket purchasing widget. """
+    """Test ticket purchasing widget."""
 
     def test_remaining_tickets(self):
-        """ Test that remaining_tickets works. """
+        """Test that remaining_tickets works."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         response = self.client.get("/")
@@ -39,7 +39,7 @@ class TestTicketWidget(TestCase):
         self.assertEqual("1 Ticket", tickets.strip())
 
     def test_end_date(self):
-        """ Test that the end date is shown correctly. """
+        """Test that the end date is shown correctly."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         response = self.client.get("/")
@@ -49,7 +49,7 @@ class TestTicketWidget(TestCase):
                          end_date.strip())
 
     def test_past_event(self):
-        """ Test that we can't buy tickets past the deadline. """
+        """Test that we can't buy tickets past the deadline."""
         mommy.make("Event", datetime=datetime.now(pytz.utc) -
                    timedelta(days=20), available_tickets=30)
         response = self.client.get("/")
@@ -57,7 +57,7 @@ class TestTicketWidget(TestCase):
         self.assertIsNone(widget)
 
     def test_quantity(self):
-        """ Test that the quantity box doesn't allow > remainging tickets. """
+        """Test that the quantity box doesn't allow > remainging tickets."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         response = self.client.get("/")
@@ -70,7 +70,7 @@ class TestTicketWidget(TestCase):
         self.assertEquals("25", widget.findAll("option")[-1]['value'])
 
     def test_sold_out(self):
-        """ Test that we can't buy tickets once they are sold out. """
+        """Test that we can't buy tickets once they are sold out."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         # First check that the register button is visible
@@ -88,7 +88,7 @@ class TestTicketWidget(TestCase):
         self.assertEqual("Sold Out", tickets.strip())
 
     def test_lists_attending_members(self):
-        """ Test that the widget shows a list of attending members. """
+        """Test that the widget shows a list of attending members."""
         member1 = mommy.make(settings.AUTH_USER_MODEL)
         member1.set_password("password")
         member1.save()

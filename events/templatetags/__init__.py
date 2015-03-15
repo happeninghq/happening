@@ -1,1 +1,1 @@
-""" Event template tags. """
+"""Event template tags."""

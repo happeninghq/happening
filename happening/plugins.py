@@ -1,11 +1,11 @@
-""" Plugin registration. """
+"""Plugin registration."""
 import inspect
 
 plugin_blocks = {}
 
 
 def plugin_block(key):
-    """ Register a plugin block for the given key. """
+    """Register a plugin block for the given key."""
     def inner_plugin_block(callback):
         # This is an ugly hack to check if the plugin is enabled..
         parent_file_path = inspect.getouterframes(
@@ -22,7 +22,7 @@ def plugin_block(key):
 
 
 def plugin_enabled(plugin_id):
-    """ True if the plugin is enabled. """
+    """True if the plugin is enabled."""
     from admin.models import PluginSetting
     setting = PluginSetting.objects.filter(plugin_name=plugin_id).first()
     if not setting:

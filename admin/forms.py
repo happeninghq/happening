@@ -1,1 +1,1 @@
-""" Admin forms. """
+"""Admin forms."""

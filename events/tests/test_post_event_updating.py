@@ -1,4 +1,4 @@
-""" Test event view. """
+"""Test event view."""
 
 from happening.tests import TestCase
 from model_mommy import mommy
@@ -9,17 +9,17 @@ from django.conf import settings
 
 class TestPostEventUpdating(TestCase):
 
-    """ Test updating details after an event. """
+    """Test updating details after an event."""
 
     def setUp(self):
-        """ Set up a common user. """
+        """Set up a common user."""
         self.user = mommy.make(settings.AUTH_USER_MODEL,
                                email="test@example.com")
         self.user.set_password("password")
         self.user.save()
 
     def test_future_event(self):
-        """ Test that update details doesn't appear for future event. """
+        """Test that update details doesn't appear for future event."""
         future_event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                                   timedelta(days=20), available_tickets=30)
         mommy.make("Ticket", event=future_event, user=self.user, number=1)
@@ -32,7 +32,7 @@ class TestPostEventUpdating(TestCase):
         self.assertIsNone(widget)
 
     def test_set_group(self):
-        """ Test that a member can set the group they were part of. """
+        """Test that a member can set the group they were part of."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                            timedelta(days=20), available_tickets=30)
         mommy.make("Ticket", event=event, user=self.user, number=1)
@@ -54,7 +54,7 @@ class TestPostEventUpdating(TestCase):
         self.assertIsNotNone(widget)
 
     def test_update_group(self):
-        """ Test updating group. """
+        """Test updating group."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                            timedelta(days=20), available_tickets=30)
         mommy.make("Ticket", event=event, user=self.user, number=1)
@@ -80,7 +80,7 @@ class TestPostEventUpdating(TestCase):
         self.assertEqual("DESCRIPTION", solutions.find("td").text)
 
     def test_group_already_updated(self):
-        """ Test that we can't update a group a second time. """
+        """Test that we can't update a group a second time."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                            timedelta(days=20), available_tickets=30)
         mommy.make("Ticket", event=event, user=self.user, number=1)
@@ -104,7 +104,7 @@ class TestPostEventUpdating(TestCase):
         self.assertIsNone(widget)
 
     def test_did_not_attend(self):
-        """ Test that marking did not attent does not allow update group. """
+        """Test that marking did not attent does not allow update group."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                            timedelta(days=20), available_tickets=30)
         mommy.make("Ticket", event=event, user=self.user, number=1)

@@ -1,4 +1,4 @@
-""" Test my tickets. """
+"""Test my tickets."""
 
 from happening.tests import TestCase
 from model_mommy import mommy
@@ -10,10 +10,10 @@ from django.conf import settings
 
 class TestMyTickets(TestCase):
 
-    """ Test my tickets. """
+    """Test my tickets."""
 
     def setUp(self):
-        """ Set up a user with some tickets. """
+        """Set up a user with some tickets."""
         self.user = mommy.make(settings.AUTH_USER_MODEL)
         self.user.set_password("password")
         self.user.save()
@@ -30,12 +30,12 @@ class TestMyTickets(TestCase):
                                   user=self.user, number=5)
 
     def test_my_tickets_requires_login(self):
-        """ Test you need to be logged in to view my tickets. """
+        """Test you need to be logged in to view my tickets."""
         response = self.client.get("/member/tickets", follow=True)
         self.assertTrue("accounts/login" in response.redirect_chain[0][0])
 
     def test_past_event(self):
-        """ Test that we can't edit or cancel tickets past the deadline. """
+        """Test that we can't edit or cancel tickets past the deadline."""
         self.client.login(username=self.user.username, password="password")
 
         # First check links aren't visible on my tickets
@@ -55,7 +55,7 @@ class TestMyTickets(TestCase):
             response.redirect_chain[0][0].endswith("/member/tickets"))
 
     def test_edit_ticket(self):
-        """ Test that we can edit tickets. """
+        """Test that we can edit tickets."""
         self.client.login(username=self.user.username, password="password")
 
         # First check link is visible on my tickets
@@ -70,7 +70,7 @@ class TestMyTickets(TestCase):
         self.assertEqual(3, Ticket.objects.get(pk=self.ticket2.pk).number)
 
     def test_edit_another_users_ticket(self):
-        """ Test we can't edit tickets that don't belong to us. """
+        """Test we can't edit tickets that don't belong to us."""
         user = mommy.make(settings.AUTH_USER_MODEL)
         user.set_password("password")
         user.save()
@@ -83,7 +83,7 @@ class TestMyTickets(TestCase):
         self.assertEqual(5, Ticket.objects.get(pk=self.ticket2.pk).number)
 
     def test_cancel_ticket(self):
-        """ Test that we can cancel tickets. """
+        """Test that we can cancel tickets."""
         self.client.login(username=self.user.username, password="password")
 
         # First check link is visible on my tickets
@@ -102,7 +102,7 @@ class TestMyTickets(TestCase):
         self.assertTrue(Ticket.objects.get(pk=self.ticket2.pk).cancelled)
 
     def test_cancel_another_users_ticket(self):
-        """ Test we can't cancel tickets that don't belong to us. """
+        """Test we can't cancel tickets that don't belong to us."""
         user = mommy.make(settings.AUTH_USER_MODEL)
         user.set_password("password")
         user.save()
@@ -121,7 +121,7 @@ class TestMyTickets(TestCase):
         self.assertFalse(Ticket.objects.get(pk=self.ticket2.pk).cancelled)
 
     def test_edit_ticket_quantity(self):
-        """ Test that the quantity for editing tickets is correct. """
+        """Test that the quantity for editing tickets is correct."""
         self.client.login(username=self.user.username, password="password")
 
         response = self.client.get("/member/tickets/%s" % self.ticket2.pk)

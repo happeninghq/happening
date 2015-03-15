@@ -1,4 +1,4 @@
-""" Pages urls. """
+"""Pages urls."""
 
 from django.conf.urls import patterns, url
 

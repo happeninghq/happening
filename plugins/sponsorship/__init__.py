@@ -1,9 +1,9 @@
-""" Allow event-level and time based sponsorship. """
+"""Allow event-level and time based sponsorship."""
 
 
 class Plugin(object):
 
-    """ Allow event-level and time based sponsorship. """
+    """Allow event-level and time based sponsorship."""
 
     name = "Sponsorship"
 

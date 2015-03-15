@@ -1,4 +1,4 @@
-""" Sponsorship administration. """
+"""Sponsorship administration."""
 
 from django.conf.urls import patterns, url
 

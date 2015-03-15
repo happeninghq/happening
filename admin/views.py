@@ -1,4 +1,4 @@
-""" Admin views. """
+"""Admin views."""
 from django.shortcuts import render, redirect
 from happening.utils import admin_required
 from django.conf import settings
@@ -9,12 +9,12 @@ from models import PluginSetting
 
 @admin_required
 def index(request):
-    """ Admin dashboard. """
+    """Admin dashboard."""
     return render(request, "admin/index.html")
 
 
 def format_plugin(plugin_id, plugin):
-    """ Return a single formatted plugin.
+    """Return a single formatted plugin.
 
     Format is (id, name, description, enabled)
     """
@@ -28,7 +28,7 @@ def format_plugin(plugin_id, plugin):
 
 
 def save_plugins(request, plugins):
-    """ Save plugin preferences to the database. """
+    """Save plugin preferences to the database."""
     for plugin_id in plugins.keys():
         preference, _ = PluginSetting.objects.get_or_create(
             plugin_name=plugin_id)
@@ -43,8 +43,7 @@ def save_plugins(request, plugins):
 
 @admin_required
 def plugins(request):
-    """ Plugin settings. """
-
+    """Plugin settings."""
     plugins = {}
 
     for plugin in settings.PLUGINS:

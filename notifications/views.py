@@ -1,4 +1,4 @@
-""" Notification views. """
+"""Notification views."""
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from models import NotificationPreference
@@ -9,7 +9,7 @@ from django.contrib import messages
 
 @login_required()
 def list(request):
-    """ List all notifications. """
+    """List all notifications."""
     rendered = render(request, "notifications/list.html")
     request.user.notifications.mark_all_as_read()
     return rendered
@@ -17,7 +17,7 @@ def list(request):
 
 @login_required()
 def short(request):
-    """ Return rendered list of short notifications. """
+    """Return rendered list of short notifications."""
     # TODO: Replace this with a JSON request
     # and render client side
     rendered = render(request, "notifications/short.html")
@@ -26,7 +26,7 @@ def short(request):
 
 
 def save_settings(request, notification_types):
-    """ Save the notification settings POSTed. """
+    """Save the notification settings POSTed."""
     for n in notification_types.keys():
         name = n[:-12]
         preference, _ = NotificationPreference.objects.get_or_create(
@@ -45,7 +45,7 @@ def save_settings(request, notification_types):
 
 
 def format_notification_settings(user, notification_types):
-    """ Convert notification types into a user's formatted settings. """
+    """Convert notification types into a user's formatted settings."""
     categories = {}
     for n, o in notification_types.items():
         if not o.can_edit_send_notification and not o.can_edit_send_email:
@@ -72,7 +72,7 @@ def format_notification_settings(user, notification_types):
 
 @login_required
 def settings(request):
-    """ Change the user's notification settings. """
+    """Change the user's notification settings."""
     notification_types = {}
     for name, obj in inspect.getmembers(notifications):
         if inspect.isclass(obj):

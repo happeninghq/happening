@@ -1,4 +1,4 @@
-""" Notification urls. """
+"""Notification urls."""
 
 from django.conf.urls import patterns, url
 

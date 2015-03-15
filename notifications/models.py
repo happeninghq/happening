@@ -1,4 +1,4 @@
-""" Notification models. """
+"""Notification models."""
 from django.db import models
 from django.template.loader import render_to_string
 import json
@@ -14,27 +14,27 @@ from django.conf import settings
 
 class NotificationManager(models.Manager):
 
-    """ Custom Notification manager for unread. """
+    """Custom Notification manager for unread."""
 
     def unread(self):
-        """ Get unread notifications. """
+        """Get unread notifications."""
         return self.ordered().filter(read=False)
 
     def mark_all_as_read(self):
-        """ Mark all notifications as read. """
+        """Mark all notifications as read."""
         for n in self.unread():
             n.read = True
             n.read_datetime = datetime.now()
             n.save()
 
     def ordered(self):
-        """ Return time-ordered notifications. """
+        """Return time-ordered notifications."""
         return self.all().order_by("-sent_datetime")
 
 
 class Notification(models.Model):
 
-    """ A notification sent to a user. """
+    """A notification sent to a user."""
 
     objects = NotificationManager()
 
@@ -47,17 +47,17 @@ class Notification(models.Model):
     read_datetime = models.DateTimeField(null=True)
 
     def __unicode__(self):
-        """ Return the notification detail. """
+        """Return the notification detail."""
         return "Notification (%s to %s)" % (self.template, self.user)
 
     @property
     def data2(self):
-        """ Deserialize data. """
+        """Deserialize data."""
         return json.loads(self.data)
 
     @data2.setter
     def data2(self, value):
-        """ Serialize data. """
+        """Serialize data."""
         self.data = json.dumps(value)
 
     @threaded_cached_property
@@ -72,25 +72,25 @@ class Notification(models.Model):
         return data
 
     def url(self):
-        """ Return the URL this notification links to. """
+        """Return the URL this notification links to."""
         soup = BeautifulSoup(self.full)
         return soup.find(id="main-link")['href']
 
     @threaded_cached_property
     def image(self):
-        """ Return the image for this notification. """
+        """Return the image for this notification."""
         return self._rendered_notification.split("<notification_image>")[1]\
                    .split("</notification_image>")[0]
 
     @threaded_cached_property
     def full(self):
-        """ Return the full text for this notification. """
+        """Return the full text for this notification."""
         return self._rendered_notification.split("<notification_text>")[1]\
                    .split("</notification_text>")[0]
 
     @threaded_cached_property
     def email_text(self):
-        """ Return the text email for this notification. """
+        """Return the text email for this notification."""
         content = self._rendered_notification.split("<notification_email>")[1]\
                       .split("</notification_email>")[0]
         if content:
@@ -103,7 +103,7 @@ class Notification(models.Model):
 
     @threaded_cached_property
     def email_html(self):
-        """ Return the text email for this notification. """
+        """Return the text email for this notification."""
         content = self._rendered_notification.split("<notification_email>")[1]\
                       .split("</notification_email>")[0]
         if content:
@@ -113,13 +113,13 @@ class Notification(models.Model):
 
     @threaded_cached_property
     def subject(self):
-        """ Return the email subject for this notification. """
+        """Return the email subject for this notification."""
         return self._rendered_notification.split("<notification_subject>")[1]\
                    .split("</notification_subject>")[0]
 
     @threaded_cached_property
     def short(self):
-        """ Return the short text for this notification. """
+        """Return the short text for this notification."""
         soup = BeautifulSoup(self.full)
         for match in soup.findAll("a"):
             match.name = "strong"
@@ -128,7 +128,7 @@ class Notification(models.Model):
         return str(soup)
 
     def email_notification(self):
-        """ Send an email of the notification to the user. """
+        """Send an email of the notification to the user."""
         data = render_to_string("notifications/email.html",
                                 {"notification": self})
         text_content = data.split("<email_text>")[1].split("</email_text>")[0]
@@ -142,10 +142,10 @@ class Notification(models.Model):
 
 class NotificationPreferenceManager(models.Manager):
 
-    """ Custom Notification manager for unread. """
+    """Custom Notification manager for unread."""
 
     def get_with_default(self, notification):
-        """ Get notification. """
+        """Get notification."""
         notification = convert_to_camelcase(notification)
         notification_name = notification + "Notification"
         notification_type = getattr(notifications, notification_name)
@@ -166,7 +166,7 @@ class NotificationPreferenceManager(models.Manager):
 
 class NotificationPreference(models.Model):
 
-    """ A user's notification preference. """
+    """A user's notification preference."""
 
     objects = NotificationPreferenceManager()
 

@@ -1,4 +1,4 @@
-""" Sponsorship views. """
+"""Sponsorship views."""
 from django.shortcuts import render, get_object_or_404, redirect
 from models import Sponsor, EventSponsor
 from happening.utils import staff_member_required
@@ -8,7 +8,7 @@ from events.models import Event
 
 
 def view_sponsor(request, pk):
-    """ View a sponsor's profile. """
+    """View a sponsor's profile."""
     sponsor = get_object_or_404(Sponsor, pk=pk)
     return render(request, "sponsorship/view.html",
                   {"sponsor": sponsor})
@@ -16,7 +16,7 @@ def view_sponsor(request, pk):
 
 @staff_member_required
 def sponsors(request):
-    """ Administrate sponsors. """
+    """Administrate sponsors."""
     sponsors = Sponsor.objects.all()
     paginator = Paginator(sponsors, 10)
 
@@ -35,7 +35,7 @@ def sponsors(request):
 
 @staff_member_required
 def edit_sponsor(request, pk):
-    """ Edit sponsor. """
+    """Edit sponsor."""
     sponsor = get_object_or_404(Sponsor, pk=pk)
     form = SponsorForm(instance=sponsor)
     if request.method == "POST":
@@ -49,7 +49,7 @@ def edit_sponsor(request, pk):
 
 @staff_member_required
 def create_sponsor(request):
-    """ Create sponsor. """
+    """Create sponsor."""
     form = SponsorForm()
     if request.method == "POST":
         form = SponsorForm(request.POST, request.FILES)
@@ -62,7 +62,7 @@ def create_sponsor(request):
 
 @staff_member_required
 def edit_on_event(request, pk):
-    """ Edit the sponsor for an event. """
+    """Edit the sponsor for an event."""
     event = get_object_or_404(Event, pk=pk)
     form = EventSponsorForm(initial={"sponsor": event.sponsor})
     if request.method == "POST":

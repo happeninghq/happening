@@ -1,4 +1,4 @@
-""" Event and ticket forms. """
+"""Event and ticket forms."""
 
 from django import forms
 from django.forms import ModelForm
@@ -7,10 +7,10 @@ from models import Event
 
 class TicketForm(forms.Form):
 
-    """ Form for purchasing/editing tickets. """
+    """Form for purchasing/editing tickets."""
 
     def __init__(self, *args, **kwargs):
-        """ Initialise the PurchaseForm with an event. """
+        """Initialise the PurchaseForm with an event."""
         event = kwargs.pop("event")
         max_tickets = event.remaining_tickets + 1
         if 'max_tickets' in kwargs:
@@ -26,7 +26,7 @@ class TicketForm(forms.Form):
 
 class EventForm(ModelForm):
 
-    """ Form for creating/editing events. """
+    """Form for creating/editing events."""
 
     class Meta:
         model = Event
@@ -37,7 +37,7 @@ class EventForm(ModelForm):
 
 class GroupNumberForm(forms.Form):
 
-    """ Form for members to indicate their group number if they attended. """
+    """Form for members to indicate their group number if they attended."""
 
     group_number = forms.ChoiceField(
         [(0, "Did Not Attend")] + [(i, str(i)) for i in range(1, 10)])
@@ -45,7 +45,7 @@ class GroupNumberForm(forms.Form):
 
 class GroupSubmissionForm(forms.Form):
 
-    """ Form for members to pass the info for their group. """
+    """Form for members to pass the info for their group."""
 
     description = forms.CharField(label="Short description of attempt",
                                   required=False)

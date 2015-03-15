@@ -1,1 +1,1 @@
-""" Member tests. """
+"""Member tests."""

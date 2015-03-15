@@ -1,4 +1,4 @@
-""" Member urls. """
+"""Member urls."""
 
 from django.conf.urls import patterns, url
 

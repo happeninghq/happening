@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Profile form. """
+"""Profile form."""
 
 from django import forms
 from django.contrib.auth import get_user_model
@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 
 class ProfileForm(forms.Form):
 
-    """ Form for editing profile. """
+    """Form for editing profile."""
 
     first_name = forms.CharField()
     last_name = forms.CharField()
@@ -28,14 +28,14 @@ class ProfileForm(forms.Form):
 
 class ProfilePhotoForm(forms.Form):
 
-    """ Form for uploading a new profile photo. """
+    """Form for uploading a new profile photo."""
 
     photo = forms.ImageField()
 
 
 class CroppingImageForm(forms.Form):
 
-    """ Form for when cropping an image. """
+    """Form for when cropping an image."""
 
     x1 = forms.FloatField(widget=forms.HiddenInput)
     y1 = forms.FloatField(widget=forms.HiddenInput)
@@ -45,12 +45,12 @@ class CroppingImageForm(forms.Form):
 
 class UsernameForm(forms.Form):
 
-    """ Form for changing username. """
+    """Form for changing username."""
 
     username = forms.CharField()
 
     def clean_username(self):
-        """ Ensure the username is unique. """
+        """Ensure the username is unique."""
         data = self.cleaned_data['username']
         if len(get_user_model().objects.filter(username=data)) > 0:
             # Not unique
@@ -61,7 +61,7 @@ class UsernameForm(forms.Form):
 # TODO: This needs to be moved into configuration
 class PaymentForm(forms.Form):
 
-    """ Form for paying for a new membership. """
+    """Form for paying for a new membership."""
 
     amount = forms.ChoiceField(choices=(
                                ("10", u"£10"),
@@ -77,7 +77,7 @@ class PaymentForm(forms.Form):
     other_amount = forms.IntegerField(required=False)
 
     def clean_other_amount(self):
-        u""" Ensure other amount is at least £5. """
+        u"""Ensure other amount is at least £5."""
         if self.cleaned_data['amount'] == 'other':
             if self.cleaned_data['other_amount'] < 5:
                 raise forms.ValidationError("You must pay at least £5")
@@ -85,7 +85,7 @@ class PaymentForm(forms.Form):
 
     @property
     def selected_amount(self):
-        """ Get the actual amount the user wants to pay. """
+        """Get the actual amount the user wants to pay."""
         if self.cleaned_data['amount'] == 'other':
             return self.cleaned_data['other_amount']
         else:
@@ -94,7 +94,7 @@ class PaymentForm(forms.Form):
 
 class CompletePaymentForm(forms.Form):
 
-    """ Form for submitting the credit card details for payment. """
+    """Form for submitting the credit card details for payment."""
 
     amount = forms.IntegerField()
     stripe_token = forms.CharField()

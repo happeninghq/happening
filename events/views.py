@@ -1,4 +1,4 @@
-""" Event views. """
+"""Event views."""
 from django.shortcuts import render, get_object_or_404, redirect
 from models import Event, Ticket, EventSolution
 from django.http import Http404
@@ -10,7 +10,7 @@ import json
 
 
 def view(request, pk):
-    """ View an event (typically a past event). """
+    """View an event (typically a past event)."""
     event = get_object_or_404(Event, pk=pk)
 
     group_form = GroupNumberForm()
@@ -26,7 +26,7 @@ def view(request, pk):
 
 @login_required
 def purchase_tickets(request, pk):
-    """ Purchase tickets for an event. """
+    """Purchase tickets for an event."""
     event = get_object_or_404(Event, pk=pk)
 
     if not event.is_future:
@@ -48,7 +48,7 @@ def purchase_tickets(request, pk):
 
 @login_required
 def tickets_purchased(request, pk):
-    """ Ticket has been purchased for an event. """
+    """Ticket has been purchased for an event."""
     ticket = get_object_or_404(Ticket, pk=pk)
 
     if not ticket.user == request.user:
@@ -59,7 +59,7 @@ def tickets_purchased(request, pk):
 
 
 def events(request):
-    """ List events. """
+    """List events."""
     events = Event.objects.all().order_by("-datetime")
     return render(request, "events/events.html",
                   {"all_events": events})
@@ -68,7 +68,7 @@ def events(request):
 @require_POST
 @login_required
 def vote(request, pk):
-    """ Vote for languages for an event. """
+    """Vote for languages for an event."""
     event = get_object_or_404(Event, pk=pk)
 
     if not event.is_voting:
@@ -89,7 +89,7 @@ def vote(request, pk):
 @require_POST
 @login_required
 def set_group(request, pk):
-    """ Set the group the member was in at an event. """
+    """Set the group the member was in at an event."""
     event = get_object_or_404(Event, pk=pk)
 
     if event.is_future:
@@ -118,7 +118,7 @@ def set_group(request, pk):
 @require_POST
 @login_required
 def group_submission(request, pk):
-    """ Set the group info for the current member's group. """
+    """Set the group info for the current member's group."""
     event = get_object_or_404(Event, pk=pk)
 
     if event.is_future:

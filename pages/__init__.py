@@ -1,1 +1,1 @@
-""" CRM-like pages. """
+"""CRM-like pages."""

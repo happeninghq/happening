@@ -1,4 +1,4 @@
-""" Test sending emails. """
+"""Test sending emails."""
 
 from happening.tests import TestCase
 from model_mommy import mommy
@@ -9,16 +9,16 @@ from django.conf import settings
 
 class TestEmail(TestCase):
 
-    """ Test sending emails. """
+    """Test sending emails."""
 
     def setUp(self):
-        """ Set up a user. """
+        """Set up a user."""
         self.user = mommy.make(settings.AUTH_USER_MODEL, is_staff=True)
         self.user.set_password("password")
         self.user.save()
 
     def test_send_email(self):
-        """ Test that administrators can send emails to all members. """
+        """Test that administrators can send emails to all members."""
         test_subject = uuid4().hex
         test_content = uuid4().hex
         self.client.login(username=self.user.username, password="password")

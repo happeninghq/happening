@@ -1,4 +1,4 @@
-""" Overall URL file. """
+"""Overall URL file."""
 
 from django.conf.urls import patterns, url, include
 from django.conf import settings

@@ -1,1 +1,1 @@
-""" Staff tests. """
+"""Staff tests."""

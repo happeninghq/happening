@@ -1,1 +1,1 @@
-""" Overall happening configuration. """
+"""Overall happening configuration."""

@@ -1,4 +1,4 @@
-""" Test event view. """
+"""Test event view."""
 
 from happening.tests import TestCase
 from model_mommy import mommy, generators
@@ -8,15 +8,15 @@ import pytz
 
 class TestEventView(TestCase):
 
-    """ Test Event View. """
+    """Test Event View."""
 
     def test_nonexisting_event(self):
-        """ Test view for event which doesn't exist. """
+        """Test view for event which doesn't exist."""
         response = self.client.get("/events/1")
         self.assertEquals(response.status_code, 404)
 
     def test_future_event(self):
-        """ Test view for an event in the future. """
+        """Test view for an event in the future."""
         future_event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                                   timedelta(days=20), available_tickets=30)
         response = self.client.get("/events/%s" % future_event.id)
@@ -27,7 +27,7 @@ class TestEventView(TestCase):
         self.assertEqual("30 Tickets", tickets.strip())
 
     def test_past_event(self):
-        """ Test view for an event in the past. """
+        """Test view for an event in the past."""
         empty_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                                  timedelta(days=20))
         filled_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
@@ -65,7 +65,7 @@ class TestEventView(TestCase):
                                               .text.strip())
 
     def test_event_solutions(self):
-        """ Test that the view shows the correct event solutions. """
+        """Test that the view shows the correct event solutions."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                            timedelta(days=20))
 
@@ -86,7 +86,7 @@ class TestEventView(TestCase):
                                 .findAll("tr")))
 
     def test_event_solutions_order(self):
-        """ Test that the view shows the correctly ordered solutions. """
+        """Test that the view shows the correctly ordered solutions."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                            timedelta(days=20))
 

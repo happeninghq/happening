@@ -1,4 +1,4 @@
-""" Test basic index page. """
+"""Test basic index page."""
 
 from happening.tests import TestCase
 from model_mommy import mommy
@@ -8,17 +8,17 @@ import pytz
 
 class TestIndex(TestCase):
 
-    """ Test Index Page. """
+    """Test Index Page."""
 
     def test_index_no_events(self):
-        """ Test it returns when there are no events. """
+        """Test it returns when there are no events."""
         response = self.client.get("/")
         self.assertIsNotNone(response.soup.find(id="no-events"))
         self.assertIsNone(response.soup.find(id="next-event"))
         self.assertIsNone(response.soup.find(id="recent-event"))
 
     def test_latest_event_future(self):
-        """ Test it renders the latest event in the future. """
+        """Test it renders the latest event in the future."""
         mommy.make("Event", datetime=datetime.now(pytz.utc) +
                    timedelta(days=20))
         response = self.client.get("/")
@@ -27,7 +27,7 @@ class TestIndex(TestCase):
         self.assertIsNone(response.soup.find(id="recent-event"))
 
     def test_latest_event_past(self):
-        """ Test it renders the latest event in the past. """
+        """Test it renders the latest event in the past."""
         mommy.make("Event", datetime=datetime.now(pytz.utc) -
                    timedelta(days=20))
         response = self.client.get("/")

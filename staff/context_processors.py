@@ -1,4 +1,4 @@
-""" Staff context processors. """
+"""Staff context processors."""
 import importlib
 from django.conf import settings
 
@@ -19,7 +19,7 @@ for plugin in settings.PLUGINS:
 
 
 def staff_urls(request):
-    """ Return cached staff urls. """
+    """Return cached staff urls."""
     from happening import plugins
     return {"staff_urls": [
         # l[0] is for hardcoding

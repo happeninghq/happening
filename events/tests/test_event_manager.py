@@ -1,4 +1,4 @@
-""" Test event manager. """
+"""Test event manager."""
 
 from happening.tests import TestCase
 from model_mommy import mommy
@@ -9,10 +9,10 @@ from events.models import Event
 
 class TestEventManager(TestCase):
 
-    """ Test event manager. """
+    """Test event manager."""
 
     def test_latest_event_finds_next_future(self):
-        """ Test that latest_event finds the next future event. """
+        """Test that latest_event finds the next future event."""
         next_event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
                                 timedelta(days=5))
         mommy.make("Event", datetime=datetime.now(pytz.utc) +
@@ -22,7 +22,7 @@ class TestEventManager(TestCase):
         self.assertEqual(next_event, Event.objects.latest_event())
 
     def test_latest_event_finds_previous_event(self):
-        """ Test that latest_event finds the next future event. """
+        """Test that latest_event finds the next future event."""
         last_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                                 timedelta(days=5))
         mommy.make("Event", datetime=datetime.now(pytz.utc) -

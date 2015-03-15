@@ -1,1 +1,1 @@
-""" Place all plugins in this directory. """
+"""Place all plugins in this directory."""

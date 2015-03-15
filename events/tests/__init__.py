@@ -1,1 +1,1 @@
-""" Event tests. """
+"""Event tests."""

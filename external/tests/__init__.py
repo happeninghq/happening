@@ -1,1 +1,1 @@
-""" External tests. """
+"""External tests."""

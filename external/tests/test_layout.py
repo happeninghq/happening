@@ -1,4 +1,4 @@
-""" Test basic layout. """
+"""Test basic layout."""
 
 from happening.tests import TestCase
 from model_mommy import mommy
@@ -9,10 +9,10 @@ from django.conf import settings
 
 class TestLayout(TestCase):
 
-    """ Test basic layout. """
+    """Test basic layout."""
 
     def test_shows_login_link(self):
-        """ Test it shows a login link if the user is logged out. """
+        """Test it shows a login link if the user is logged out."""
         response = self.client.get("/")
         self.assertIsNotNone(
             response.soup.find("a", {"href": "/accounts/login/"}))
@@ -20,7 +20,7 @@ class TestLayout(TestCase):
             response.soup.find("a", {"href": "/accounts/logout/"}))
 
     def test_shows_logged_in_links(self):
-        """ Test it has appropriate links for logged in users. """
+        """Test it has appropriate links for logged in users."""
         user = mommy.make(settings.AUTH_USER_MODEL)
         user.set_password("password")
         user.save()
@@ -34,13 +34,13 @@ class TestLayout(TestCase):
             response.soup.find("a", {"href": "/accounts/logout/"}))
 
     def test_previous_events_no_events(self):
-        """ Test there are no previous events listed. """
+        """Test there are no previous events listed."""
         response = self.client.get("/")
         self.assertIsNone(response.soup.find(id="events-list").find(
             "li", {"class": "event"}))
 
     def test_previous_events(self):
-        """ Test is lists previous events in the correct order. """
+        """Test is lists previous events in the correct order."""
         later_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                                  timedelta(days=20))
         response = self.client.get("/")

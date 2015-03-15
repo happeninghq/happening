@@ -1,4 +1,4 @@
-""" External urls. """
+"""External urls."""
 
 from django.conf.urls import patterns, url
 

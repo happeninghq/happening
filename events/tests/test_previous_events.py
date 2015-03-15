@@ -1,4 +1,4 @@
-""" Test previous events page. """
+"""Test previous events page."""
 
 from happening.tests import TestCase
 from model_mommy import mommy
@@ -8,10 +8,10 @@ import pytz
 
 class TestPreviousEvents(TestCase):
 
-    """ Test previous events page. """
+    """Test previous events page."""
 
     def test_previous_events(self):
-        """ Test that previous events are listed correctly. """
+        """Test that previous events are listed correctly."""
         response = self.client.get("/events/")
         self.assertEqual(
             0, len(response.soup.find(id="all-events").findAll("li")))

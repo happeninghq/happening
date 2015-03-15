@@ -1,4 +1,4 @@
-""" Admin context processors. """
+"""Admin context processors."""
 import importlib
 from django.conf import settings
 
@@ -16,7 +16,7 @@ for plugin in settings.PLUGINS:
 
 
 def admin_urls(request):
-    """ Return cached admin urls. """
+    """Return cached admin urls."""
     from happening import plugins
     return {"admin_urls": [
         # l[0] is for hardcoding

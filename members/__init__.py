@@ -1,1 +1,1 @@
-""" Functionality related to members. """
+"""Functionality related to members."""

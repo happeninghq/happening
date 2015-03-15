@@ -1,1 +1,1 @@
-""" Test voting algorithm. """
+"""Test voting algorithm."""

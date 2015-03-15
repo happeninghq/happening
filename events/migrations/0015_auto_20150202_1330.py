@@ -1,4 +1,4 @@
-""" Merge multiple tickets for an event into a single ticket. """
+"""Merge multiple tickets for an event into a single ticket."""
 
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 
 
 def merge_tickets(apps, schema_editor):
-    """ Merge multiple tickets for an event into a single ticket. """
+    """Merge multiple tickets for an event into a single ticket."""
     User = get_user_model()
     for user in User.objects.all():
         members_tickets = user.tickets.all()
@@ -35,7 +35,7 @@ def merge_tickets(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    """ Merge multiple tickets for an event into a single ticket. """
+    """Merge multiple tickets for an event into a single ticket."""
 
     dependencies = [
         ('events', '0014_eventtodo'),

@@ -1,1 +1,1 @@
-""" Content related to administration. """
+"""Content related to administration."""

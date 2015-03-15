@@ -1,4 +1,4 @@
-""" Event models. """
+"""Event models."""
 from django.db import models
 from django.utils import timezone
 from exceptions import EventFinishedError, NoTicketsError
@@ -18,10 +18,10 @@ from django.conf import settings
 
 class EventManager(models.Manager):
 
-    """ Custom Event Manager, to add site-wide functionality. """
+    """Custom Event Manager, to add site-wide functionality."""
 
     def latest_event(self):
-        """ Get the latest event.
+        """Get the latest event.
 
         This will be either the next one in future or the most recent one
         if there are no future events.
@@ -35,7 +35,7 @@ class EventManager(models.Manager):
 
 class Event(models.Model):
 
-    """ An event. """
+    """An event."""
 
     objects = EventManager()
 
@@ -61,12 +61,12 @@ class Event(models.Model):
     upcoming_notification_2_sent = models.BooleanField(default=False)
 
     def get_absolute_url(self):
-        """ Get the url to the event. """
+        """Get the url to the event."""
         return reverse('view_event', kwargs={"pk": self.pk})
 
     @property
     def time_to_string(self):
-        """ Return the event time as a humanized string. """
+        """Return the event time as a humanized string."""
         now = datetime.now(pytz.utc).date()
         other_date = self.datetime.date()
 
@@ -90,23 +90,23 @@ class Event(models.Model):
         return datestr + " at " + time
 
     def ordered_solutions(self):
-        """ Return solutions sorted by group number. """
+        """Return solutions sorted by group number."""
         return self.solutions.all().order_by('team_number')
 
     @property
     def previous_event(self):
-        """ Return the event immediately prior to this one. """
+        """Return the event immediately prior to this one."""
         return Event.objects.all().filter(
             datetime__lt=self.datetime).order_by("-datetime").first()
 
     @property
     def is_voting(self):
-        """ Return True if the event is currently accepting language votes. """
+        """Return True if the event is currently accepting language votes."""
         return self.is_future and not self.challenge_language
 
     @property
     def recommended_languages(self):
-        """ Return all languages suggested so far. """
+        """Return all languages suggested so far."""
         all_votes = [t.default_votes for t in self.tickets.all()
                      if t.default_votes is not None]
         # Flatten the list
@@ -117,7 +117,7 @@ class Event(models.Model):
 
     @property
     def winning_language(self):
-        """ Return the language which has the most votes. """
+        """Return the language which has the most votes."""
         from voting import AVVote
         vote = AVVote()
         if self.previous_event and self.previous_event.challenge_language:
@@ -129,22 +129,22 @@ class Event(models.Model):
 
     @property
     def taken_tickets(self):
-        """ Return the number of tickets purchased. """
+        """Return the number of tickets purchased."""
         return sum(
             [t.number for t in self.tickets.all() if not t.cancelled])
 
     @property
     def remaining_tickets(self):
-        """ Return the number of tickets available to purchase. """
+        """Return the number of tickets available to purchase."""
         return self.available_tickets - self.taken_tickets
 
     @property
     def is_future(self):
-        """ Return True if this event is in the future. False otherwise. """
+        """Return True if this event is in the future. False otherwise."""
         return self.datetime > timezone.now()
 
     def challenge(self):
-        """ Return the language and challenge if available. """
+        """Return the language and challenge if available."""
         if self.challenge_language and self.challenge_title:
             return "%s %s" % (self.challenge_language, self.challenge_title)
         elif self.challenge_title:
@@ -154,21 +154,21 @@ class Event(models.Model):
         return None
 
     def heading(self):
-        """ Return the title and challenge. """
+        """Return the title and challenge."""
         return "%s (%s)" % (self.__unicode__(), self.challenge()) if\
             self.challenge() else self.__unicode__()
 
     def year_heading(self):
-        """ Return the month, year, and challenge. """
+        """Return the month, year, and challenge."""
         return "%s (%s)" % (self.__unicode__(), self.challenge()) if\
             self.challenge() else self.__unicode__()
 
     def month_year(self):
-        """ Return the month and year. """
+        """Return the month and year."""
         return self.datetime.strftime("%B %Y")
 
     def buy_ticket(self, user, tickets=1):
-        """ Buy the given number of tickets for the given user. """
+        """Buy the given number of tickets for the given user."""
         if not self.is_future:
             raise EventFinishedError()
 
@@ -207,16 +207,16 @@ class Event(models.Model):
         return ticket
 
     def attending_users(self):
-        """ Get a list of attending users. """
+        """Get a list of attending users."""
         return [t.user for t in self.tickets.all() if not t.cancelled]
 
     def ungrouped_attendees(self):
-        """ Get a list of attending users who have not assigned a group. """
+        """Get a list of attending users who have not assigned a group."""
         return [t.user for t in self.tickets.all() if not t.cancelled and
                 not t.group]
 
     def __unicode__(self):
-        """ Return the title of this event. """
+        """Return the title of this event."""
         # TODO: Make event name a field
         return "%s Code Dojo" % self.datetime.strftime("%B")
 
@@ -231,7 +231,7 @@ class Event(models.Model):
         e.send()
 
     def send_upcoming_notification_2(self, user=None):
-        """ Second the second "upcoming event" notification. """
+        """Second the second "upcoming event" notification."""
         if user is None:
             users = set([ticket.user for ticket in self.tickets.all()
                          if not ticket.cancelled])
@@ -244,7 +244,7 @@ class Event(models.Model):
             self._send_upcoming_notification(user, True)
 
     def send_upcoming_notification_1(self, user=None):
-        """ Second the first "upcoming event" notification. """
+        """Second the first "upcoming event" notification."""
         if user is None:
             users = set([ticket.user for ticket in self.tickets.all()
                          if not ticket.cancelled])
@@ -259,7 +259,7 @@ class Event(models.Model):
 # TODO: EventSolution should be moved into its own module
 class EventSolution(models.Model):
 
-    """ A solution from a team at a dojo. """
+    """A solution from a team at a dojo."""
 
     event = models.ForeignKey(Event, related_name="solutions")
     team_number = models.IntegerField(default=0)
@@ -269,23 +269,23 @@ class EventSolution(models.Model):
 
     @property
     def name(self):
-        """ Return the team name, or team number if there is none. """
+        """Return the team name, or team number if there is none."""
         return self.team_name if self.team_name else \
             "Group %s" % self.team_number
 
     def __unicode__(self):
-        """ Return the title of this solution. """
+        """Return the title of this solution."""
         return "%s %s" % (self.event, self.team_name)
 
     def members(self):
-        """ List members of this group. """
+        """List members of this group."""
         return [t.user for t in Ticket.objects.filter(
             event=self.event, group=self.team_number)]
 
 
 class Ticket(models.Model):
 
-    """ A claim by a user on a place at an event. """
+    """A claim by a user on a place at an event."""
 
     event = models.ForeignKey(Event, related_name="tickets")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="tickets")
@@ -300,7 +300,7 @@ class Ticket(models.Model):
 
     @property
     def default_votes(self):
-        """ Return the votes for this event, or previous event. """
+        """Return the votes for this event, or previous event."""
         if self.votes is not None:
             return self.votes
 
@@ -315,11 +315,11 @@ class Ticket(models.Model):
 
     @property
     def has_submitted_group_info(self):
-        """ True if the member submitted their group information. """
+        """True if the member submitted their group information."""
         return self.did_not_attend is not None or self.group is not None
 
     def change_number(self, number):
-        """ Change the number on the ticket. """
+        """Change the number on the ticket."""
         if number == 0:
             return self.cancel()
 
@@ -345,7 +345,7 @@ class Ticket(models.Model):
         n.send()
 
     def cancel(self):
-        """ Cancel the ticket. """
+        """Cancel the ticket."""
         if not self.event.is_future:
             raise EventFinishedError()
         if not self.cancelled:
@@ -363,5 +363,5 @@ class Ticket(models.Model):
             n.send()
 
     def __unicode__(self):
-        """ Return the . """
+        """Return the ."""
         return "%s's ticket to %s" % (self.user, self.event)

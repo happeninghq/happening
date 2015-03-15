@@ -1,4 +1,4 @@
-""" Test viewing and editing profile. """
+"""Test viewing and editing profile."""
 
 from happening.tests import TestCase
 from model_mommy import mommy
@@ -12,27 +12,27 @@ from PIL import Image
 
 class TestProfile(TestCase):
 
-    """ Test viewing and editing profile. """
+    """Test viewing and editing profile."""
 
     def setUp(self):
-        """ Set up a user. """
+        """Set up a user."""
         self.user = mommy.make(settings.AUTH_USER_MODEL)
         self.user.set_password("password")
         self.user.save()
 
     def test_nonexisting_user_404s(self):
-        """ Test that a nonexisting profile returns a 404. """
+        """Test that a nonexisting profile returns a 404."""
         response = self.client.get("/member/999", follow=True)
         self.assertEquals(404, response.status_code)
 
     def test_can_view_profile(self):
-        """ Test that we can view an existing profile. """
+        """Test that we can view an existing profile."""
         response = self.client.get("/member/%s" % self.user.id)
         self.assertTrue(str(self.user.profile) in response.content)
         self.assertTrue(str(self.user.profile.bio) in response.content)
 
     def test_cannot_edit_other_profiles(self):
-        """ Test that users cannot edit other people's profiles. """
+        """Test that users cannot edit other people's profiles."""
         user2 = mommy.make(settings.AUTH_USER_MODEL)
         user2.set_password("password")
         user2.save()
@@ -55,7 +55,7 @@ class TestProfile(TestCase):
         self.assertEquals(404, response.status_code)
 
     def test_can_edit_profile_fields(self):
-        """ Test a user can edit their own text profile fields. """
+        """Test a user can edit their own text profile fields."""
         self.client.login(username=self.user.username, password="password")
         response = self.client.get("/member/%s/edit" % self.user.id)
         self.assertEquals(200, response.status_code)
@@ -73,7 +73,7 @@ class TestProfile(TestCase):
         self.assertEquals("test 1 2 3", self.user.profile.bio)
 
     def test_can_upload_photo(self):
-        """ Test that an image can be uploaded. """
+        """Test that an image can be uploaded."""
         self.client.login(username=self.user.username, password="password")
         f = gen_image_field()
         response = self.client.post('/member/%s/edit/photo' % self.user.id,
@@ -100,11 +100,11 @@ class TestProfile(TestCase):
         self.assertFalse(os.path.isfile(filepath))
 
     def test_default_photo(self):
-        """ Test that default photos are correct."""
+        """Test that default photos are correct."""
         self.assertTrue("gravatar" in self.user.profile.photo_url())
 
     def test_resize_crop_photo(self):
-        """ Test resizing and cropping a photo. """
+        """Test resizing and cropping a photo."""
         self.client.login(username=self.user.username, password="password")
         # Upload the image
         f = gen_image_field()

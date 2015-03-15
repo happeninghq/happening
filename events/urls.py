@@ -1,4 +1,4 @@
-""" Event urls. """
+"""Event urls."""
 
 from django.conf.urls import patterns, url
 

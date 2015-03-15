@@ -1,13 +1,13 @@
-""" Page models. """
+"""Page models."""
 from django.db import models
 
 
 class PageManager(models.Manager):
 
-    """ Custom Page Manager. """
+    """Custom Page Manager."""
 
     def as_navigation_path(self):
-        """ Return a dict of "directories" and links.
+        """Return a dict of "directories" and links.
 
         e.g.
 
@@ -46,7 +46,7 @@ class PageManager(models.Manager):
 
 class Page(models.Model):
 
-    """ A static page. """
+    """A static page."""
 
     objects = PageManager()
 

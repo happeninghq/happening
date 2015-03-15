@@ -1,4 +1,4 @@
-""" Test event model. """
+"""Test event model."""
 
 from happening.tests import TestCase
 from model_mommy import mommy
@@ -10,14 +10,14 @@ from happening.utils import custom_strftime
 
 class TestEvent(TestCase):
 
-    """ Test event model. """
+    """Test event model."""
 
     def setUp(self):
-        """ Just get today's day. """
+        """Just get today's day."""
         self.today_day = datetime.now(pytz.utc).weekday()
 
     def test_is_future(self):
-        """ Test that is_future works. """
+        """Test that is_future works."""
         past_event = mommy.prepare("Event", datetime=datetime.now(pytz.utc) -
                                    timedelta(days=20))
         self.assertFalse(past_event.is_future)
@@ -26,7 +26,7 @@ class TestEvent(TestCase):
         self.assertTrue(future_event.is_future)
 
     def test_humanize_1(self):
-        """ Test that time_to_string humanizes correctly 1. """
+        """Test that time_to_string humanizes correctly 1."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=MO))
         e = custom_strftime("{S}", event.datetime)
@@ -39,7 +39,7 @@ class TestEvent(TestCase):
                               "next Monday (%s) at 7PM" % e)
 
     def test_humanize_2(self):
-        """ Test that time_to_string humanizes correctly 2. """
+        """Test that time_to_string humanizes correctly 2."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=TU))
         e = custom_strftime("{S}", event.datetime)
@@ -52,7 +52,7 @@ class TestEvent(TestCase):
                               "next Tuesday (%s) at 7PM" % e)
 
     def test_humanize_3(self):
-        """ Test that time_to_string humanizes correctly 3. """
+        """Test that time_to_string humanizes correctly 3."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=WE))
         e = custom_strftime("{S}", event.datetime)
@@ -65,7 +65,7 @@ class TestEvent(TestCase):
                               "next Wednesday (%s) at 7PM" % e)
 
     def test_humanize_4(self):
-        """ Test that time_to_string humanizes correctly 4. """
+        """Test that time_to_string humanizes correctly 4."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=TH))
         e = custom_strftime("{S}", event.datetime)
@@ -78,7 +78,7 @@ class TestEvent(TestCase):
                               "next Thursday (%s) at 7PM" % e)
 
     def test_humanize_5(self):
-        """ Test that time_to_string humanizes correctly 5. """
+        """Test that time_to_string humanizes correctly 5."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=FR))
         e = custom_strftime("{S}", event.datetime)
@@ -91,7 +91,7 @@ class TestEvent(TestCase):
                               "next Friday (%s) at 7PM" % e)
 
     def test_humanize_6(self):
-        """ Test that time_to_string humanizes correctly 6. """
+        """Test that time_to_string humanizes correctly 6."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=SA))
         e = custom_strftime("{S}", event.datetime)
@@ -104,7 +104,7 @@ class TestEvent(TestCase):
                               "next Saturday (%s) at 7PM" % e)
 
     def test_humanize_7(self):
-        """ Test that time_to_string humanizes correctly 7. """
+        """Test that time_to_string humanizes correctly 7."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=SU))
         e = custom_strftime("{S}", event.datetime)
@@ -117,7 +117,7 @@ class TestEvent(TestCase):
                               "next Sunday (%s) at 7PM" % e)
 
     def test_humanize_8(self):
-        """ Test that time_to_string humanizes correctly 8. """
+        """Test that time_to_string humanizes correctly 8."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=MO(-1)))
         e = custom_strftime("{S}", event.datetime)
@@ -131,7 +131,7 @@ class TestEvent(TestCase):
                               "last Monday (%s) at 7PM" % e)
 
     def test_humanize_9(self):
-        """ Test that time_to_string humanizes correctly 9. """
+        """Test that time_to_string humanizes correctly 9."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=TU(-1)))
         e = custom_strftime("{S}", event.datetime)
@@ -145,7 +145,7 @@ class TestEvent(TestCase):
                               "last Tuesday (%s) at 7PM" % e)
 
     def test_humanize_10(self):
-        """ Test that time_to_string humanizes correctly 10. """
+        """Test that time_to_string humanizes correctly 10."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=WE(-1)))
         e = custom_strftime("{S}", event.datetime)
@@ -159,7 +159,7 @@ class TestEvent(TestCase):
                               "last Wednesday (%s) at 7PM" % e)
 
     def test_humanize_11(self):
-        """ Test that time_to_string humanizes correctly 11. """
+        """Test that time_to_string humanizes correctly 11."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=TH(-1)))
         e = custom_strftime("{S}", event.datetime)
@@ -173,7 +173,7 @@ class TestEvent(TestCase):
                               "last Thursday (%s) at 7PM" % e)
 
     def test_humanize_12(self):
-        """ Test that time_to_string humanizes correctly 12. """
+        """Test that time_to_string humanizes correctly 12."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=FR(-1)))
         e = custom_strftime("{S}", event.datetime)
@@ -187,7 +187,7 @@ class TestEvent(TestCase):
                               "last Friday (%s) at 7PM" % e)
 
     def test_humanize_13(self):
-        """ Test that time_to_string humanizes correctly 13. """
+        """Test that time_to_string humanizes correctly 13."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=SA(-1)))
         e = custom_strftime("{S}", event.datetime)
@@ -201,7 +201,7 @@ class TestEvent(TestCase):
                               "last Saturday (%s) at 7PM" % e)
 
     def test_humanize_14(self):
-        """ Test that time_to_string humanizes correctly 14. """
+        """Test that time_to_string humanizes correctly 14."""
         event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=SU(-1)))
         e = custom_strftime("{S}", event.datetime)
@@ -224,7 +224,7 @@ class TestEvent(TestCase):
                           "Saturday January 1st, 2011 at 7:30AM")
 
     def test_previous_event(self):
-        """ Test that previous event returns correctly. """
+        """Test that previous event returns correctly."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                            timedelta(days=2))
 
@@ -241,7 +241,7 @@ class TestEvent(TestCase):
         self.assertEquals(event.previous_event, event2)
 
     def test_winning_language(self):
-        """ Test that winning language works. """
+        """Test that winning language works."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                            timedelta(days=2))
 
@@ -257,7 +257,7 @@ class TestEvent(TestCase):
         self.assertEquals(event.winning_language, "A")
 
     def test_winning_language_ignore(self):
-        """ Test that winning language ignores last month's language. """
+        """Test that winning language ignores last month's language."""
         event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
                            timedelta(days=2))
         mommy.make("Event", datetime=datetime.now(pytz.utc) -

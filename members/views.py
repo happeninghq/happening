@@ -1,4 +1,4 @@
-""" Member views. """
+"""Member views."""
 
 from django.shortcuts import render, get_object_or_404, redirect
 from events.models import Ticket
@@ -25,7 +25,7 @@ stripe.api_key = django_settings.STRIPE_SECRET_KEY
 
 
 def require_editing_own_profile(f):
-    """ Require that the pk passed is equal to the current user's pk. """
+    """Require that the pk passed is equal to the current user's pk."""
     def inner_require_editing_own_profile(request, pk):
         member = get_object_or_404(get_user_model(), pk=pk)
         if not member == request.user and not request.user.is_staff:
@@ -36,13 +36,13 @@ def require_editing_own_profile(f):
 
 @login_required
 def my_tickets(request):
-    """ List tickets I have purchased. """
+    """List tickets I have purchased."""
     return render(request, "members/my_tickets.html")
 
 
 @login_required
 def edit_ticket(request, pk):
-    """ Edit the quantity of tickets. """
+    """Edit the quantity of tickets."""
     ticket = get_object_or_404(Ticket, pk=pk)
 
     if not ticket.user == request.user:
@@ -72,7 +72,7 @@ def edit_ticket(request, pk):
 
 @login_required
 def cancel_ticket(request, pk):
-    """ Cancel a ticket. """
+    """Cancel a ticket."""
     ticket = get_object_or_404(Ticket, pk=pk)
 
     if not ticket.user == request.user:
@@ -89,7 +89,7 @@ def cancel_ticket(request, pk):
 
 
 def view_profile(request, pk):
-    """ View a member's profile. """
+    """View a member's profile."""
     member = get_object_or_404(get_user_model(), pk=pk)
 
     return render(request, "members/view_profile.html", {"member": member})
@@ -97,7 +97,7 @@ def view_profile(request, pk):
 
 @require_editing_own_profile
 def edit_profile(request, pk):
-    """ Edit a member's profile. """
+    """Edit a member's profile."""
     member = get_object_or_404(get_user_model(), pk=pk)
     form = ProfileForm(
         initial={
@@ -147,7 +147,7 @@ def edit_profile(request, pk):
 @require_POST
 @require_editing_own_profile
 def upload_profile_photo(request, pk):
-    """ Upload a new profile photo and forward for cropping. """
+    """Upload a new profile photo and forward for cropping."""
     member = get_object_or_404(get_user_model(), pk=pk)
     form = ProfilePhotoForm(request.POST, request.FILES)
 
@@ -160,7 +160,7 @@ def upload_profile_photo(request, pk):
 
 @require_editing_own_profile
 def resize_crop_profile_photo(request, pk):
-    """ Resize and crop profile photo. """
+    """Resize and crop profile photo."""
     member = get_object_or_404(get_user_model(), pk=pk)
     if not member.profile.photo:
         return redirect("edit_profile", member.pk)
@@ -194,14 +194,14 @@ def resize_crop_profile_photo(request, pk):
 
 @require_editing_own_profile
 def settings(request, pk):
-    """ Overview settings. """
+    """Overview settings."""
     member = get_object_or_404(get_user_model(), pk=pk)
     return render(request, "members/settings.html", {"member": member})
 
 
 @require_editing_own_profile
 def edit_username(request, pk):
-    """ Change username. """
+    """Change username."""
     member = get_object_or_404(get_user_model(), pk=pk)
     form = UsernameForm(initial={"username": member.username})
     if request.method == "POST":
@@ -217,13 +217,13 @@ def edit_username(request, pk):
 
 @login_required
 def my_membership(request):
-    """ Redirect to our own membership page. """
+    """Redirect to our own membership page."""
     return redirect("membership", request.user.pk)
 
 
 @require_editing_own_profile
 def membership(request, pk):
-    """ Show our activate memberships. """
+    """Show our activate memberships."""
     member = get_object_or_404(get_user_model(), pk=pk)
 
     # TODO: Decide what the initial amount should actually be
@@ -246,7 +246,7 @@ def membership(request, pk):
 
 @require_editing_own_profile
 def membership_payment(request, pk):
-    """ Accept payment for membership. """
+    """Accept payment for membership."""
     member = get_object_or_404(get_user_model(), pk=pk)
     if request.method == "GET" and 'amount' not in request.GET:
         return redirect("membership", pk)

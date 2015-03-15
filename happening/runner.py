@@ -1,4 +1,4 @@
-""" Test runner which deals with media files. """
+"""Test runner which deals with media files."""
 
 import shutil
 import tempfile
@@ -9,10 +9,10 @@ from django.test.runner import DiscoverRunner
 
 class TempMediaMixin(object):
 
-    """ Mixin to create MEDIA_ROOT in temp and tear down when complete. """
+    """Mixin to create MEDIA_ROOT in temp and tear down when complete."""
 
     def setup_test_environment(self):
-        """ Create temp directory, update MEDIA_ROOT and default storage. """
+        """Create temp directory, update MEDIA_ROOT and default storage."""
         super(TempMediaMixin, self).setup_test_environment()
         settings._original_media_root = settings.MEDIA_ROOT
         settings._original_file_storage = settings.DEFAULT_FILE_STORAGE
@@ -22,7 +22,7 @@ class TempMediaMixin(object):
                                         '.FileSystemStorage'
 
     def teardown_test_environment(self):
-        """ Delete temp storage. """
+        """Delete temp storage."""
         super(TempMediaMixin, self).teardown_test_environment()
         shutil.rmtree(self._temp_media, ignore_errors=True)
         settings.MEDIA_ROOT = settings._original_media_root
@@ -33,4 +33,4 @@ class TempMediaMixin(object):
 
 class CustomTestSuiteRunner(TempMediaMixin, DiscoverRunner):
 
-    """ Local test suite runner. """
+    """Local test suite runner."""

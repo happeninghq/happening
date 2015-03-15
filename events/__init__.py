@@ -1,1 +1,1 @@
-""" Functionality related to events and tickets. """
+"""Functionality related to events and tickets."""

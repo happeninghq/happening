@@ -1,4 +1,4 @@
-""" Test helper functionality. """
+"""Test helper functionality."""
 from django_bs_test import TestCase as bsTestCase
 import vcr
 import os
@@ -7,7 +7,7 @@ from django.contrib.sites.models import Site
 
 
 def add_site_to_all_models(*args, **kwargs):
-    """ Add the site to all models. """
+    """Add the site to all models."""
     try:
         if 'site' not in kwargs:
             kwargs['site'] = Site.objects.first()
@@ -22,10 +22,10 @@ mommy.make = add_site_to_all_models
 
 class VCRPyAllMeta(type):
 
-    """ Add VCRPy to all methods. """
+    """Add VCRPy to all methods."""
 
     def __new__(cls, name, bases, local):
-        """ When an instance is created set up the decorator. """
+        """When an instance is created set up the decorator."""
         for attr in local:
             value = local[attr]
             if callable(value):
@@ -36,7 +36,7 @@ class VCRPyAllMeta(type):
 
 class TestCase(bsTestCase):
 
-    """ Test case which includes beautifulsoup and http mocking. """
+    """Test case which includes beautifulsoup and http mocking."""
 
     __metaclass__ = VCRPyAllMeta
 

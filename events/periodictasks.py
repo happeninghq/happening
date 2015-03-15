@@ -1,4 +1,4 @@
-""" Period tasks related to events. """
+"""Period tasks related to events."""
 
 from periodically.decorators import hourly
 from models import Event
@@ -9,7 +9,7 @@ from django.conf import settings
 
 @hourly()
 def send_event_notifications():
-    """ Send notifications for upcoming events. """
+    """Send notifications for upcoming events."""
     first_notification_cutoff = datetime.now(pytz.utc) + \
         timedelta(hours=settings.FIRST_NOTIFICATION_TIME)
     second_notification_cutoff = datetime.now(pytz.utc) + \

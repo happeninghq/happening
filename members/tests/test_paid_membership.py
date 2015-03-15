@@ -1,4 +1,4 @@
-""" Test paying for membership. """
+"""Test paying for membership."""
 
 # from happening.tests import TestCase
 # from model_mommy import mommy
@@ -7,10 +7,10 @@
 
 # class TestPaidMembership(TestCase):
 
-#     """ Test paying for membership. """
+#     """Test paying for membership."""
 
 #     def setUp(self):
-#         """ Set up a user. """
+#         """Set up a user."""
 #         self.user = mommy.make(settings.AUTH_USER_MODEL)
 #         self.user.set_password("password")
 #         self.user.save()

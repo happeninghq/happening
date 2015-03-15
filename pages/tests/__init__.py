@@ -1,1 +1,1 @@
-""" Pages Tests. """
+"""Pages Tests."""

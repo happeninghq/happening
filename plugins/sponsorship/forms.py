@@ -1,4 +1,4 @@
-""" Sponsorship forms. """
+"""Sponsorship forms."""
 
 from django import forms
 from models import Sponsor
@@ -6,7 +6,7 @@ from models import Sponsor
 
 class SponsorForm(forms.ModelForm):
 
-    """ Form for creating/editing sponsors. """
+    """Form for creating/editing sponsors."""
 
     class Meta:
         model = Sponsor
@@ -15,7 +15,7 @@ class SponsorForm(forms.ModelForm):
 
 class EventSponsorForm(forms.Form):
 
-    """ Edit the sponsor for an event. """
+    """Edit the sponsor for an event."""
 
     sponsor = forms.ModelChoiceField(queryset=Sponsor.objects.all(),
                                      required=False)

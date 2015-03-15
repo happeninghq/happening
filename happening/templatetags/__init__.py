@@ -1,1 +1,1 @@
-""" General site-wide template tags. """
+"""General site-wide template tags."""

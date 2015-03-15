@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" Entry point to django. """
+"""Entry point to django."""
 import os
 import sys
 
