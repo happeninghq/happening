@@ -1,0 +1,20 @@
+{% extends "staff/base.html" %}
+{% load staticfiles %}
+{% load foundation %}
+
+{% block staff_content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>New Sponsorship Tier</h2>
+                    
+                <form method="POST" action="{% url "create_sponsorship_tier" %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form|foundation}}
+                    <button type="submit">Save</button>
+                    <a class="button warning" href="{% url "staff_sponsorship_tiers" %}">Cancel</a>
+                </form>
+            </div>
+        </p>
+    </div>
+{% endblock %}

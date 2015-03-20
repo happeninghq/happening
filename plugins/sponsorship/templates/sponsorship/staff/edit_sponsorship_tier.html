@@ -1,0 +1,19 @@
+{% extends "staff/base.html" %}
+{% load foundation %}
+
+{% block staff_content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Edit {{sponsorship_tier}}</h2>
+                    
+                <form method="POST" action="{% url "edit_sponsorship_tier" sponsorship_tier.pk %}">
+                    {% csrf_token %}
+                    {{form|foundation}}
+                    <button type="submit">Save</button>
+                    <a class="button warning" href="{% url "staff_sponsors" %}">Cancel</a>
+                </form>
+            </div>
+        </p>
+    </div>
+{% endblock %}

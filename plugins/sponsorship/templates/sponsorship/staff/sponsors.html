@@ -7,13 +7,11 @@
         <tr>
             <th>Name</th>
             <th>Sponsored Events</th>
-            <td></td>
         </tr>
         {% for sponsor in sponsors %}
             <tr>
-                <td><a href="{% url "view_sponsor" sponsor.pk %}">{{sponsor.name}}</a></td>
+                <td><a href="{% url "staff_view_sponsor" sponsor.pk %}">{{sponsor.name}}</a></td>
                 <td>{{sponsor.event_sponsors.count}} event{{sponsor.event_sponsors.count|pluralize}}</td>
-                <td><a href="{% url "edit_sponsor" sponsor.pk %}">Edit</a></td>
             </tr>
         {% endfor %}
     </table>

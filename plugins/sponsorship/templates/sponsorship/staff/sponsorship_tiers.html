@@ -1,0 +1,35 @@
+{% extends "staff/base.html" %}
+
+{% block staff_content %}
+    <a class="button" href="{% url "create_sponsorship_tier" %}">New Sponsorship Tier</a>
+
+    <table style="width: 100%;">
+        <tr>
+            <th>Name</th>
+            <th>Sponsors</th>
+        </tr>
+        {% for sponsorship_tier in sponsorship_tiers %}
+            <tr>
+                <td>{{sponsorship_tier.name}}</td>
+                <td>{{sponsorship_tier.community_sponsorships.count}} sponsor{{sponsorship_tier.community_sponsorships.count|pluralize}}</td>
+                <td><a href="{% url "edit_sponsorship_tier" sponsorship_tier.pk %}">Edit</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+    <ul class="pagination">
+        {% if sponsorship_tiers.has_previous %}
+            <li class="arrow"><a href="?page={{ sponsorship_tiers.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+            <li class="arrow unavailable"><a href="">&laquo;</a></li>
+        {% endif %}
+
+        <li class="current"><a href="">Page {{sponsorship_tiers.number}} of {{sponsorship_tiers.paginator.num_pages}}.</a></li>
+        {% if sponsorship_tiers.has_next %}
+            <li class="arrow"><a href="?page={{ sponsorship_tiers.next_page_number }}">&raquo;</a></li>
+        {% else %}
+            <li class="arrow unavailable"><a href="">&raquo;</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}

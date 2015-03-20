@@ -325,3 +325,17 @@ p {
 #notifications_settings {
     width: 100%;
 }
+
+
+// Sponsors
+#community_sponsors {
+    margin: 10px;
+}
+
+.community_sponsor {
+    display: inline-block;
+
+    img {
+        max-width: 100px;
+    }
+}

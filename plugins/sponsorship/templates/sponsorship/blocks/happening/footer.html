@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="small-12 columns" id="community_sponsors">
+        {% for tier in sponsor_tiers %}
+            {% if tier.community_sponsorships.count > 0 %}
+                {% for sponsorship in tier.community_sponsorships.all %}
+                    <div class="community_sponsor"><a href="{% url "view_sponsor" sponsorship.sponsor.pk %}"><img src="{{sponsorship.sponsor.logo.url}}"></a></div>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

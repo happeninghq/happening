@@ -1,0 +1,41 @@
+{% extends "staff/base.html" %}
+{% load staticfiles %}
+{% load markdown_deux_tags %}
+
+{% block staff_content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>{{sponsor}}</h2>
+
+                <blockquote>
+                    <div style="text-align: center; margin-bottom: 2em;">
+                        <a href="{{sponsor.url}}"><img style="max-width: 100%;" src="{{sponsor.logo.url}}"></a>
+                    </div>
+                    {{sponsor.description|markdown}}
+                </blockquote>
+
+                <a class="button" href="{% url "edit_sponsor" sponsor.pk %}">Edit Sponsor</a>
+
+                <h3>Tiers</h3>
+                {% if sponsor.community_sponsorships.count > 0 %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tier</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sponsorship in sponsor.community_sponsorships.all %}
+                                <tr>
+                                    <td>{{sponsorship.tier}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+                <a class="button" href="{% url "add_community_sponsorship_to_sponsor" sponsor.pk %}">Add Tier</a>
+            </div>
+        </p>
+    </div>
+{% endblock %}

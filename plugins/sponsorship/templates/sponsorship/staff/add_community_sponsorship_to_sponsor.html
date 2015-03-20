@@ -1,0 +1,18 @@
+{% extends "staff/base.html" %}
+
+{% block staff_content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Add Community Sponsorship to {{sponsor}}</h2>
+                    
+                <form method="POST" action="{% url "add_community_sponsorship_to_sponsor" sponsor.pk %}">
+                    {% csrf_token %}
+                    {{form}}
+                    <button type="submit">Save</button>
+                    <a class="button warning" href="{% url "staff_view_sponsor" sponsor.pk %}">Cancel</a>
+                </form>
+            </div>
+        </p>
+    </div>
+{% endblock %}

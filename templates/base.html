@@ -1,6 +1,8 @@
 {% load staticfiles %}
 {% load compress %}
 {% load ganalytics %}
+{% load plugins %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,6 +56,7 @@
         {% endblock %}
     </div>
     <div id="bottom">
+        {% plugin_block "happening.footer" %}
         <div class="container">
             <div class="row">
                 <div class="small-12 column">
