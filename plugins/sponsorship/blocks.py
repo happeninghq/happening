@@ -26,7 +26,7 @@ def staff_event(event):
 
 @plugin_block("happening.footer")
 def community_sponsors():
-    """ Add community sponsor links to footer. """
+    """Add community sponsor links to footer."""
     from models import SponsorTier
     return render_to_string(
         "sponsorship/blocks/happening/footer.html",

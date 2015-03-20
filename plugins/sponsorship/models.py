@@ -28,18 +28,18 @@ class EventSponsor(models.Model):
 
 class SponsorTier(models.Model):
 
-    """ A tier for a sponsor to sponsor the entire community. """
+    """A tier for a sponsor to sponsor the entire community."""
 
     name = models.CharField(max_length=200)
 
     def __unicode__(self):
-        """ Return tier name. """
+        """Return tier name."""
         return self.name
 
 
 class CommunitySponsorship(models.Model):
 
-    """ An instance of a sponsor sponsoring the community. """
+    """An instance of a sponsor sponsoring the community."""
 
     sponsor = models.ForeignKey(Sponsor, related_name="community_sponsorships")
     tier = models.ForeignKey(SponsorTier,
