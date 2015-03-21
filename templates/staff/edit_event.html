@@ -12,6 +12,7 @@
                     
                 <form method="POST" action="{% url "edit_event" event.pk %}" enctype="multipart/form-data">
                     {% csrf_token %}
+                    <label>Title {{form.title}}</label>
                     <label>Datetime {{form.datetime}}</label>
                     <label>Sponsor {{form.sponsor}}</label>
                     <label>Available Tickets {{form.available_tickets}}</label>

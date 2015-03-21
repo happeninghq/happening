@@ -41,6 +41,8 @@ class Event(models.Model):
 
     datetime = models.DateTimeField()
 
+    title = models.CharField(max_length=255)
+
     # The number of tickets available in total for this event
     available_tickets = models.IntegerField(default=30)
 
@@ -217,8 +219,7 @@ class Event(models.Model):
 
     def __unicode__(self):
         """Return the title of this event."""
-        # TODO: Make event name a field
-        return "%s Code Dojo" % self.datetime.strftime("%B")
+        return self.title
 
     def _send_upcoming_notification(self, user, is_final):
         kwargs = {"event": self,
