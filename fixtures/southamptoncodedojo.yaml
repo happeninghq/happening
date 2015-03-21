@@ -5,6 +5,7 @@
   pk: 1
   fields:
     datetime: "2014-04-11 19:00:00+00:00"
+    title: April Code Dojo
     challenge_language: Python
     challenge_title: Battleships
     challenge_text: This month's challenge was to implement a Battleships AI in Python. These AIs played against each other using the [Battleships competition](https://github.com/southampton-code-dojo/battleships) created for this dojo.
@@ -39,6 +40,7 @@
   pk: 2
   fields:
     datetime: "2014-05-08 19:00:00+00:00"
+    title: May Code Dojo
     challenge_language: Python
     challenge_title: Daily Mail Headline Generator
     challenge_text: This month's challenge was to create a Daily Mail headline generator in Python.
@@ -64,6 +66,7 @@
   pk: 3
   fields:
     datetime: "2014-06-12 19:00:00+00:00"
+    title: June Code Dojo
     challenge_language: Javascript
     challenge_title: Mastermind
     challenge_text: This month's challenge was more open than usual - and involved implementing the game [Mastermind](http://en.wikipedia.org/wiki/Mastermind_(board_game)), for either one or two players. Everything else was left up to the participants.
@@ -90,6 +93,7 @@
   pk: 4
   fields:
     datetime: "2014-07-10 19:00:00+00:00"
+    title: July Code Dojo
     challenge_language: Python
     challenge_title: Roman Numeral Calculator
     challenge_text: This month's challenge was to implement a Roman Numerals calculator in Python. The challenge was open in that people could decide how it should work, how the user should interface with it, etc.
@@ -120,6 +124,7 @@
   pk: 5
   fields:
     datetime: "2014-08-14 19:00:00+00:00"
+    title: August Code Dojo
     challenge_language: Java
     challenge_title: Countdown Solver
     challenge_text: This month's challenge was to implement a Countdown numbers round solver in Java. The idea was taken from [Ruby Quiz 7](http://rubyquiz.com/quiz7.html) so you can go there for more details and to see some example answers where they had longer to work on them.
@@ -136,6 +141,7 @@
   pk: 6
   fields:
     datetime: "2014-09-11 19:00:00+00:00"
+    title: September Code Dojo
     challenge_language: Javascript
     challenge_title: Sodoku Solver
     challenge_text: This month's challenge was to implement a Sodoku solver in Javascript. We left the choice of using Node or doing it in-browser up to the groups.
@@ -166,6 +172,7 @@
   pk: 7
   fields:
     datetime: "2014-10-09 19:00:00+00:00"
+    title: October Code Dojo
     challenge_language: Java
     challenge_title: Minesweeper AI
     challenge_text: This month's challenge was to implement a Minesweeper AI using Java. We had a pre-prepared engine and API that everyone could code to - so teams were only responsible for implementing the actual logic of choosing which space to click on next.
@@ -214,6 +221,7 @@
   pk: 8
   fields:
     datetime: "2014-11-13 19:00:00+00:00"
+    title: November Code Dojo
     challenge_language: Python
     challenge_title: Poetry Generator
     challenge_text: We started out by attempting to run a pre-prepared challenge, however networking issues put an end to that and we voted on a replacement task - we decided to develop poetry generators.
@@ -259,6 +267,7 @@
   pk: 9
   fields:
     datetime: "2014-12-04 19:00:00+00:00"
+    title: December Code Dojo
     challenge_language: C
     challenge_title: Secret Santa Organiser
     challenge_text:
