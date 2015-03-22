@@ -20,11 +20,6 @@ urlpatterns = patterns('',
                        (r'^notifications/', include('notifications.urls')),
                        (r'^pages/', include('pages.urls')),
 
-                       # Overriding comments posted redirect
-                       (r'^comments/posted/$',
-                        'happening.views.comment_posted'),
-                       (r'^comments/', include('django_comments.urls')),
-
                        ) + static(settings.MEDIA_URL,
                                   document_root=settings.MEDIA_ROOT)
 
