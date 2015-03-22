@@ -14,7 +14,7 @@ def event_long(request, event):
 def event_short(request, event):
     """Add sponsorship information to short event information."""
     # Same as long
-    return event_long(event)
+    return event_long(request, event)
 
 
 @plugin_block("staff.event")
