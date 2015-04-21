@@ -285,6 +285,15 @@ DEBUG_TOOLBAR_CONFIG = {
     "JQUERY_URL": ""
 }
 
+MARKDOWN_DEUX_STYLES = {
+    "default": {
+        "extras": {
+            "tables": None,
+        },
+        "safe_mode": "escape",
+    },
+}
+
 # ---------------------------
 # EDIT THINGS BELOW THIS LINE
 # ---------------------------
