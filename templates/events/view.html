@@ -46,7 +46,7 @@
                             {% else %}
                                 <div class="panel" class="set-group">
                                     <p>Did you attend the event? tell us which group you were in</p>
-                                    <form method="POST" action="{% url "set_group" event.pk %}">
+                                    <form method="POST" action="set_group">
                                         {% csrf_token %}
                                         {{group_form}}
                                         <button type="submit">Submit</button>
