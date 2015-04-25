@@ -59,45 +59,45 @@ class TestEventView(TestCase):
                                               .find("img")['src'])
 
         # Check solutions text
-        self.assertIsNone(empty_response.soup.find(id="solution-text"))
-        self.assertEquals(filled_event.solution_text.strip(),
-                          filled_response.soup.find(id="solution-text")
-                                              .text.strip())
+        # self.assertIsNone(empty_response.soup.find(id="solution-text"))
+        # self.assertEquals(filled_event.solution_text.strip(),
+        #                   filled_response.soup.find(id="solution-text")
+        #                                       .text.strip())
 
-    def test_event_solutions(self):
-        """Test that the view shows the correct event solutions."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
-                           timedelta(days=20))
+    # def test_event_solutions(self):
+    #     """Test that the view shows the correct event solutions."""
+    #     event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+    #                        timedelta(days=20))
 
-        # No solutions should have no list
-        response = self.client.get("/events/%s" % event.id)
-        self.assertIsNone(response.soup.find(id="event-solutions"))
+    #     # No solutions should have no list
+    #     response = self.client.get("/events/%s" % event.id)
+    #     self.assertIsNone(response.soup.find(id="event-solutions"))
 
-        # Create a solution, ensure it appears in the list
-        mommy.make("EventSolution", event=event)
-        response = self.client.get("/events/%s" % event.id)
-        self.assertIsNotNone(response.soup.find(id="event-solutions"))
-        self.assertEqual(1, len(response.soup.find(id="event-solutions")
-                                .findAll("tr")))
+    #     # Create a solution, ensure it appears in the list
+    #     mommy.make("EventSolution", event=event)
+    #     response = self.client.get("/events/%s" % event.id)
+    #     self.assertIsNotNone(response.soup.find(id="event-solutions"))
+    #     self.assertEqual(1, len(response.soup.find(id="event-solutions")
+    #                             .findAll("tr")))
 
-        mommy.make("EventSolution", event=event)
-        response = self.client.get("/events/%s" % event.id)
-        self.assertEqual(2, len(response.soup.find(id="event-solutions")
-                                .findAll("tr")))
+    #     mommy.make("EventSolution", event=event)
+    #     response = self.client.get("/events/%s" % event.id)
+    #     self.assertEqual(2, len(response.soup.find(id="event-solutions")
+    #                             .findAll("tr")))
 
-    def test_event_solutions_order(self):
-        """Test that the view shows the correctly ordered solutions."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
-                           timedelta(days=20))
+    # def test_event_solutions_order(self):
+    #     """Test that the view shows the correctly ordered solutions."""
+    #     event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+    #                        timedelta(days=20))
 
-        # Create a solution, ensure it appears in the list
-        mommy.make("EventSolution", event=event, team_number=3)
-        mommy.make("EventSolution", event=event, team_number=1)
-        mommy.make("EventSolution", event=event, team_number=2)
-        response = self.client.get("/events/%s" % event.id)
-        self.assertIsNotNone(response.soup.find(id="event-solutions"))
-        trs = response.soup.find(id="event-solutions").findAll("tr")
-        self.assertEqual(3, len(trs))
-        self.assertEqual("Group 1", trs[0].find("th").text)
-        self.assertEqual("Group 2", trs[1].find("th").text)
-        self.assertEqual("Group 3", trs[2].find("th").text)
+    #     # Create a solution, ensure it appears in the list
+    #     mommy.make("EventSolution", event=event, team_number=3)
+    #     mommy.make("EventSolution", event=event, team_number=1)
+    #     mommy.make("EventSolution", event=event, team_number=2)
+    #     response = self.client.get("/events/%s" % event.id)
+    #     self.assertIsNotNone(response.soup.find(id="event-solutions"))
+    #     trs = response.soup.find(id="event-solutions").findAll("tr")
+    #     self.assertEqual(3, len(trs))
+    #     self.assertEqual("Group 1", trs[0].find("th").text)
+    #     self.assertEqual("Group 2", trs[1].find("th").text)
+    #     self.assertEqual("Group 3", trs[2].find("th").text)

@@ -2,7 +2,6 @@
 {% load staticfiles %}
 {% load markdown_deux_tags %}
 {% load tickets %}
-{% load groups %}
 {% load plugins %}
 
 {% block content %}
@@ -29,32 +28,6 @@
                         {% include "events/_ticket_widget.html" %}
                     {% endif %}
                     {% include "events/_attending_members.html" %}
-                {% else %}
-                    {% if user|has_tickets:event %}
-                        {% with user|tickets:event as a %}
-                            {% if a.0.group %}
-                                {% if not event|has_info_for_group:a.0.group %}
-                                    <div class="panel" class="update-group">
-                                        <p>Please share the link where people can see your group's code.</p>
-                                        <form method="POST" action="{% url "group_submission" event.pk %}">
-                                            {% csrf_token %}
-                                            {{group_submission_form}}
-                                            <button type="submit">Submit</button>
-                                        </form>
-                                    </div>
-                                {% endif %}
-                            {% else %}
-                                <div class="panel" class="set-group">
-                                    <p>Did you attend the event? tell us which group you were in</p>
-                                    <form method="POST" action="set_group">
-                                        {% csrf_token %}
-                                        {{group_form}}
-                                        <button type="submit">Submit</button>
-                                    </form>
-                                </div>
-                            {% endif %}
-                        {% endwith %}
-                    {% endif %}
                 {% endif %}
                 {% if event.challenge_text %}
                     <h2>The Challenge</h2>
@@ -67,40 +40,6 @@
                         <img src="{{ event.image.url }}">
                     </div>
                 {% endif %}
-                {% if event.solution_text or event.solutions.count > 0 %}
-                    <h2>Solutions</h2>
-                {% endif %}
-                {% if event.solution_text %}
-                    <div id="solution-text">
-                        {{event.solution_text|markdown}}
-                    </div>
-                {% endif %}
-                {% if event.solutions.count > 0 %}
-                    <table class="solutions" id="event-solutions">
-                        {% for solution in event.ordered_solutions %}
-                            <tr>
-                                {% if solution.description %}
-                                    <th><a href="{{solution.github_url}}">{{solution.name}}</a></th>
-                                    <td>{{solution.description}}</td>
-                                {% else %}
-                                    <th colspan="2"><a href="{{solution.github_url}}">{{solution.name}}</a></th>
-                                    <td></td>
-                                {% endif %}
-                                <td>
-                                    {% include "members/_list.html" with members=solution.members %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                {% endif %}
-
-                {% if not event.is_future %}
-                    {% if event.ungrouped_attendees|length > 0 %}
-                        <h2>Other attendees</h2>
-                        {% include "members/_list.html" with members=event.ungrouped_attendees %}
-                    {% endif %}
-                {% endif %}
-
                 {% plugin_block "events.event_long" event %}
             </div>
         </p>

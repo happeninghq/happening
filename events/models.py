@@ -91,10 +91,6 @@ class Event(models.Model):
             time = self.datetime.strftime("%I%p").lstrip("0")
         return datestr + " at " + time
 
-    def ordered_solutions(self):
-        """Return solutions sorted by group number."""
-        return self.solutions.all().order_by('team_number')
-
     @property
     def previous_event(self):
         """Return the event immediately prior to this one."""
@@ -211,11 +207,6 @@ class Event(models.Model):
     def attending_users(self):
         """Get a list of attending users."""
         return [t.user for t in self.tickets.all() if not t.cancelled]
-
-    def ungrouped_attendees(self):
-        """Get a list of attending users who have not assigned a group."""
-        return [t.user for t in self.tickets.all() if not t.cancelled and
-                not t.group]
 
     def __unicode__(self):
         """Return the title of this event."""

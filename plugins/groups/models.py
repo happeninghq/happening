@@ -8,7 +8,7 @@ class Group(models.Model):
 
     """A group at an event."""
 
-    event = models.ForeignKey(Event, related_name="groups")
+    event = models.ForeignKey(Event, related_name="raw_groups")
     team_number = models.IntegerField(default=0)
     # TODO: Make a lot of this information admin configurable
     team_name = models.CharField(max_length=200, null=True)
@@ -37,3 +37,18 @@ class TicketInGroup(models.Model):
 
     group = models.ForeignKey(Group, related_name="tickets")
     ticket = models.ForeignKey(Ticket, related_name="groups")
+
+
+def get_groups(event):
+    """Get groups for an event, ordered by team_number."""
+    return event.raw_groups.all().order_by('team_number')
+
+Event.groups = get_groups
+
+
+def get_ungrouped_users(event):
+    """Get ungrouped users attending an event."""
+    return set(
+        [t.user for t in event.tickets.all() if not t.groups.count() > 0])
+
+Event.ungrouped_users = get_ungrouped_users
