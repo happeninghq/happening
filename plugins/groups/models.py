@@ -22,13 +22,12 @@ class Group(models.Model):
             "Group %s" % self.team_number
 
     def __unicode__(self):
-        """Return the title of this solution."""
-        return "%s %s" % (self.event, self.team_name)
+        """Return the name of this group."""
+        return self.name
 
     def members(self):
         """List members of this group."""
-        return [t.user for t in Ticket.objects.filter(
-            event=self.event, group=self.team_number)]
+        return [t.ticket.user for t in self.tickets]
 
 
 class TicketInGroup(models.Model):
@@ -37,6 +36,13 @@ class TicketInGroup(models.Model):
 
     group = models.ForeignKey(Group, related_name="tickets")
     ticket = models.ForeignKey(Ticket, related_name="groups")
+
+
+def get_group(ticket):
+    """Get the group this ticket belongs to, or None."""
+    return ticket.groups.first()
+
+Ticket.group = get_group
 
 
 def get_groups(event):
