@@ -27,7 +27,7 @@ class Group(models.Model):
 
     def members(self):
         """List members of this group."""
-        return [t.ticket.user for t in self.tickets]
+        return [t.ticket.user for t in self.tickets.all()]
 
 
 class TicketInGroup(models.Model):
@@ -55,6 +55,7 @@ Event.groups = get_groups
 def get_ungrouped_users(event):
     """Get ungrouped users attending an event."""
     return set(
-        [t.user for t in event.tickets.all() if not t.groups.count() > 0])
+        [t.user for t in event.tickets.all() if not t.groups.count() > 0 and
+         not t.cancelled])
 
 Event.ungrouped_users = get_ungrouped_users
