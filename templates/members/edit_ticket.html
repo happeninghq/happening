@@ -10,7 +10,7 @@
                 <h2>{{ticket.event.heading}}</h2>
                 <h3>Edit Tickets</h3>
 
-                <form action="{% url "edit_ticket" ticket.id %}" method="POST">
+                <form action="{% url "edit_ticket" ticket.id %}{% if request.GET.redirect_to %}?redirect_to={{request.GET.redirect_to}}{% endif %}" method="POST">
                     {% csrf_token %}
                     {{form|foundation}}
                     <button type="submit">Submit</button>

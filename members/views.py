@@ -45,11 +45,11 @@ def edit_ticket(request, pk):
     """Edit the quantity of tickets."""
     ticket = get_object_or_404(Ticket, pk=pk)
 
-    if not ticket.user == request.user:
+    if not ticket.user == request.user and not request.user.is_staff:
         raise Http404
 
     if not ticket.event.is_future:
-        return redirect("my_tickets")
+        return redirect(request.GET.get("redirect_to", "my_tickets"))
 
     max_tickets = ticket.event.remaining_tickets + ticket.number + 1
 
@@ -64,7 +64,7 @@ def edit_ticket(request, pk):
         if form.is_valid():
             ticket.number = form.cleaned_data['quantity']
             ticket.save()
-            return redirect("my_tickets")
+            return redirect(request.GET.get("redirect_to", "my_tickets"))
 
     return render(request, "members/edit_ticket.html",
                   {"ticket": ticket, "form": form})
@@ -75,15 +75,15 @@ def cancel_ticket(request, pk):
     """Cancel a ticket."""
     ticket = get_object_or_404(Ticket, pk=pk)
 
-    if not ticket.user == request.user:
+    if not ticket.user == request.user and not request.user.is_staff:
         raise Http404
 
     if not ticket.event.is_future:
-        return redirect("my_tickets")
+        return redirect(request.GET.get("redirect_to", "my_tickets"))
 
     if request.method == "POST":
         ticket.cancel()
-        return redirect("my_tickets")
+        return redirect(request.GET.get("redirect_to", "my_tickets"))
 
     return render(request, "members/cancel_ticket.html", {"ticket": ticket})
 

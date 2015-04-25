@@ -340,3 +340,17 @@ p {
         max-width: 100px;
     }
 }
+
+
+// Tickets
+.tickets {
+    width: 100%;
+    
+    img {
+        max-width: 50px;
+    }
+
+    .cancelled {
+        opacity: 0.7;
+    }
+}
