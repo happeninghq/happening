@@ -1,6 +1,6 @@
 """Event views."""
 from django.shortcuts import render, get_object_or_404, redirect
-from models import Event, Ticket, EventSolution
+from models import Event, Ticket
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from forms import TicketForm, GroupNumberForm
@@ -115,37 +115,37 @@ def set_group(request, pk):
     return redirect("view_event", event.pk)
 
 
-@require_POST
-@login_required
-def group_submission(request, pk):
-    """Set the group info for the current member's group."""
-    event = get_object_or_404(Event, pk=pk)
+# @require_POST
+# @login_required
+# def group_submission(request, pk):
+#     """Set the group info for the current member's group."""
+#     event = get_object_or_404(Event, pk=pk)
 
-    if event.is_future:
-        return redirect("view_event", event.pk)
+#     if event.is_future:
+#         return redirect("view_event", event.pk)
 
-    # Check that we have tickets
-    tickets = event.tickets.filter(user=request.user, cancelled=False)
-    if len(tickets) < 1:
-        return redirect("view_event", event.pk)
+#     # Check that we have tickets
+#     tickets = event.tickets.filter(user=request.user, cancelled=False)
+#     if len(tickets) < 1:
+#         return redirect("view_event", event.pk)
 
-    ticket = tickets[0]
-    if not ticket.group:
-        return redirect("view_event", event.pk)
+#     ticket = tickets[0]
+#     if not ticket.group:
+#         return redirect("view_event", event.pk)
 
-    # Record the group information
-    form = GroupSubmissionForm(request.POST)
+#     # Record the group information
+#     form = GroupSubmissionForm(request.POST)
 
-    if form.is_valid():
-        group = EventSolution.objects.get_or_create(
-            event=event, team_number=ticket.group)[0]
-        group.description = form.cleaned_data['description']
-        group.github_url = form.cleaned_data['github_url']
-        group.save()
-        return redirect("view_event", event.pk)
+#     if form.is_valid():
+#         group = EventSolution.objects.get_or_create(
+#             event=event, team_number=ticket.group)[0]
+#         group.description = form.cleaned_data['description']
+#         group.github_url = form.cleaned_data['github_url']
+#         group.save()
+#         return redirect("view_event", event.pk)
 
-    return render(request,
-                  "events/view.html",
-                  {"event": event,
-                   "group_submission_form": form
-                   })
+#     return render(request,
+#                   "events/view.html",
+#                   {"event": event,
+#                    "group_submission_form": form
+#                    })
