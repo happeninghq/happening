@@ -13,6 +13,8 @@
                 <a class="button" href="{% url "edit_event" event.pk %}">Edit</a>
                 <a class="button" href="{% url "email_event" event.pk %}">Send Email</a>
 
+                {% plugin_block "staff.event.buttons" event %}
+
                 <h3>Tickets</h3>
                 <div>
                     <input type="search" id="filter_text" />

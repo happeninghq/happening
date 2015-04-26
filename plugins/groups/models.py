@@ -13,7 +13,7 @@ class Group(models.Model):
     # TODO: Make a lot of this information admin configurable
     team_name = models.CharField(max_length=200, null=True)
     description = models.TextField(blank=True, null=True)
-    github_url = models.URLField()
+    github_url = models.URLField(null=True)
 
     @property
     def name(self):
@@ -40,7 +40,10 @@ class TicketInGroup(models.Model):
 
 def get_group(ticket):
     """Get the group this ticket belongs to, or None."""
-    return ticket.groups.first()
+    group = ticket.groups.first()
+    if group:
+        return group.group
+    return None
 
 Ticket.group = get_group
 
@@ -52,10 +55,16 @@ def get_groups(event):
 Event.groups = get_groups
 
 
+def get_ungrouped_tickets(event):
+    """Get ungrouped users attending an event."""
+    return [t for t in event.tickets.all() if not t.groups.count() > 0 and
+            not t.cancelled]
+
+Event.ungrouped_tickets = get_ungrouped_tickets
+
+
 def get_ungrouped_users(event):
     """Get ungrouped users attending an event."""
-    return set(
-        [t.user for t in event.tickets.all() if not t.groups.count() > 0 and
-         not t.cancelled])
+    return set([t.user for t in event.ungrouped_tickets()])
 
 Event.ungrouped_users = get_ungrouped_users
