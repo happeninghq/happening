@@ -12,6 +12,7 @@
 
                 <a class="button" href="{% url "edit_event" event.pk %}">Edit</a>
                 <a class="button" href="{% url "email_event" event.pk %}">Send Email</a>
+                <a class="button" href="{% url "manage_check_ins" event.pk %}">Manage Check Ins</a>
 
                 {% plugin_block "staff.event.buttons" event %}
 

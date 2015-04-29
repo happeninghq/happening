@@ -86,6 +86,7 @@ def check_in(request, pk):
         ticket.checked_in = True
         ticket.checked_in_datetime = datetime.now()
         ticket.save()
+        messages.success(request, ticket.user.name() + " has been checked in.")
     return redirect(request.GET.get("redirect_to"))
 
 
@@ -97,7 +98,16 @@ def cancel_check_in(request, pk):
         ticket.checked_in = False
         ticket.checked_in_datetime = datetime.now()
         ticket.save()
+        messages.success(request, ticket.user.name() +
+                         " is no longer checked in.")
     return redirect(request.GET.get("redirect_to"))
+
+
+@staff_member_required
+def manage_check_ins(request, pk):
+    """Manage check ins."""
+    event = get_object_or_404(Event, pk=pk)
+    return render(request, "staff/manage_check_ins.html", {"event": event})
 
 
 @staff_member_required

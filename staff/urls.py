@@ -37,6 +37,8 @@ urlpatterns = patterns('staff.views',
                            name='check_in'),
                        url(r'^tickets/(?P<pk>\d+)/cancel_check_in$',
                            'cancel_check_in', name='cancel_check_in'),
+                       url(r'^events/(?P<pk>\d+)/manage_check_ins$',
+                           'manage_check_ins', name='manage_check_ins'),
                        )
 
 for plugin in settings.PLUGINS:
