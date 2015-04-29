@@ -24,6 +24,12 @@ def delete_all_group_membership(event):
             ticket.delete()
 
 
+def delete_existing_groups(event):
+    """Delete existing groups."""
+    for group in event.raw_groups.all():
+        group.delete()
+
+
 @staff_member_required
 def generate_groups(request, pk):
     """Generate groups."""
@@ -36,11 +42,14 @@ def generate_groups(request, pk):
         if form.is_valid():
             # Clear existing groups if needed
             if form.cleaned_data['clear_existing_groups']:
-                for group in event.raw_groups.all():
-                    group.delete()
+                delete_existing_groups(event)
 
             number_of_groups = form.cleaned_data['number_of_groups']
             ungrouped_tickets = event.ungrouped_tickets()
+
+            if form.cleaned_data['only_group_checked_in']:
+                ungrouped_tickets = [t for t in ungrouped_tickets
+                                     if t.checked_in]
 
             existing_groups = event_to_existing_groups(event)
 
@@ -63,8 +72,12 @@ def generate_groups(request, pk):
 
             messages.success(request, "Groups have been generated.")
             return redirect("staff_event", event.pk)
+
+    checked_in_attendees = [t for t in event.tickets.all() if t.checked_in
+                            and not t.cancelled]
     return render(request, "groups/staff/generate_groups.html",
-                  {"event": event, "form": form})
+                  {"event": event, "form": form,
+                   "checked_in_attendees": checked_in_attendees})
 
 
 @staff_member_required

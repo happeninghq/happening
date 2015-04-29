@@ -9,10 +9,13 @@ calculate_groups = () ->
   number_of_groups = $("#id_number_of_groups").val()
   number_of_attendees = $("#number_of_attendees").text()
 
+  if $("#id_only_group_checked_in").is(":checked")
+    number_of_attendees = $("#number_of_checked_in_attendees").text()
+
   attendees_per_group = Math.floor(number_of_attendees / number_of_groups)
   remainder = number_of_attendees % number_of_groups
 
-  if attendees_per_group == Infinity
+  if attendees_per_group == Infinity || attendees_per_group == 0 || isNaN(attendees_per_group)
     $("#group-breakdown").text("")
     return
   if attendees_per_group == 0
@@ -29,4 +32,5 @@ calculate_groups = () ->
 
 $("#id_number_of_groups").change(calculate_groups)
 $("#id_number_of_groups").keyup(calculate_groups)
+$("#id_only_group_checked_in").change(calculate_groups)
 calculate_groups()

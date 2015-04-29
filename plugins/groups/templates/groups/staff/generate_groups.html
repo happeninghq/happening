@@ -7,7 +7,7 @@
     <div class="panel">
         <form method="POST" action="{% url "generate_groups" event.pk %}">
             {% csrf_token %}
-            <p>There are <strong>{{event.ungrouped_users|length}}</strong> ungrouped attendees of <strong id="number_of_attendees">{{event.attending_users|length}}</strong> total attendees.</p>
+            <p>There are <strong>{{event.ungrouped_users|length}}</strong> ungrouped attendees of <strong id="number_of_attendees">{{event.attending_users|length}}</strong> total attendees (<strong id="number_of_checked_in_attendees">{{checked_in_attendees|length}}</strong> checked in).</p>
 
             {{form|foundation}}
 
