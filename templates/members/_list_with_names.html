@@ -1,0 +1,8 @@
+<div class="row">
+    {% for member in members %}
+        <div class="small-6 columns">
+            {% include "members/_member_image.html" %}
+            <div style="text-align: center; font-weight: bold;"><a href="{% url "view_profile" member.pk %}">{{member.name}}</a></div>
+        </div>
+    {% endfor %}
+</div>

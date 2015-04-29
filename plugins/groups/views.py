@@ -65,3 +65,11 @@ def generate_groups(request, pk):
             return redirect("staff_event", event.pk)
     return render(request, "groups/staff/generate_groups.html",
                   {"event": event, "form": form})
+
+
+@staff_member_required
+def view_groups(request, pk):
+    """View groups."""
+    event = get_object_or_404(Event, pk=pk)
+    return render(request, "groups/staff/view_groups.html",
+                  {"event": event})

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load foundation %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h3>{{event}} groups</h3>
+                <div class="row">
+                    {% for group in event.groups %}
+                        <div class="small-3 columns panel">
+                            <strong>{{group}}</strong>
+                            {% include "members/_list_with_names.html" with members=group.members %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

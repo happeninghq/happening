@@ -12,6 +12,14 @@ User.profile = threaded_cached_property(
     lambda u: Profile.objects.get_or_create(user=u)[0])
 
 
+def get_user_name(user):
+    """ Get the full name if available, otherwise username. """
+    if user.get_full_name():
+        return user.get_full_name()
+    return user.username
+User.name = get_user_name
+
+
 class Profile(models.Model):
 
     """Member Profile."""
