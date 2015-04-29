@@ -23,6 +23,7 @@
                     <tr>
                         <th>Member</th>
                         <th>Tickets</th>
+                        <th>Checked In</th>
                         {% plugin_block "staff.event.tickets.headers" event ticket %}
                         <th></th>
                     </tr>
@@ -39,12 +40,25 @@
                                 {{ticket.number}}
                                 {% if ticket.cancelled %}(cancelled){% endif %}
                             </td>
+                            <td>
+                                {% if ticket.checked_in %}
+                                    True<br />
+                                    {{ticket.checked_in_datetime}}
+                                {% else %}
+                                    False
+                                {% endif %}
+                            </td>
                             {% plugin_block "staff.event.tickets.info" event ticket %}
                             <td>
                                 {% if event.is_future and not ticket.cancelled %}
                                     <ul class="stack button-group">
                                         <li><a href="{% url "edit_ticket" ticket.id %}?redirect_to={% url "staff_event" event.id %}" class="button">Edit</a></li>
                                         <li><a href="{% url "cancel_ticket" ticket.id %}?redirect_to={% url "staff_event" event.id %}" class="button alert">Cancel</a></li>
+                                        {% if ticket.checked_in %}
+                                            <li><a href="{% url "cancel_check_in" ticket.id %}?redirect_to={% url "staff_event" event.id %}" class="button">Cancel Check In</a></li>
+                                        {% else %}
+                                            <li><a href="{% url "check_in" ticket.id %}?redirect_to={% url "staff_event" event.id %}" class="button">Check In</a></li>
+                                        {% endif %}
                                         {% plugin_block "staff.event.tickets.options" event ticket %}
                                     </ul>
                                 {% endif %}

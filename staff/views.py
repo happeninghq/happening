@@ -2,7 +2,7 @@
 from happening.utils import staff_member_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model
-from events.models import Event
+from events.models import Event, Ticket
 from events.forms import EventForm
 from pages.models import Page
 from pages.forms import PageForm
@@ -13,6 +13,7 @@ import json
 from notifications.notifications import AdminEventMessageNotification
 from notifications.notifications import AdminMessageNotification
 from django.contrib import messages
+from datetime import datetime
 
 
 @staff_member_required
@@ -75,6 +76,28 @@ def events(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         events = paginator.page(paginator.num_pages)
     return render(request, "staff/events.html", {"events": events})
+
+
+@staff_member_required
+def check_in(request, pk):
+    """Check in a ticket."""
+    ticket = get_object_or_404(Ticket, pk=pk)
+    if not ticket.checked_in:
+        ticket.checked_in = True
+        ticket.checked_in_datetime = datetime.now()
+        ticket.save()
+    return redirect(request.GET.get("redirect_to"))
+
+
+@staff_member_required
+def cancel_check_in(request, pk):
+    """Cancel the check in for a ticket."""
+    ticket = get_object_or_404(Ticket, pk=pk)
+    if ticket.checked_in:
+        ticket.checked_in = False
+        ticket.checked_in_datetime = datetime.now()
+        ticket.save()
+    return redirect(request.GET.get("redirect_to"))
 
 
 @staff_member_required

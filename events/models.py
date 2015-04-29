@@ -260,6 +260,8 @@ class Ticket(models.Model):
     last_edited_datetime = models.DateTimeField(auto_now=True)
     cancelled = models.BooleanField(default=False)
     cancelled_datetime = models.DateTimeField(blank=True, null=True)
+    checked_in = models.BooleanField(default=False)
+    checked_in_datetime = models.DateTimeField(blank=True, null=True)
     did_not_attend = models.NullBooleanField()
     votes = JSONField(null=True)
 

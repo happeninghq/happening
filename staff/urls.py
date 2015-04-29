@@ -33,6 +33,10 @@ urlpatterns = patterns('staff.views',
                            name='edit_page'),
                        url(r'^pages/(?P<pk>\d+)$', 'delete_page',
                            name='delete_page'),
+                       url(r'^tickets/(?P<pk>\d+)/check_in$', 'check_in',
+                           name='check_in'),
+                       url(r'^tickets/(?P<pk>\d+)/cancel_check_in$',
+                           'cancel_check_in', name='cancel_check_in'),
                        )
 
 for plugin in settings.PLUGINS:
