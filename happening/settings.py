@@ -86,6 +86,8 @@ for f in os.listdir("plugins"):
         p = importlib.import_module("plugins.%s" % f)
         if os.path.isfile("plugins/%s/blocks.py" % f):
             importlib.import_module("plugins.%s.blocks" % f)
+        if os.path.isfile("plugins/%s/actions.py" % f):
+            importlib.import_module("plugins.%s.actions" % f)
 INSTALLED_APPS += tuple(PLUGINS)
 
 SOCIALACCOUNT_PROVIDERS = {

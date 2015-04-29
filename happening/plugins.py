@@ -2,6 +2,31 @@
 import inspect
 
 plugin_blocks = {}
+actions = {}
+
+
+def trigger_action(key, **kwargs):
+    """Trigger an action with the given key."""
+    for plugin_id, p in actions.get(key, []):
+        if plugin_enabled(plugin_id):
+            p(**kwargs)
+
+
+def action(key):
+    """Register an action callback for the given key."""
+    def inner_action(callback):
+        # This is an ugly hack to check if the plugin is enabled..
+        parent_file_path = inspect.getouterframes(
+            inspect.currentframe())[1][1]
+        # Remove the last part(the file)
+        parent_file_path = ".".join(parent_file_path.rsplit("/")[:-1])
+        plugin_id = 'plugins.%s' % parent_file_path.split(".plugins.")[1]
+
+        if key not in actions:
+            actions[key] = []
+        actions[key].append((plugin_id, callback))
+        return callback
+    return inner_action
 
 
 def plugin_block(key):

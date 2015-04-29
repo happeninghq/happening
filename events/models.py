@@ -14,6 +14,7 @@ from notifications.notifications import CancelledTicketNotification
 from notifications.notifications import EditedTicketNotification
 from notifications.notifications import PurchasedTicketNotification
 from django.conf import settings
+from happening.plugins import trigger_action
 
 
 class EventManager(models.Manager):
@@ -311,6 +312,8 @@ class Ticket(models.Model):
             self.cancelled = True
             self.cancelled_datetime = timezone.now()
             self.save()
+
+            trigger_action("events.ticket_cancelled", ticket=self)
 
             kwargs = {"ticket": self,
                       "event": self.event,
