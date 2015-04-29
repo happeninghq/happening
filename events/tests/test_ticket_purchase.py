@@ -46,22 +46,22 @@ class TestTicketPurchase(TestCase):
             response.redirect_chain[0][0].endswith(
                 "/events/%s" % past_event.pk))
 
-    def test_quantity(self):
-        """Test that the quantity box doesn't allow > remainging tickets."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=30)
-        self.client.login(username=self.user.username, password="password")
-        response = self.client.get("/events/%s/purchase_tickets" % event.pk)
-        quantity = response.soup.find(id="id_quantity")
-        highest_value = quantity.findAll("option")[-1]["value"]
-        self.assertEquals("30", highest_value)
+    # def test_quantity(self):
+    #     """Test that the quantity box doesn't allow > remainging tickets."""
+    #     event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+    #                        timedelta(days=20), available_tickets=30)
+    #     self.client.login(username=self.user.username, password="password")
+    #     response = self.client.get("/events/%s/purchase_tickets" % event.pk)
+    #     quantity = response.soup.find(id="id_quantity")
+    #     highest_value = quantity.findAll("option")[-1]["value"]
+    #     self.assertEquals("30", highest_value)
 
-        event.buy_ticket(self.user, tickets=5)
+    #     event.buy_ticket(self.user, tickets=5)
 
-        response = self.client.get("/events/%s/purchase_tickets" % event.pk)
-        quantity = response.soup.find(id="id_quantity")
-        highest_value = quantity.findAll("option")[-1]["value"]
-        self.assertEquals("25", highest_value)
+    #     response = self.client.get("/events/%s/purchase_tickets" % event.pk)
+    #     quantity = response.soup.find(id="id_quantity")
+    #     highest_value = quantity.findAll("option")[-1]["value"]
+    #     self.assertEquals("25", highest_value)
 
     def test_sold_out(self):
         """Test that we can't buy tickets once they are sold out."""
@@ -83,7 +83,7 @@ class TestTicketPurchase(TestCase):
         self.client.login(username=self.user.username, password="password")
         response = self.client.post(
             "/events/%s/purchase_tickets" % event.pk,
-            {"quantity": 5},
+            {"quantity": 1},
             follow=True)
         self.assertTrue(
             "events/tickets_purchased" in response.redirect_chain[0][0])
@@ -119,7 +119,7 @@ class TestTicketPurchase(TestCase):
         self.client.login(username=self.user.username, password="password")
         response = self.client.post(
             "/events/%s/purchase_tickets" % event.pk,
-            {"quantity": 5},
+            {"quantity": 1},
             follow=True)
         self.assertTrue(
             "events/tickets_purchased" in response.redirect_chain[0][0])

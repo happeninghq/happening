@@ -56,18 +56,18 @@ class TestTicketWidget(TestCase):
         widget = response.soup.find("div", {"class": "ticket-purchase"})
         self.assertIsNone(widget)
 
-    def test_quantity(self):
-        """Test that the quantity box doesn't allow > remainging tickets."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=30)
-        response = self.client.get("/")
-        widget = response.soup.find("div", {"class": "ticket-purchase"})
-        self.assertEquals("30", widget.findAll("option")[-1]['value'])
+    # def test_quantity(self):
+    #     """Test that the quantity box doesn't allow > remainging tickets."""
+    #     event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+    #                        timedelta(days=20), available_tickets=30)
+    #     response = self.client.get("/")
+    #     widget = response.soup.find("div", {"class": "ticket-purchase"})
+    #     self.assertEquals("30", widget.findAll("option")[-1]['value'])
 
-        mommy.make("Ticket", event=event, number=5)
-        response = self.client.get("/")
-        widget = response.soup.find("div", {"class": "ticket-purchase"})
-        self.assertEquals("25", widget.findAll("option")[-1]['value'])
+    #     mommy.make("Ticket", event=event, number=5)
+    #     response = self.client.get("/")
+    #     widget = response.soup.find("div", {"class": "ticket-purchase"})
+    #     self.assertEquals("25", widget.findAll("option")[-1]['value'])
 
     def test_sold_out(self):
         """Test that we can't buy tickets once they are sold out."""
