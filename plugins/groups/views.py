@@ -73,8 +73,8 @@ def generate_groups(request, pk):
             messages.success(request, "Groups have been generated.")
             return redirect("staff_event", event.pk)
 
-    checked_in_attendees = [t for t in event.tickets.all() if t.checked_in
-                            and not t.cancelled]
+    checked_in_attendees = [t for t in event.tickets.all()
+                            if t.checked_in and not t.cancelled]
     return render(request, "groups/staff/generate_groups.html",
                   {"event": event, "form": form,
                    "checked_in_attendees": checked_in_attendees})
