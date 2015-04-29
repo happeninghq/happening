@@ -13,7 +13,7 @@ User.profile = threaded_cached_property(
 
 
 def get_user_name(user):
-    """ Get the full name if available, otherwise username. """
+    """Get the full name if available, otherwise username."""
     if user.get_full_name():
         return user.get_full_name()
     return user.username

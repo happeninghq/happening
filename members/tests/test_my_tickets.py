@@ -120,23 +120,24 @@ class TestMyTickets(TestCase):
         self.assertEqual(404, response.status_code)
         self.assertFalse(Ticket.objects.get(pk=self.ticket2.pk).cancelled)
 
-    def test_edit_ticket_quantity(self):
-        """Test that the quantity for editing tickets is correct."""
-        self.client.login(username=self.user.username, password="password")
+    # def test_edit_ticket_quantity(self):
+    #     """Test that the quantity for editing tickets is correct."""
+    #     self.client.login(username=self.user.username, password="password")
 
-        response = self.client.get("/member/tickets/%s" % self.ticket2.pk)
-        quantity = response.soup.find("select", {"id": "id_quantity"})
-        # self.assertEqual("30", quantity.findAll("option")[-1]["value"])
+    #     response = self.client.get("/member/tickets/%s" % self.ticket2.pk)
+    #     quantity = response.soup.find("select", {"id": "id_quantity"})
+    #     # self.assertEqual("30", quantity.findAll("option")[-1]["value"])
 
-        self.ticket2.number = 15
-        self.ticket2.save()
+    #     self.ticket2.number = 15
+    #     self.ticket2.save()
 
-        response = self.client.get("/member/tickets/%s" % self.ticket2.pk)
-        quantity = response.soup.find("select", {"id": "id_quantity"})
-        # self.assertEqual("30", quantity.findAll("option")[-1]["value"])
+    #     response = self.client.get("/member/tickets/%s" % self.ticket2.pk)
+    #     quantity = response.soup.find("select", {"id": "id_quantity"})
+    #     self.assertEqual("30", quantity.findAll("option")[-1]["value"])
 
-        mommy.make("Ticket", event=self.future_event, user=self.user, number=5)
+    #     mommy.make("Ticket", event=self.future_event, user=self.user,
+    # number=5)
 
-        response = self.client.get("/member/tickets/%s" % self.ticket2.pk)
-        quantity = response.soup.find("select", {"id": "id_quantity"})
-        # self.assertEqual("25", quantity.findAll("option")[-1]["value"])
+    #     response = self.client.get("/member/tickets/%s" % self.ticket2.pk)
+    #     quantity = response.soup.find("select", {"id": "id_quantity"})
+    #     self.assertEqual("25", quantity.findAll("option")[-1]["value"])
