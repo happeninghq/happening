@@ -28,9 +28,10 @@
                     <td>
                         {% if event.remaining_tickets > 0 %}
                             <select name="quantity">
-                                {% for n in event.remaining_tickets|times1 %}
+                                <option value="1">1</option>
+                                {% comment %}{% for n in event.remaining_tickets|times1 %}
                                     <option value="{{n}}">{{n}}</option>
-                                {% endfor %}
+                                {% endfor %}{% endcomment %}
                             </select>
                         {% endif %}
                     </td>

@@ -19,7 +19,7 @@ class TicketForm(forms.Form):
 
         choices = [
             (str(x), str(x)) for x in range(1, max_tickets)]
-        self.fields['quantity'].choices = choices
+        # self.fields['quantity'].choices = choices
 
     quantity = forms.ChoiceField(label='Quantity', choices=(("1", "1"),))
 
