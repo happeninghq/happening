@@ -1,5 +1,6 @@
 {% load group_permissions %}
 {% load markdown_deux_tags %}
+{% load tickets %}
 
 {% if event.groups.count > 0 %}
     <h2>Groups</h2>
@@ -19,9 +20,24 @@
                 {% endif %}
                 <td>
                     {% include "members/_list.html" with members=group.members %}
+                    {% if user|has_tickets:event %}
+                        {% if not user|has_group:event %}
+                            <a href="{% url "join_group" event.pk group.team_number %}">join group</a>
+                        {% endif %}
+                        {% if user|group:event == group %}
+                            <a href="{% url "leave_group" event.pk group.team_number %}">leave group</a>
+                        {% endif %}
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
+        {% if not user|has_group:event %}
+            <tr>
+                <td colspan="3">
+                    <a href="{% url "add_group" event.pk %}">Add a group</a>
+                </td>
+            </tr>
+        {% endif %}
     </table>
 {% endif %}
 

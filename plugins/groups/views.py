@@ -89,6 +89,34 @@ def view_groups(request, pk):
                   {"event": event})
 
 
+def add_group(request, pk):
+    """Add a group."""
+    event = get_object_or_404(Event, pk=pk)
+    form = GroupForm()
+    ticket = request.user.tickets.filter(event=event, cancelled=False).first()
+    if not ticket or ticket.groups.count() > 0:
+        # We don't have a ticket or are already in a group
+        return redirect("view_event", event.pk)
+
+    if request.method == "POST":
+        form = GroupForm(request.POST)
+        if form.is_valid():
+            group = form.save(commit=False)
+            group.event = event
+            # TODO: Get next team number
+            group.team_number = 2
+            group.save()
+
+            # Add the user to the group
+            ticket = request.user.tickets.filter(event=event).first()
+            TicketInGroup(ticket=ticket, group=group).save()
+
+            messages.success(request, "The group has been created.")
+            return redirect("view_event", event.pk)
+    return render(request, "groups/add_group.html",
+                  {"form": form, "event": event})
+
+
 def edit_group(request, pk, group_number):
     """Edit a group."""
     event = get_object_or_404(Event, pk=pk)
@@ -105,3 +133,29 @@ def edit_group(request, pk, group_number):
             return redirect("view_event", event.pk)
     return render(request, "groups/edit_group.html",
                   {"group": group, "form": form})
+
+
+def join_group(request, pk, group_number):
+    """Join a group."""
+    event = get_object_or_404(Event, pk=pk)
+    group = event.raw_groups.filter(team_number=group_number).first()
+
+    ticket = request.user.tickets.filter(event=event, cancelled=False).first()
+    if ticket:
+        if ticket.groups.count() == 0:
+            # No groups yet
+            ticket = request.user.tickets.get(event=event, cancelled=False)
+            TicketInGroup(group=group, ticket=ticket).save()
+            messages.success(request, "You have joined the group")
+    return redirect("view_event", event.pk)
+
+
+def leave_group(request, pk, group_number):
+    """Leave a group."""
+    event = get_object_or_404(Event, pk=pk)
+    group = event.raw_groups.filter(team_number=group_number).first()
+    ticket_in_group = group.tickets.filter(ticket__user=request.user).first()
+    if ticket_in_group:
+        ticket_in_group.delete()
+        messages.success(request, "You have left the group")
+    return redirect("view_event", event.pk)

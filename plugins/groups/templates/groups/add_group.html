@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load markdown_deux_tags %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>{{group.event.heading}}</h2>
+                <h3>Add Group</h3>
+                <form method="POST" action="{% url "add_group" event.pk %}">
+                    {% csrf_token %}
+                    <label>Team name {{form.team_name}}</label>
+                    <label>Description<br />{% markdown_allowed %} {{form.description|add_class:"edit_markdown"}}</label>
+                    <label>Github url {{form.github_url}}</label>
+                    <button type="submit">Save</button>
+                    <a href="{% url "view_event" event.pk %}" class="button warning">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/coffeescript" src="{% static "coffeescript/edit_markdown.coffee" %}"></script>
+{% endblock %}
