@@ -9,10 +9,10 @@ from happening.utils import custom_strftime
 from jsonfield import JSONField
 import random
 from django.core.urlresolvers import reverse
-from notifications.notifications import EventInformationNotification
-from notifications.notifications import CancelledTicketNotification
-from notifications.notifications import EditedTicketNotification
-from notifications.notifications import PurchasedTicketNotification
+from happening.notifications import EventInformationNotification
+from happening.notifications import CancelledTicketNotification
+from happening.notifications import EditedTicketNotification
+from happening.notifications import PurchasedTicketNotification
 from django.conf import settings
 from happening.plugins import trigger_action
 

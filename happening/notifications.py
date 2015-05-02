@@ -1,6 +1,6 @@
 """Notifications."""
-from models import Notification as notification_model
 from happening.utils import convert_to_underscore, dump_django
+from django.contrib.contenttypes.models import ContentType
 
 
 class Notification(object):
@@ -34,6 +34,9 @@ class Notification(object):
 
     def send(self):
         """Send the notification."""
+        model_ct = ContentType.objects.get(app_label="notifications",
+                                           model="notification")
+        notification_model = model_ct.model_class()
         class_name = self.__class__.__name__
         template = convert_to_underscore(class_name)
 
@@ -54,16 +57,6 @@ class Notification(object):
         # If we should email it, we do so
         if notification_preferences['send_emails']:
             n.email_notification()
-
-# All notification types go under here
-
-
-class CommentNotification(Notification):
-
-    """Someone has made a comment."""
-
-    required_data = ["comment", "author_photo_url"]
-    category = "Comments"
 
 
 class EventInformationNotification(Notification):

@@ -7,9 +7,9 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from markdown_deux import markdown
 from happening.utils import convert_to_camelcase
-import notifications
 from django.core.mail import send_mail
 from django.conf import settings
+from happening import notifications
 
 
 class NotificationManager(models.Manager):
@@ -64,7 +64,8 @@ class Notification(models.Model):
     def _rendered_notification(self):
         notification_name = convert_to_camelcase(self.template) +\
             "Notification"
-        n = getattr(notifications, notification_name)
+        n = [c for c in notifications.Notification.__subclasses__() if
+             c.__name__ == notification_name][0]
 
         data = render_to_string("notifications/notifications/" +
                                 n.category.lower() + "/" +
@@ -148,7 +149,9 @@ class NotificationPreferenceManager(models.Manager):
         """Get notification."""
         notification = convert_to_camelcase(notification)
         notification_name = notification + "Notification"
-        notification_type = getattr(notifications, notification_name)
+        notification_type = [c for c in
+                             notifications.Notification.__subclasses__() if
+                             c.__name__ == notification_name][0]
 
         to_return = {
             "send_notifications": notification_type.send_notification,

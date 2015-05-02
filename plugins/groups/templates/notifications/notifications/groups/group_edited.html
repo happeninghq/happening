@@ -1,0 +1,9 @@
+{% extends "notifications/notification.html" %}
+
+{% block image %}
+    <img src="{{user_photo_url}}" />
+{% endblock %}
+
+{% block text %}
+    <p><a href="{% url "view_profile" user.id %}">{{user_name}}</a> edited <strong>{{group_name}}</strong> from <a id="main-link" href="{% url "view_event" event.id %}">{{event.title}}</a></p>
+{% endblock %}

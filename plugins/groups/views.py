@@ -7,6 +7,9 @@ from forms import GroupGenerationForm, GroupForm
 from models import Group, TicketInGroup
 from plugins.groups import generate_groups as generate_groups_func
 from django.core.exceptions import PermissionDenied
+from notifications import GroupEditedNotification
+from notifications import GroupJoinedNotification
+from notifications import GroupLeftNotification
 
 
 def event_to_existing_groups(event):
@@ -128,7 +131,15 @@ def edit_group(request, pk, group_number):
         form = GroupForm(request.POST, instance=group)
         if form.is_valid():
             form.save()
-            # TODO: Notifications
+            for member in group.members():
+                GroupEditedNotification(
+                    member,
+                    event=event,
+                    group_name=str(group),
+                    user=request.user,
+                    user_name=str(request.user),
+                    user_photo_url=request.user.profile.photo_url()
+                ).send()
             messages.success(request, "The group has been updated.")
             return redirect("view_event", event.pk)
     return render(request, "groups/edit_group.html",
@@ -146,6 +157,16 @@ def join_group(request, pk, group_number):
             # No groups yet
             ticket = request.user.tickets.get(event=event, cancelled=False)
             TicketInGroup(group=group, ticket=ticket).save()
+            for member in group.members():
+                if not member == request.user:
+                    GroupJoinedNotification(
+                        member,
+                        event=event,
+                        group_name=str(group),
+                        user=request.user,
+                        user_name=str(request.user),
+                        user_photo_url=request.user.profile.photo_url()
+                    ).send()
             messages.success(request, "You have joined the group")
     return redirect("view_event", event.pk)
 
@@ -157,5 +178,14 @@ def leave_group(request, pk, group_number):
     ticket_in_group = group.tickets.filter(ticket__user=request.user).first()
     if ticket_in_group:
         ticket_in_group.delete()
+        for member in group.members():
+            GroupLeftNotification(
+                member,
+                event=event,
+                group_name=str(group),
+                user=request.user,
+                user_name=str(request.user),
+                user_photo_url=request.user.profile.photo_url()
+            ).send()
         messages.success(request, "You have left the group")
     return redirect("view_event", event.pk)

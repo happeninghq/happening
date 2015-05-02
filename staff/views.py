@@ -10,8 +10,8 @@ from forms import EmailForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 import json
-from notifications.notifications import AdminEventMessageNotification
-from notifications.notifications import AdminMessageNotification
+from happening.notifications import AdminEventMessageNotification
+from happening.notifications import AdminMessageNotification
 from django.contrib import messages
 from datetime import datetime
 
