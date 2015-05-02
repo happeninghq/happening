@@ -18,7 +18,7 @@ from django.contrib import messages
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from members.models import PaidMembership
-from happening.notifications import MembershipPaymentSuccessfulNotification
+from notifications import MembershipPaymentSuccessfulNotification
 
 # First set up stripe
 stripe.api_key = django_settings.STRIPE_SECRET_KEY

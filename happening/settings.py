@@ -83,14 +83,18 @@ PLUGINS = []
 for f in os.listdir("plugins"):
     if os.path.isdir("plugins/%s" % f):
         PLUGINS.append("plugins.%s" % f)
-        p = importlib.import_module("plugins.%s" % f)
-        if os.path.isfile("plugins/%s/blocks.py" % f):
-            importlib.import_module("plugins.%s.blocks" % f)
-        if os.path.isfile("plugins/%s/actions.py" % f):
-            importlib.import_module("plugins.%s.actions" % f)
-        if os.path.isfile("plugins/%s/notifications.py" % f):
-            importlib.import_module("plugins.%s.notifications" % f)
+        importlib.import_module("plugins.%s" % f)
 INSTALLED_APPS += tuple(PLUGINS)
+
+
+for app in INSTALLED_APPS:
+    f = app.replace(".", "/")
+    if os.path.isfile("%s/blocks.py" % f):
+        importlib.import_module("%s.blocks" % app)
+    if os.path.isfile("%s/actions.py" % f):
+        importlib.import_module("%s.actions" % app)
+    if os.path.isfile("%s/notifications.py" % f):
+        importlib.import_module("%s.notifications" % app)
 
 SOCIALACCOUNT_PROVIDERS = {
     "persona": {

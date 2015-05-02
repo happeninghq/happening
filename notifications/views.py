@@ -76,7 +76,6 @@ def settings(request):
     notification_types = {}
     for cls in notifications.Notification.__subclasses__():
         path = cls.__module__.split('.')
-        print path[1], plugin_enabled(path[1])
         if path[0] == 'plugins' and not plugin_enabled("plugins.%s" % path[1]):
             continue
         notification_types[cls.__name__] = cls
