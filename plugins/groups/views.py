@@ -3,9 +3,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from happening.utils import staff_member_required
 from events.models import Event
 from django.contrib import messages
-from forms import GroupGenerationForm
+from forms import GroupGenerationForm, GroupForm
 from models import Group, TicketInGroup
 from plugins.groups import generate_groups as generate_groups_func
+from django.core.exceptions import PermissionDenied
 
 
 def event_to_existing_groups(event):
@@ -86,3 +87,21 @@ def view_groups(request, pk):
     event = get_object_or_404(Event, pk=pk)
     return render(request, "groups/staff/view_groups.html",
                   {"event": event})
+
+
+def edit_group(request, pk, group_number):
+    """Edit a group."""
+    event = get_object_or_404(Event, pk=pk)
+    group = event.raw_groups.filter(team_number=group_number).first()
+    if not group.is_editable_by(request.user):
+        raise PermissionDenied()
+    form = GroupForm(instance=group)
+    if request.method == "POST":
+        form = GroupForm(request.POST, instance=group)
+        if form.is_valid():
+            form.save()
+            # TODO: Notifications
+            messages.success(request, "The group has been updated.")
+            return redirect("view_event", event.pk)
+    return render(request, "groups/edit_group.html",
+                  {"group": group, "form": form})

@@ -1,13 +1,20 @@
+{% load group_permissions %}
+{% load markdown_deux_tags %}
+
 {% if event.groups.count > 0 %}
     <h2>Groups</h2>
     <table class="groups" id="event-groups">
         {% for group in event.groups %}
             <tr>
+                <th>
+                    <a href="{{group.github_url}}">{{group.name}}</a>
+                    {% if user|can_edit_group:group %}
+                        <a href="{% url "edit_group" event.pk group.team_number %}">(edit)</a>
+                    {% endif %}
+                </th>
                 {% if group.description %}
-                    <th><a href="{{group.github_url}}">{{group.name}}</a></th>
-                    <td>{{group.description}}</td>
+                    <td>{{group.description|markdown}}</td>
                 {% else %}
-                    <th colspan="2"><a href="{{group.github_url}}">{{group.name}}</a></th>
                     <td></td>
                 {% endif %}
                 <td>

@@ -1,6 +1,8 @@
 """Group forms."""
 
 from django import forms
+from django.forms import ModelForm
+from models import Group
 
 
 class GroupGenerationForm(forms.Form):
@@ -10,3 +12,12 @@ class GroupGenerationForm(forms.Form):
     clear_existing_groups = forms.BooleanField(required=False)
     only_group_checked_in = forms.BooleanField(required=False)
     number_of_groups = forms.IntegerField()
+
+
+class GroupForm(ModelForm):
+
+    """Form for creating/editing events."""
+
+    class Meta:
+        model = Group
+        fields = ['team_name', 'description', 'github_url']

@@ -25,6 +25,18 @@ class Group(models.Model):
         """Return the name of this group."""
         return self.name
 
+    def is_editable_by(self, user):
+        """True if the group is editable by the given user."""
+        if user.is_superuser:
+            # Is admin
+            return True
+        for ticket in user.tickets.filter(event=self.event):
+            for group in ticket.groups.all():
+                if group.group == self:
+                    # Is a group member
+                    return True
+        return False
+
     def members(self):
         """List members of this group."""
         return [t.ticket.user for t in self.tickets.all()]
