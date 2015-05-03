@@ -14,6 +14,8 @@ from admin.notifications import AdminEventMessageNotification
 from admin.notifications import AdminMessageNotification
 from django.contrib import messages
 from datetime import datetime
+from happening.configuration import get_configuration_variables, attach_to_form
+from happening.configuration import save_variables
 
 
 @staff_member_required
@@ -122,11 +124,18 @@ def edit_event(request, pk):
     """Edit event."""
     event = get_object_or_404(Event, pk=pk)
     form = EventForm(instance=event)
+    variables = get_configuration_variables("event_configuration", event)
     if request.method == "POST":
         form = EventForm(request.POST, request.FILES, instance=event)
+        attach_to_form(form, variables)
         if form.is_valid():
+            save_variables(form, variables)
             form.save()
             return redirect("staff_event", event.pk)
+    else:
+        print "ATTA"
+        print variables
+        attach_to_form(form, variables)
     return render(request, "staff/edit_event.html",
                   {"event": event, "form": form})
 
@@ -135,11 +144,18 @@ def edit_event(request, pk):
 def create_event(request):
     """Create event."""
     form = EventForm()
+    variables = get_configuration_variables("event_configuration")
     if request.method == "POST":
         form = EventForm(request.POST)
+        attach_to_form(form, variables)
         if form.is_valid():
-            form.save()
+            event = form.save()
+            variables = get_configuration_variables("event_configuration",
+                                                    event)
+            save_variables(form, variables)
             return redirect("staff_events")
+    else:
+        attach_to_form(form, variables)
     return render(request, "staff/create_event.html", {"form": form})
 
 

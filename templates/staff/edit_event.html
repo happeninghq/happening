@@ -12,14 +12,15 @@
                     
                 <form method="POST" action="{% url "edit_event" event.pk %}" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <label>Title {{form.title}}</label>
+                    <!-- <label>Title {{form.title}}</label>
                     <label>Datetime {{form.datetime}}</label>
                     <label>Available Tickets {{form.available_tickets}}</label>
                     <label>Challenge Language (<a href="#" class="load-ajax-into-input" data-ajax-url="{% url "get_vote_winner" event.pk %}" data-input-id="id_challenge_language">Load Winner</a>) {{form.challenge_language}}</label>
                     <label>Challenge Title {{form.challenge_title}}</label>
                     <label>Challenge Text<br />{% markdown_allowed %} {{form.challenge_text|add_class:"edit_markdown"}}</label>
                     <label>Solution Text<br />{% markdown_allowed %} {{form.solution_text|add_class:"edit_markdown"}}</label>
-                    <label>Image {{form.image}}</label>
+                    <label>Image {{form.image}}</label> -->
+                    {{form}}
                     <button type="submit">Save</button>
                     <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
                 </form>

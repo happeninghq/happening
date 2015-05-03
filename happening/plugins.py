@@ -1,8 +1,19 @@
 """Plugin registration."""
 import inspect
+from django.conf import settings
+import importlib
+import os
 
 plugin_blocks = {}
 actions = {}
+
+
+def load_file_in_plugins(filename):
+    """Ensure that the given file is imported from all plugins."""
+    for app in settings.INSTALLED_APPS:
+        f = app.replace(".", "/")
+        if os.path.isfile("%s/%s.py" % (f, filename)):
+            importlib.import_module("%s.%s" % (app, filename))
 
 
 def trigger_action(key, **kwargs):

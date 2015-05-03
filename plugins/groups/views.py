@@ -10,6 +10,7 @@ from django.core.exceptions import PermissionDenied
 from notifications import GroupEditedNotification
 from notifications import GroupJoinedNotification
 from notifications import GroupLeftNotification
+from templatetags.group_permissions import can_create_group
 
 
 def event_to_existing_groups(event):
@@ -97,8 +98,7 @@ def add_group(request, pk):
     event = get_object_or_404(Event, pk=pk)
     form = GroupForm()
     ticket = request.user.tickets.filter(event=event, cancelled=False).first()
-    if not ticket or ticket.groups.count() > 0:
-        # We don't have a ticket or are already in a group
+    if not can_create_group(request.user, event):
         return redirect("view_event", event.pk)
 
     if request.method == "POST":

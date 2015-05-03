@@ -1,8 +1,27 @@
 """Custom configuration variables."""
-from happening.utils import convert_to_underscore
+from happening.utils import convert_to_underscore, get_all_subclasses
 from django import forms
 from models import ConfigurationVariable as variable_model
 from django.contrib.contenttypes.models import ContentType
+from happening.plugins import plugin_enabled, load_file_in_plugins
+
+
+def get_configuration_variables(filename, object=None):
+    """Get variables associated with the given filename."""
+    load_file_in_plugins(filename)
+
+    def enabled_if_plugin(c):
+        """If c is a plugin, is it enabled. Otherwise True."""
+        if c.__module__.startswith("plugins."):
+            # Remove the .plugins to get the plugin name
+            return plugin_enabled(c.__module__.rsplit(".", 1)[0])
+        return True
+    # We ignore the "basic types" defined in happening.configuration
+    variables = [c(object) for c in get_all_subclasses(ConfigurationVariable)
+                 if not c.__module__ == 'happening.configuration' and
+                 c.__module__.endswith('.%s' % filename) and
+                 enabled_if_plugin(c)]
+    return variables
 
 
 def attach_to_form(form, variable):
@@ -105,6 +124,10 @@ class IntegerField(CharField):
     def field(self):
         """Get a form field representing this variable."""
         return forms.IntegerField(initial=self.get())
+
+    def get(self):
+        """Get the value of this variable."""
+        return int(super(IntegerField, self).get())
 
 
 class URLField(CharField):

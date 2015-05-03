@@ -294,9 +294,7 @@ MARKDOWN_DEUX_STYLES = {
 
 plugin_files = ['blocks',
                 'actions',
-                'notifications',
-                'configuration',
-                'event_configuration']
+                'notifications']
 
 for app in INSTALLED_APPS:
     f = app.replace(".", "/")
