@@ -25,23 +25,23 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
-        migrations.AlterUniqueTogether(
-            name='user',
-            unique_together=None,
-        ),
-        migrations.RemoveField(
-            model_name='user',
-            name='groups',
-        ),
-        migrations.RemoveField(
-            model_name='user',
-            name='site',
-        ),
-        migrations.RemoveField(
-            model_name='user',
-            name='user_permissions',
-        ),
-        migrations.DeleteModel(
-            name='User',
-        ),
+        # migrations.AlterUniqueTogether(
+        #     name='user',
+        #     unique_together=None,
+        # ),
+        # migrations.RemoveField(
+        #     model_name='user',
+        #     name='groups',
+        # ),
+        # migrations.RemoveField(
+        #     model_name='user',
+        #     name='site',
+        # ),
+        # migrations.RemoveField(
+        #     model_name='user',
+        #     name='user_permissions',
+        # ),
+        # migrations.DeleteModel(
+        #     name='User',
+        # ),
     ]
