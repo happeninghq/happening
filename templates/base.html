@@ -1,12 +1,12 @@
 {% load staticfiles %}
 {% load compress %}
-{% load ganalytics %}
+{% load happening_ganalytics %}
 {% load plugins %}
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{SITE_SETTINGS.SITE_TITLE}}</title>
+    <title>{{"pages.configuration.SiteTitle"|get_configuration}}</title>
     {% compress css %}
         <link rel="stylesheet" type="text/x-scss" href="{% static "sass/main.scss" %}" />
         <link rel="stylesheet" type="text/css" href="{% static "lib/responsive-tables/css/responsive-tables.css" %}" />

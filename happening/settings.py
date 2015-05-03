@@ -189,7 +189,6 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
 
     "admin.context_processors.admin_urls",
     "staff.context_processors.staff_urls",
-    "happening.context_processors.site_settings",
     "events.context_processors.events",
     "pages.context_processors.pages_navigation",
 )
@@ -301,13 +300,3 @@ for app in INSTALLED_APPS:
     for p in plugin_files:
         if os.path.isfile("%s/%s.py" % (f, p)):
             importlib.import_module("%s.%s" % (app, p))
-
-# ---------------------------
-# EDIT THINGS BELOW THIS LINE
-# ---------------------------
-# TODO: Make these site-specific settings
-
-# IF YOU USE GOOGLE ANALYTICS, ENTER YOUR CODE BELOW
-GANALYTICS_TRACKING_CODE = None
-
-SITE_TITLE = "Happening Demo Site"
