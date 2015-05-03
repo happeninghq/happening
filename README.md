@@ -60,7 +60,10 @@ messages.error(request, 'Document deleted.')
 Notifications
 -------
 Notifications are used for communicating events to users. To create a new notification
-type add a class to notifications/notifications.py. You must also create a template in templates/notifications/ which will provide the layout for the notifications pages. Check existing notifications for examples.
+type create a file named notifications.py in any app, and add a new subclass of
+happening.notifications.Notification. You must also create a template in
+templates/notifications/ which will provide the layout for the notifications pages.
+Check existing notifications for examples.
 
 When the data passed to notifications is serialized a shallow copy will be made. This means that in your notification templates, functions and properties will not be available, and references to other models will be flattened into an ID. If, for example, you require the user and user.profile, BOTH of these must be required by your notification.
 
@@ -76,4 +79,76 @@ n = CancelledTicketNotification(
                 event=self.event,
                 event_name=str(self.event))
 n.send()
+```
+
+
+Configuration
+-------
+Configuration is used to allow site-by-site configuration variables. To create a configuration
+variable create a file named configuration.py in any app. In this file, add a subclass of
+happening.configuration.ConfigurationVariable representing the variable you are adding.
+
+For example:
+
+```
+class NameOfEvents(configuration.CharField):
+
+    """The term used to refer to an event, e.g. "match", "rally"."""
+
+    default = "event"
+```
+
+This creates a "name of events" variable which is a string (CharField), and defaults to "event"
+
+To access the content of the variable, create an instance of the class and call .get()
+
+e.g.
+``` event_name = NameOfEvents().get() ```
+
+In a template, use the get_configuration filter in the plugins library to read configuration
+variables.
+
+e.g.
+```
+    {% load plugins %}
+    {{"pages.configuration.NameOfEvents"|get_configuration}}
+```
+
+
+Event Configuration
+-------
+Event Configuration is used to allow event-by-event configuration variables. To create a configuration
+variable create a file named event_configuration.py in any app. In this file, add a subclass of
+happening.configuration.ConfigurationVariable representing the variable you are adding.
+
+For example:
+
+```
+class GroupCreation(configuration.ChoiceField):
+
+    """Who is able to create groups."""
+
+    default = 0
+
+    choices = [
+        (0, "Members cannot create groups"),
+        (1, "Members can create groups after the event starts"),
+        (2, "Members can create groups at any time"),
+    ]
+```
+
+This creates a "group creation" variable which is one of three options, and defaults to 0
+
+To access the content of the variable, create an instance of the class and call .get()
+
+e.g.
+``` can_create_groups = GroupCreation(event).get() ```
+
+In a template, use the get_configuration filter in the plugins library to read configuration
+variables.
+
+e.g.
+```
+    {% load plugins %}
+    {{"groups.configuration.GroupCreation"|get_configuration:event}}
 ```
