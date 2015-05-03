@@ -11,6 +11,8 @@ from notifications import GroupEditedNotification
 from notifications import GroupJoinedNotification
 from notifications import GroupLeftNotification
 from templatetags.group_permissions import can_create_group
+from templatetags.group_permissions import can_move_groups
+from templatetags.group_permissions import can_edit_groups
 
 
 def event_to_existing_groups(event):
@@ -124,6 +126,8 @@ def edit_group(request, pk, group_number):
     """Edit a group."""
     event = get_object_or_404(Event, pk=pk)
     group = event.raw_groups.filter(team_number=group_number).first()
+    if not can_edit_groups(request.user, event):
+        return redirect("view_event", event.pk)
     if not group.is_editable_by(request.user):
         raise PermissionDenied()
     form = GroupForm(instance=group)
@@ -151,6 +155,9 @@ def join_group(request, pk, group_number):
     event = get_object_or_404(Event, pk=pk)
     group = event.raw_groups.filter(team_number=group_number).first()
 
+    if not can_move_groups(request.user, event):
+        return redirect("view_event", event.pk)
+
     ticket = request.user.tickets.filter(event=event, cancelled=False).first()
     if ticket:
         if ticket.groups.count() == 0:
@@ -175,6 +182,10 @@ def leave_group(request, pk, group_number):
     """Leave a group."""
     event = get_object_or_404(Event, pk=pk)
     group = event.raw_groups.filter(team_number=group_number).first()
+
+    if not can_move_groups(request.user, event):
+        return redirect("view_event", event.pk)
+
     ticket_in_group = group.tickets.filter(ticket__user=request.user).first()
     if ticket_in_group:
         ticket_in_group.delete()

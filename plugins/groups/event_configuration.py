@@ -13,3 +13,29 @@ class GroupCreation(configuration.ChoiceField):
         (1, "Members can create groups after the event starts"),
         (2, "Members can create groups at any time"),
     ]
+
+
+class GroupMovement(configuration.ChoiceField):
+
+    """When are people able to move between groups."""
+
+    default = 0
+
+    choices = [
+        (0, "Members cannot move groups"),
+        (1, "Members can move groups after the event starts"),
+        (2, "Members can move groups at any time"),
+    ]
+
+
+class GroupEditing(configuration.ChoiceField):
+
+    """When are people able to edit groups."""
+
+    default = 0
+
+    choices = [
+        (0, "Members cannot edit groups"),
+        (1, "Members can edit groups after the event starts"),
+        (2, "Members can edit groups at any time"),
+    ]

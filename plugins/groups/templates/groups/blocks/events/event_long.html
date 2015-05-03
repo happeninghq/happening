@@ -22,10 +22,14 @@
                     {% include "members/_list.html" with members=group.members %}
                     {% if user|has_tickets:event %}
                         {% if not user|has_group:event %}
-                            <a href="{% url "join_group" event.pk group.team_number %}">join group</a>
+                            {% if user|can_move_groups:event %}
+                                <a href="{% url "join_group" event.pk group.team_number %}">join group</a>
+                            {% endif %}
                         {% endif %}
                         {% if user|group:event == group %}
-                            <a href="{% url "leave_group" event.pk group.team_number %}">leave group</a>
+                            {% if user|can_move_groups:event %}
+                                <a href="{% url "leave_group" event.pk group.team_number %}">leave group</a>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 </td>

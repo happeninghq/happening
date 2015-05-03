@@ -1,6 +1,7 @@
 """Group tags."""
 from django import template
-from plugins.groups.event_configuration import GroupCreation
+from plugins.groups.event_configuration import GroupCreation, GroupEditing
+from plugins.groups.event_configuration import GroupMovement
 from events.templatetags.tickets import user_has_tickets
 
 register = template.Library()
@@ -9,7 +10,7 @@ register = template.Library()
 @register.filter
 def can_edit_group(user, group):
     """Can the given user edit the given group."""
-    return group.is_editable_by(user)
+    return can_edit_groups(user, group.event) and group.is_editable_by(user)
 
 
 @register.filter
@@ -42,14 +43,45 @@ def can_create_group(user, event):
         return False  # Can't be in two groups
     g = GroupCreation(event).get()
     if g == "0":
-        print "NOO"
         # Never
         return False
     elif g == "2":
-        print "TRUU"
         # Any time
         return True
     else:
-        print "ANOO"
+        # After it has started
+        return not event.is_future
+
+
+@register.filter
+def can_edit_groups(user, event):
+    """Can the user edit groups for the given event."""
+    if not user_has_tickets(user, event):
+        return False
+    g = GroupEditing(event).get()
+    if g == "0":
+        # Never
+        return False
+    elif g == "2":
+        # Any time
+        return True
+    else:
+        # After it has started
+        return not event.is_future
+
+
+@register.filter
+def can_move_groups(user, event):
+    """Can the user move groups for the given event."""
+    if not user_has_tickets(user, event):
+        return False
+    g = GroupMovement(event).get()
+    if g == "0":
+        # Never
+        return False
+    elif g == "2":
+        # Any time
+        return True
+    else:
         # After it has started
         return not event.is_future
