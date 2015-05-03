@@ -30,11 +30,12 @@ class Group(models.Model):
         if user.is_superuser:
             # Is admin
             return True
-        for ticket in user.tickets.filter(event=self.event):
-            for group in ticket.groups.all():
-                if group.group == self:
-                    # Is a group member
-                    return True
+        if user.is_authenticated():
+            for ticket in user.tickets.filter(event=self.event):
+                for group in ticket.groups.all():
+                    if group.group == self:
+                        # Is a group member
+                        return True
         return False
 
     def members(self):
