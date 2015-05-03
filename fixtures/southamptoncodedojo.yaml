@@ -12,7 +12,7 @@
     solution_text: One group attempted a too complicated solution and didn't finish (though their solution probably would have won if it did). This left four AIs competing in the competition.
     image: /media/event_images/report1-result.jpg
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 1
   fields:
     event: 1
@@ -20,7 +20,7 @@
     github_url: https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/team5.py
     description: Came in third place. This code placed ships in specific places, and ensured that it didn't shoot at the same place twice.
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 2
   fields:
     event: 1
@@ -28,7 +28,7 @@
     github_url: https://github.com/southampton-code-dojo/battleships/blob/southampton-code-dojo-1/luckynumber.py
     description: Came in second place. This code had two different placements of ships, and attacked in multiple modes (attack_directed, attack_undirected, or search)
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 3
   fields:
     event: 1
@@ -46,7 +46,7 @@
     challenge_text: This month's challenge was to create a Daily Mail headline generator in Python.
     solution_text: Most groups attempted some sort of templating, though they all went about it in different ways.
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 4
   fields:
     event: 2
@@ -54,7 +54,7 @@
     github_url: https://github.com/southampton-code-dojo/daily-mail-headlines/tree/master/team1
     description: This code created markov chains to generate the headlines, based on scraped Daily Mail headlines, then injected the new headlines back into the page. It mostly generated nonsense but some of the headlines where pretty good.
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 5
   fields:
     event: 2
@@ -73,7 +73,7 @@
     solution_text: All groups except one managed to produce a version of Mastermind where the user can guess the code selected by the computer. Some groups used HTML tables for the UI, with CSS border-radius for the pegs, and at least one used canvas to draw the interface.
     image: /media/event_images/report3-result.jpg
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 6
   fields:
     event: 3
@@ -81,7 +81,7 @@
     github_url: https://github.com/sinjax/mastermind
     description: This group did not complete, having split up into too many subgroups, and was unable to bring the whole thing together in the end. Afterwards, one team member did successfully implement Donald Knuth's five guess algorithm but this wasn't completed in time to be demoed on the night.
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 7
   fields:
     event: 3
@@ -99,21 +99,21 @@
     challenge_text: This month's challenge was to implement a Roman Numerals calculator in Python. The challenge was open in that people could decide how it should work, how the user should interface with it, etc.
     image: /media/event_images/report4-result.jpg
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 8
   fields:
     event: 4
     team_name: Group 1
     github_url: https://github.com/patrickmcsweeney/romancalc
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 9
   fields:
     event: 4
     team_name: Group 2
     github_url: https://gist.github.com/jscott1989/809c69e5547e9a58ef1b
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 10
   fields:
     event: 4
@@ -130,7 +130,7 @@
     challenge_text: This month's challenge was to implement a Countdown numbers round solver in Java. The idea was taken from [Ruby Quiz 7](http://rubyquiz.com/quiz7.html) so you can go there for more details and to see some example answers where they had longer to work on them.
     image: /media/event_images/report5-result.jpg
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 11
   fields:
     event: 5
@@ -147,21 +147,21 @@
     challenge_text: This month's challenge was to implement a Sodoku solver in Javascript. We left the choice of using Node or doing it in-browser up to the groups.
     image: /media/event_images/report6-result.jpg
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 12
   fields:
     event: 6
     team_name: Solution 1
     github_url: https://github.com/southampton-code-dojo/js-sudoku
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 13
   fields:
     event: 6
     team_name: Solution 2
     github_url: https://github.com/southampton-code-dojo/sudoku
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 14
   fields:
     event: 6
@@ -182,35 +182,35 @@
         Everyone went for basically the same solution - which was to first check if any coordinates had a number which matched the number of surrounding spaces (in which case, flag them all) or had a number equal to the surrounding flags (in which case, click on the non-flagged spaces). After this, there was talk of trying to take into account patterns which were only visible when looking at multiple coordinates at once, or using some statistical methods to pick the best choice. Nobody really had time for that though so it was mostly random at this stage.
     image: /media/event_images/report7-result.jpg
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 15
   fields:
     event: 7
     team_name: Group 1
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/TeamOnePlayer.java
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 16
   fields:
     event: 7
     team_name: Group 2
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/OrderedPlayer.java
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 17
   fields:
     event: 7
     team_name: Group 3
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/UltraSuperPlayer.java
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 18
   fields:
     event: 7
     team_name: Group 4
     github_url: https://github.com/southampton-code-dojo/minesweeper/blob/october-dojo/src/com/southamptoncodedojo/minesweeper/players/SuperPlayer.java
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 19
   fields:
     event: 7
@@ -228,35 +228,35 @@
     solution_text: This dojo was unique in that we had totally different solutions from each of the groups. Many generated Haikus but did so in different ways, and some generated entirely different forms of poetry. 
     image: /media/event_images/report8-result.jpg
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 20
   fields:
     event: 8
     team_name: Group 1
     github_url: https://github.com/mikejewell/dojo-poetry
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 21
   fields:
     event: 8
     team_name: Group 2
     github_url: https://github.com/highflying/poem-generator
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 22
   fields:
     event: 8
     team_name: Group 3
     github_url: https://github.com/priyankasingh/haiku
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 23
   fields:
     event: 8
     team_name: Group 4
     github_url: https://gist.github.com/jscott1989/366a868de420b648ab51
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 24
   fields:
     event: 8
@@ -277,25 +277,25 @@
     solution_text: A lot of the teams lacked much C experience, so this dojo took a while to get going. But in the end almost everyone managed to pull together something good. A few teams submitted code which worked by hill climbing, one used a circular linked list, and one grouped by family then assigned downwards.
     image: /media/event_images/report9-result.jpg
 
-- model: events.EventSolution
+- model: groups.Group
   pk: 25
   fields:
     event: 9
     team_name: Group 1
     github_url: https://github.com/jscott1989/DecDojo
-- model: events.EventSolution
+- model: groups.Group
   pk: 26
   fields:
     event: 9
     team_name: Group 2
     github_url: https://github.com/steppers/Dec-2014-Southampton-CodeDojo
-- model: events.EventSolution
+- model: groups.Group
   pk: 27
   fields:
     event: 9
     team_name: Group 3
     github_url: https://github.com/rprince/secret-santa-december-2014-dojo
-- model: events.EventSolution
+- model: groups.Group
   pk: 28
   fields:
     event: 9

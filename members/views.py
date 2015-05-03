@@ -19,6 +19,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from members.models import PaidMembership
 from notifications import MembershipPaymentSuccessfulNotification
+from pages.configuration import NameOfEvents
 
 # First set up stripe
 stripe.api_key = django_settings.STRIPE_SECRET_KEY

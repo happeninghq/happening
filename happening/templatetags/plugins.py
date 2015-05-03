@@ -1,6 +1,7 @@
 """Template tags relating to plugins."""
 
 from django import template
+import importlib
 
 register = template.Library()
 
@@ -12,3 +13,20 @@ def plugin_block(context, key, *params):
     return " ".join([p(context['request'], *params) for plugin_id, p in
                     plugins.plugin_blocks.get(key, [])
                     if plugins.plugin_enabled(plugin_id)])
+
+
+@register.filter()
+def get_configuration(configuration_path, object=None):
+    """Get a configuration variable.
+
+    Configuration path should be e.g. groups.MaxNumberOfMembers.
+
+    If there is an object for the configuration, pass this as a
+    second variable
+    """
+    parts = configuration_path.rsplit(".", 1)
+    # The final part is the variable, everything before that is the module
+    p = importlib.import_module(parts[0])
+    return getattr(p, parts[1])(object).get()
+    raise Exception("Can not find configuration variable %s"
+                    % configuration_path)

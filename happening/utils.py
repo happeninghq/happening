@@ -84,3 +84,12 @@ def plugin_enabled_decorator(plugin):
             return f(*args, **kwargs)
         return inner
     return decorator
+
+
+def get_all_subclasses(cls):
+    """Recursively get all subclasses of a given class."""
+    subclasses = cls.__subclasses__()
+    for s in subclasses:
+        yield s
+        for ss in get_all_subclasses(s):
+            yield ss

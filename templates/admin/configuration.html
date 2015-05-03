@@ -1,0 +1,19 @@
+{% extends "admin/base.html" %}
+{% load staticfiles %}
+{% load foundation %}
+
+{% block admin_content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Configuration</h2>
+                <form method="POST" action="{% url "configuration" %}">
+                    {% csrf_token %}
+                    {{form|foundation}}
+                    <button type="submit">Save</button>
+                    <a href="{% url "configuration" %}" class="btn warning">Cancel</a>
+                </form>
+            </div>
+        </p>
+    </div>
+{% endblock %}

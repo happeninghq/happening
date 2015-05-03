@@ -1,5 +1,6 @@
 """Group tags."""
 from django import template
+from groups.event_configuration import GroupCreation
 
 register = template.Library()
 
@@ -29,3 +30,17 @@ def group(user, event):
     if not group:
         return None
     return group.group
+
+
+@register.filter
+def can_create_group(user, event):
+    """Can the user create a group for the given event."""
+    if has_group(user, event):
+        return False  # Can't be in two groups
+    g = GroupCreation(event).get()
+    if g == 0:
+        # Never
+        return False
+    elif g == 2:
+        # Any time
+        return True

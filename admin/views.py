@@ -1,10 +1,14 @@
 """Admin views."""
 from django.shortcuts import render, redirect
-from happening.utils import admin_required
+from happening.utils import admin_required, get_all_subclasses
 from django.conf import settings
 import importlib
 from django.contrib import messages
 from models import PluginSetting
+from happening.configuration import ConfigurationVariable, attach_to_form
+from happening.configuration import save_variables
+from forms import ConfigurationForm
+from happening.plugins import plugin_enabled
 
 
 @admin_required
@@ -59,3 +63,34 @@ def plugins(request):
 
     return render(request, "admin/plugins.html",
                   {"plugins": formatted_plugins})
+
+
+@admin_required
+def configuration(request):
+    """Configure settings."""
+    def enabled_if_plugin(c):
+        """If c is a plugin, is it enabled. Otherwise True."""
+        if c.__module__.startswith("plugins."):
+            # Remove the .plugins to get the plugin name
+            return plugin_enabled(c.__module__.rsplit(".", 1)[0])
+        return True
+    # We ignore the "basic types" defined in happening.configuration
+    variables = [c() for c in get_all_subclasses(ConfigurationVariable)
+                 if not c.__module__ == 'happening.configuration' and
+                 c.__module__.endswith('.configuration')
+                 and enabled_if_plugin(c)]
+
+    form = ConfigurationForm()
+
+    if request.method == "POST":
+        form = ConfigurationForm(request.POST)
+        attach_to_form(form, variables)
+        if form.is_valid():
+            save_variables(form, variables)
+            messages.success(request, "Configuration updated.")
+            return redirect("configuration")
+    else:
+        attach_to_form(form, variables)
+
+    return render(request, "admin/configuration.html",
+                  {"form": form})

@@ -9,6 +9,8 @@ from lib.required import required
 urlpatterns = patterns('admin.views',
                        url(r'^$', 'index', name='admin'),
                        url(r'^plugins$', 'plugins', name='plugins'),
+                       url(r'^configuration$', 'configuration',
+                           name='configuration'),
                        )
 
 for plugin in settings.PLUGINS:

@@ -86,16 +86,6 @@ for f in os.listdir("plugins"):
         importlib.import_module("plugins.%s" % f)
 INSTALLED_APPS += tuple(PLUGINS)
 
-
-for app in INSTALLED_APPS:
-    f = app.replace(".", "/")
-    if os.path.isfile("%s/blocks.py" % f):
-        importlib.import_module("%s.blocks" % app)
-    if os.path.isfile("%s/actions.py" % f):
-        importlib.import_module("%s.actions" % app)
-    if os.path.isfile("%s/notifications.py" % f):
-        importlib.import_module("%s.notifications" % app)
-
 SOCIALACCOUNT_PROVIDERS = {
     "persona": {
         "AUDIENCE": os.environ.get('PERSONA_AUDIENCE', 'http://localhost:8000')
@@ -301,6 +291,18 @@ MARKDOWN_DEUX_STYLES = {
         "safe_mode": "escape",
     },
 }
+
+plugin_files = ['blocks',
+                'actions',
+                'notifications',
+                'configuration',
+                'event_configuration']
+
+for app in INSTALLED_APPS:
+    f = app.replace(".", "/")
+    for p in plugin_files:
+        if os.path.isfile("%s/%s.py" % (f, p)):
+            importlib.import_module("%s.%s" % (app, p))
 
 # ---------------------------
 # EDIT THINGS BELOW THIS LINE

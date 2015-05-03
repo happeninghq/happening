@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load plugins %}
 <div class="sticky">
     <nav class="top-bar" data-topbar role="navigation">
         <ul class="title-area">
@@ -46,7 +47,11 @@
             <ul class="left">
                 {{pages_navigation|safe}}
                 <li class="has-dropdown">
-                    <a href="#">Events</a>
+                    <a href="#">
+                        {% with v="pages.configuration.NameOfEvents"|get_configuration %}
+                            {{v|title}}s
+                        {% endwith %}
+                        </a>
                     <ul class="dropdown" id="events-list">
                         {% for event in events %}
                             <li class="event"><a href="{% url "view_event" event.pk %}">{{event.year_heading}}</a></li>

@@ -31,7 +31,7 @@
                 </td>
             </tr>
         {% endfor %}
-        {% if not user|has_group:event %}
+        {% if user|can_create_group:event %}
             <tr>
                 <td colspan="3">
                     <a href="{% url "add_group" event.pk %}">Add a group</a>

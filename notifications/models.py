@@ -10,6 +10,7 @@ from happening.utils import convert_to_camelcase
 from django.core.mail import send_mail
 from django.conf import settings
 from happening import notifications
+from configuration import NotificationsEmailAddress
 
 
 class NotificationManager(models.Manager):
@@ -136,7 +137,7 @@ class Notification(models.Model):
         html_content = data.split("<email_html>")[1].split("</email_html>")[0]
         send_mail(self.subject,
                   text_content,
-                  "admin@southamptoncodedojo.com",  # TODO: Make configurable
+                  NotificationsEmailAddress().get(),
                   [self.user.email],
                   html_message=html_content)
 

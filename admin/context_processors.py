@@ -5,6 +5,7 @@ from django.conf import settings
 cached_admin_urls = [
     (None, "Dashboard", "admin"),
     (None, "Plugins", "plugins"),
+    (None, "Configuration", "configuration"),
 ]
 
 
