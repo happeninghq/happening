@@ -48,9 +48,13 @@ def can_create_group(user, event):
     elif g == "2":
         # Any time
         return True
-    else:
+    elif g == "1":
         # After it has started
         return not event.is_future
+    else:
+        # If checked in
+        ticket = user.tickets.filter(event=event, cancelled=False).first()
+        return ticket.checked_in
 
 
 @register.filter
@@ -65,9 +69,13 @@ def can_edit_groups(user, event):
     elif g == "2":
         # Any time
         return True
-    else:
+    elif g == "1":
         # After it has started
         return not event.is_future
+    else:
+        # If checked in
+        ticket = user.tickets.filter(event=event, cancelled=False).first()
+        return ticket.checked_in
 
 
 @register.filter
@@ -82,6 +90,10 @@ def can_move_groups(user, event):
     elif g == "2":
         # Any time
         return True
-    else:
+    elif g == "1":
         # After it has started
         return not event.is_future
+    else:
+        # If checked in
+        ticket = user.tickets.filter(event=event, cancelled=False).first()
+        return ticket.checked_in
