@@ -1,6 +1,7 @@
 """Sponsorship template blocks."""
 from happening.plugins import plugin_block
 from django.template.loader import render_to_string
+from models import CommunitySponsorship
 
 
 @plugin_block("events.event_long")
@@ -28,6 +29,11 @@ def staff_event(request, event):
 def community_sponsors(request):
     """Add community sponsor links to footer."""
     from models import SponsorTier
+
+    if CommunitySponsorship.objects.count() == 0:
+        # No sponsors, don't show it
+        return ""
+
     return render_to_string(
         "sponsorship/blocks/happening/footer.html",
         {"sponsor_tiers": SponsorTier.objects.all()})

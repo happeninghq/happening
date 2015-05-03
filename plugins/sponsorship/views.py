@@ -1,7 +1,7 @@
 """Sponsorship views."""
 from django.shortcuts import render, get_object_or_404, redirect
 from models import Sponsor, EventSponsor, SponsorTier, CommunitySponsorship
-from happening.utils import staff_member_required
+from happening.utils import staff_member_required, admin_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from forms import SponsorForm, EventSponsorForm, SponsorTierForm
 from forms import CommunitySponsorshipForm
@@ -87,7 +87,7 @@ def create_sponsor(request):
                   {"form": form})
 
 
-@staff_member_required
+@admin_required
 def sponsorship_tiers(request):
     """Administrate sponsorship tiers."""
     sponsorship_tiers = SponsorTier.objects.all()
@@ -102,11 +102,11 @@ def sponsorship_tiers(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         sponsorship_tiers = paginator.page(paginator.num_pages)
-    return render(request, "sponsorship/staff/sponsorship_tiers.html",
+    return render(request, "sponsorship/admin/sponsorship_tiers.html",
                   {"sponsorship_tiers": sponsorship_tiers})
 
 
-@staff_member_required
+@admin_required
 def edit_sponsorship_tier(request, pk):
     """Edit sponsorship tier."""
     sponsorship_tier = get_object_or_404(SponsorTier, pk=pk)
@@ -116,12 +116,12 @@ def edit_sponsorship_tier(request, pk):
                                instance=sponsorship_tier)
         if form.is_valid():
             form.save()
-            return redirect("staff_sponsorship_tiers")
-    return render(request, "sponsorship/staff/edit_sponsorship_tier.html",
+            return redirect("admin_sponsorship_tiers")
+    return render(request, "sponsorship/admin/edit_sponsorship_tier.html",
                   {"sponsorship_tier": sponsorship_tier, "form": form})
 
 
-@staff_member_required
+@admin_required
 def create_sponsorship_tier(request):
     """Create sponsorship_tier."""
     form = SponsorTierForm()
@@ -129,8 +129,8 @@ def create_sponsorship_tier(request):
         form = SponsorTierForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect("staff_sponsorship_tiers")
-    return render(request, "sponsorship/staff/create_sponsorship_tier.html",
+            return redirect("admin_sponsorship_tiers")
+    return render(request, "sponsorship/admin/create_sponsorship_tier.html",
                   {"form": form})
 
 

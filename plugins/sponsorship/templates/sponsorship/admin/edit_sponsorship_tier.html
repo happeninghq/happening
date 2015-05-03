@@ -1,7 +1,7 @@
-{% extends "staff/base.html" %}
+{% extends "admin/base.html" %}
 {% load foundation %}
 
-{% block staff_content %}
+{% block admin_content %}
     <div class="container">
         <div class="row">
             <div class="small-12 column">
@@ -11,7 +11,7 @@
                     {% csrf_token %}
                     {{form|foundation}}
                     <button type="submit">Save</button>
-                    <a class="button warning" href="{% url "staff_sponsors" %}">Cancel</a>
+                    <a class="button warning" href="{% url "admin_sponsorship_tiers" %}">Cancel</a>
                 </form>
             </div>
         </p>

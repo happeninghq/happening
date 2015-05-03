@@ -16,17 +16,8 @@ urlpatterns = patterns('plugins.sponsorship.views',
                            name='add_community_sponsorship_to_sponsor'),
                        url(r'^sponsors/event/(?P<pk>\d+)$', 'edit_on_event',
                            name='sponsor_edit_on_event'),
-                       url(r'^sponsorship_tiers$', 'sponsorship_tiers',
-                           name='staff_sponsorship_tiers'),
-                       url(r'^sponsorship_tiers/create$',
-                           'create_sponsorship_tier',
-                           name='create_sponsorship_tier'),
-                       url(r'^sponsorship_tiers/(?P<pk>\d+)$',
-                           'edit_sponsorship_tier',
-                           name='edit_sponsorship_tier'),
                        )
 
 staff_links = (
     ("Sponsors", "staff_sponsors"),
-    ("Sponsorship Tiers", "staff_sponsorship_tiers"),
 )

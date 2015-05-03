@@ -9,3 +9,4 @@ class Plugin(object):
 
     url_root = "sponsorship/"
     staff_url_root = "sponsorship/"
+    admin_url_root = "sponsorship/"

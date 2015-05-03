@@ -13,7 +13,7 @@ for plugin in settings.PLUGINS:
     p = importlib.import_module(plugin)
     if hasattr(p, "admin") and hasattr(p.admin, "admin_links"):
         cached_admin_urls += [
-            (plugin, l[0], l[1]) for l in p.staff.admin_links]
+            (plugin, l[0], l[1]) for l in p.admin.admin_links]
 
 
 def admin_urls(request):

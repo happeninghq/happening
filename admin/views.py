@@ -77,8 +77,8 @@ def configuration(request):
     # We ignore the "basic types" defined in happening.configuration
     variables = [c() for c in get_all_subclasses(ConfigurationVariable)
                  if not c.__module__ == 'happening.configuration' and
-                 c.__module__.endswith('.configuration')
-                 and enabled_if_plugin(c)]
+                 c.__module__.endswith('.configuration') and
+                 enabled_if_plugin(c)]
 
     form = ConfigurationForm()
 

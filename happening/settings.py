@@ -36,6 +36,13 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
+# Load all plugins
+PLUGINS = []
+for f in os.listdir("plugins"):
+    if os.path.isdir("plugins/%s" % f):
+        PLUGINS.append("plugins.%s" % f)
+        importlib.import_module("plugins.%s" % f)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -77,13 +84,6 @@ INSTALLED_APPS = (
 
     'django_cleanup',
 )
-
-# Load all plugins
-PLUGINS = []
-for f in os.listdir("plugins"):
-    if os.path.isdir("plugins/%s" % f):
-        PLUGINS.append("plugins.%s" % f)
-        importlib.import_module("plugins.%s" % f)
 INSTALLED_APPS += tuple(PLUGINS)
 
 SOCIALACCOUNT_PROVIDERS = {
