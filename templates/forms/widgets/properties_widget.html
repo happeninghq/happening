@@ -1,0 +1,33 @@
+{% load compress %}
+<div class="properties-widget" data-value='{{value|safe}}'>
+    <input type="hidden" name="{{name}}" data-bind="value: value">
+    <table class="full-width">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: properties">
+            <tr>
+                <td><input type="text" data-bind="value: name"></td>
+                <td>
+                    <select data-bind="value: type">
+                        {% for property_type in property_types %}
+                            <option value="{{property_type.0}}">{{property_type.1}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td><a href="#" data-bind="click: deleteProperty">X</a></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <a href="#" data-bind="click: addProperty">Add Property</a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

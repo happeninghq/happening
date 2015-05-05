@@ -75,6 +75,7 @@
     {% endblock %}
     {% compress js %}
         <script src="{% static "jquery/dist/jquery.min.js" %}"></script>
+        <script src="{% static "knockout/dist/knockout.js" %}"></script>
         <script src="{% static "foundation/js/foundation.min.js" %}"></script>
         <script src="{% static "foundation/js/foundation/foundation.topbar.js" %}"></script>
         <!-- We put this here rather that at each point to make it easier to replace later if needed. Will also need to edit edit_markdown.coffee -->
@@ -82,6 +83,10 @@
         <script src="{% static "lib/responsive-tables/js/responsive-tables.js" %}"></script>
         <script src="{% static "jquery-timeago/jquery.timeago.js" %}"></script>
         <script type="text/coffeescript" src="{% static "coffeescript/notifications.coffee" %}"></script>
+
+
+        <!-- Properties -->
+        <script type="text/coffeescript" src="{% static "coffeescript/widgets/properties.coffee" %}" defer></script>
 
         {% block scripts %}
         {% endblock %}

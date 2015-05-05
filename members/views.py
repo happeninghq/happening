@@ -19,6 +19,9 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from members.models import PaidMembership
 from notifications import MembershipPaymentSuccessfulNotification
+from happening.configuration import get_configuration_variables
+from happening.configuration import attach_to_form
+from happening.configuration import save_variables
 
 
 # First set up stripe
@@ -100,6 +103,7 @@ def view_profile(request, pk):
 def edit_profile(request, pk):
     """Edit a member's profile."""
     member = get_object_or_404(get_user_model(), pk=pk)
+    variables = get_configuration_variables("user_profile")
     form = ProfileForm(
         initial={
             "first_name": member.first_name,
@@ -112,9 +116,10 @@ def edit_profile(request, pk):
             "show_google_urls": member.profile.show_google_urls,
             "show_stackexchange_urls": member.profile.show_stackexchange_urls,
         })
-
+    attach_to_form(form, variables)
     if request.method == "POST":
         form = ProfileForm(request.POST)
+        attach_to_form(form, variables)
         if form.is_valid():
             member.first_name = form.cleaned_data['first_name']
             member.last_name = form.cleaned_data['last_name']
@@ -134,8 +139,11 @@ def edit_profile(request, pk):
 
             member.profile.save()
             member.save()
+            save_variables(form, variables)
 
             return redirect("view_profile", member.pk)
+        else:
+            attach_to_form(form, variables)
 
     profile_photo_form = ProfilePhotoForm()
 

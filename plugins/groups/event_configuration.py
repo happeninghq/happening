@@ -42,3 +42,8 @@ class GroupEditing(configuration.ChoiceField):
         (2, "Members can edit groups at any time"),
         (3, "Members can edit groups if they are checked in"),
     ]
+
+
+class GroupProperties(configuration.PropertiesField):
+
+    """What properties should be provided for groups."""

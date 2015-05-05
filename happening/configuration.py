@@ -4,6 +4,10 @@ from django import forms
 from models import ConfigurationVariable as variable_model
 from django.contrib.contenttypes.models import ContentType
 from happening.plugins import plugin_enabled, load_file_in_plugins
+from happening.forms import PropertiesField as PropertiesFormField
+from happening.forms import CustomPropertiesField as CustomPropertiesFormField
+from happening.templatetags.plugins import get_configuration
+import json
 
 
 def get_configuration_variables(filename, object=None):
@@ -77,6 +81,10 @@ class ConfigurationVariable(object):
                 key=convert_to_underscore(self.__class__.__name__)).first()
         return v
 
+    def as_string(self, value):
+        """Convert a value into a string for storage."""
+        return value
+
     def get(self):
         """Get the value of this variable."""
         v = self._get_model()
@@ -97,7 +105,7 @@ class ConfigurationVariable(object):
             v = variable_model.objects.get_or_create(
                 content_type=None,
                 key=convert_to_underscore(self.__class__.__name__))[0]
-        v.value = value
+        v.value = self.as_string(value)
         v.save()
 
 
@@ -155,3 +163,44 @@ class ChoiceField(ConfigurationVariable):
     def field(self):
         """Get a form field representing this variable."""
         return forms.ChoiceField(choices=self.choices, initial=self.get())
+
+
+class PropertiesField(ConfigurationVariable):
+
+    """A field to configure custom properties and types."""
+
+    def field(self):
+        """Get a form field representing this variable."""
+        return PropertiesFormField(initial=self.get())
+
+    def as_string(self, value):
+        """Convert a value into a string for storage."""
+        return json.dumps(value)
+
+    def get(self):
+        """Get the value of this variable."""
+        value = super(PropertiesField, self).get()
+        if value:
+            return json.loads(value)
+        return value
+
+
+class CustomProperties(ConfigurationVariable):
+
+    """A field to hold the values for custom properties."""
+
+    def field(self):
+        """Get multiple form fields representing the custom properties."""
+        t = get_configuration(self.configuration_variable)
+        return CustomPropertiesFormField(initial=self.get(), fields=t)
+
+    def as_string(self, value):
+        """Convert a value into a string for storage."""
+        return json.dumps(value)
+
+    def get(self):
+        """Get the value of this variable."""
+        value = super(CustomProperties, self).get()
+        if value:
+            return json.loads(value)
+        return value

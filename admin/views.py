@@ -20,7 +20,7 @@ def index(request):
 def format_plugin(plugin_id, plugin):
     """Return a single formatted plugin.
 
-    Format is (id, name, description, enabled)
+    Format is (id, name, enabled)
     """
     enabled = False
 

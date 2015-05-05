@@ -35,6 +35,7 @@ def custom_strftime(format, t):
 
 def convert_to_underscore(name):
     """Convert CamelCase string to underscore_separated."""
+    name = name.replace(" ", "")
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
@@ -47,6 +48,7 @@ def convert_to_spaces(name):
 
 def convert_to_camelcase(value):
     """Convert underscore_separated string to CamelCase."""
+    value = value.replace(" ", "")
     return ''.join(word[0].upper() + word[1:] for word in value.split('_'))
 
 

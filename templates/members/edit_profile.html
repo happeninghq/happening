@@ -12,7 +12,7 @@
                     <h3>Profile</h3>
                     <form method="POST" action="{% url "edit_profile" member.pk %}">
                         {% csrf_token %}
-                        <label>First Name {{form.first_name}}</label>
+<!--                         <label>First Name {{form.first_name}}</label>
                         <label>Last Name {{form.last_name}}</label>
                         <label>Bio<br />{% markdown_allowed %} {{form.bio|add_class:"edit_markdown"}}</label>
                         <label>Social Accounts</label>
@@ -23,7 +23,10 @@
                         {{form.show_twitter_urls}}<label for="id_show_twitter_urls">Twitter</label>
                         {{form.show_google_urls}}<label for="id_show_google_urls">Google</label>
                         {{form.show_stackexchange_urls}}<label for="id_show_stackexchange_urls">Stack Exchange</label>
-                        <br />
+                        <br /> -->
+
+                        {{form}}
+
                         <button type="submit">Save</button>
                         <a class="button warning" href="{% url "view_profile" member.pk %}">Cancel</a>
                     </form>

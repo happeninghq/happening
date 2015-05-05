@@ -4,7 +4,7 @@
 
 {% if event.groups.count > 0 or user|can_create_group:event %}
     <h2>Groups</h2>
-    <table class="groups" id="event-groups">
+    <table class="groups full-width" id="event-groups">
         {% for group in event.groups %}
             <tr>
                 <th>
