@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load widget_tweaks %}
 {% load markdown_deux_tags %}
+{% load foundation %}
 
 {% block content %}
     <div class="container">
@@ -25,7 +26,7 @@
                         {{form.show_stackexchange_urls}}<label for="id_show_stackexchange_urls">Stack Exchange</label>
                         <br /> -->
 
-                        {{form}}
+                        {{form|foundation}}
 
                         <button type="submit">Save</button>
                         <a class="button warning" href="{% url "view_profile" member.pk %}">Cancel</a>

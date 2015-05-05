@@ -62,6 +62,9 @@ class CustomPropertiesWidget(forms.Widget):
         # Create a form representing the fields
         if not value:
             value = {}
+        if type(value) == str:
+            # When the form reloads we need to turn it back into a dict
+            value = json.loads(value)
         form = forms.Form()
         for field in self.fields:
             n = convert_to_underscore(field['name'])
