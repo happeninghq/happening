@@ -60,6 +60,8 @@ class CustomPropertiesWidget(forms.Widget):
     def render(self, name, value, attrs):
         """Render the widget."""
         # Create a form representing the fields
+        if not value:
+            value = {}
         form = forms.Form()
         for field in self.fields:
             n = convert_to_underscore(field['name'])

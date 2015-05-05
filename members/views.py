@@ -103,7 +103,7 @@ def view_profile(request, pk):
 def edit_profile(request, pk):
     """Edit a member's profile."""
     member = get_object_or_404(get_user_model(), pk=pk)
-    variables = get_configuration_variables("user_profile")
+    variables = get_configuration_variables("user_profile", member)
     form = ProfileForm(
         initial={
             "first_name": member.first_name,
