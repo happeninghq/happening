@@ -22,6 +22,8 @@ from notifications import MembershipPaymentSuccessfulNotification
 from happening.configuration import get_configuration_variables
 from happening.configuration import attach_to_form
 from happening.configuration import save_variables
+from members.user_profile import CustomProperties
+from members.configuration import ProfileProperties
 
 
 # First set up stripe
@@ -96,7 +98,13 @@ def view_profile(request, pk):
     """View a member's profile."""
     member = get_object_or_404(get_user_model(), pk=pk)
 
-    return render(request, "members/view_profile.html", {"member": member})
+    profile_properties = ProfileProperties().get()
+    custom_properties = CustomProperties(member).get()
+
+    return render(request, "members/view_profile.html",
+                  {"member": member,
+                   "profile_properties": profile_properties,
+                   "custom_properties": custom_properties})
 
 
 @require_editing_own_profile

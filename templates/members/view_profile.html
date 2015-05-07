@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load markdown_deux_tags %}
+{% load plugins %}
 
 {% block content %}
     <div class="container">
@@ -107,6 +108,7 @@
                                     </tr>
                                 {% endif %}
                             {% endif %} -->
+                            {{profile_properties|properties_as_table:custom_properties}}
                         </table>
                         <p>{{member.profile.bio|markdown}}</p>
                     </div>

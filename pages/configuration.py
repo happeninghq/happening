@@ -21,12 +21,3 @@ class SiteTitle(configuration.CharField):
     """The title of the website."""
 
     default = "Happening Demo Site"
-
-
-class ProfileProperties(configuration.PropertiesField):
-
-    """The properties available for member profiles."""
-
-    default = [
-        # TODO: After name + bio are moved to use properties, put them here
-    ]
