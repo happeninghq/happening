@@ -13,6 +13,9 @@ from notifications import GroupLeftNotification
 from templatetags.group_permissions import can_create_group
 from templatetags.group_permissions import can_move_groups
 from templatetags.group_permissions import can_edit_groups
+from happening.configuration import get_configuration_variables
+from happening.configuration import attach_to_form
+from happening.configuration import save_variables
 
 
 def event_to_existing_groups(event):
@@ -102,15 +105,21 @@ def add_group(request, pk):
     ticket = request.user.tickets.filter(event=event, cancelled=False).first()
     if not can_create_group(request.user, event):
         return redirect("view_event", event.pk)
+    variables = get_configuration_variables("group_form",
+                                            event=event)
+    attach_to_form(form, variables)
 
     if request.method == "POST":
         form = GroupForm(request.POST)
+        attach_to_form(form, variables)
         if form.is_valid():
             group = form.save(commit=False)
             group.event = event
-            # TODO: Get next team number
-            group.team_number = 2
+            group.team_number = Group.objects.filter(event=event).count() + 1
             group.save()
+            variables = get_configuration_variables(
+                "group_form", group, event=event)
+            save_variables(form, variables)
 
             # Add the user to the group
             ticket = request.user.tickets.filter(event=event).first()
@@ -130,11 +139,16 @@ def edit_group(request, pk, group_number):
         return redirect("view_event", event.pk)
     if not group.is_editable_by(request.user):
         raise PermissionDenied()
+    variables = get_configuration_variables("group_form", group,
+                                            event=event)
     form = GroupForm(instance=group)
+    attach_to_form(form, variables)
     if request.method == "POST":
         form = GroupForm(request.POST, instance=group)
+        attach_to_form(form, variables)
         if form.is_valid():
             form.save()
+            save_variables(form, variables)
             for member in group.members():
                 GroupEditedNotification(
                     member,

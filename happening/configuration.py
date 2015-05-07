@@ -10,7 +10,7 @@ from happening.templatetags.plugins import get_configuration
 import json
 
 
-def get_configuration_variables(filename, object=None):
+def get_configuration_variables(filename, object=None, **kwargs):
     """Get variables associated with the given filename."""
     load_file_in_plugins(filename)
 
@@ -21,7 +21,7 @@ def get_configuration_variables(filename, object=None):
             return plugin_enabled(c.__module__.rsplit(".", 1)[0])
         return True
     # We ignore the "basic types" defined in happening.configuration
-    variables = [c(object) for c in get_all_subclasses(ConfigurationVariable)
+    variables = [c(object, kwargs) for c in get_all_subclasses(ConfigurationVariable)
                  if not c.__module__ == 'happening.configuration' and
                  c.__module__.endswith('.%s' % filename) and
                  enabled_if_plugin(c)]
@@ -57,10 +57,14 @@ class ConfigurationVariable(object):
     category = "Happening"
     default = ""
     object = None
+    references = {}
 
-    def __init__(self, object=None):
+    def __init__(self, object=None, references=None):
         """Initialise the configuration for the given object."""
         self.object = object
+        if not references:
+            references = {}
+        self.references = references
 
     def field(self):
         """Get a form field representing this variable."""
@@ -191,7 +195,16 @@ class CustomProperties(ConfigurationVariable):
 
     def field(self):
         """Get multiple form fields representing the custom properties."""
-        t = get_configuration(self.configuration_variable)
+        if hasattr(self, "configuration_variable_instance"):
+            if self.configuration_variable_instance in self.references:
+                t = get_configuration(
+                    self.configuration_variable,
+                    self.references[self.configuration_variable_instance])
+            else:
+                raise Exception(
+                    "%s not found" % self.configuration_variable_instance)
+        else:
+            t = get_configuration(self.configuration_variable)
         return CustomPropertiesFormField(initial=self.get(), fields=t)
 
     def as_string(self, value):
