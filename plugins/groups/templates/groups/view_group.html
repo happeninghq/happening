@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load plugins %}
 {% load markdown_deux_tags %}
+{% load group_permissions %}
 
 {% block content %}
     <div class="container">
@@ -8,6 +9,19 @@
             <div class="small-12 column">
                 <h2><a href="{% url "view_event" group.event.pk %}">{{group.event.heading}}</a></h2>
                 <h3>{{group.name}}</h3>
+                {% if not user|has_group:group.event %}
+                    {% if user|can_move_groups:group.event %}
+                        <a class="button" href="{% url "join_group" group.event.pk group.team_number %}">Join Group</a>
+                    {% endif %}
+                {% endif %}
+                {% if user|group:group.event == group %}
+                    {% if user|can_move_groups:group.event %}
+                        <a class="button" href="{% url "leave_group" group.event.pk group.team_number %}">Leave Group</a>
+                    {% endif %}
+                {% endif %}
+                {% if user|can_edit_group:group %}
+                    <a class="button" href="{% url "edit_group" group.event.pk group.team_number %}">Edit</a>
+                {% endif %}
 
                 {{group.description|markdown}}
 
