@@ -10,10 +10,8 @@ class Group(models.Model):
 
     event = models.ForeignKey(Event, related_name="raw_groups")
     team_number = models.IntegerField(default=0)
-    # TODO: Make a lot of this information admin configurable
     team_name = models.CharField(max_length=200, null=True)
     description = models.TextField(blank=True, null=True)
-    github_url = models.URLField(null=True)
 
     @property
     def name(self):
