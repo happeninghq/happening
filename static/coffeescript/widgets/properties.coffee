@@ -19,7 +19,6 @@ $ ->
 
     value = $(this).data('value')
     if value
-      console.log value
       for i in value
         viewModel.properties.push(property(i.name, i.type))
 
