@@ -2,7 +2,7 @@
 from happening.utils import staff_member_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model
-from events.models import Event, Ticket
+from events.models import Event, Ticket, EventPreset
 from events.forms import EventForm
 from pages.models import Page
 from pages.forms import PageForm
@@ -16,6 +16,7 @@ from django.contrib import messages
 from datetime import datetime
 from happening.configuration import get_configuration_variables, attach_to_form
 from happening.configuration import save_variables
+from events.utils import dump_preset
 
 
 @staff_member_required
@@ -153,10 +154,24 @@ def create_event(request):
             variables = get_configuration_variables("event_configuration",
                                                     event)
             save_variables(form, variables)
+            if 'save_as_preset' in request.POST:
+                preset_name = request.POST.get("preset_name")
+                if not preset_name:
+                    preset_name = "Preset %s" % (EventPreset.objects.count()
+                                                 + 1)
+                preset = EventPreset.objects.get_or_create(name=preset_name)[0]
+
+                # Things that definitely don't need to be saved
+                del form.cleaned_data['title']
+                del form.cleaned_data['datetime']
+                preset.value = dump_preset(form.cleaned_data)
+                preset.save()
             return redirect("staff_events")
     else:
         attach_to_form(form, variables)
-    return render(request, "staff/create_event.html", {"form": form})
+    return render(request, "staff/create_event.html",
+                  {"form": form,
+                   "event_presets": EventPreset.objects.all()})
 
 
 @staff_member_required

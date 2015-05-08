@@ -6,15 +6,41 @@
     <div class="container">
         <div class="row">
             <div class="small-12 column">
-                <h2>New Event</h2>
+                <h2>
+                    New Event
+                    {% if event_presets|length > 0 %}
+                        <button href="#" data-dropdown="event_presets" aria-controls="event_presets" aria-expanded="false" class="button dropdown">Load Preset</button><br>
+                        <ul id="event_presets" data-dropdown-content class="f-dropdown" aria-hidden="true">
+                            {% for preset in event_presets %}
+                                <li><a href="#" data-preset="{{preset.value}}" class="event_preset">{{preset.name}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                </h2>
+
                     
                 <form method="POST" action="{% url "create_event" %}">
                     {% csrf_token %}
                     {{form|foundation}}
+                    <div>
+                        <input name="save_as_preset" type="checkbox" id="save_as_preset" class="checkbox_toggle" data-toggle="#save_as_preset_content" /><label for="save_as_preset">Save as preset</label>
+                        <div id="save_as_preset_content">
+                            <p>This will save all settings in this form so similar events can be created more quickly in the future.</p>
+                            <label>Preset Name:
+                                <input type="text" name="preset_name" />
+                            </label>
+                        </div>
+                    </div>
                     <button type="submit">Save</button>
                     <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
                 </form>
             </div>
         </p>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/coffeescript" src="{% static "coffeescript/checkbox_toggle.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "coffeescript/staff/event_presets.coffee" %}"></script>
 {% endblock %}

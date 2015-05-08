@@ -329,3 +329,11 @@ class Ticket(models.Model):
     def __unicode__(self):
         """Return the ."""
         return "%s's ticket to %s" % (self.user, self.event)
+
+
+class EventPreset(models.Model):
+
+    """Common settings to be loaded when creating a new event."""
+
+    name = models.CharField(max_length=255, primary_key=True)
+    value = models.TextField()

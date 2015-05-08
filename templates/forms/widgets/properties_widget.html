@@ -1,6 +1,6 @@
 {% load compress %}
-<div class="properties-widget" data-value='{{value|safe}}'>
-    <input type="hidden" name="{{name}}" data-bind="value: value">
+<div class="properties-widget">
+    <input type="hidden" name="{{name}}" data-bind="value: value" value="{{value|safe}}">
     <table class="full-width">
         <thead>
             <tr>
