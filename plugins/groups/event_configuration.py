@@ -9,10 +9,10 @@ class GroupCreation(configuration.ChoiceField):
     default = 0
 
     choices = [
-        (0, "Members cannot create groups"),
-        (1, "Members can create groups after the event starts"),
-        (2, "Members can create groups at any time"),
-        (3, "Members can create groups if they are checked in"),
+        (0, "Attendees cannot create groups"),
+        (1, "Attendees can create groups after the event starts"),
+        (2, "Attendees can create groups at any time"),
+        (3, "Attendees can create groups if they are checked in"),
     ]
 
 
@@ -23,10 +23,10 @@ class GroupMovement(configuration.ChoiceField):
     default = 0
 
     choices = [
-        (0, "Members cannot move groups"),
-        (1, "Members can move groups after the event starts"),
-        (2, "Members can move groups at any time"),
-        (3, "Members can move groups if they are checked in"),
+        (0, "Attendees cannot move groups"),
+        (1, "Attendees can move groups after the event starts"),
+        (2, "Attendees can move groups at any time"),
+        (3, "Attendees can move groups if they are checked in"),
     ]
 
 
@@ -37,10 +37,10 @@ class GroupEditing(configuration.ChoiceField):
     default = 0
 
     choices = [
-        (0, "Members cannot edit groups"),
-        (1, "Members can edit groups after the event starts"),
-        (2, "Members can edit groups at any time"),
-        (3, "Members can edit groups if they are checked in"),
+        (0, "Attendees cannot edit groups"),
+        (1, "Attendees can edit groups after the event starts"),
+        (2, "Attendees can edit groups at any time"),
+        (3, "Attendees can edit groups if they are checked in"),
     ]
 
 
