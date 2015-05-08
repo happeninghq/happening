@@ -157,8 +157,8 @@ def create_event(request):
             if 'save_as_preset' in request.POST:
                 preset_name = request.POST.get("preset_name")
                 if not preset_name:
-                    preset_name = "Preset %s" % (EventPreset.objects.count()
-                                                 + 1)
+                    preset_name = "Preset %s" % (EventPreset.objects.count() +
+                                                 1)
                 preset = EventPreset.objects.get_or_create(name=preset_name)[0]
 
                 # Things that definitely don't need to be saved
