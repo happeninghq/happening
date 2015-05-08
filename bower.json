@@ -11,6 +11,7 @@
         "jcrop": "0.9.12",
         "epiceditor": "0.2.3",
         "jquery-timeago": "1.4.1",
-        "jquery-cookie": "1.4.1"
+        "jquery-cookie": "1.4.1",
+        "knockout": "3.3.0"
     }
 }
