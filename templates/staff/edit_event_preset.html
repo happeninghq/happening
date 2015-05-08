@@ -8,20 +8,18 @@
     <div class="container">
         <div class="row">
             <div class="small-12 column">
-                <h2>Edit {{event}}</h2>
+                <h2>Edit {{preset}}</h2>
                     
-                <form method="POST" action="{% url "edit_event" event.pk %}" enctype="multipart/form-data">
+                <form method="POST" action="{% url "edit_event_preset" preset.pk %}">
                     {% csrf_token %}
+                    <label>Preset Name:
+                    <input type="text" name="preset_name" value="{{preset.name}}">
+                    </label>
                     {{form}}
                     <button type="submit">Save</button>
-                    <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
+                    <a class="button warning" href="{% url "event_presets" %}">Cancel</a>
                 </form>
             </div>
         </p>
     </div>
-{% endblock %}
-
-{% block scripts %}
-    <script type="text/coffeescript" src="{% static "coffeescript/edit_markdown.coffee" %}"></script>
-    <script type="text/coffeescript" src="{% static "coffeescript/ajax.coffee" %}"></script>
 {% endblock %}

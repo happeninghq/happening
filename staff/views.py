@@ -48,6 +48,7 @@ def make_staff(request, pk):
     """Make a member staff."""
     user = get_object_or_404(get_user_model(), pk=pk)
     if request.method == "POST":
+        messages.success(request, "%s has been made staff" % user)
         user.is_staff = True
         user.save()
     return redirect("staff_members")
@@ -58,6 +59,7 @@ def make_not_staff(request, pk):
     """Make a member not staff."""
     user = get_object_or_404(get_user_model(), pk=pk)
     if request.method == "POST":
+        messages.success(request, "%s has been made not staff" % user)
         user.is_staff = False
         user.save()
     return redirect("staff_members")
@@ -79,6 +81,73 @@ def events(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         events = paginator.page(paginator.num_pages)
     return render(request, "staff/events.html", {"events": events})
+
+
+@staff_member_required
+def event_presets(request):
+    """Administrate event presets."""
+    presets = EventPreset.objects.all()
+    return render(request, "staff/event_presets.html", {"presets": presets})
+
+
+@staff_member_required
+def edit_event_preset(request, pk):
+    """Edit an event preset."""
+    preset = get_object_or_404(EventPreset, pk=pk)
+    value = preset.value_as_dict()
+    form = EventForm(initial=value)
+    variables = get_configuration_variables("event_configuration")
+    if request.method == "POST":
+        form = EventForm(request.POST, initial=value)
+        attach_to_form(form, variables)
+        form.is_valid()
+        preset_name = request.POST.get("preset_name")
+        if not preset_name:
+            preset_name = "Preset %s" % (EventPreset.objects.count() +
+                                         1)
+        preset.name = preset_name
+        preset.value = dump_preset(form.cleaned_data)
+        preset.save()
+        messages.success(request, "%s updated." % preset)
+        return redirect("event_presets")
+    else:
+        attach_to_form(form, variables)
+    return render(request, "staff/edit_event_preset.html",
+                  {"preset": preset, "form": form})
+
+
+@staff_member_required
+def delete_event_preset(request, pk):
+    """Delete an event preset."""
+    preset = get_object_or_404(EventPreset, pk=pk)
+    if request.method == "POST":
+        messages.success(request, "%s deleted" % preset)
+        preset.delete()
+    return redirect("event_presets")
+
+
+@staff_member_required
+def create_event_preset(request):
+    """Create an event preset."""
+    form = EventForm()
+    variables = get_configuration_variables("event_configuration")
+    if request.method == "POST":
+        form = EventForm(request.POST)
+        attach_to_form(form, variables)
+        form.is_valid()
+        preset_name = request.POST.get("preset_name")
+        if not preset_name:
+            preset_name = "Preset %s" % (EventPreset.objects.count() +
+                                         1)
+        preset = EventPreset(name=preset_name)
+        preset.value = dump_preset(form.cleaned_data)
+        preset.save()
+        messages.success(request, "%s created." % preset)
+        return redirect("event_presets")
+    else:
+        attach_to_form(form, variables)
+    return render(request, "staff/create_event_preset.html",
+                  {"form": form})
 
 
 @staff_member_required
@@ -134,8 +203,6 @@ def edit_event(request, pk):
             form.save()
             return redirect("staff_event", event.pk)
     else:
-        print "ATTA"
-        print variables
         attach_to_form(form, variables)
     return render(request, "staff/edit_event.html",
                   {"event": event, "form": form})
@@ -154,18 +221,6 @@ def create_event(request):
             variables = get_configuration_variables("event_configuration",
                                                     event)
             save_variables(form, variables)
-            if 'save_as_preset' in request.POST:
-                preset_name = request.POST.get("preset_name")
-                if not preset_name:
-                    preset_name = "Preset %s" % (EventPreset.objects.count() +
-                                                 1)
-                preset = EventPreset.objects.get_or_create(name=preset_name)[0]
-
-                # Things that definitely don't need to be saved
-                del form.cleaned_data['title']
-                del form.cleaned_data['datetime']
-                preset.value = dump_preset(form.cleaned_data)
-                preset.save()
             return redirect("staff_events")
     else:
         attach_to_form(form, variables)

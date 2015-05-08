@@ -23,15 +23,6 @@
                 <form method="POST" action="{% url "create_event" %}">
                     {% csrf_token %}
                     {{form|foundation}}
-                    <div>
-                        <input name="save_as_preset" type="checkbox" id="save_as_preset" class="checkbox_toggle" data-toggle="#save_as_preset_content" /><label for="save_as_preset">Save as preset</label>
-                        <div id="save_as_preset_content">
-                            <p>This will save all settings in this form so similar events can be created more quickly in the future.</p>
-                            <label>Preset Name:
-                                <input type="text" name="preset_name" />
-                            </label>
-                        </div>
-                    </div>
                     <button type="submit">Save</button>
                     <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
                 </form>
@@ -41,6 +32,5 @@
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/coffeescript" src="{% static "coffeescript/checkbox_toggle.coffee" %}"></script>
     <script type="text/coffeescript" src="{% static "coffeescript/staff/event_presets.coffee" %}"></script>
 {% endblock %}

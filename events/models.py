@@ -15,6 +15,7 @@ from notifications import EditedTicketNotification
 from notifications import PurchasedTicketNotification
 from django.conf import settings
 from happening.plugins import trigger_action
+import json
 
 
 class EventManager(models.Manager):
@@ -335,5 +336,13 @@ class EventPreset(models.Model):
 
     """Common settings to be loaded when creating a new event."""
 
-    name = models.CharField(max_length=255, primary_key=True)
+    name = models.CharField(max_length=255)
     value = models.TextField()
+
+    def __unicode__(self):
+        """Return the event preset name."""
+        return self.name
+
+    def value_as_dict(self):
+        """Get the preset value as a dict."""
+        return json.loads(self.value)
