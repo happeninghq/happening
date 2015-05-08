@@ -18,7 +18,7 @@ $ ->
       return JSON.stringify(ko.toJS(viewModel).properties)
 
     value = $(this).data('value')
-    if value
+    if not value == '""'
       for i in value
         viewModel.properties.push(property(i.name, i.type))
 
