@@ -21,7 +21,8 @@ def get_configuration_variables(filename, object=None, **kwargs):
             return plugin_enabled(c.__module__.rsplit(".", 1)[0])
         return True
     # We ignore the "basic types" defined in happening.configuration
-    variables = [c(object, kwargs) for c in get_all_subclasses(ConfigurationVariable)
+    variables = [c(object, kwargs) for c in
+                 get_all_subclasses(ConfigurationVariable)
                  if not c.__module__ == 'happening.configuration' and
                  c.__module__.endswith('.%s' % filename) and
                  enabled_if_plugin(c)]

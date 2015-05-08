@@ -16,6 +16,8 @@ from templatetags.group_permissions import can_edit_groups
 from happening.configuration import get_configuration_variables
 from happening.configuration import attach_to_form
 from happening.configuration import save_variables
+from plugins.groups.event_configuration import GroupProperties
+from plugins.groups.group_form import CustomProperties
 
 
 def event_to_existing_groups(event):
@@ -129,6 +131,20 @@ def add_group(request, pk):
             return redirect("view_event", event.pk)
     return render(request, "groups/add_group.html",
                   {"form": form, "event": event})
+
+
+def view_group(request, pk, group_number):
+    """Edit a group."""
+    event = get_object_or_404(Event, pk=pk)
+    group = event.raw_groups.filter(team_number=group_number).first()
+
+    group_properties = GroupProperties(event).get()
+    custom_properties = CustomProperties(group).get()
+
+    return render(request, "groups/view_group.html",
+                  {"group": group,
+                   "group_properties": group_properties,
+                   "custom_properties": custom_properties})
 
 
 def edit_group(request, pk, group_number):

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load plugins %}
+{% load markdown_deux_tags %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2><a href="{% url "view_event" group.event.pk %}">{{group.event.heading}}</a></h2>
+                <h3>{{group.name}}</h3>
+
+                {{group.description|markdown}}
+
+                {% include "members/_list.html" with members=group.members %}
+
+                <table>
+                    {{group_properties|properties_as_table:custom_properties}}
+                </table>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

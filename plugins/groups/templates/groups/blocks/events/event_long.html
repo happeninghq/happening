@@ -8,7 +8,7 @@
         {% for group in event.groups %}
             <tr>
                 <th>
-                    <a href="{{group.github_url}}">{{group.name}}</a>
+                    <a href="{% url "view_group" event.pk group.team_number %}">{{group.name}}</a>
                     {% if user|can_edit_group:group %}
                         <a href="{% url "edit_group" event.pk group.team_number %}">(edit)</a>
                     {% endif %}
