@@ -10,4 +10,7 @@ urlpatterns = patterns('plugins.groups.views',
                        url(r'^(?P<pk>\d+)$',
                            'view_groups',
                            name='view_groups'),
+                       url(r'^(?P<pk>\d+)/change_group$',
+                           'change_group',
+                           name='change_group'),
                        )

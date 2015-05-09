@@ -1,15 +1,13 @@
 """Group views."""
 from django.shortcuts import render, get_object_or_404, redirect
 from happening.utils import staff_member_required
-from events.models import Event
+from events.models import Event, Ticket
 from django.contrib import messages
-from forms import GroupGenerationForm, GroupForm
+from forms import GroupGenerationForm, GroupForm, ChangeGroupForm
 from models import Group, TicketInGroup
 from plugins.groups import generate_groups as generate_groups_func
 from django.core.exceptions import PermissionDenied
 from notifications import GroupEditedNotification
-from notifications import GroupJoinedNotification
-from notifications import GroupLeftNotification
 from templatetags.group_permissions import can_create_group
 from templatetags.group_permissions import can_move_groups
 from templatetags.group_permissions import can_edit_groups
@@ -100,6 +98,37 @@ def view_groups(request, pk):
                   {"event": event})
 
 
+@staff_member_required
+def change_group(request, pk):
+    """Change an attendee's group."""
+    ticket = get_object_or_404(Ticket, pk=pk)
+    current_group_id = None
+    if ticket.group():
+        current_group_id = ticket.group().pk
+    form = ChangeGroupForm(groups=ticket.event.groups(),
+                           initial={"group": current_group_id})
+    if request.method == "POST":
+        form = ChangeGroupForm(
+            request.POST,
+            groups=ticket.event.groups(),
+            initial={"group": current_group_id})
+        if form.is_valid():
+            if ticket.group():
+                ticket.group().remove_user(ticket.user)
+            if form.cleaned_data['group']:
+                form.cleaned_data['group'].add_user(ticket.user)
+                messages.success(
+                    request,
+                    "%s moved to %s." % (ticket.user,
+                                         form.cleaned_data['group']))
+            else:
+                messages.success(request,
+                                 "%s removed from group." % ticket.user)
+            return redirect("staff_event", ticket.event.pk)
+    return render(request, "groups/staff/change_group.html",
+                  {"ticket": ticket, "form": form})
+
+
 def add_group(request, pk):
     """Add a group."""
     event = get_object_or_404(Event, pk=pk)
@@ -188,23 +217,9 @@ def join_group(request, pk, group_number):
     if not can_move_groups(request.user, event):
         return redirect("view_event", event.pk)
 
-    ticket = request.user.tickets.filter(event=event, cancelled=False).first()
-    if ticket:
-        if ticket.groups.count() == 0:
-            # No groups yet
-            ticket = request.user.tickets.get(event=event, cancelled=False)
-            TicketInGroup(group=group, ticket=ticket).save()
-            for member in group.members():
-                if not member == request.user:
-                    GroupJoinedNotification(
-                        member,
-                        event=event,
-                        group_name=str(group),
-                        user=request.user,
-                        user_name=str(request.user),
-                        user_photo_url=request.user.profile.photo_url()
-                    ).send()
-            messages.success(request, "You have joined the group")
+    if group.add_user(request.user):
+        messages.success(request, "You have joined the group")
+
     return redirect("view_event", event.pk)
 
 
@@ -216,17 +231,6 @@ def leave_group(request, pk, group_number):
     if not can_move_groups(request.user, event):
         return redirect("view_event", event.pk)
 
-    ticket_in_group = group.tickets.filter(ticket__user=request.user).first()
-    if ticket_in_group:
-        ticket_in_group.delete()
-        for member in group.members():
-            GroupLeftNotification(
-                member,
-                event=event,
-                group_name=str(group),
-                user=request.user,
-                user_name=str(request.user),
-                user_photo_url=request.user.profile.photo_url()
-            ).send()
+    if group.remove_user(request.user):
         messages.success(request, "You have left the group")
     return redirect("view_event", event.pk)

@@ -2,6 +2,8 @@
 
 from django.db import models
 from events.models import Event, Ticket
+from notifications import GroupLeftNotification
+from notifications import GroupJoinedNotification
 
 
 class Group(models.Model):
@@ -39,6 +41,43 @@ class Group(models.Model):
     def members(self):
         """List members of this group."""
         return [t.ticket.user for t in self.tickets.all()]
+
+    def remove_user(self, user):
+        """Remove a user from the group."""
+        ticket_in_group = self.tickets.filter(ticket__user=user).first()
+        if ticket_in_group:
+            ticket_in_group.delete()
+            for member in self.members():
+                GroupLeftNotification(
+                    member,
+                    event=self.event,
+                    group_name=str(self),
+                    user=user,
+                    user_name=str(user),
+                    user_photo_url=user.profile.photo_url()
+                ).send()
+            return True
+        return False
+
+    def add_user(self, user):
+        """Add a user to the group."""
+        ticket = user.tickets.filter(event=self.event, cancelled=False).first()
+        if ticket:
+            if ticket.groups.count() == 0:
+                # No groups yet
+                TicketInGroup(group=self, ticket=ticket).save()
+                for member in self.members():
+                    if not member == user:
+                        GroupJoinedNotification(
+                            member,
+                            event=self.event,
+                            group_name=str(self),
+                            user=user,
+                            user_name=str(user),
+                            user_photo_url=user.profile.photo_url()
+                        ).send()
+                return True
+        return False
 
 
 class TicketInGroup(models.Model):

@@ -25,3 +25,23 @@ class GroupForm(ModelForm):
     class Meta:
         model = Group
         fields = ['team_name', 'description', 'github_url']
+
+
+class ChangeGroupForm(forms.Form):
+
+    """Change an attendee's group."""
+
+    def __init__(self, *args, **kwargs):
+        """Change an attendee's group."""
+        groups = kwargs.pop("groups")
+        super(ChangeGroupForm, self).__init__(*args, **kwargs)
+        self.fields['group'] = forms.ChoiceField(
+            choices=[(None, "None")] +
+                    [(o.id, str(o)) for o in groups])
+
+    def clean_group(self):
+        """Turn the group ID into a Group."""
+        data = self.cleaned_data['group']
+        if not data:
+            return data
+        return Group.objects.get(pk=data)
