@@ -12,3 +12,4 @@ htmlcov
 vcr.yaml
 fixtures/socialauth_live.yaml
 media/media
+docs/_build
