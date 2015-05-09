@@ -1,2 +1,2 @@
-flake8 --max-complexity 10 --exclude='ve,migrations,lib' . || EXIT_STATUS=$?
+flake8 --max-complexity 10 --exclude='ve,migrations,lib,docs' . || EXIT_STATUS=$?
 exit $EXIT_STATUS
