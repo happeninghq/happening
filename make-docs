@@ -1,2 +1,10 @@
+#!/bin/sh
+if [ ! -d "ve" ]; then
+    echo "Error: Run ./setup first"
+    exit
+fi
+
+source ve/bin/activate
 rm -R docs/_build
 sphinx-build -b html docs docs/_build
+open docs/_build/index.html
