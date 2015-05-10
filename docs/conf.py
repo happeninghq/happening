@@ -299,3 +299,12 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+
+def remove_module_docstring(app, what, name, obj, options, lines):
+  # This removes the docstring from modules.
+  if what == "module":
+    del lines[:]
+
+def setup(app):
+    app.connect("autodoc-process-docstring", remove_module_docstring)

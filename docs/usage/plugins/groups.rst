@@ -53,3 +53,10 @@ To generate a group, visit the event page in the Staff panel and click ``Generat
 **Viewing Groups**
 
 Clicking ``View Groups`` on the event page in the Staff panel will show all groups with avatars and names for members. This can be used when showing attendees which groups they are in.
+
+
+**Event Configuration**
+
+.. automodule:: plugins.groups.event_configuration
+   :members:
+   :undoc-members:
