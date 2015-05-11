@@ -79,6 +79,7 @@ In here, we initially get the variables without specifying which group they will
 
 .. automodule:: happening.configuration
    :members: ConfigurationVariable, BooleanField, CharField, ChoiceField, EmailField, IntegerField, URLField
+   :noindex:
 
 
 **Custom Properties**

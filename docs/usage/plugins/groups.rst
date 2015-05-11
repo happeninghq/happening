@@ -60,3 +60,4 @@ Clicking ``View Groups`` on the event page in the Staff panel will show all grou
 .. automodule:: plugins.groups.event_configuration
    :members:
    :undoc-members:
+   :noindex:

@@ -49,11 +49,12 @@ urlpatterns = patterns('staff.views',
                            'manage_check_ins', name='manage_check_ins'),
                        )
 
-for plugin in settings.PLUGINS:
-    p = importlib.import_module(plugin)
-    if hasattr(p.Plugin, "staff_url_root"):
-        # Include the urlpatterns
-        urlpatterns += required(
-            plugin_enabled_decorator(plugin),
-            patterns(
-                '', (p.Plugin.staff_url_root, include("%s.staff" % plugin))))
+if hasattr(settings, "PLUGINS"):
+    for plugin in settings.PLUGINS:
+        p = importlib.import_module(plugin)
+        if hasattr(p.Plugin, "staff_url_root"):
+            # Include the urlpatterns
+            urlpatterns += required(
+                plugin_enabled_decorator(plugin),
+                patterns(
+                    '', (p.Plugin.staff_url_root, include("%s.staff" % plugin))))

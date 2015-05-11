@@ -8,9 +8,11 @@ Once any wanted :ref:`plugins` have been enabled. The ``Configuration`` page of 
 .. automodule:: pages.configuration
    :members:
    :undoc-members:
+   :noindex:
 
 .. automodule:: members.configuration
    :members:
    :undoc-members:
+   :noindex:
 
 Other configuration options will be added by enabled :ref:`plugins`.

@@ -9,6 +9,7 @@ Contents:
    intro
    usage/index
    development/index
+   API <api/modules>
 
 
 
