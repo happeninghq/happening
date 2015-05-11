@@ -1,7 +1,9 @@
+.. _dev_configuration:
+
 Configuration
 ==============
 
-Configuration is used to allow site-by-site configuration variables. To create a configuration variable create a file named ``configuration.py`` in any app. In this file, add a subclass of ``happening.configuration.ConfigurationVariable`` representing the variable you are adding.
+Configuration is used to allow site-by-site :ref:`dev_configuration_variables`. To create a configuration variable create a file named ``configuration.py`` in any app. In this file, add a subclass of ``happening.configuration.ConfigurationVariable`` representing the variable you are adding.
 
 For example::
 

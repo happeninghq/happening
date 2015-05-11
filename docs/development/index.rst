@@ -11,6 +11,8 @@ To contribute to development of Happening, or to develop a plugin for use with H
    blocks
    actions
    notifications
+   creating_plugins
+   configuration_variables
    configuration
    event_configuration
    plugins/index

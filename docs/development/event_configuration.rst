@@ -1,7 +1,9 @@
+.. _dev_event_configuration:
+
 Event Configuration
 =====================
 
-Event Configuration is used to allow event-by-event configuration variables. To create a configuration variable create a file named ``event_configuration.py`` in any app. In this file, add a subclass of ``happening.configuration.ConfigurationVariable`` representing the variable you are adding.
+Event Configuration is used to allow event-by-event :ref:`dev_configuration_variables`. To create a configuration variable create a file named ``event_configuration.py`` in any app. In this file, add a subclass of ``happening.configuration.ConfigurationVariable`` representing the variable you are adding.
 
 For example::
 
