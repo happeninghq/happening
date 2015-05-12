@@ -151,6 +151,35 @@ def create_event_preset(request):
 
 
 @staff_member_required
+def add_attendee(request, pk):
+    """Add an attendee to the event.
+
+    This is available after the event has started and will mark
+    the ticket as being added late.
+    """
+    event = get_object_or_404(Event, pk=pk)
+    if event.is_future:
+        return redirect("staff_events")
+
+    if request.method == "POST":
+        user = get_object_or_404(
+            get_user_model(), pk=request.POST['member_pk'])
+        ticket, created = Ticket.objects.get_or_create(event=event, user=user,
+                                                       cancelled=False)
+        messages.success(request, "%s added to event." % user.profile)
+        return redirect("staff_event", event.pk)
+
+    members = get_user_model().objects.all()
+
+    members = [m for m in members if not
+               m.tickets.filter(event=event, cancelled=False).count() > 0]
+
+    return render(request, "staff/add_attendee.html",
+                  {"event": event,
+                   "members": members})
+
+
+@staff_member_required
 def check_in(request, pk):
     """Check in a ticket."""
     ticket = get_object_or_404(Ticket, pk=pk)

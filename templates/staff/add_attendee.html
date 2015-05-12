@@ -1,0 +1,49 @@
+{% extends "staff/base.html" %}
+{% load staticfiles %}
+
+{% block staff_content %}
+    <h1>Add attendee to {{event}}</h1>
+
+    <p>If the attendee does not have an account, they must create one before being added.</p>
+
+    {% if members %}
+        <div>
+            <input type="search" id="filter_text" />
+        </div>
+        <table class="members searchable" data-search-input="#filter_text">
+            <tr>
+                <th>Member</th>
+                <th></th>
+            </tr>
+            {% for member in members %}
+                <tr data-searchable="{{member}} {{member}} {{member}}">
+                    <td>
+                        <a title="{{member.profile}}" href="{% url "view_profile" member.pk %}">
+                            {% include "members/_member_image.html" %}
+                        </a>
+                        <div><a title="{{member.profile}}" href="{% url "view_profile" member.pk %}">{{member}}</a></div>
+                        <div><a title="{{member.profile}}" href="{% url "view_profile" member.pk %}">{{member.first_name}} {{member.last_name}}</a></div>
+                    </td>
+                    <td>
+                        <ul class="stack button-group">
+                            <form method="POST" action="{% url "add_attendee" event.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="member_pk" value="{{member.pk}}">
+                                <button type="submit">Add</button>
+                            </form>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div data-alert="" class="alert-box alert">
+            There are no members of this group who do not have tickets for this event.
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script type="text/coffeescript" src="{% static "coffeescript/search.coffee" %}"></script>
+{% endblock %}

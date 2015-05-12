@@ -20,7 +20,7 @@
                 <div>
                     <input type="search" id="filter_text" />
                 </div>
-                <table class="tickets searchable" data-search-input="#filter_text">
+                <table class="members tickets searchable" data-search-input="#filter_text">
                     <tr>
                         <th>Member</th>
                         <th>Tickets</th>
@@ -70,6 +70,9 @@
                     {% endfor %}
                 </table>
 
+                {% if not event.is_future %}
+                    <a class="button" href="{% url "add_attendee" event.pk %}">Add Attendee</a>
+                {% endif %}
                 {% plugin_block "staff.event" event %}
             </div>
         </p>

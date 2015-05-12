@@ -342,14 +342,16 @@ p {
 }
 
 
-// Tickets
-.tickets {
+// Member lists
+.members {
     width: 100%;
     
     img {
         max-width: 50px;
     }
+}
 
+.tickets {
     .cancelled {
         opacity: 0.7;
     }
