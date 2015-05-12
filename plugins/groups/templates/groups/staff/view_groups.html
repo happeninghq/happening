@@ -9,7 +9,7 @@
                 <h3>{{event}} groups</h3>
                 <div class="row">
                     {% for group in event.groups %}
-                        <div class="small-3 columns panel">
+                        <div class="small-offset-1 small-3 columns panel">
                             <strong>{{group}}</strong>
                             {% include "members/_list_with_names.html" with members=group.members %}
                         </div>
