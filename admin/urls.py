@@ -14,11 +14,12 @@ urlpatterns = patterns('admin.views',
                        )
 
 if hasattr(settings, "PLUGINS"):
-  for plugin in settings.PLUGINS:
-      p = importlib.import_module(plugin)
-      if hasattr(p.Plugin, "admin_url_root"):
-          # Include the urlpatterns
-          urlpatterns += required(
-              plugin_enabled_decorator(plugin),
-              patterns(
-                  '', (p.Plugin.admin_url_root, include("%s.admin" % plugin))))
+    for plugin in settings.PLUGINS:
+        p = importlib.import_module(plugin)
+        if hasattr(p.Plugin, "admin_url_root"):
+            # Include the urlpatterns
+            urlpatterns += required(
+                plugin_enabled_decorator(plugin),
+                patterns(
+                    '', (p.Plugin.admin_url_root,
+                         include("%s.admin" % plugin))))

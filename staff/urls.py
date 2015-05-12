@@ -59,4 +59,5 @@ if hasattr(settings, "PLUGINS"):
             urlpatterns += required(
                 plugin_enabled_decorator(plugin),
                 patterns(
-                    '', (p.Plugin.staff_url_root, include("%s.staff" % plugin))))
+                    '', (p.Plugin.staff_url_root,
+                         include("%s.staff" % plugin))))
