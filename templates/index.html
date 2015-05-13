@@ -45,7 +45,7 @@
                                 {% include "events/_ticket_widget.html" with event=latest_event %}
                             {% endif %}
 
-                            {% plugin_block "events.event_short" event %}
+                            {% plugin_block "events.event_short" latest_event %}
 
                             {% include "events/_attending_members.html" with event=latest_event %}
                         </div>
