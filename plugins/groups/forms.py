@@ -20,11 +20,10 @@ class GroupForm(ModelForm):
 
     team_name = forms.CharField(required=False)
     description = forms.CharField(required=False)
-    github_url = forms.CharField(required=False)
-
+    
     class Meta:
         model = Group
-        fields = ['team_name', 'description', 'github_url']
+        fields = ['team_name', 'description']
 
 
 class ChangeGroupForm(forms.Form):
