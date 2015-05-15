@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load plugins %}
 
 {% block content %}
     <div class="container">
@@ -9,18 +10,10 @@
 
                 <p>You have purchased <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize:"s"}} to <a href="{% url "view_event" ticket.event.pk %}">the {{ticket.event}}</a>.</p>
 
-                {% if ticket.event.is_voting %}
-                    <h2>Vote for the language to be used.</h2>
-                    {% include "events/_vote_widget.html" with event=ticket.event %}
-                {% endif %}
+                {{"events.event_configuration.TicketPurchasedMessage"|get_configuration:ticket.event}}
 
                 <p>You will be emailed with more information about the event soon.</p>
             </div>
         </p>
     </div>
-{% endblock %}
-
-{% block scripts %}
-    <script type="text/javascript" src="{% static "lib/html5sortable/js/jquery.sortable.min.js" %}"></script>
-    <script type="text/coffeescript" src="{% static "coffeescript/vote.coffee" %}"></script>
 {% endblock %}

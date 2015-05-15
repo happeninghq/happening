@@ -100,3 +100,20 @@ class CustomPropertiesField(forms.CharField):
     def clean(self, value):
         """Turn the JSON into a Python list."""
         return json.loads(value)
+
+
+class EpicEditorWidget(forms.Textarea):
+
+    """A widget that uses EpicEditor."""
+
+    def render(self, name, value, attrs):
+        """Render the widget."""
+        attrs['class'] = 'edit_markdown ' + attrs.get('class', '')
+        return super(EpicEditorWidget, self).render(name, value, attrs)
+
+
+class EpicEditorField(forms.CharField):
+
+    """A field that uses an EpicEditor markdown editor."""
+
+    widget = EpicEditorWidget

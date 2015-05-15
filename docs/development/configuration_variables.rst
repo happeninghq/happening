@@ -111,3 +111,71 @@ This is all that is needed to allow users to add their own properties to models.
 .. automodule:: happening.configuration
    :members: CustomProperties, PropertiesField
    :noindex:
+
+**Custom Variable Types**
+
+Creating a custom variable type typically requires the creation of three classes. To demonstrate we'll create an "EpicEditorField", which is simply a TextArea with a particular class added (that Javascript can hook onto).
+
+First, we must create a subclass of ``django.forms.Widget``, and implement the ``render`` method::
+
+    class EpicEditorWidget(forms.Textarea):
+
+        """A widget that uses EpicEditor."""
+
+        def render(self, name, value, attrs):
+            """Render the widget."""
+            attrs['class'] = 'edit_markdown ' + attrs.get('class', '')
+            return super(EpicEditorWidget, self).render(name, value, attrs)
+
+In this case we have overridded forms.Textarea which is a subclass of forms.Widget and takes care of rendering a TextArea. We could have used render_to_string here to render completely custom html.
+
+We then create a subclass of ``django.forms.Field``, which references the widget to be rendered. It's often best here to subclass an existing ``Field`` subclass (see ``Django Form Fields Documentation <https://docs.djangoproject.com/en/1.8/ref/forms/fields/>``_, of which there are many::
+
+    class EpicEditorField(forms.CharField):
+
+        """A field that uses an EpicEditor markdown editor."""
+
+        widget = EpicEditorWidget
+
+In this case we subclass CharField as the widget will return a text value.
+
+Finally, you need to create a subclass of ``happening.configuration.ConfigurationVariable``. At a minimum this should point to the Field just created::
+    
+    class EpicEditorField(ConfigurationVariable):
+
+        field = EpicEditorField
+
+This could also be achieved without the ``ConfigurationVariable`` subclass. However, in this case you would be required to reference the ``Field`` subclass each time you create a new configuration variable of this type. For example::
+
+    class Description(configuration.CharField):
+
+        """Event Description."""
+
+        field = forms.EpicEditorField
+
+In this case, we simply override the field for the Description variable.
+
+**Custom Variable Renderers**
+
+With the previous example of the EpicEditorField, we allow the users to create markdown input using EpicEditor. However the output will need to be formatted as markdown each time it is used. To avoid this, we can create a subclass of the ``happening.configuration.Renderer`` class::
+    
+    class MarkdownRenderer(Renderer):
+
+        """Render the markdown in a string."""
+
+        def render(self, value):
+            """Render the markdown in a string."""
+            return mark_safe(markdown(value))
+
+and then reference this in our variable/variable type::
+
+    class EpicEditorField(ConfigurationVariable):
+
+        field = forms.EpicEditorField
+        renderer = MarkdownRenderer()
+
+This will ensure that when using the default functionality for getting variables, it will get the rendered HTML rather than the raw markdown. This can also be used to format data in the correct type (boolean, int, etc.).
+
+**Custom "Custom Properties" Types**
+
+Currently Custom Properties can only have variables of type CharField, EmailField, IntegerField, URLField, and BooleanField. We hope to allow for custom types in future.

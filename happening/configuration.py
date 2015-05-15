@@ -7,6 +7,8 @@ from happening.plugins import plugin_enabled, load_file_in_plugins
 from happening.forms import PropertiesField as PropertiesFormField
 from happening.forms import CustomPropertiesField as CustomPropertiesFormField
 from happening.templatetags.plugins import get_configuration
+from markdown_deux import markdown
+from django.utils.html import mark_safe
 import json
 
 
@@ -36,7 +38,7 @@ def attach_to_form(form, variable):
             attach_to_form(form, x)
     else:
         form.fields[convert_to_underscore(
-            variable.__class__.__name__)] = variable.field()
+            variable.__class__.__name__)] = variable.django_field()
     return form
 
 
@@ -46,6 +48,61 @@ def save_variables(form, variables):
         v = convert_to_underscore(variable.__class__.__name__)
         if v in form.cleaned_data:
             variable.set(form.cleaned_data[v])
+
+
+class Renderer(object):
+
+    """Convert a variable value into a given data type."""
+
+    def render(self, value):
+        """Convert a variable value into a given data type."""
+        return value
+
+    def to_string(self, value):
+        """Convert a value into a string for storage."""
+        return value
+
+
+class StringRenderer(Renderer):
+
+    """Convert a variable into a string."""
+
+    def render(self, value):
+        """Convert a variable into a string."""
+        return str(value)
+
+
+class IntRenderer(Renderer):
+
+    """Convert a variable into a int."""
+
+    def render(self, value):
+        """Convert a variable into a int."""
+        return int(value)
+
+
+class JSONRenderer(Renderer):
+
+    """Convert a variable from JSON into a dict."""
+
+    def render(self, value):
+        """Convert a variable from JSON into a dict."""
+        if value:
+            return json.loads(value)
+        return value
+
+    def to_string(self, value):
+        """Convert a value into a string for storage."""
+        return json.dumps(value)
+
+
+class MarkdownRenderer(Renderer):
+
+    """Render the markdown in a string."""
+
+    def render(self, value):
+        """Render the markdown in a string."""
+        return mark_safe(markdown(value))
 
 
 class ConfigurationVariable(object):
@@ -59,6 +116,8 @@ class ConfigurationVariable(object):
     default = ""
     object = None
     references = {}
+    renderer = StringRenderer()
+    field = forms.CharField
 
     def __init__(self, object=None, references=None):
         """Initialise the configuration for the given object."""
@@ -67,9 +126,9 @@ class ConfigurationVariable(object):
             references = {}
         self.references = references
 
-    def field(self):
+    def django_field(self):
         """Get a form field representing this variable."""
-        return forms.CharField(initial=self.get())
+        return self.field(initial=self._raw_value())
 
     def _get_model(self):
         """Get the database model for this variable."""
@@ -86,12 +145,12 @@ class ConfigurationVariable(object):
                 key=convert_to_underscore(self.__class__.__name__)).first()
         return v
 
-    def as_string(self, value):
-        """Convert a value into a string for storage."""
-        return value
-
     def get(self):
         """Get the value of this variable."""
+        return self.renderer.render(self._raw_value())
+
+    def _raw_value(self):
+        """Get the raw value of this variable."""
         v = self._get_model()
         if not v:
             return self.default
@@ -110,7 +169,7 @@ class ConfigurationVariable(object):
             v = variable_model.objects.get_or_create(
                 content_type=None,
                 key=convert_to_underscore(self.__class__.__name__))[0]
-        v.value = self.as_string(value)
+        v.value = self.renderer.to_string(value)
         v.save()
 
 
@@ -125,76 +184,62 @@ class EmailField(CharField):
 
     """A validated email address field."""
 
-    def field(self):
-        """Get a form field representing this variable."""
-        return forms.EmailField(initial=self.get())
+    field = forms.EmailField
 
 
 class IntegerField(CharField):
 
     """An integer field."""
 
-    def field(self):
-        """Get a form field representing this variable."""
-        return forms.IntegerField(initial=self.get())
-
-    def get(self):
-        """Get the value of this variable."""
-        return int(super(IntegerField, self).get())
+    renderer = IntRenderer()
+    field = forms.IntegerField
 
 
 class URLField(CharField):
 
     """A url field."""
 
-    def field(self):
-        """Get a form field representing this variable."""
-        return forms.URLField(initial=self.get())
+    field = forms.URLField
 
 
 class BooleanField(ConfigurationVariable):
 
     """A boolean field."""
 
-    def field(self):
-        """Get a form field representing this variable."""
-        return forms.BooleanField(initial=self.get())
+    field = forms.BooleanField
 
 
 class ChoiceField(ConfigurationVariable):
 
     """A multiple choice field."""
 
-    def field(self):
+    field = forms.ChoiceField
+
+    def django_field(self):
         """Get a form field representing this variable."""
-        return forms.ChoiceField(choices=self.choices, initial=self.get())
+        return self.field(choices=self.choices, initial=self.get())
 
 
 class PropertiesField(ConfigurationVariable):
 
     """A field to configure custom properties and types."""
 
-    def field(self):
+    renderer = JSONRenderer()
+    field = PropertiesFormField
+
+    def django_field(self):
         """Get a form field representing this variable."""
-        return PropertiesFormField(initial=self.get())
-
-    def as_string(self, value):
-        """Convert a value into a string for storage."""
-        return json.dumps(value)
-
-    def get(self):
-        """Get the value of this variable."""
-        value = super(PropertiesField, self).get()
-        if value:
-            return json.loads(value)
-        return value
+        return self.field(initial=self.get())
 
 
 class CustomProperties(ConfigurationVariable):
 
     """A field to hold the values for custom properties."""
 
-    def field(self):
+    renderer = JSONRenderer()
+    field = CustomPropertiesFormField
+
+    def django_field(self):
         """Get multiple form fields representing the custom properties."""
         if hasattr(self, "configuration_variable_instance"):
             if self.configuration_variable_instance in self.references:
@@ -206,15 +251,4 @@ class CustomProperties(ConfigurationVariable):
                     "%s not found" % self.configuration_variable_instance)
         else:
             t = get_configuration(self.configuration_variable)
-        return CustomPropertiesFormField(initial=self.get(), fields=t)
-
-    def as_string(self, value):
-        """Convert a value into a string for storage."""
-        return json.dumps(value)
-
-    def get(self):
-        """Get the value of this variable."""
-        value = super(CustomProperties, self).get()
-        if value:
-            return json.loads(value)
-        return value
+        return self.field(initial=self.get(), fields=t)

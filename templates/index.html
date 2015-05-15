@@ -29,15 +29,13 @@
                         <h2 id="next"><a href="{% url "view_event" latest_event.pk %}">{{latest_event.heading}}</a></h2>
                         <div id="next-event">
                             <p>Our next event will be on {{latest_event.datetime}}</p>
+
+                            {{"events.event_configuration.Description"|get_configuration:latest_event}}
                             {% if user.is_authenticated %}
                                 {% if user|has_tickets:latest_event %}
                                     <div class="panel">
                                         <p>You have tickets for the {{latest_event}}. <a href="{% url "my_tickets" %}">View my tickets.</a></p>
                                     </div>
-
-                                    {% if latest_event.is_voting %}
-                                        {% include "events/_vote_widget.html" with event=latest_event %}
-                                    {% endif %}
                                 {% else %}
                                     {% include "events/_ticket_widget.html" with event=latest_event %}
                                 {% endif %}
@@ -52,7 +50,7 @@
                     {% else %}
                         <p id="recent-event">Our most recent event was the <a href="{% url "view_event" latest_event.pk %}">{{latest_event}}</a> on {{latest_event.datetime.date}}.</p>
 
-                        {% plugin_block "events.event_short" event %}
+                        {% plugin_block "events.event_short" latest_event %}
                     {% endif %}
                 {% else %}
                     <div id="no-events">
