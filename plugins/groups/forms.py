@@ -20,7 +20,7 @@ class GroupForm(ModelForm):
 
     team_name = forms.CharField(required=False)
     description = forms.CharField(required=False)
-    
+
     class Meta:
         model = Group
         fields = ['team_name', 'description']
