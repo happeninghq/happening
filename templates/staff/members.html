@@ -15,7 +15,7 @@
             <tr>
                 <td><a href="{% url "view_profile" member.pk %}">{{member.profile}}</a></td>
                 <td>{{member.email}}</td>
-                <td>
+                <td class="is_staff">
                     {% if member.is_staff %}
                         {% if member == request.user %}
                             True

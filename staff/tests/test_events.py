@@ -178,7 +178,7 @@ class TestEvents(TestCase):
 
         self.assertTrue("/staff/events/%s" % self.event.id in
                         response.redirect_chain[0][0])
-        
+
         self.assertEquals(3, len(response.soup.find("table").findAll("tr")))
 
     def test_check_in(self):
