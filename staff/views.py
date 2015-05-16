@@ -158,8 +158,6 @@ def add_attendee(request, pk):
     the ticket as being added late.
     """
     event = get_object_or_404(Event, pk=pk)
-    if event.is_future:
-        return redirect("staff_events")
 
     if request.method == "POST":
         user = get_object_or_404(

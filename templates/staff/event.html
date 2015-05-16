@@ -69,10 +69,9 @@
                         </tr>
                     {% endfor %}
                 </table>
+                
+                <a class="button" href="{% url "add_attendee" event.pk %}">Add Attendee</a>
 
-                {% if not event.is_future %}
-                    <a class="button" href="{% url "add_attendee" event.pk %}">Add Attendee</a>
-                {% endif %}
                 {% plugin_block "staff.event" event %}
             </div>
         </p>
