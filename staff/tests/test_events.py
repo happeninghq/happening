@@ -117,7 +117,7 @@ class TestEvents(TestCase):
 
         response = self.client.get("/staff/events/create")
 
-        response = self.client.post("/staff/events/%s/edit" % self.event.id, {
+        response = self.client.post("/staff/events/create", {
             "title": "NEW TITLE",
             "datetime": "2010-05-05 19:00:00",
             "available_tickets": "30",
@@ -130,7 +130,7 @@ class TestEvents(TestCase):
             "ticket_purchased_message": ".",
             "description": "."
         }, follow=True)
-        self.assertTrue("/staff/events/2" % self.event.id in
+        self.assertTrue("/staff/events" in
                         response.redirect_chain[0][0])
 
         event = Event.objects.get(pk=2)

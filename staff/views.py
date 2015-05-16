@@ -338,8 +338,8 @@ def edit_page(request, pk):
 @staff_member_required
 def delete_page(request, pk):
     """Delete page."""
-    # page = get_object_or_404(Page, pk=pk)
-    # TODO
+    page = get_object_or_404(Page, pk=pk)
+    page.delete()
     return redirect("staff_pages")
 
 
