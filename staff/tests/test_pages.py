@@ -32,7 +32,13 @@ class TestPages(TestCase):
     def test_create_page(self):
         """Test creating pages."""
         self.client.login(username=self.user.username, password="password")
-        pass
+
+        response = self.client.get("/staff/pages/create")
+        self.assertEquals(response.status_code, 200)
+
+        response = self.client.post("/staff/pages/create", {
+
+        })
 
     def test_edit_page(self):
         """Test editing pages."""
