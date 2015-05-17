@@ -41,13 +41,13 @@ class TestLayout(TestCase):
 
     def test_previous_events(self):
         """Test is lists previous events in the correct order."""
-        later_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        later_event = mommy.make("Event", start=datetime.now(pytz.utc) -
                                  timedelta(days=20))
         response = self.client.get("/")
         self.assertEqual(1, len(
             response.soup.find(id="events-list").findAll(
                 "li", {"class": "event"})))
-        earlier_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        earlier_event = mommy.make("Event", start=datetime.now(pytz.utc) -
                                    timedelta(days=50))
         response = self.client.get("/")
         lis = response.soup.find(id="events-list").findAll(
@@ -62,7 +62,7 @@ class TestLayout(TestCase):
 
         # Check that it only shows five
         for i in range(10):
-            mommy.make("Event", datetime=datetime.now(pytz.utc) -
+            mommy.make("Event", start=datetime.now(pytz.utc) -
                        timedelta(days=i * 13))
 
         response = self.client.get("/")

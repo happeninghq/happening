@@ -20,7 +20,7 @@ class TestEvents(TestCase):
         self.user.set_password("password")
         self.user.save()
 
-        self.event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        self.event = mommy.make("Event", start=datetime.now(pytz.utc) +
                                 timedelta(days=2), available_tickets=30)
 
     def test_send_email(self):
@@ -57,7 +57,7 @@ class TestEvents(TestCase):
         # We should have the title row and then 1 row for an event
         self.assertEquals(2, len(response.soup.find("table").findAll("tr")))
         for i in range(10):
-            mommy.make("Event", datetime=datetime.now(pytz.utc) +
+            mommy.make("Event", start=datetime.now(pytz.utc) +
                        timedelta(days=i), available_tickets=30)
 
         response = self.client.get("/staff/events")
@@ -94,7 +94,7 @@ class TestEvents(TestCase):
 
         response = self.client.post("/staff/events/%s/edit" % self.event.id, {
             "title": "NEW TITLE",
-            "datetime": "2010-05-05 19:00:00",
+            "start": "2010-05-05 19:00:00",
             "available_tickets": "30",
             "challenge_language": "",
             "challenge_title": "",
@@ -119,7 +119,7 @@ class TestEvents(TestCase):
 
         response = self.client.post("/staff/events/create", {
             "title": "NEW TITLE",
-            "datetime": "2010-05-05 19:00:00",
+            "start": "2010-05-05 19:00:00",
             "available_tickets": "30",
             "challenge_language": "",
             "challenge_title": "",

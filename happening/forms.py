@@ -117,3 +117,36 @@ class EpicEditorField(forms.CharField):
     """A field that uses an EpicEditor markdown editor."""
 
     widget = EpicEditorWidget
+
+
+class DateTimeWidget(forms.TextInput):
+
+    """A widget that adds a DateTime Picker."""
+
+    def render(self, name, value, attrs):
+        """Render the widget."""
+        attrs['class'] = 'datetime-widget ' + attrs.get('class', '')
+        attrs['data-datetime-format'] = 'Y-m-d H:i:00'
+        return super(DateTimeWidget, self).render(name, value, attrs)
+
+
+class DateWidget(forms.TextInput):
+
+    """A widget that adds a Date Picker."""
+
+    def render(self, name, value, attrs):
+        """Render the widget."""
+        attrs['class'] = 'date-widget ' + attrs.get('class', '')
+        attrs['data-date-format'] = 'Y-m-d'
+        return super(DateWidget, self).render(name, value, attrs)
+
+
+class TimeWidget(forms.TextInput):
+
+    """A widget that adds a time Picker."""
+
+    def render(self, name, value, attrs):
+        """Render the widget."""
+        attrs['class'] = 'time-widget ' + attrs.get('class', '')
+        attrs['data-time-format'] = 'H:i'
+        return super(DateWidget, self).render(name, value, attrs)

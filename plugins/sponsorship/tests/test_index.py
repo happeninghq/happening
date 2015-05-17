@@ -23,7 +23,7 @@
 
 #     def test_index_future_sponsor(self):
 #         """Test it displays correctly when a future event has a sponsor."""
-#         mommy.make("Event", datetime=datetime.now(pytz.utc) +
+#         mommy.make("Event", start=datetime.now(pytz.utc) +
 #                    timedelta(days=20), sponsor=mommy.make("Sponsor"))
 #         response = self.client.get("/")
 #         sponsor_info = response.soup.find(id="sponsors")
@@ -33,7 +33,7 @@
 
 #     def test_index_past_sponsor(self):
 #         """Test it displays correctly when a past event has a sponsor."""
-#         mommy.make("Event", datetime=datetime.now(pytz.utc) -
+#         mommy.make("Event", start=datetime.now(pytz.utc) -
 #                    timedelta(days=20), sponsor=mommy.make("Sponsor"))
 #         response = self.client.get("/")
 #         sponsor_info = response.soup.find(id="sponsors")

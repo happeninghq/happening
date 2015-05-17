@@ -17,7 +17,7 @@ class TestEventView(TestCase):
 
     def test_future_event(self):
         """Test view for an event in the future."""
-        future_event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        future_event = mommy.make("Event", start=datetime.now(pytz.utc) +
                                   timedelta(days=20), available_tickets=30)
         response = self.client.get("/events/%s" % future_event.id)
         self.assertEquals(response.status_code, 200)
@@ -28,9 +28,9 @@ class TestEventView(TestCase):
 
     def test_past_event(self):
         """Test view for an event in the past."""
-        empty_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        empty_event = mommy.make("Event", start=datetime.now(pytz.utc) -
                                  timedelta(days=20))
-        filled_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        filled_event = mommy.make("Event", start=datetime.now(pytz.utc) -
                                   timedelta(days=20),
                                   challenge_text=generators.gen_text(),
                                   solution_text=generators.gen_text(),
@@ -66,7 +66,7 @@ class TestEventView(TestCase):
 
     # def test_event_solutions(self):
     #     """Test that the view shows the correct event solutions."""
-    #     event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+    #     event = mommy.make("Event", start=datetime.now(pytz.utc) -
     #                        timedelta(days=20))
 
     #     # No solutions should have no list
@@ -87,7 +87,7 @@ class TestEventView(TestCase):
 
     # def test_event_solutions_order(self):
     #     """Test that the view shows the correctly ordered solutions."""
-    #     event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+    #     event = mommy.make("Event", start=datetime.now(pytz.utc) -
     #                        timedelta(days=20))
 
     #     # Create a solution, ensure it appears in the list

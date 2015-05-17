@@ -19,7 +19,7 @@ class TestIndex(TestCase):
 
     def test_latest_event_future(self):
         """Test it renders the latest event in the future."""
-        mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        mommy.make("Event", start=datetime.now(pytz.utc) +
                    timedelta(days=20))
         response = self.client.get("/")
         self.assertIsNotNone(response.soup.find(id="next-event"))
@@ -28,7 +28,7 @@ class TestIndex(TestCase):
 
     def test_latest_event_past(self):
         """Test it renders the latest event in the past."""
-        mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        mommy.make("Event", start=datetime.now(pytz.utc) -
                    timedelta(days=20))
         response = self.client.get("/")
         self.assertIsNotNone(response.soup.find(id="recent-event"))

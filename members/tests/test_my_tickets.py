@@ -18,10 +18,10 @@ class TestMyTickets(TestCase):
         self.user.set_password("password")
         self.user.save()
 
-        self.past_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        self.past_event = mommy.make("Event", start=datetime.now(pytz.utc) -
                                      timedelta(days=20))
         self.future_event = mommy.make("Event",
-                                       datetime=datetime.now(pytz.utc) +
+                                       start=datetime.now(pytz.utc) +
                                        timedelta(days=20))
 
         self.ticket1 = mommy.make("Ticket", event=self.past_event,

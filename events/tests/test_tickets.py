@@ -25,7 +25,7 @@ class TestTickets(TestCase):
 
     def test_buy_tickets(self):
         """Test that we can buy tickets."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         user = mommy.make(settings.AUTH_USER_MODEL)
         self.assertEqual(30, event.remaining_tickets)
@@ -40,7 +40,7 @@ class TestTickets(TestCase):
 
     def test_buy_passed_deadline(self):
         """Test that we can't buy tickets past the deadline."""
-        past_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        past_event = mommy.make("Event", start=datetime.now(pytz.utc) -
                                 timedelta(days=20), available_tickets=30)
         user = mommy.make(settings.AUTH_USER_MODEL)
 
@@ -51,7 +51,7 @@ class TestTickets(TestCase):
 
     def test_buy_tickets_sold_out(self):
         """Test that we can't buy tickets once they are sold out."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=1)
         user = mommy.make(settings.AUTH_USER_MODEL)
 
@@ -66,7 +66,7 @@ class TestTickets(TestCase):
 
     def test_edit_tickets(self):
         """Test that we can edit tickets."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         user = mommy.make(settings.AUTH_USER_MODEL)
 
@@ -93,7 +93,7 @@ class TestTickets(TestCase):
 
         # Test that we can't edit tickets passed the deadline
 
-        event.datetime = datetime.now(pytz.utc) - timedelta(days=20)
+        event.start = datetime.now(pytz.utc) - timedelta(days=20)
         event.save()
 
         with self.assertRaises(EventFinishedError):
@@ -101,7 +101,7 @@ class TestTickets(TestCase):
 
     def test_edit_tickets_zero(self):
         """Test editing a ticket to 0 cancels it."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         user = mommy.make(settings.AUTH_USER_MODEL)
 
@@ -116,7 +116,7 @@ class TestTickets(TestCase):
 
     def test_edit_cancelled_ticket(self):
         """Test editing a cancelled ticket."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         user = mommy.make(settings.AUTH_USER_MODEL)
 
@@ -128,7 +128,7 @@ class TestTickets(TestCase):
 
     def test_cancel_tickets(self):
         """Test that we can cancel tickets."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         user = mommy.make(settings.AUTH_USER_MODEL)
 
@@ -148,7 +148,7 @@ class TestTickets(TestCase):
 
         # Test that we can't cancel tickets passed the deadline
         ticket = event.buy_ticket(user, tickets=5)
-        event.datetime = datetime.now(pytz.utc) - timedelta(days=20)
+        event.start = datetime.now(pytz.utc) - timedelta(days=20)
         event.save()
 
         with self.assertRaises(EventFinishedError):

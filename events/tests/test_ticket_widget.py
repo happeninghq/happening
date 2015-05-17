@@ -12,7 +12,7 @@ class TestTicketWidget(TestCase):
 
     def test_remaining_tickets(self):
         """Test that remaining_tickets works."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         response = self.client.get("/")
         widget = response.soup.find("div", {"class": "ticket-purchase"})
@@ -40,17 +40,17 @@ class TestTicketWidget(TestCase):
 
     def test_end_date(self):
         """Test that the end date is shown correctly."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         response = self.client.get("/")
         widget = response.soup.find("div", {"class": "ticket-purchase"})
         end_date = widget.find("td", {"class": "end-date"}).text
-        self.assertEqual(event.datetime.strftime("%B %-d, %Y"),
+        self.assertEqual(event.start.strftime("%B %-d, %Y"),
                          end_date.strip())
 
     def test_past_event(self):
         """Test that we can't buy tickets past the deadline."""
-        mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        mommy.make("Event", start=datetime.now(pytz.utc) -
                    timedelta(days=20), available_tickets=30)
         response = self.client.get("/")
         widget = response.soup.find("div", {"class": "ticket-purchase"})
@@ -58,7 +58,7 @@ class TestTicketWidget(TestCase):
 
     # def test_quantity(self):
     #     """Test that the quantity box doesn't allow > remainging tickets."""
-    #     event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+    #     event = mommy.make("Event", start=datetime.now(pytz.utc) +
     #                        timedelta(days=20), available_tickets=30)
     #     response = self.client.get("/")
     #     widget = response.soup.find("div", {"class": "ticket-purchase"})
@@ -71,7 +71,7 @@ class TestTicketWidget(TestCase):
 
     def test_sold_out(self):
         """Test that we can't buy tickets once they are sold out."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         # First check that the register button is visible
         response = self.client.get("/")
@@ -97,7 +97,7 @@ class TestTicketWidget(TestCase):
         member2.set_password("password")
         member2.save()
 
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
 
         # Check that there are no attendees listed

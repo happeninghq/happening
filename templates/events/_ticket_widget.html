@@ -23,7 +23,7 @@
                             {{event.remaining_tickets}} Ticket{{event.remaining_tickets|pluralize:",s"}}
                         {% endif %}
                     </td>
-                    <td class="end-date">{{event.datetime.date}}</td>
+                    <td class="end-date">{{event.start.date}}</td>
                     <td>Free</td>
                     <td>
                         {% if event.remaining_tickets > 0 %}

@@ -60,7 +60,7 @@ def tickets_purchased(request, pk):
 
 def events(request):
     """List events."""
-    events = Event.objects.all().order_by("-datetime")
+    events = Event.objects.all().order_by("-start")
     return render(request, "events/events.html",
                   {"all_events": events})
 

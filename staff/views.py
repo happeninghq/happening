@@ -68,7 +68,7 @@ def make_not_staff(request, pk):
 @staff_member_required
 def events(request):
     """Administrate events."""
-    events = Event.objects.all().order_by('-datetime')
+    events = Event.objects.all().order_by('-start')
     paginator = Paginator(events, 10)
 
     page = request.GET.get('page')

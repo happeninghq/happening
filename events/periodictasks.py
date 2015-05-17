@@ -15,11 +15,11 @@ def send_event_notifications():
     second_notification_cutoff = datetime.now(pytz.utc) + \
         timedelta(hours=settings.SECOND_NOTIFICATION_TIME)
     upcoming_events = Event.objects.filter(
-        datetime__gt=datetime.now(pytz.utc),
-        datetime__lt=first_notification_cutoff)
+        start__gt=datetime.now(pytz.utc),
+        start__lt=first_notification_cutoff)
 
     for event in upcoming_events:
-        if event.datetime < second_notification_cutoff and \
+        if event.start < second_notification_cutoff and \
                 not event.upcoming_notification_2_sent:
             event.send_upcoming_notification_2()
         elif not event.upcoming_notification_1_sent:

@@ -16,13 +16,13 @@ class TestPreviousEvents(TestCase):
         self.assertEqual(
             0, len(response.soup.find(id="all-events").findAll("li")))
 
-        later_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        later_event = mommy.make("Event", start=datetime.now(pytz.utc) -
                                  timedelta(days=20))
         response = self.client.get("/events/")
         self.assertEqual(1, len(
             response.soup.find(id="all-events").findAll(
                 "li")))
-        earlier_event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        earlier_event = mommy.make("Event", start=datetime.now(pytz.utc) -
                                    timedelta(days=50))
         response = self.client.get("/events/")
         lis = response.soup.find(id="all-events").findAll(
@@ -37,7 +37,7 @@ class TestPreviousEvents(TestCase):
 
         # Check that it only shows five
         for i in range(10):
-            mommy.make("Event", datetime=datetime.now(pytz.utc) -
+            mommy.make("Event", start=datetime.now(pytz.utc) -
                        timedelta(days=i * 13))
 
         response = self.client.get("/events/")

@@ -20,7 +20,7 @@ class TestPostEventUpdating(TestCase):
 
     def test_future_event(self):
         """Test that update details doesn't appear for future event."""
-        future_event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        future_event = mommy.make("Event", start=datetime.now(pytz.utc) +
                                   timedelta(days=20), available_tickets=30)
         mommy.make("Ticket", event=future_event, user=self.user, number=1)
         self.client.login(username=self.user.username, password="password")
@@ -33,7 +33,7 @@ class TestPostEventUpdating(TestCase):
 
     # def test_set_group(self):
     #     """Test that a member can set the group they were part of."""
-    #     event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+    #     event = mommy.make("Event", start=datetime.now(pytz.utc) -
     #                        timedelta(days=20), available_tickets=30)
     #     mommy.make("Ticket", event=event, user=self.user, number=1)
     #     self.client.login(username=self.user.username, password="password")
@@ -55,7 +55,7 @@ class TestPostEventUpdating(TestCase):
 
     # def test_update_group(self):
     #     """Test updating group."""
-    #     event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+    #     event = mommy.make("Event", start=datetime.now(pytz.utc) -
     #                        timedelta(days=20), available_tickets=30)
     #     mommy.make("Ticket", event=event, user=self.user, number=1)
     #     self.client.login(username=self.user.username, password="password")
@@ -81,7 +81,7 @@ class TestPostEventUpdating(TestCase):
 
     # def test_group_already_updated(self):
     #     """Test that we can't update a group a second time."""
-    #     event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+    #     event = mommy.make("Event", start=datetime.now(pytz.utc) -
     #                        timedelta(days=20), available_tickets=30)
     #     mommy.make("Ticket", event=event, user=self.user, number=1)
     #     self.client.login(username=self.user.username, password="password")
@@ -105,7 +105,7 @@ class TestPostEventUpdating(TestCase):
 
     # def test_did_not_attend(self):
     #     """Test that marking did not attent does not allow update group."""
-    #     event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+    #     event = mommy.make("Event", start=datetime.now(pytz.utc) -
     #                        timedelta(days=20), available_tickets=30)
     #     mommy.make("Ticket", event=event, user=self.user, number=1)
     #     self.client.login(username=self.user.username, password="password")

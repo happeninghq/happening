@@ -29,10 +29,10 @@ class EventManager(models.Manager):
         if there are no future events.
         """
         next_event = self.all().filter(
-            datetime__gte=timezone.now()).order_by("datetime").first()
+            start__gte=timezone.now()).order_by("start").first()
         if next_event:
             return next_event
-        return self.all().order_by("-datetime").first()
+        return self.all().order_by("-start").first()
 
 
 class Event(models.Model):
@@ -41,7 +41,8 @@ class Event(models.Model):
 
     objects = EventManager()
 
-    datetime = models.DateTimeField()
+    start = models.DateTimeField()
+    end = models.DateTimeField(null=True)
 
     title = models.CharField(max_length=255)
 
@@ -72,10 +73,10 @@ class Event(models.Model):
     def time_to_string(self):
         """Return the event time as a humanized string."""
         now = datetime.now(pytz.utc).date()
-        other_date = self.datetime.date()
+        other_date = self.start.date()
 
-        datestr = custom_strftime("%A %B {S}, %Y", self.datetime)
-        shortdate = "(%s)" % custom_strftime("{S}", self.datetime)
+        datestr = custom_strftime("%A %B {S}, %Y", self.start)
+        shortdate = "(%s)" % custom_strftime("{S}", self.start)
 
         if now == other_date:
             datestr = "today %s" % shortdate
@@ -88,16 +89,16 @@ class Event(models.Model):
         elif now > other_date > now - timedelta(days=7):
             datestr = "last " + other_date.strftime("%A") + " %s" % shortdate
 
-        time = self.datetime.strftime("%I:%M%p").lstrip("0")
-        if self.datetime.minute == 0:
-            time = self.datetime.strftime("%I%p").lstrip("0")
+        time = self.start.strftime("%I:%M%p").lstrip("0")
+        if self.start.minute == 0:
+            time = self.start.strftime("%I%p").lstrip("0")
         return datestr + " at " + time
 
     @property
     def previous_event(self):
         """Return the event immediately prior to this one."""
         return Event.objects.all().filter(
-            datetime__lt=self.datetime).order_by("-datetime").first()
+            start__lt=self.start).order_by("-start").first()
 
     @property
     def is_voting(self):
@@ -141,7 +142,7 @@ class Event(models.Model):
     @property
     def is_future(self):
         """Return True if this event is in the future. False otherwise."""
-        return self.datetime > timezone.now()
+        return self.start > timezone.now()
 
     def challenge(self):
         """Return the language and challenge if available."""
@@ -165,7 +166,7 @@ class Event(models.Model):
 
     def month_year(self):
         """Return the month and year."""
-        return self.datetime.strftime("%B %Y")
+        return self.start.strftime("%B %Y")
 
     def buy_ticket(self, user, tickets=1):
         """Buy the given number of tickets for the given user."""

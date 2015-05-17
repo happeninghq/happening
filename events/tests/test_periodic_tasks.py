@@ -20,7 +20,7 @@ class TestPeriodicTasks(TestCase):
 
     def test_doesnt_send_reminder_more_than_one_week(self):
         """Test that no reminder is sent more than 1 week in advance."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=9))  # +1 day as we send at 10am
         event.buy_ticket(self.user, tickets=5)
         mail.outbox = []  # Remove purchase email
@@ -29,7 +29,7 @@ class TestPeriodicTasks(TestCase):
 
     def test_doesnt_send_to_cancelled_tickets(self):
         """Test that no reminder is sent for cancelled tickets."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=3))
         ticket = event.buy_ticket(self.user, tickets=5)
         ticket.cancel()
@@ -39,7 +39,7 @@ class TestPeriodicTasks(TestCase):
 
     def test_sends_reminder_email_one_week_in_advance(self):
         """Test that the 1 week reminder is sent."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=6))
         event.buy_ticket(self.user, tickets=5)
         mail.outbox = []  # Remove purchase email
@@ -49,7 +49,7 @@ class TestPeriodicTasks(TestCase):
 
     def test_sends_reminder_email_one_day_in_advance(self):
         """Test that the 1 day reminder is sent."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(hours=26))
         event.buy_ticket(self.user, tickets=5)
         mail.outbox = []  # Remove purchase email
@@ -59,7 +59,7 @@ class TestPeriodicTasks(TestCase):
 
     def test_sends_only_single_email_at_a_time(self):
         """Test that it will only send the most recent notification."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=6))
         event.buy_ticket(self.user, tickets=5)
         mail.outbox = []  # Remove purchase email
@@ -69,7 +69,7 @@ class TestPeriodicTasks(TestCase):
 
     def test_sends_emails_to_all_attendees(self):
         """Test that multiple attendees recieve the emails."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=6))
         user2 = mommy.make(settings.AUTH_USER_MODEL, email="test2@example.com")
         event.buy_ticket(self.user)
@@ -80,18 +80,18 @@ class TestPeriodicTasks(TestCase):
 
     def test_only_sends_reminder_for_future_events(self):
         """Test that past events do not trigger emails."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=1))
         event.buy_ticket(self.user, tickets=5)
         mail.outbox = []  # Remove purchase email
-        event.datetime = datetime.now(pytz.utc) - timedelta(days=1)
+        event.start = datetime.now(pytz.utc) - timedelta(days=1)
         event.save()
         send_event_notifications()
         self.assertEqual(0, len(mail.outbox))
 
     def test_only_sends_one_email_at_a_time(self):
         """Test that repeated send_event_notifications will not stack."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=1))
         event.buy_ticket(self.user, tickets=5)
         mail.outbox = []  # Remove purchase email
@@ -103,7 +103,7 @@ class TestPeriodicTasks(TestCase):
 
     def test_only_sends_one_notification_for_multiple_purchases(self):
         """Test that one user with two purchases only recieves one email."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) +
+        event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=6))
         event.buy_ticket(self.user, tickets=5)
         mail.outbox = []  # Remove purchase email

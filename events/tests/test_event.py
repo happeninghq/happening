@@ -18,18 +18,18 @@ class TestEvent(TestCase):
 
     def test_is_future(self):
         """Test that is_future works."""
-        past_event = mommy.prepare("Event", datetime=datetime.now(pytz.utc) -
+        past_event = mommy.prepare("Event", start=datetime.now(pytz.utc) -
                                    timedelta(days=20))
         self.assertFalse(past_event.is_future)
-        future_event = mommy.prepare("Event", datetime=datetime.now(pytz.utc) +
+        future_event = mommy.prepare("Event", start=datetime.now(pytz.utc) +
                                      timedelta(days=20))
         self.assertTrue(future_event.is_future)
 
     def test_humanize_1(self):
         """Test that time_to_string humanizes correctly 1."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=MO))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 0:
             self.assertEquals(event.time_to_string, "today (%s) at 7PM" % e)
         elif self.today_day == 6:
@@ -40,9 +40,9 @@ class TestEvent(TestCase):
 
     def test_humanize_2(self):
         """Test that time_to_string humanizes correctly 2."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=TU))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 1:
             self.assertEquals(event.time_to_string, "today (%s) at 7PM" % e)
         elif self.today_day == 0:
@@ -53,9 +53,9 @@ class TestEvent(TestCase):
 
     def test_humanize_3(self):
         """Test that time_to_string humanizes correctly 3."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=WE))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 2:
             self.assertEquals(event.time_to_string, "today (%s) at 7PM" % e)
         elif self.today_day == 1:
@@ -66,9 +66,9 @@ class TestEvent(TestCase):
 
     def test_humanize_4(self):
         """Test that time_to_string humanizes correctly 4."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=TH))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 3:
             self.assertEquals(event.time_to_string, "today (%s) at 7PM" % e)
         elif self.today_day == 2:
@@ -79,9 +79,9 @@ class TestEvent(TestCase):
 
     def test_humanize_5(self):
         """Test that time_to_string humanizes correctly 5."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=FR))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 4:
             self.assertEquals(event.time_to_string, "today (%s) at 7PM" % e)
         elif self.today_day == 3:
@@ -92,9 +92,9 @@ class TestEvent(TestCase):
 
     def test_humanize_6(self):
         """Test that time_to_string humanizes correctly 6."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=SA))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 5:
             self.assertEquals(event.time_to_string, "today (%s) at 7PM" % e)
         elif self.today_day == 4:
@@ -105,9 +105,9 @@ class TestEvent(TestCase):
 
     def test_humanize_7(self):
         """Test that time_to_string humanizes correctly 7."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=SU))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 6:
             self.assertEquals(event.time_to_string, "today (%s) at 7PM" % e)
         elif self.today_day == 5:
@@ -118,9 +118,9 @@ class TestEvent(TestCase):
 
     def test_humanize_8(self):
         """Test that time_to_string humanizes correctly 8."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=MO(-1)))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 0:
             self.assertEquals(event.time_to_string, "today (%s) at 7PM" % e)
         elif self.today_day == 1:
@@ -132,9 +132,9 @@ class TestEvent(TestCase):
 
     def test_humanize_9(self):
         """Test that time_to_string humanizes correctly 9."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=TU(-1)))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 1:
             self.assertEquals(event.time_to_string, "today (%s) at 7PM" % e)
         elif self.today_day == 2:
@@ -146,9 +146,9 @@ class TestEvent(TestCase):
 
     def test_humanize_10(self):
         """Test that time_to_string humanizes correctly 10."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=WE(-1)))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 2:
             self.assertEquals(event.time_to_string, "today (%s) at 7PM" % e)
         elif self.today_day == 3:
@@ -160,9 +160,9 @@ class TestEvent(TestCase):
 
     def test_humanize_11(self):
         """Test that time_to_string humanizes correctly 11."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=TH(-1)))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 3:
             self.assertEquals(event.time_to_string, "today (%s) at 7PM" % e)
         elif self.today_day == 4:
@@ -174,9 +174,9 @@ class TestEvent(TestCase):
 
     def test_humanize_12(self):
         """Test that time_to_string humanizes correctly 12."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=FR(-1)))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 4:
             self.assertEquals(event.time_to_string, "today (%s) at 7PM" % e)
         elif self.today_day == 5:
@@ -188,9 +188,9 @@ class TestEvent(TestCase):
 
     def test_humanize_13(self):
         """Test that time_to_string humanizes correctly 13."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=SA(-1)))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 5:
             self.assertEquals(event.time_to_string, "today (%s) at 7PM" % e)
         elif self.today_day == 6:
@@ -202,9 +202,9 @@ class TestEvent(TestCase):
 
     def test_humanize_14(self):
         """Test that time_to_string humanizes correctly 14."""
-        event = mommy.prepare("Event", datetime=datetime.now(pytz.utc).replace(
+        event = mommy.prepare("Event", start=datetime.now(pytz.utc).replace(
             hour=19, minute=0) + relativedelta(weekday=SU(-1)))
-        e = custom_strftime("{S}", event.datetime)
+        e = custom_strftime("{S}", event.start)
         if self.today_day == 6:
             self.assertEquals(event.time_to_string,
                               "today (%s) at 7PM" % e)
@@ -215,34 +215,34 @@ class TestEvent(TestCase):
             self.assertEquals(event.time_to_string,
                               "last Sunday (%s) at 7PM" % e)
 
-        event = mommy.prepare("Event", datetime=datetime(2011, 01, 01))
+        event = mommy.prepare("Event", start=datetime(2011, 01, 01))
         self.assertEquals(event.time_to_string,
                           "Saturday January 1st, 2011 at 12AM")
 
-        event = mommy.prepare("Event", datetime=datetime(2011, 01, 01, 7, 30))
+        event = mommy.prepare("Event", start=datetime(2011, 01, 01, 7, 30))
         self.assertEquals(event.time_to_string,
                           "Saturday January 1st, 2011 at 7:30AM")
 
     def test_previous_event(self):
         """Test that previous event returns correctly."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        event = mommy.make("Event", start=datetime.now(pytz.utc) -
                            timedelta(days=2))
 
         self.assertEquals(event.previous_event, None)
 
-        event2 = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        event2 = mommy.make("Event", start=datetime.now(pytz.utc) -
                             timedelta(days=4))
 
         self.assertEquals(event.previous_event, event2)
 
-        mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        mommy.make("Event", start=datetime.now(pytz.utc) -
                    timedelta(days=6))
 
         self.assertEquals(event.previous_event, event2)
 
     def test_winning_language(self):
         """Test that winning language works."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        event = mommy.make("Event", start=datetime.now(pytz.utc) -
                            timedelta(days=2))
 
         mommy.make("Ticket", event=event, number=1, votes=["A", "B"])
@@ -258,9 +258,9 @@ class TestEvent(TestCase):
 
     def test_winning_language_ignore(self):
         """Test that winning language ignores last month's language."""
-        event = mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        event = mommy.make("Event", start=datetime.now(pytz.utc) -
                            timedelta(days=2))
-        mommy.make("Event", datetime=datetime.now(pytz.utc) -
+        mommy.make("Event", start=datetime.now(pytz.utc) -
                    timedelta(days=4), challenge_language="A")
 
         mommy.make("Ticket", event=event, number=1, votes=["A", "B"])

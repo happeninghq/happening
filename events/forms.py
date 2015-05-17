@@ -3,6 +3,7 @@
 from django import forms
 from django.forms import ModelForm
 from models import Event
+from happening.forms import DateTimeWidget
 
 
 class TicketForm(forms.Form):
@@ -29,9 +30,12 @@ class EventForm(ModelForm):
 
     """Form for creating/editing events."""
 
+    start = forms.DateTimeField(widget=DateTimeWidget())
+    end = forms.DateTimeField(widget=DateTimeWidget(), required=False)
+
     class Meta:
         model = Event
-        fields = ['title', 'datetime', 'available_tickets',
+        fields = ['title', 'start', 'end', 'available_tickets',
                   'challenge_language', 'challenge_title',
                   'challenge_text', 'solution_text', 'image']
 
