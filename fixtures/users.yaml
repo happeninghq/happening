@@ -4,7 +4,7 @@
     first_name: admin
     last_name: admin
     username: admin
-    email: admin@southamptoncodedojo.com
+    email: admin@happening.com
     password: sha1$aaac6$37fae882af0912ced5577ed0f512b4014b9c8551
     is_active: True
     is_superuser: True
