@@ -7,13 +7,15 @@
     <table style="width: 100%;">
         <tr>
             <th>Name</th>
-            <th>Date</th>
+            <th>Start</th>
+            <th>End</th>
             <th>Tickets Sold</th>
         </tr>
         {% for event in events %}
             <tr>
                 <td><a href="{% url "staff_event" event.pk %}">{{event}}</a></td>
                 <td>{{event.start}}</td>
+                <td>{% if event.end %}{{event.end}}{% endif %}</td>
                 <td>{{event.taken_tickets}} of {{event.available_tickets}}</td>
             </tr>
         {% endfor %}

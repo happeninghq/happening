@@ -144,6 +144,17 @@ class Event(models.Model):
         """Return True if this event is in the future. False otherwise."""
         return self.start > timezone.now()
 
+    @property
+    def date_range(self):
+        """Return the formatted date range."""
+        if self.end:
+            if self.start.date() == self.end.date():
+                return self.start.strftime("%b. %d, %Y, %H:%M") +\
+                    "-" + self.start.strftime("%H:%M")
+            return self.start.strftime("%b. %d, %Y, %H:%M") +\
+                '-' + self.end.strftime("%b. %d, %Y, %H:%M")
+        return self.start.strftime("%b. %d, %Y, %H:%M")
+
     def challenge(self):
         """Return the language and challenge if available."""
         if self.challenge_language and self.challenge_title:
