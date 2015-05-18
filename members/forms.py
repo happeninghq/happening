@@ -2,6 +2,7 @@
 """Profile form."""
 
 from django import forms
+from happening.forms import EpicEditorWidget
 from django.contrib.auth import get_user_model
 
 
@@ -11,7 +12,7 @@ class ProfileForm(forms.Form):
 
     first_name = forms.CharField()
     last_name = forms.CharField()
-    bio = forms.CharField(widget=forms.Textarea(), required=False)
+    bio = forms.CharField(widget=EpicEditorWidget(), required=False)
     show_facebook_urls = forms.BooleanField(label="Show Facebook Profiles",
                                             required=False)
     show_github_urls = forms.BooleanField(label="Show Github Profiles",
