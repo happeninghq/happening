@@ -7,7 +7,6 @@ from events.forms import EventForm
 from pages.models import Page
 from pages.forms import PageForm
 from forms import EmailForm
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 import json
 from admin.notifications import AdminEventMessageNotification
@@ -29,17 +28,6 @@ def index(request):
 def members(request):
     """Administrate members."""
     members = get_user_model().objects.all()
-    paginator = Paginator(members, 10)
-
-    page = request.GET.get('page')
-    try:
-        members = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        members = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        members = paginator.page(paginator.num_pages)
     return render(request, "staff/members.html", {"members": members})
 
 
@@ -69,17 +57,6 @@ def make_not_staff(request, pk):
 def events(request):
     """Administrate events."""
     events = Event.objects.all().order_by('-start')
-    paginator = Paginator(events, 10)
-
-    page = request.GET.get('page')
-    try:
-        events = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        events = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        events = paginator.page(paginator.num_pages)
     return render(request, "staff/events.html", {"events": events})
 
 
@@ -307,17 +284,6 @@ def get_vote_winner(request, pk):
 def pages(request):
     """Administrate pages."""
     pages = Page.objects.all()
-    paginator = Paginator(pages, 10)
-
-    page = request.GET.get('page')
-    try:
-        pages = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        pages = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        pages = paginator.page(paginator.num_pages)
     return render(request, "staff/pages.html", {"pages": pages})
 
 

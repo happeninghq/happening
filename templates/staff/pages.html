@@ -3,23 +3,27 @@
 {% block staff_content %}
     <a class="button" href="{% url "create_page" %}">New Page</a>
 
-    <table style="width: 100%;">
-        <tr>
-            <th>Title</th>
-            <th>URL</th>
-            <th>Path</th>
-            <th></th>
-            <th></th>
-        </tr>
-        {% for page in pages %}
+    <table class="data-table">
+        <thead>
             <tr>
-                <td><a href="{% url "view_page" page.url %}">{{page.title}}</a></td>
-                <td>{{page.url}}</td>
-                <td>{% if page.path %}{{page.path}}{% endif %}</td>
-                <td><a class="edit_page" href="{% url "edit_page" page.pk %}">Edit</a></td>
-                <td><a class="delete_page" href="{% url "delete_page" page.pk %}">Delete</a></td>
+                <th>Title</th>
+                <th>URL</th>
+                <th>Path</th>
+                <th></th>
+                <th></th>
             </tr>
-        {% endfor %}
+        </thead>
+        <tbody>
+            {% for page in pages %}
+                <tr>
+                    <td><a href="{% url "view_page" page.url %}">{{page.title}}</a></td>
+                    <td>{{page.url}}</td>
+                    <td>{% if page.path %}{{page.path}}{% endif %}</td>
+                    <td><a class="edit_page" href="{% url "edit_page" page.pk %}">Edit</a></td>
+                    <td><a class="delete_page" href="{% url "delete_page" page.pk %}">Delete</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
 
 

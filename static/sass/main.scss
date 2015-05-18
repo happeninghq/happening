@@ -6,6 +6,7 @@ $fi-path: "../../foundation-icon-fonts/";
 @import "../bower_components/foundation-icon-fonts/foundation-icons";
 @import "config.scss";
 @import "../../datetimepicker/jquery.datetimepicker.css";
+@import "../../lib/datatables.foundation/datatables.foundation.css";
 
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -327,6 +328,9 @@ p {
     width: 100%;
 }
 
+.data-table {
+    width: 100%;
+}
 
 // Sponsors
 #community_sponsors {

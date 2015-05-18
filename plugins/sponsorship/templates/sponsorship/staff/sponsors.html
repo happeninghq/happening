@@ -3,32 +3,20 @@
 {% block staff_content %}
     <a class="button" href="{% url "create_sponsor" %}">New Sponsor</a>
 
-    <table style="width: 100%;">
-        <tr>
-            <th>Name</th>
-            <th>Sponsored Events</th>
-        </tr>
-        {% for sponsor in sponsors %}
+    <table class="data-table">
+        <thead>
             <tr>
-                <td><a href="{% url "staff_view_sponsor" sponsor.pk %}">{{sponsor.name}}</a></td>
-                <td>{{sponsor.event_sponsors.count}} event{{sponsor.event_sponsors.count|pluralize}}</td>
+                <th>Name</th>
+                <th>Sponsored Events</th>
             </tr>
-        {% endfor %}
+        </thead>
+        <tbody>
+            {% for sponsor in sponsors %}
+                <tr>
+                    <td><a href="{% url "staff_view_sponsor" sponsor.pk %}">{{sponsor.name}}</a></td>
+                    <td>{{sponsor.event_sponsors.count}} event{{sponsor.event_sponsors.count|pluralize}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
-
-
-    <ul class="pagination">
-        {% if sponsors.has_previous %}
-            <li class="arrow"><a href="?page={{ sponsors.previous_page_number }}">&laquo;</a></li>
-        {% else %}
-            <li class="arrow unavailable"><a href="">&laquo;</a></li>
-        {% endif %}
-
-        <li class="current"><a href="">Page {{sponsors.number}} of {{sponsors.paginator.num_pages}}.</a></li>
-        {% if sponsors.has_next %}
-            <li class="arrow"><a href="?page={{ sponsors.next_page_number }}">&raquo;</a></li>
-        {% else %}
-            <li class="arrow unavailable"><a href="">&raquo;</a></li>
-        {% endif %}
-    </ul>
 {% endblock %}

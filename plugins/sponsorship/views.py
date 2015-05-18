@@ -2,7 +2,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from models import Sponsor, EventSponsor, SponsorTier, CommunitySponsorship
 from happening.utils import staff_member_required, admin_required
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from forms import SponsorForm, EventSponsorForm, SponsorTierForm
 from forms import CommunitySponsorshipForm
 from events.models import Event
@@ -19,17 +18,6 @@ def view_sponsor(request, pk):
 def sponsors(request):
     """Administrate sponsors."""
     sponsors = Sponsor.objects.all()
-    paginator = Paginator(sponsors, 10)
-
-    page = request.GET.get('page')
-    try:
-        sponsors = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        sponsors = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        sponsors = paginator.page(paginator.num_pages)
     return render(request, "sponsorship/staff/sponsors.html",
                   {"sponsors": sponsors})
 
@@ -91,17 +79,6 @@ def create_sponsor(request):
 def sponsorship_tiers(request):
     """Administrate sponsorship tiers."""
     sponsorship_tiers = SponsorTier.objects.all()
-    paginator = Paginator(sponsorship_tiers, 10)
-
-    page = request.GET.get('page')
-    try:
-        sponsorship_tiers = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        sponsorship_tiers = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        sponsorship_tiers = paginator.page(paginator.num_pages)
     return render(request, "sponsorship/admin/sponsorship_tiers.html",
                   {"sponsorship_tiers": sponsorship_tiers})
 

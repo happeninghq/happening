@@ -29,11 +29,7 @@ class TestStaffMembers(TestCase):
             mommy.make(settings.AUTH_USER_MODEL)
 
         response = self.client.get("/staff/members")
-        # We only show up to 10 per page
-        self.assertEquals(11, len(response.soup.find("table").findAll("tr")))
-        response = self.client.get("/staff/members?page=2")
-        # Final one on the next page
-        self.assertEquals(2, len(response.soup.find("table").findAll("tr")))
+        self.assertEquals(12, len(response.soup.find("table").findAll("tr")))
 
     def test_make_staff(self):
         """Test we can make a member staff."""

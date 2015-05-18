@@ -13,6 +13,7 @@
         "jquery-timeago": "1.4.1",
         "jquery-cookie": "1.4.1",
         "knockout": "3.3.0",
-        "datetimepicker": "2.4.3"
+        "datetimepicker": "2.4.3",
+        "datatables": "1.10.7"
     }
 }

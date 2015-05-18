@@ -62,10 +62,7 @@ class TestEvents(TestCase):
 
         response = self.client.get("/staff/events")
         # We only show up to 10 per page
-        self.assertEquals(11, len(response.soup.find("table").findAll("tr")))
-        response = self.client.get("/staff/events?page=2")
-        # Final one on the next page
-        self.assertEquals(2, len(response.soup.find("table").findAll("tr")))
+        self.assertEquals(12, len(response.soup.find("table").findAll("tr")))
 
     def test_event(self):
         """Test viewing an event page."""

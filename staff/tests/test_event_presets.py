@@ -23,12 +23,12 @@ class TestEventPresets(TestCase):
 
         mommy.make("EventPreset")
         response = self.client.get("/staff/event_presets")
-        self.assertEquals(1, len(response.soup.find("table").findAll("tr")))
+        self.assertEquals(2, len(response.soup.find("table").findAll("tr")))
         for i in range(10):
             mommy.make("EventPreset")
 
         response = self.client.get("/staff/event_presets")
-        self.assertEquals(11, len(response.soup.find("table").findAll("tr")))
+        self.assertEquals(12, len(response.soup.find("table").findAll("tr")))
 
     def test_edit_event_preset(self):
         """Test editing event presets."""
@@ -78,9 +78,9 @@ class TestEventPresets(TestCase):
         event_preset = mommy.make("EventPreset")
         response = self.client.get("/staff/event_presets")
 
-        self.assertEquals(1, len(response.soup.find("table").findAll("tr")))
+        self.assertEquals(2, len(response.soup.find("table").findAll("tr")))
 
         self.client.post("/staff/event_presets/%s/delete" % event_preset.id)
 
         response = self.client.get("/staff/event_presets")
-        self.assertEquals(0, len(response.soup.find("table").findAll("tr")))
+        self.assertEquals(1, len(response.soup.find("table").findAll("tr")))
