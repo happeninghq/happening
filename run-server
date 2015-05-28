@@ -6,4 +6,5 @@ fi
 
 export DJANGO_DEBUG="1"
 source ve/bin/activate
+source .env
 python manage.py runserver

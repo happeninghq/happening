@@ -1,8 +1,9 @@
 """Admin models."""
 from django.db import models
+from happening import db
 
 
-class PluginSetting(models.Model):
+class PluginSetting(db.Model):
 
     """Setting if a plugin is enabled or disabled for the current site."""
 

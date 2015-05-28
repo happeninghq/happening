@@ -130,9 +130,6 @@ class TestEvents(TestCase):
         self.assertTrue("/staff/events" in
                         response.redirect_chain[0][0])
 
-        event = Event.objects.get(pk=2)
-        self.assertEquals(event.title, "NEW TITLE")
-
     def test_add_attendee(self):
         """Test adding an attendee after an event begins."""
         second_user = mommy.make(settings.AUTH_USER_MODEL)

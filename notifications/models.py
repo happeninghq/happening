@@ -1,5 +1,6 @@
 """Notification models."""
 from django.db import models
+from happening import db
 from django.template.loader import render_to_string
 import json
 from cached_property import threaded_cached_property
@@ -33,7 +34,7 @@ class NotificationManager(models.Manager):
         return self.all().order_by("-sent_datetime")
 
 
-class Notification(models.Model):
+class Notification(db.Model):
 
     """A notification sent to a user."""
 
@@ -168,7 +169,7 @@ class NotificationPreferenceManager(models.Manager):
         return to_return
 
 
-class NotificationPreference(models.Model):
+class NotificationPreference(db.Model):
 
     """A user's notification preference."""
 

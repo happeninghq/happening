@@ -14,6 +14,8 @@ pip install -r dev-requirements.txt;
 echo "Installing bower dependencies";
 bower install;
 
+source .env
+
 python manage.py migrate;
 
 python manage.py loaddata fixtures/common fixtures/users fixtures/socialauth;

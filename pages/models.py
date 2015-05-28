@@ -1,5 +1,6 @@
 """Page models."""
 from django.db import models
+from happening import db
 
 
 class PageManager(models.Manager):
@@ -44,7 +45,7 @@ class PageManager(models.Manager):
         return first_level
 
 
-class Page(models.Model):
+class Page(db.Model):
 
     """A static page."""
 

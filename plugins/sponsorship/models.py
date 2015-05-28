@@ -1,9 +1,10 @@
 """Sponsorship models."""
 from django.db import models
+from happening import db
 from events.models import Event
 
 
-class Sponsor(models.Model):
+class Sponsor(db.Model):
 
     """A Sponsor."""
 
@@ -18,7 +19,7 @@ class Sponsor(models.Model):
         return self.name
 
 
-class EventSponsor(models.Model):
+class EventSponsor(db.Model):
 
     """A sponsor for an individual event."""
 
@@ -26,7 +27,7 @@ class EventSponsor(models.Model):
     event = models.ForeignKey(Event, related_name="event_sponsors")
 
 
-class SponsorTier(models.Model):
+class SponsorTier(db.Model):
 
     """A tier for a sponsor to sponsor the entire community."""
 
@@ -37,7 +38,7 @@ class SponsorTier(models.Model):
         return self.name
 
 
-class CommunitySponsorship(models.Model):
+class CommunitySponsorship(db.Model):
 
     """An instance of a sponsor sponsoring the community."""
 

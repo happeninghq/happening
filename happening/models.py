@@ -1,10 +1,11 @@
 """General models."""
 from django.db import models
+from happening import db
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 
-class ConfigurationVariable(models.Model):
+class ConfigurationVariable(db.Model):
 
     """Configuration Variable saved in database."""
 

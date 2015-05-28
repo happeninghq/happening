@@ -1,6 +1,7 @@
 """Member Profile."""
 
 from django.db import models
+from happening import db
 from django.conf import settings
 from cached_property import threaded_cached_property
 from django_gravatar.helpers import get_gravatar_url, has_gravatar
@@ -20,7 +21,7 @@ def get_user_name(user):
 User.name = get_user_name
 
 
-class Profile(models.Model):
+class Profile(db.Model):
 
     """Member Profile."""
 
@@ -90,7 +91,7 @@ class Profile(models.Model):
             end_time__gt=timezone.now()).order_by("start_time").first()
 
 
-class PaidMembership(models.Model):
+class PaidMembership(db.Model):
 
     """A payment made to upgrade membership."""
 

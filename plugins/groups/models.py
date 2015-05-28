@@ -1,12 +1,13 @@
 """Group models."""
 
 from django.db import models
+from happening import db
 from events.models import Event, Ticket
 from notifications import GroupLeftNotification
 from notifications import GroupJoinedNotification
 
 
-class Group(models.Model):
+class Group(db.Model):
 
     """A group at an event."""
 
@@ -80,7 +81,7 @@ class Group(models.Model):
         return False
 
 
-class TicketInGroup(models.Model):
+class TicketInGroup(db.Model):
 
     """A ticket in a group."""
 

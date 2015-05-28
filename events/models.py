@@ -1,5 +1,6 @@
 """Event models."""
 from django.db import models
+from happening import db
 from django.utils import timezone
 from exceptions import EventFinishedError, NoTicketsError
 from exceptions import TicketCancelledError
@@ -35,7 +36,7 @@ class EventManager(models.Manager):
         return self.all().order_by("-start").first()
 
 
-class Event(models.Model):
+class Event(db.Model):
 
     """An event."""
 
@@ -262,7 +263,7 @@ class Event(models.Model):
             self._send_upcoming_notification(user, False)
 
 
-class Ticket(models.Model):
+class Ticket(db.Model):
 
     """A claim by a user on a place at an event."""
 
@@ -344,7 +345,7 @@ class Ticket(models.Model):
         return "%s's ticket to %s" % (self.user, self.event)
 
 
-class EventPreset(models.Model):
+class EventPreset(db.Model):
 
     """Common settings to be loaded when creating a new event."""
 
