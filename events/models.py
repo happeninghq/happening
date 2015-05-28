@@ -150,7 +150,7 @@ class Event(models.Model):
         if self.end:
             if self.start.date() == self.end.date():
                 return self.start.strftime("%b. %d, %Y, %H:%M") +\
-                    "-" + self.start.strftime("%H:%M")
+                    "-" + self.end.strftime("%H:%M")
             return self.start.strftime("%b. %d, %Y, %H:%M") +\
                 '-' + self.end.strftime("%b. %d, %Y, %H:%M")
         return self.start.strftime("%b. %d, %Y, %H:%M")
