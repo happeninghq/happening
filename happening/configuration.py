@@ -1,14 +1,13 @@
 """Custom configuration variables."""
 from happening.utils import convert_to_underscore, get_all_subclasses
 from django import forms
-from models import ConfigurationVariable as variable_model
-from django.contrib.contenttypes.models import ContentType
 from happening.plugins import plugin_enabled, load_file_in_plugins
 from happening.forms import PropertiesField as PropertiesFormField
 from happening.forms import CustomPropertiesField as CustomPropertiesFormField
 from happening.templatetags.plugins import get_configuration
 from markdown_deux import markdown
 from django.utils.html import mark_safe
+from django.contrib.sites.models import Site
 import json
 
 
@@ -87,12 +86,12 @@ class JSONRenderer(Renderer):
 
     def render(self, value):
         """Convert a variable from JSON into a dict."""
-        if value:
-            return json.loads(value)
+        # Because of the JSONField - it is already a dict
         return value
 
     def to_string(self, value):
         """Convert a value into a string for storage."""
+        # This should automatically be stored correctly now...
         return json.dumps(value)
 
 
@@ -121,29 +120,25 @@ class ConfigurationVariable(object):
 
     def __init__(self, object=None, references=None):
         """Initialise the configuration for the given object."""
-        self.object = object
         if not references:
             references = {}
         self.references = references
+
+    @property
+    def fresh_object(self):
+        """Return the latest version of the object."""
+        if self.object:
+            return self.object.__class__.objects.get(pk=self.object.pk)
+        return Site.objects.first().happening_site
 
     def django_field(self):
         """Get a form field representing this variable."""
         return self.field(initial=self._raw_value())
 
-    def _get_model(self):
-        """Get the database model for this variable."""
-        if self.object:
-            contenttype = ContentType.objects.get_for_model(
-                self.object.__class__)
-            v = variable_model.objects.filter(
-                content_type=contenttype,
-                object_id=self.object.id,
-                key=convert_to_underscore(self.__class__.__name__)).first()
-        else:
-            v = variable_model.objects.filter(
-                content_type=None,
-                key=convert_to_underscore(self.__class__.__name__)).first()
-        return v
+    @property
+    def key(self):
+        """Get the underscore separated name of this configuration variable."""
+        return convert_to_underscore(self.__class__.__name__)
 
     def get(self):
         """Get the value of this variable."""
@@ -151,26 +146,14 @@ class ConfigurationVariable(object):
 
     def _raw_value(self):
         """Get the raw value of this variable."""
-        v = self._get_model()
-        if not v:
-            return self.default
-        return v.value
+        return self.fresh_object._data.get(self.key, self.default)
 
     def set(self, value):
         """Set the value of this variable."""
-        if self.object:
-            contenttype = ContentType.objects.get_for_model(
-                self.object.__class__)
-            v = variable_model.objects.get_or_create(
-                content_type=contenttype,
-                object_id=self.object.id,
-                key=convert_to_underscore(self.__class__.__name__))[0]
-        else:
-            v = variable_model.objects.get_or_create(
-                content_type=None,
-                key=convert_to_underscore(self.__class__.__name__))[0]
-        v.value = self.renderer.to_string(value)
-        v.save()
+        # TODO: This may cause a race condition
+        obj = self.fresh_object
+        obj._data[self.key] = value
+        obj.save()
 
 
 class CharField(ConfigurationVariable):
