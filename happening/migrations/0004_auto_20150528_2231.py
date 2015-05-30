@@ -9,11 +9,11 @@ def migrate_configurationvariables(apps, schema_editor):
     from happening.models import ConfigurationVariable
     from django.contrib.sites.models import Site
     for c in ConfigurationVariable.objects.all():
-        if c.obj is None:
-            c.obj = Site.objects.first().happening_site
+        if c.content_object is None:
+            c.content_object = Site.objects.first().happening_site
 
-        c.obj._data[c.key] = c.value
-        c.obj.save()
+        c.content_object._data[c.key] = c.value
+        c.content_object.save()
 
 
 class Migration(migrations.Migration):
