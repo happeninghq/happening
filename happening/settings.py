@@ -96,6 +96,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 if 'scdtest' not in os.environ and 'travis' not in os.environ:
+    # Only if we're not running tests should we enable social auth providers
     INSTALLED_APPS += ('allauth.socialaccount.providers.facebook',
                        'allauth.socialaccount.providers.github',
                        'allauth.socialaccount.providers.persona',
@@ -329,3 +330,23 @@ for app in INSTALLED_APPS:
     for p in plugin_files:
         if os.path.isfile("%s/%s.py" % (f, p)):
             importlib.import_module("%s.%s" % (app, p))
+
+
+if 'scdtest' in os.environ:
+    # Special settings in here to speed up tests
+    PASSWORD_HASHERS = (
+        'django.contrib.auth.hashers.MD5PasswordHasher',
+    )
+
+    COMPRESS_ENABLED = False
+    COMPRESS_OFFLINE = False
+    DEBUG = False
+    TEMPLATE_DEBUG = False
+    import logging
+    logging.disable(logging.CRITICAL)
+
+    # TODO: Write replacement templatetags that do nothing.
+    COMPRESS_PRECOMPILERS = (
+        ('text/x-scss', 'echo'),
+        ('text/coffeescript', 'echo'),
+    )
