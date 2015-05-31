@@ -11,6 +11,7 @@ from happening.configuration import save_variables
 from forms import ConfigurationForm
 from happening import plugins as happening_plugins
 
+
 @admin_required
 def index(request):
     """Admin dashboard."""
