@@ -123,6 +123,7 @@ class ConfigurationVariable(object):
         """Initialise the configuration for the given object."""
         if not references:
             references = {}
+        self.object = object
         self.references = references
 
     @property
