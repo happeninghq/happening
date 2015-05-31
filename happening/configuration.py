@@ -8,6 +8,7 @@ from happening.templatetags.plugins import get_configuration
 from markdown_deux import markdown
 from django.utils.html import mark_safe
 from django.contrib.sites.models import Site
+from django.contrib.auth.models import User
 import json
 
 
@@ -128,6 +129,8 @@ class ConfigurationVariable(object):
     def fresh_object(self):
         """Return the latest version of the object."""
         if self.object:
+            if isinstance(self.object, User):
+                return self.object.profile
             return self.object.__class__.objects.get(pk=self.object.pk)
         return Site.objects.first().happening_site
 
