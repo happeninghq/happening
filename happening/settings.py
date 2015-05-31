@@ -106,6 +106,7 @@ if 'scdtest' not in os.environ and 'travis' not in os.environ:
 
 
 MIDDLEWARE_CLASSES = (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'sslify.middleware.SSLifyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -178,7 +179,8 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
-COMPRESS_ENABLED = False
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = True
 
 FIXTURE_DIRS = (
     os.path.join(BASE_DIR, 'fixtures'),
@@ -280,6 +282,7 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.signals.SignalsPanel',
     'debug_toolbar.panels.logging.LoggingPanel',
     'debug_toolbar.panels.redirects.RedirectsPanel',
+    'debug_toolbar.panels.profiling.ProfilingPanel',
     'template_profiler_panel.panels.template.TemplateProfilerPanel'
 ]
 

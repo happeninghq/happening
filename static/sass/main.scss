@@ -1,12 +1,12 @@
 @import "foundation_settings";
-@import "../../bower_components/foundation/scss/foundation";
+@import "../bower_components/foundation/scss/foundation";
 
-$fi-path: "../../foundation-icon-fonts/";
+$fi-path: "../foundation-icon-fonts/";
 
-@import "../bower_components/foundation-icon-fonts/foundation-icons";
+@import "bower_components/foundation-icon-fonts/foundation-icons";
 @import "config.scss";
-@import "../../datetimepicker/jquery.datetimepicker.css";
-@import "../../lib/datatables.foundation/datatables.foundation.css";
+@import "../datetimepicker/jquery.datetimepicker.css";
+@import "../lib/datatables.foundation/datatables.foundation.css";
 
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;

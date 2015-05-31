@@ -4,12 +4,21 @@ from django.conf import settings
 import importlib
 import os
 
+
 plugin_blocks = {}
 actions = {}
+
+loaded_files = []
+enabled_plugins_cache = None
 
 
 def load_file_in_plugins(filename):
     """Ensure that the given file is imported from all plugins."""
+    if filename in loaded_files:
+        return
+    else:
+        loaded_files.append(filename)
+
     for app in settings.INSTALLED_APPS:
         f = app.replace(".", "/")
         if os.path.isfile("%s/%s.py" % (f, filename)):
@@ -59,8 +68,11 @@ def plugin_block(key):
 
 def plugin_enabled(plugin_id):
     """True if the plugin is enabled."""
-    from admin.models import PluginSetting
-    setting = PluginSetting.objects.filter(plugin_name=plugin_id).first()
-    if not setting:
-        return False
-    return setting.enabled
+    global enabled_plugins_cache
+    if enabled_plugins_cache is None:
+        # Refill the cache
+        enabled_plugins_cache = {}
+        from admin.models import PluginSetting
+        for plugin in PluginSetting.objects.all():
+            enabled_plugins_cache[plugin.plugin_name] = plugin.enabled
+    return enabled_plugins_cache.get(plugin_id, False)

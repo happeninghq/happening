@@ -48,6 +48,7 @@
             </div>
         </p>
     </div>
+    <script>var STRIPE_KEY = "{{stripe_key}}";</script>
 {% endblock %}
 
 
@@ -57,7 +58,7 @@
 {% block scripts %}
     <script type="text/coffeescript" src="{% static "coffeescript/members/membership.coffee" %}"></script>
     <script type="text/javascript">
-        Stripe.setPublishableKey("{{stripe_key}}");
+        Stripe.setPublishableKey(STRIPE_KEY);
     </script>
     <script type="text/coffeescript" src="{% static "coffeescript/members/payment.coffee" %}"></script>
 {% endblock %}

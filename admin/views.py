@@ -9,7 +9,7 @@ from happening.configuration import get_configuration_variables
 from happening.configuration import attach_to_form
 from happening.configuration import save_variables
 from forms import ConfigurationForm
-
+from happening import plugins as happening_plugins
 
 @admin_required
 def index(request):
@@ -40,6 +40,9 @@ def save_plugins(request, plugins):
         if plugin_id + "_plugin" in request.POST:
             preference.enabled = True
         preference.save()
+
+    # Then clear the cache
+    happening_plugins.enabled_plugins_cache = None
     messages.success(request,
                      "Your plugin settings have been saved")
     return redirect("plugins")
