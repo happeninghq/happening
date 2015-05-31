@@ -88,7 +88,10 @@ class JSONRenderer(Renderer):
     def render(self, value):
         """Convert a variable from JSON into a dict."""
         if isinstance(value, basestring):
-            return json.loads(value)
+            try:
+                return json.loads(value)
+            except ValueError:
+                return value
         return value
 
     def to_string(self, value):
