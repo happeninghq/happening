@@ -31,7 +31,6 @@ def format_plugin(plugin_id, plugin):
 
     return (plugin_id, plugin.Plugin.name, plugin.Plugin.__doc__, enabled)
 
-
 def save_plugins(request, plugins):
     """Save plugin preferences to the database."""
     for plugin_id in plugins.keys():
