@@ -1,5 +1,7 @@
-if [ ! -d "ve" ]; then
+if [ -a ve/bin/flake8 ]; then
+    ve/bin/flake8 --max-complexity 10 --exclude='ve,migrations,lib,docs' . || EXIT_STATUS=$?
+else
     flake8 --max-complexity 10 --exclude='ve,migrations,lib,docs' . || EXIT_STATUS=$?
 fi
-ve/bin/flake8 --max-complexity 10 --exclude='ve,migrations,lib,docs' . || EXIT_STATUS=$?
+
 exit $EXIT_STATUS
