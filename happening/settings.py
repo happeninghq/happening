@@ -107,6 +107,7 @@ if 'scdtest' not in os.environ and 'travis' not in os.environ:
 
 MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.http.ConditionalGetMiddleware',
     'sslify.middleware.SSLifyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
