@@ -1,16 +1,16 @@
 """Group urls."""
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+from plugins.groups import views
 
-urlpatterns = patterns('plugins.groups.views',
-                       url(r'^(?P<pk>\d+)/(?P<group_number>\d+)$',
-                           'view_group', name='view_group'),
-                       url(r'^(?P<pk>\d+)/(?P<group_number>\d+)/edit$',
-                           'edit_group', name='edit_group'),
-                       url(r'^(?P<pk>\d+)/(?P<group_number>\d+)/join$',
-                           'join_group', name='join_group'),
-                       url(r'^(?P<pk>\d+)/(?P<group_number>\d+)/leave$',
-                           'leave_group', name='leave_group'),
-                       url(r'^(?P<pk>\d+)/edit$',
-                           'add_group', name='add_group'),
-                       )
+urlpatterns = [
+    url(r'^(?P<pk>\d+)/(?P<group_number>\d+)$', views.view_group,
+        name='view_group'),
+    url(r'^(?P<pk>\d+)/(?P<group_number>\d+)/edit$', views.edit_group,
+        name='edit_group'),
+    url(r'^(?P<pk>\d+)/(?P<group_number>\d+)/join$', views.join_group,
+        name='join_group'),
+    url(r'^(?P<pk>\d+)/(?P<group_number>\d+)/leave$', views.leave_group,
+        name='leave_group'),
+    url(r'^(?P<pk>\d+)/edit$', views.add_group, name='add_group'),
+]

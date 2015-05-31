@@ -1,9 +1,10 @@
 """Comments urls."""
 
-from django.conf.urls import patterns, include
+from django.conf.urls import url, include
+from plugins.comments import views
 
-urlpatterns = patterns('plugins.comments.views',
-                       # Overriding comments posted redirect
-                       (r'^comments/posted/$', 'comment_posted'),
-                       (r'^comments/', include('django_comments.urls')),
-                       )
+urlpatterns = [
+    # Overriding comments posted redirect
+    url(r'^comments/posted/$', views.comment_posted),
+    url(r'^comments/', include('django_comments.urls')),
+]

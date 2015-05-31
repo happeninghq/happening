@@ -1,8 +1,8 @@
 """Pages urls."""
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+from pages import views
 
-urlpatterns = patterns('pages.views',
-                       url(r'^(?P<pk>.+)$', 'view',
-                           name='view_page'),
-                       )
+urlpatterns = [
+    url(r'^(?P<pk>.+)$', views.view, name='view_page'),
+]

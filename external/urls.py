@@ -1,7 +1,8 @@
 """External urls."""
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+from external import views
 
-urlpatterns = patterns('external.views',
-                       url(r'^$', 'index', name='index'),
-                       )
+urlpatterns = [
+    url(r'^$', views.index, name='index'),
+]

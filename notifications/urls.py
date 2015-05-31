@@ -1,12 +1,10 @@
 """Notification urls."""
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+import views
 
-urlpatterns = patterns('notifications.views',
-                       url(r'^list$', 'list',
-                           name='notifications_list'),
-                       url(r'^short$', 'short',
-                           name='notifications_short'),
-                       url(r'^settings$', 'settings',
-                           name='notifications_settings'),
-                       )
+urlpatterns = [
+    url(r'^list$', views.list, name='notifications_list'),
+    url(r'^short$', views.short, name='notifications_short'),
+    url(r'^settings$', views.settings, name='notifications_settings'),
+]

@@ -1,17 +1,17 @@
-"""Member urls."""
+"""Admin urls."""
 
-from django.conf.urls import patterns, url, include
+from django.conf.urls import url, include
 from django.conf import settings
 import importlib
 from happening.utils import plugin_enabled_decorator
 from lib.required import required
+from admin import views
 
-urlpatterns = patterns('admin.views',
-                       url(r'^$', 'index', name='admin'),
-                       url(r'^plugins$', 'plugins', name='plugins'),
-                       url(r'^configuration$', 'configuration',
-                           name='configuration'),
-                       )
+urlpatterns = [
+    url(r'^$', views.index, name='admin'),
+    url(r'^plugins$', views.plugins, name='plugins'),
+    url(r'^configuration$', views.configuration, name='configuration'),
+]
 
 if hasattr(settings, "PLUGINS"):
     for plugin in settings.PLUGINS:
@@ -20,6 +20,4 @@ if hasattr(settings, "PLUGINS"):
             # Include the urlpatterns
             urlpatterns += required(
                 plugin_enabled_decorator(plugin),
-                patterns(
-                    '', (p.Plugin.admin_url_root,
-                         include("%s.admin" % plugin))))
+                [url(p.Plugin.admin_url_root, include("%s.admin" % plugin))])
