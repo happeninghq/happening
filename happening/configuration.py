@@ -87,12 +87,14 @@ class JSONRenderer(Renderer):
 
     def render(self, value):
         """Convert a variable from JSON into a dict."""
-        # Because of the JSONField - it is already a dict
+        if isinstance(value, basestring):
+            return json.loads(value)
         return value
 
     def to_string(self, value):
         """Convert a value into a string for storage."""
-        # This should automatically be stored correctly now...
+        if isinstance(value, basestring):
+            return value
         return json.dumps(value)
 
 
