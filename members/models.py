@@ -100,7 +100,7 @@ class PaidMembership(db.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     amount = models.IntegerField()
-    receipt_id = models.CharField(max_length=200)
+    payment_id = models.CharField(max_length=200)
 
     @property
     def is_active(self):

@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^member/', include('members.urls')),
     url(r'^notifications/', include('notifications.urls')),
     url(r'^pages/', include('pages.urls')),
+    url(r'^payments/', include('payments.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

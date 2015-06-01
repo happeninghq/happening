@@ -91,11 +91,3 @@ class PaymentForm(forms.Form):
             return self.cleaned_data['other_amount']
         else:
             return int(self.cleaned_data['amount'])
-
-
-class CompletePaymentForm(forms.Form):
-
-    """Form for submitting the credit card details for payment."""
-
-    amount = forms.IntegerField()
-    stripe_token = forms.CharField()

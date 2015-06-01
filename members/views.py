@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from events.models import Ticket
 from events.forms import TicketForm
 from forms import ProfileForm, ProfilePhotoForm, CroppingImageForm
-from forms import UsernameForm, PaymentForm, CompletePaymentForm
+from forms import UsernameForm, PaymentForm
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
@@ -12,8 +12,6 @@ from django.views.decorators.http import require_POST
 from StringIO import StringIO
 from PIL import Image
 from django.core.files import File
-from django.conf import settings as django_settings
-import stripe
 from django.contrib import messages
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -24,10 +22,9 @@ from happening.configuration import attach_to_form
 from happening.configuration import save_variables
 from members.user_profile import CustomProperties
 from members.configuration import ProfileProperties
-
-
-# First set up stripe
-stripe.api_key = django_settings.STRIPE_SECRET_KEY
+from django.http import HttpResponseForbidden
+from payments.decorators import payment_decorator
+from payments.models import Payment
 
 
 def require_editing_own_profile(f):
@@ -251,9 +248,16 @@ def membership(request, pk):
     if request.method == "POST":
         form = PaymentForm(request.POST, initial={"amount": initial_amount})
         if form.is_valid():
-            response = redirect("membership_payment", member.pk)
-            response['Location'] += "?amount=" + str(form.selected_amount)
-            return response
+            payment = Payment(
+                user=request.user,
+                description="Membership",
+                amount=form.selected_amount * 100,
+                extra={"member": member.pk},
+                success_url_name="membership_payment_success",
+                failure_url_name="membership_payment_failure"
+            )
+            payment.save()
+            return redirect("make_payment", payment.pk)
 
     memberships = member.memberships.order_by('-start_time')
 
@@ -261,62 +265,35 @@ def membership(request, pk):
                   {"member": member, "form": form, "memberships": memberships})
 
 
-@require_editing_own_profile
-def membership_payment(request, pk):
-    """Accept payment for membership."""
-    member = get_object_or_404(get_user_model(), pk=pk)
-    if request.method == "GET" and 'amount' not in request.GET:
-        return redirect("membership", pk)
+@login_required
+@payment_decorator
+def membership_payment_success(request, payment):
+    """Membership payment successful."""
+    member = get_object_or_404(get_user_model(), pk=payment.extra["member"])
+    if not payment.user == request.user:
+        return HttpResponseForbidden()
 
-    if request.method == "POST":
-        form = CompletePaymentForm(request.POST)
-        if form.is_valid():
-            try:
-                # TODO: This payment information should be generic
-                charge = stripe.Charge.create(
-                    # We work in pennies, not pounds
-                    amount=form.cleaned_data['amount'] * 100,
-                    currency="gbp",
-                    card=form.cleaned_data['stripe_token'],
-                    description="Southampton Code Dojo Membership",
-                    metadata={"paid_by_id": request.user.pk,
-                              "member_email": member.email,
-                              "member_id": member.pk},
-                    statement_descriptor="SotonCodeDojo Member",
-                    receipt_email=member.email
-                )
+    membership = PaidMembership(user=member,
+                                start_time=datetime.now(),
+                                end_time=datetime.now() +
+                                relativedelta(years=1),
+                                amount=payment.amount / 100,
+                                payment_id=payment.id)
+    membership.save()
 
-                membership = PaidMembership(user=member,
-                                            start_time=datetime.now(),
-                                            end_time=datetime.now() +
-                                            relativedelta(years=1),
-                                            amount=form.cleaned_data['amount'],
-                                            receipt_id=charge.id)
-                membership.save()
+    messages.success(request, "Your payment has been made " +
+                              "successfully. Thank you very much!")
 
-            except stripe.CardError, e:
-                # Card declined, TODO
-                messages.error(request, e)
-                response = redirect("membership_payment", member.pk)
-                response['Location'] += "?amount=" +\
-                    str(form.cleaned_data['amount'])
-                return response
+    n = MembershipPaymentSuccessfulNotification(
+        request.user, amount=payment.amount / 100)
+    n.send()
 
-            messages.success(request, "Your payment has been made " +
-                                      "successfully. Thank you very much!")
+    return redirect("membership", member.pk)
 
-            n = MembershipPaymentSuccessfulNotification(
-                request.user, amount=form.cleaned_data['amount'])
-            n.send()
 
-            return redirect("membership", pk)
-    else:
-        form = CompletePaymentForm(initial={"amount": request.GET['amount']})
-
-    return render(request, "members/membership_payment.html",
-                  {"member": member,
-                   "amount": request.GET['amount'],
-                   "stripe_key": django_settings.STRIPE_PUBLIC_KEY,
-                   "payment_form": form
-                   }
-                  )
+@login_required
+@payment_decorator
+def membership_payment_failure(request, payment):
+    """Membership payment failed."""
+    messages.error(request, payment.error)
+    return redirect("membership", payment.extra["member"])

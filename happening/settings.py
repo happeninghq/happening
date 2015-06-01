@@ -81,6 +81,7 @@ INSTALLED_APPS = (
     'voting',
     'staff',
     'admin',
+    'payments',
 
     'django_cleanup',
 )

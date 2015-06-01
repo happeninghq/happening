@@ -6,19 +6,9 @@
     <div class="container">
         <div class="row">
             <div class="small-12 column">
-                <h2>Membership</h2>
-                <p>You are paying <strong>&pound;{{amount}}</strong> for one year membership to the Southampton Code Dojo.</p>
+                <h2>Payment</h2>
 
-                <div class="panel callout payment_info">
-                    <strong>Important</strong>
-                    <p>We use <a href="https://stripe.com/">Stripe</a> for payment processing, a fully <a href="http://en.wikipedia.org/wiki/Payment_Card_Industry_Data_Security_Standard">PCI-DSS</a> compliant organisation.</p>
-
-                    <p>Importantly, in the interest of security, <strong>none of your payment information will be passed to Southampton Code Dojo</strong>.</p>
-
-                    <p>If you're still unsure, <a href="https://github.com/southampton-code-dojo/website/">all of our code is open source</a> so you can take a look for yourself.</p>
-                </div>
-
-                <form method="POST" id="payment-form" action="{% url "membership_payment" member.pk %}" style="display: none">
+                <form method="POST" id="payment-form" action="{% url "make_payment" payment.pk %}" style="display: none">
                     {% csrf_token %}
                     {{payment_form}}
                 </form>
@@ -48,17 +38,9 @@
             </div>
         </p>
     </div>
-    <script>var STRIPE_KEY = "{{stripe_key}}";</script>
-{% endblock %}
-
-
-{% block external_scripts %}
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script>Stripe.setPublishableKey("{{stripe_key}}");</script>
 {% endblock %}
 {% block scripts %}
-    <script type="text/coffeescript" src="{% static "coffeescript/members/membership.coffee" %}"></script>
-    <script type="text/javascript">
-        Stripe.setPublishableKey(STRIPE_KEY);
-    </script>
     <script type="text/coffeescript" src="{% static "coffeescript/members/payment.coffee" %}"></script>
 {% endblock %}

@@ -6,8 +6,11 @@ from members import views
 urlpatterns = [
     url(r'^membership$', views.my_membership, name='my_membership'),
     url(r'^(?P<pk>\d+)/membership$', views.membership, name='membership'),
-    url(r'^(?P<pk>\d+)/membership/payment$', views.membership_payment,
-        name='membership_payment'),
+    url(r'^membership/(?P<pk>\d+)/payment/$', views.membership_payment_success,
+        name='membership_payment_success'),
+    url(r'^membership/(?P<pk>\d+)/payment/fail$',
+        views.membership_payment_failure,
+        name='membership_payment_failure'),
     url(r'^(?P<pk>\d+)/settings$', views.settings, name='settings'),
     url(r'^(?P<pk>\d+)/settings/username$', views.edit_username,
         name='edit_username'),
