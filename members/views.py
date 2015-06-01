@@ -266,7 +266,7 @@ def membership(request, pk):
 
 
 @login_required
-@payment_decorator
+@payment_decorator("SUCCESS")
 def membership_payment_success(request, payment):
     """Membership payment successful."""
     member = get_object_or_404(get_user_model(), pk=payment.extra["member"])
@@ -292,7 +292,7 @@ def membership_payment_success(request, payment):
 
 
 @login_required
-@payment_decorator
+@payment_decorator("FAILURE")
 def membership_payment_failure(request, payment):
     """Membership payment failed."""
     messages.error(request, payment.error)
