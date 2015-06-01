@@ -8,7 +8,6 @@ from django.http import HttpResponseForbidden
 from forms import PaymentForm
 import stripe
 from django.conf import settings
-from django.contrib import messages
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -36,7 +35,7 @@ def make_payment(request, pk):
                 charge = stripe.Charge.create(
                     # We work in pennies, not pounds
                     amount=payment.amount,
-                    currency="gbp", # TODO: Allow other currencies
+                    currency="gbp",  # TODO: Allow other currencies
                     card=form.cleaned_data['stripe_token'],
                     description=description,
                     metadata=metadata,
@@ -63,4 +62,4 @@ def make_payment(request, pk):
                    "payment_form": form,
                    "payment": payment
                    }
-    )
+                  )
