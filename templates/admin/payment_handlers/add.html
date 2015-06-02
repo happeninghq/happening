@@ -1,0 +1,20 @@
+{% extends "admin/base.html" %}
+{% load staticfiles %}
+{% load foundation %}
+
+{% block admin_content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Add Payment Handler</h2>
+
+                <form method="POST" action="{% url "add_payment_handler" %}">
+                    {{form|foundation}}
+
+                    <button type="submit">Submit</button>
+                    <a href="{% url "payment_handlers" %}" class="button warning">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,5 +1,5 @@
 """Admin views."""
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from happening.utils import admin_required
 from django.conf import settings
 import importlib
@@ -10,6 +10,10 @@ from happening.configuration import attach_to_form
 from happening.configuration import save_variables
 from forms import ConfigurationForm
 from happening import plugins as happening_plugins
+from payments.models import PaymentHandler
+from django.db import transaction
+from forms import PaymentHandlerForm
+from django.views.decorators.http import require_POST
 
 
 @admin_required
@@ -87,3 +91,72 @@ def configuration(request):
 
     return render(request, "admin/configuration.html",
                   {"form": form})
+
+
+@admin_required
+def payment_handlers(request):
+    """List payment handlers."""
+    payment_handlers = PaymentHandler.objects.all()
+    return render(request, "admin/payment_handlers/index.html",
+                  {"payment_handlers": payment_handlers})
+
+
+@admin_required
+def add_payment_handler(request):
+    """Add a payment handler."""
+    form = PaymentHandlerForm()
+    if request.method == "POST":
+        form = PaymentHandlerForm(request.POST)
+        if form.is_valid():
+            payment_handler = form.save()
+            if PaymentHandler.objects.all().count() == 1:
+                # If it's the only one it has to be active
+                payment_handler.active = True
+                payment_handler.save()
+            messages.success(request, "Payment Handler added.")
+            return redirect("payment_handlers")
+    return render(request, "admin/payment_handlers/add.html", {"form": form})
+
+
+@admin_required
+@require_POST
+def delete_payment_handler(request, pk):
+    """Delete a payment handler."""
+    payment_handler = get_object_or_404(PaymentHandler, pk=pk)
+    if payment_handler.active:
+        # We need to pass active to another
+        next_active = PaymentHandler.objects.exclude(pk=pk).first()
+        if next_active:
+            next_active.active = True
+            next_active.save()
+    payment_handler.delete()
+    messages.success(request, "Payment Handler deleted.")
+    return redirect("payment_handlers")
+
+
+@admin_required
+def edit_payment_handler(request, pk):
+    """Edit a payment handler."""
+    payment_handler = get_object_or_404(PaymentHandler, pk=pk)
+    form = PaymentHandlerForm(instance=payment_handler)
+    if request.method == "POST":
+        form = PaymentHandlerForm(request.POST, instance=payment_handler)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Payment Handler updated.")
+            return redirect("payment_handlers")
+    return render(request, "admin/payment_handlers/edit.html",
+                  {"form": form, "payment_handler": payment_handler})
+
+
+@admin_required
+def make_active_payment_handler(request, pk):
+    """Make a payment handler active."""
+    with transaction.atomic():
+        payment_handler = get_object_or_404(PaymentHandler, pk=pk)
+        payment_handler.active = True
+        payment_handler.save()
+
+        PaymentHandler.objects.exclude(pk=pk).update(active=False)
+    messages.success(request, "Active Payment Handler changed.")
+    return redirect("payment_handlers")

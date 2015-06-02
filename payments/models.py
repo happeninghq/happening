@@ -38,3 +38,29 @@ class Payment(db.Model):
 
     error = models.TextField(null=True)
     reciept_id = models.TextField(null=True)
+
+
+class PaymentManager(models.Manager):
+
+    """Custom PaymentHandler Manager, to get active handler."""
+
+    def active(self):
+        """Get the active handler (if any)."""
+        return self.filter(active=True).first()
+
+
+class PaymentHandler(db.Model):
+
+    """Represent a Stripe instance configured to accept payment.
+
+    We currently only accept Stripe but will accept more in future.
+    """
+
+    objects = PaymentManager()
+
+    description = models.CharField(max_length=255)
+
+    public_key = models.CharField(max_length=255)
+    secret_key = models.CharField(max_length=255)
+
+    active = models.BooleanField(default=False)

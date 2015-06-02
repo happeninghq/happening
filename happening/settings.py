@@ -262,10 +262,10 @@ if not DEBUG:
 
 
 # Payment details
-STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY",
-                                   "pk_test_cmv1GZH3Q5AKXQo05ZVrWkwU")
-STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY",
-                                   "sk_test_orNiGg0RhCP2pmksDKgaDGst")
+# STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY",
+#                                    "pk_test_cmv1GZH3Q5AKXQo05ZVrWkwU")
+# STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY",
+#                                    "sk_test_orNiGg0RhCP2pmksDKgaDGst")
 
 
 # For SSL redirect on Heroku

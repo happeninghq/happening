@@ -11,6 +11,17 @@ urlpatterns = [
     url(r'^$', views.index, name='admin'),
     url(r'^plugins$', views.plugins, name='plugins'),
     url(r'^configuration$', views.configuration, name='configuration'),
+    url(r'^payment_handlers$', views.payment_handlers,
+        name='payment_handlers'),
+    url(r'^payment_handlers/add$', views.add_payment_handler,
+        name='add_payment_handler'),
+    url(r'^payment_handlers/(?P<pk>\d+)/edit$', views.edit_payment_handler,
+        name='edit_payment_handler'),
+    url(r'^payment_handlers/(?P<pk>\d+)/delete$', views.delete_payment_handler,
+        name='delete_payment_handler'),
+    url(r'^payment_handlers/(?P<pk>\d+)/make_active$',
+        views.make_active_payment_handler,
+        name='make_active_payment_handler'),
 ]
 
 if hasattr(settings, "PLUGINS"):
