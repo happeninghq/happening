@@ -85,18 +85,13 @@ class Profile(db.Model):
         return [x.get_profile_url() for x in
                 self.user.socialaccount_set.filter(provider="stackexchange")]
 
-    def active_paid_membership(self):
-        """Return most recent active membership, None if there is none."""
-        return self.user.memberships.filter(
-            end_time__gt=timezone.now()).order_by("start_time").first()
-
 
 class PaidMembership(db.Model):
 
     """A payment made to upgrade membership."""
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name="memberships")
+                             related_name="old_memberships")
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     amount = models.IntegerField()

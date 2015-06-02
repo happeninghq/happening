@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load plugins %}
 
 {% block content %}
     <div class="container">
@@ -27,6 +28,7 @@
                         <td>**********</td>
                         <td><a href="{% url "account_set_password" %}">Edit</a></td>
                     </tr>
+                    {% plugin_block "members.settings" member %}
                     <tr>
                         <th>Notifications</th>
                         <th colspan="2"><a href="{% url "notifications_settings" %}">Notification Settings</a></th>

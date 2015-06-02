@@ -1,16 +1,14 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load widget_tweaks %}
+{% load plugins %}
 
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="small-12 column">
                 <h2>Membership</h2>
-                <p>The Southampton Code Dojo is completely free to attend. However it does cost money to run and we get by thanks to help from <a href="{% url "view_page" "sponsorship" %}">our awesome sponsors</a> and from voluntary payment from our members.</p>
-
-                <p>Right now there are no direct benefits of membership (except the continued existence of the dojo!), though it is likely we will add some <em>small</em> benefits in future. Membership will automatically expire one year from registration date.</p>
-
+                {{"plugins.membership.configuration.MembershipMessage"|get_configuration}}
                 {% if memberships|length > 0 %}
                     <h2>Your Membership</h2>
                     <table id="memberships">
@@ -22,7 +20,7 @@
                         </tr>
                         {% for membership in memberships %}
                             <tr {% if membership.is_active %}class="active"{% endif %}>
-                                <td>{{membership.receipt_id}}</td>
+                                <td>{{membership.payment_id}}</td>
                                 <td>{{membership.start_time}}</td>
                                 <td>{{membership.end_time}}</td>
                                 <td>&pound;{{membership.amount}}</td>
@@ -33,12 +31,7 @@
 
 
                 <h2>Purchase Membership</h2>
-
-                {% if member.profile.active_paid_membership %}
-                    <p>You already have an active membership. However, if you would still like to contribute to the dojo you may do so by purchasing another one year membership.</p>
-                {% endif %}
-
-                <p>Select the amount of money you feel your membership of the dojo is worth.</p>
+                <p>Select the amount of money you feel your membership is worth.</p>
                 <form method="POST" action="{% url "membership" member.pk %}">
                     {% csrf_token %}
                     {% for error in form.other_amount.errors %}
