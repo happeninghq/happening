@@ -1,16 +1,12 @@
 """Payment views."""
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
-from models import Payment
+from models import Payment, PaymentHandler
 from pages.configuration import SiteTitle
 from copy import copy
 from django.http import HttpResponseForbidden
 from forms import PaymentForm
 import stripe
-from django.conf import settings
-
-
-stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 @login_required
@@ -23,8 +19,17 @@ def make_payment(request, pk):
     if not payment.status == "PENDING":
         return HttpResponseForbidden()
 
+    handler = PaymentHandler.objects.active()
+    if not handler:
+        payment.status = "FAILED"
+        payment.error = "This website is not configured for payment"
+        payment.save()
+        return redirect(payment.failure_url_name, payment.pk)
+
     if request.method == "POST":
         form = PaymentForm(request.POST)
+
+        stripe.api_key = handler.secret_key
 
         description = "%s: %s" % (SiteTitle().get(), payment.description)
         metadata = copy(payment.metadata)
@@ -58,7 +63,7 @@ def make_payment(request, pk):
 
     return render(request, "payments/payment.html",
                   {"amount": payment.amount / 100,
-                   "stripe_key": settings.STRIPE_PUBLIC_KEY,
+                   "stripe_key": handler.public_key,
                    "payment_form": form,
                    "payment": payment
                    }

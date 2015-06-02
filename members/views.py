@@ -23,7 +23,7 @@ from happening.configuration import save_variables
 from members.user_profile import CustomProperties
 from members.configuration import ProfileProperties
 from django.http import HttpResponseForbidden
-from payments.decorators import payment_decorator
+from payments.decorators import payment_successful, payment_failed
 from payments.models import Payment
 
 
@@ -266,7 +266,7 @@ def membership(request, pk):
 
 
 @login_required
-@payment_decorator("SUCCESS")
+@payment_successful
 def membership_payment_success(request, payment):
     """Membership payment successful."""
     member = get_object_or_404(get_user_model(), pk=payment.extra["member"])
@@ -292,7 +292,7 @@ def membership_payment_success(request, payment):
 
 
 @login_required
-@payment_decorator("FAILURE")
+@payment_failed
 def membership_payment_failure(request, payment):
     """Membership payment failed."""
     messages.error(request, payment.error)

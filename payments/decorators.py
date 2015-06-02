@@ -2,6 +2,7 @@
 from payments.models import Payment
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseForbidden
+from django.core.urlresolvers import resolve
 
 
 def payment_decorator(status):
@@ -25,6 +26,10 @@ def payment_decorator(status):
                 return HttpResponseForbidden()
             if not payment.status == status:
                 return HttpResponseForbidden()
+            current_url = resolve(request.path_info).url_name
+            if current_url not in [payment.success_url_name,
+                                   payment.failure_url_name]:
+                return HttpResponseForbidden()
             response = func(request, payment)
             if response.status_code in [200, 201, 302]:
                 payment.complete = True
@@ -32,3 +37,7 @@ def payment_decorator(status):
             return response
         return inner
     return inner_1
+
+
+payment_successful = payment_decorator("PAID")
+payment_failed = payment_decorator("FAILED")
