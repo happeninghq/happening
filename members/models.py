@@ -5,7 +5,6 @@ from happening import db
 from django.conf import settings
 from cached_property import threaded_cached_property
 from django_gravatar.helpers import get_gravatar_url, has_gravatar
-from django.utils import timezone
 from django.contrib.auth.models import User
 
 # Ensure that every user has an associated profile
@@ -84,20 +83,3 @@ class Profile(db.Model):
         """Return a list of the user's stackexchange URLs."""
         return [x.get_profile_url() for x in
                 self.user.socialaccount_set.filter(provider="stackexchange")]
-
-
-class PaidMembership(db.Model):
-
-    """A payment made to upgrade membership."""
-
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name="old_memberships")
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    amount = models.IntegerField()
-    payment_id = models.CharField(max_length=200)
-
-    @property
-    def is_active(self):
-        """True if the membership is still active."""
-        return self.end_time > timezone.now()
