@@ -9,6 +9,7 @@
                 <h2>Add Payment Handler</h2>
 
                 <form method="POST" action="{% url "add_payment_handler" %}">
+                    {% csrf_token %}
                     {{form|foundation}}
 
                     <button type="submit">Submit</button>
