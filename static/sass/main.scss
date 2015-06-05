@@ -1,12 +1,10 @@
-@import "foundation_settings";
-@import "../bower_components/foundation/scss/foundation";
+@import "../../bower_components/foundation/scss/foundation";
 
-$fi-path: "../foundation-icon-fonts/";
+$fi-path: "/static/foundation-icon-fonts/";
 
 @import "bower_components/foundation-icon-fonts/foundation-icons";
-@import "config.scss";
-@import "../datetimepicker/jquery.datetimepicker.css";
-@import "../lib/datatables.foundation/datatables.foundation.css";
+@import "/static/datetimepicker/jquery.datetimepicker.css";
+@import "/static/lib/datatables.foundation/datatables.foundation.css";
 
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -15,9 +13,9 @@ body {
 }
 
 .top-container, .full-navbar {
-    background: $MAIN_COLOUR;
+    background: $THEME_COLOUR;
 
-    border-bottom: 3px solid darken($MAIN_COLOUR, 0%);
+    border-bottom: 3px solid darken($THEME_COLOUR, 0%);
 }
 
 .top-container {
@@ -50,7 +48,7 @@ p {
 }
 
 #bottom {
-    background: $MAIN_COLOUR;
+    background: $THEME_COLOUR;
 }
 
 #contacts {
@@ -58,7 +56,7 @@ p {
     padding-top: 1em;
     padding-bottom: 1em;
 
-    border-top: 3px solid darken($MAIN_COLOUR, 0%);
+    border-top: 3px solid darken($THEME_COLOUR, 0%);
 
     img {
         filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
@@ -73,8 +71,8 @@ p {
 }
 
 blockquote {
-    background: lighten($MAIN_COLOUR, 30%);
-    border: 2px solid lighten($MAIN_COLOUR, 10%);
+    background: lighten($THEME_COLOUR, 30%);
+    border: 2px solid lighten($THEME_COLOUR, 10%);
     padding: 10px;
     font-size: 0.6em;
     margin-bottom: 3em;
@@ -85,15 +83,15 @@ blockquote {
 }
 
 .top-container {
-    background: $MAIN_COLOUR;
+    background: $THEME_COLOUR;
 
-    border-bottom: 3px solid darken($MAIN_COLOUR, 0%);
+    border-bottom: 3px solid darken($THEME_COLOUR, 0%);
     height: 0.5em;
 }
 
 a {
     text-decoration: none;
-    color: $MAIN_COLOUR;
+    color: $THEME_COLOUR;
 }
 
 #mc_embed_signup {
@@ -289,7 +287,7 @@ p {
 #notifications {
     &.unread {
         a {
-            background: darken($MAIN_COLOUR, 30%)
+            background: darken($THEME_COLOUR, 30%)
         }
     }
 
@@ -303,11 +301,11 @@ p {
             }
 
             &.unread {
-                background: lighten($MAIN_COLOUR, 10%)
+                background: lighten($THEME_COLOUR, 10%)
             }
 
             &:hover {
-                background: darken($MAIN_COLOUR, 10%)
+                background: darken($THEME_COLOUR, 10%)
             }
 
             .time {

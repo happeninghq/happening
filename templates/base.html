@@ -8,7 +8,7 @@
 <head>
     <title>{{"pages.configuration.SiteTitle"|get_configuration}}</title>
     {% compress css %}
-        <link rel="stylesheet" type="text/x-scss" href="{% static "sass/main.scss" %}" />
+        <link rel="stylesheet" type="text/x-scss" href="{% static "sass/default.scss" %}" />
         <link rel="stylesheet" type="text/css" href="{% static "lib/responsive-tables/css/responsive-tables.css" %}" />
         {% block style %}
 
@@ -75,6 +75,7 @@
     {% endblock %}
     {% compress js %}
         <script src="{% static "jquery/dist/jquery.min.js" %}"></script>
+        <script src="{% static "lib/throttle.js" %}"></script>
         <script src="{% static "knockout/dist/knockout.js" %}"></script>
         <script src="{% static "foundation/js/foundation.min.js" %}"></script>
         <script src="{% static "foundation/js/foundation/foundation.topbar.js" %}"></script>

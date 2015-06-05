@@ -7,6 +7,7 @@ cached_admin_urls = [
     (None, "Plugins", "plugins"),
     (None, "Configuration", "configuration"),
     (None, "Payment", "payment_handlers"),
+    (None, "Appearance", "appearance"),
 ]
 
 if hasattr(settings, "PLUGINS"):

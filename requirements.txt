@@ -16,6 +16,7 @@ django-sslify==0.2.5 # Force SSL
 django-contrib-comments==1.6.1 # Comments
 django-pgjson==0.2.3 # Using Postgres JSON field
 python-memcached # Memcached bindings
+git+https://github.com/rhec/django-html5.git
 
 # Heroku
 gunicorn==19.1.1 # For hosting on heroku

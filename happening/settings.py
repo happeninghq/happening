@@ -50,7 +50,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django_comments',
 
     'widget_tweaks',
     'markdown_deux',
@@ -84,8 +83,9 @@ INSTALLED_APPS = (
     'payments',
 
     'django_cleanup',
+) + tuple(PLUGINS) + (
+    'django_comments',
 )
-INSTALLED_APPS += tuple(PLUGINS)
 
 SOCIALACCOUNT_PROVIDERS = {
     "persona": {
