@@ -13,3 +13,7 @@ class HappeningSite(db.Model):
     """Add site configuration."""
 
     site = models.ForeignKey(Site)
+
+    # Theme settings
+    theme_colour = models.CharField(max_length=7, default="#65afdc")
+    primary_colour = models.CharField(max_length=7, default="#008CBA")

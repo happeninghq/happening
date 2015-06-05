@@ -15,11 +15,10 @@ from django.db import transaction
 from forms import PaymentHandlerForm
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse
-import sass
-import os
 import re
 from django.http import HttpResponseForbidden
-from uuid import uuid4
+from django.contrib.sites.models import Site
+from happening.appearance import generate_css as happening_generate_css
 
 
 @admin_required
@@ -171,10 +170,22 @@ def make_active_payment_handler(request, pk):
 @admin_required
 def appearance(request):
     """Allow configuring logo and css."""
+    site = Site.objects.first().happening_site
     theme_form = ThemeForm(initial={
-        "theme_colour": "#65afdc",
-        "primary_colour": "#008CBA"
+        "theme_colour": site.theme_colour,
+        "primary_colour": site.primary_colour
     })
+
+    if request.method == "POST":
+        theme_form = ThemeForm(request.POST)
+        if theme_form.is_valid():
+            site.theme_colour = theme_form.cleaned_data['theme_colour']
+            site.primary_colour = theme_form.cleaned_data['primary_colour']
+            site.save()
+            # Regenerate CSS
+            with open("static/css/generated.css", "w") as o:
+                o.write(happening_generate_css())
+            return redirect("appearance")
     return render(request, "admin/appearance.html",
                   {"theme_form": theme_form})
 
@@ -182,7 +193,6 @@ def appearance(request):
 @admin_required
 def generate_css(request):
     """Generate temporary css for use on the admin appearance panel."""
-    uid = uuid4().hex
     theme_colour = request.GET.get("theme_colour")
     primary_colour = request.GET.get("primary_colour")
     hex_regex = re.compile("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
@@ -192,16 +202,7 @@ def generate_css(request):
     for c in [theme_colour, primary_colour]:
         if not hex_regex.match(c):
             return HttpResponseForbidden()
-    target = open("static/sass/%s.scss" % uid, 'w')
-    try:
-        target.write("$THEME-COLOUR: %s;\n" % theme_colour)
-        target.write("$PRIMARY-COLOUR: %s;\n" % primary_colour)
-        target.write('@import "default_foundation_settings";')
-        target.write('@import "main.scss";')
-        target.close()
-
-        compiled = sass.compile(filename="static/sass/%s.scss" % uid)
-    finally:
-        os.remove("static/sass/%s.scss" % uid)
-
+    compiled = happening_generate_css(
+        {"THEME-COLOUR": theme_colour,
+         "PRIMARY-COLOUR": primary_colour})
     return HttpResponse(compiled, content_type="text/css")
