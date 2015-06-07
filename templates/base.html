@@ -7,7 +7,7 @@
 <html>
 <head>
     <title>{{"pages.configuration.SiteTitle"|get_configuration}}</title>
-    <link rel="stylesheet" type="text/css" href="{% static "css/generated.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/generated.css" />
     {% compress css %}
         <link rel="stylesheet" type="text/css" href="{% static "lib/responsive-tables/css/responsive-tables.css" %}" />
         {% block style %}

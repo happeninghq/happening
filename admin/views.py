@@ -187,7 +187,9 @@ def appearance(request):
                 site.theme_colour = form.cleaned_data['theme_colour']
                 site.primary_colour = form.cleaned_data['primary_colour']
                 # Regenerate CSS
-                with open("static/css/generated.css", "w") as o:
+                site.save()
+                with open("%s/css/generated.css" % settings.MEDIA_ROOT,
+                          "w") as o:
                     o.write(happening_generate_css())
 
             if form.cleaned_data['large_logo'] == "DELETE":
