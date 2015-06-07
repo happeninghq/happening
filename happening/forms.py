@@ -3,9 +3,9 @@ from django import forms
 from django.template.loader import render_to_string
 from happening.utils import convert_to_underscore
 import json
-import os
 from django.conf import settings
 from django.core.files import File
+from django.core.files.storage import get_storage_class
 
 
 class PropertiesWidget(forms.Widget):
@@ -189,16 +189,14 @@ class ImageField(forms.ImageField):
             is_temp = True
 
         value = "%s/%s" % (settings.MEDIA_ROOT, value)
-        # Ensure that the path is within the media root
-        media_path = os.path.realpath(settings.MEDIA_ROOT)
-        input_path = os.path.realpath(value)
+        # TODO: What happens if they use ../../ etc.
+        # Can they mess with stuff they shouldn't?
 
-        if not input_path.startswith(media_path):
-            return None  # Not in the correct directory
+        c = get_storage_class()()
 
         # Otherwise open the file and pass the handle back
         filename = value.rsplit("/", 1)[-1]
         if is_temp:
             filename = filename.split("_", 1)[1]
 
-        return (filename, File(open(value)))
+        return (filename, File(c.open(value)))
