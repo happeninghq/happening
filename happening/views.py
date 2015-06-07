@@ -27,4 +27,4 @@ def file_upload(request):
          "filesize": format_bytes(filesize),
          "dimensions": dimensions,
          "filename": filename,
-         "value": filepath})
+         "value": "tmp/%s_%s" % (uuid, filename)})

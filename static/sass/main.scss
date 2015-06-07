@@ -22,10 +22,18 @@ body {
     height: 0.5em;
 }
 
+.title-area {
+    img {
+        max-width: 90px;
+        max-height: 100%;
+    }
+}
+
 #logo-container {
     margin: auto;
     text-align: center;
     margin-top: 20px;
+    max-width: 500px;
 }
 
 h2 {

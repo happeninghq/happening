@@ -201,6 +201,7 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     "staff.context_processors.staff_urls",
     "events.context_processors.events",
     "pages.context_processors.pages_navigation",
+    "happening.context_processors.site",
 )
 
 AUTHENTICATION_BACKENDS = (

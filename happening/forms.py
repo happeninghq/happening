@@ -175,8 +175,20 @@ class ImageField(forms.ImageField):
 
     def clean(self, value, initial):
         """Turn the path into the name and reference."""
+        # This is really hacky. TODO Tidy this a lot
+        # We shouldn't be returning "DELETE" to delete
+        # and None for unchanged - it's totally unclear
         if not value:
-            return value
+            return "DELETE"
+
+        if value == "INITIAL":
+            return None
+
+        is_temp = False
+        if value.startswith("tmp"):
+            is_temp = True
+
+        value = "%s/%s" % (settings.MEDIA_ROOT, value)
         # Ensure that the path is within the media root
         media_path = os.path.realpath(settings.MEDIA_ROOT)
         input_path = os.path.realpath(value)
@@ -185,5 +197,8 @@ class ImageField(forms.ImageField):
             return None  # Not in the correct directory
 
         # Otherwise open the file and pass the handle back
-        filename = value.rsplit("/", 1)[-1].split("_", 1)[1]
+        filename = value.rsplit("/", 1)[-1]
+        if is_temp:
+            filename = filename.split("_", 1)[1]
+
         return (filename, File(open(value)))

@@ -190,16 +190,16 @@ def appearance(request):
                 with open("static/css/generated.css", "w") as o:
                     o.write(happening_generate_css())
 
-            if form.cleaned_data['large_logo']:
+            if form.cleaned_data['large_logo'] == "DELETE":
+                site.large_logo.delete(False)
+            elif form.cleaned_data['large_logo']:
                 site.large_logo.save(form.cleaned_data['large_logo'][0],
                                      form.cleaned_data['large_logo'][1], False)
-            else:
-                site.large_logo.delete(False)
-            if form.cleaned_data['small_logo']:
+            if form.cleaned_data['small_logo'] == "DELETE":
+                site.small_logo.delete()
+            elif form.cleaned_data['small_logo']:
                 site.small_logo.save(form.cleaned_data['small_logo'][0],
                                      form.cleaned_data['small_logo'][1], False)
-            else:
-                site.small_logo.delete()
 
             site.save()
             return redirect("appearance")

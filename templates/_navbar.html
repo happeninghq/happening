@@ -4,7 +4,9 @@
     <nav class="top-bar" data-topbar role="navigation">
         <ul class="title-area">
             <li class="name">
-                <a href="/"><img id="logo" src="{% static "img/logo-small.png" %}"></a>
+                {% if site.small_logo %}
+                    <a href="/"><img id="logo" src="{{site.small_logo.url}}"></a>
+                {% endif %}
             </li>
             <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
         </ul>
