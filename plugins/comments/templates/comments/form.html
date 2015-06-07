@@ -6,7 +6,7 @@
     <button class="small show-button">Reply</button>
     <form action="{% comment_form_target %}" method="post">
         {% if user.is_authenticated %}
-            {% csrf_token %}
+            aaa{% csrf_token %}bbb
             {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
             <label><strong>Post Reply</strong><br />{% markdown_allowed %} {{form.comment|add_class:"edit_markdown"}}</label>
             {{ form.honeypot }}

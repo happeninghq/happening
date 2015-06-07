@@ -17,3 +17,6 @@ class HappeningSite(db.Model):
     # Theme settings
     theme_colour = models.CharField(max_length=7, default="#65afdc")
     primary_colour = models.CharField(max_length=7, default="#008CBA")
+
+    large_logo = models.ImageField(upload_to="site", null=True)
+    small_logo = models.ImageField(upload_to="site", null=True)

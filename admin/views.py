@@ -171,23 +171,40 @@ def make_active_payment_handler(request, pk):
 def appearance(request):
     """Allow configuring logo and css."""
     site = Site.objects.first().happening_site
-    theme_form = ThemeForm(initial={
+    form = ThemeForm(initial={
         "theme_colour": site.theme_colour,
-        "primary_colour": site.primary_colour
+        "primary_colour": site.primary_colour,
+        "large_logo": site.large_logo,
+        "small_logo": site.small_logo
     })
 
     if request.method == "POST":
-        theme_form = ThemeForm(request.POST)
-        if theme_form.is_valid():
-            site.theme_colour = theme_form.cleaned_data['theme_colour']
-            site.primary_colour = theme_form.cleaned_data['primary_colour']
+        form = ThemeForm(request.POST)
+        if form.is_valid():
+            if not site.theme_colour == form.cleaned_data['theme_colour'] or\
+                    not site.primary_colour ==\
+                    form.cleaned_data['primary_colour']:
+                site.theme_colour = form.cleaned_data['theme_colour']
+                site.primary_colour = form.cleaned_data['primary_colour']
+                # Regenerate CSS
+                with open("static/css/generated.css", "w") as o:
+                    o.write(happening_generate_css())
+
+            if form.cleaned_data['large_logo']:
+                site.large_logo.save(form.cleaned_data['large_logo'][0],
+                                     form.cleaned_data['large_logo'][1], False)
+            else:
+                site.large_logo.delete(False)
+            if form.cleaned_data['small_logo']:
+                site.small_logo.save(form.cleaned_data['small_logo'][0],
+                                     form.cleaned_data['small_logo'][1], False)
+            else:
+                site.small_logo.delete()
+
             site.save()
-            # Regenerate CSS
-            with open("static/css/generated.css", "w") as o:
-                o.write(happening_generate_css())
             return redirect("appearance")
     return render(request, "admin/appearance.html",
-                  {"theme_form": theme_form})
+                  {"theme_form": form})
 
 
 @admin_required

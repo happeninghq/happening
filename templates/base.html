@@ -86,6 +86,7 @@
         <script src="{% static "jquery-timeago/jquery.timeago.js" %}"></script>
         <script src="{% static "datatables/media/js/jquery.dataTables.min.js" %}"></script>
         <script src="{% static "lib/datatables.foundation/datatables.foundation.js" %}"></script>
+        <script src="{% static "jquery-cookie/jquery.cookie.js" %}"></script>
         <script type="text/coffeescript" src="{% static "coffeescript/notifications.coffee" %}"></script>
 
         <script type="text/coffeescript" src="{% static "coffeescript/edit_markdown.coffee" %}"></script>
@@ -97,6 +98,12 @@
         <!-- Properties -->
         <script type="text/coffeescript" src="{% static "coffeescript/widgets/properties.coffee" %}" defer></script>
         <script type="text/coffeescript" src="{% static "coffeescript/widgets/datetime.coffee" %}" defer></script>
+
+        <!-- File uploads -->
+        <script src="{% static "jquery-file-upload/js/vendor/jquery.ui.widget.js" %}"></script>
+        <script src="{% static "jquery-file-upload/js/jquery.iframe-transport.js" %}""></script>
+        <script src="{% static "jquery-file-upload/js/jquery.fileupload.js" %}"></script>
+        <script type="text/coffeescript" src="{% static "coffeescript/widgets/image.coffee" %}" defer></script>
 
         {% block scripts %}
         {% endblock %}

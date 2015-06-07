@@ -1,5 +1,6 @@
 """Admin forms."""
 from django import forms
+from happening import forms as happening_forms
 from payments.models import PaymentHandler
 from html5.forms import widgets as html5_widgets
 
@@ -23,6 +24,9 @@ class PaymentHandlerForm(forms.ModelForm):
 class ThemeForm(forms.Form):
 
     """Form for changing theme options."""
+
+    large_logo = happening_forms.ImageField()
+    small_logo = happening_forms.ImageField()
 
     theme_colour = forms.CharField(widget=html5_widgets.ColorInput)
     primary_colour = forms.CharField(widget=html5_widgets.ColorInput)

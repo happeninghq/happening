@@ -1,0 +1,36 @@
+{% load staticfiles %}
+{% load files %}
+</label>
+<div class="image-widget" data-no-image-src="{% static "img/no-image.png" %}">
+    <div class="row">
+        <div class="small-2 columns">
+            {% if value %}
+                <img src="{{value.url}}" />
+            {% else %}
+                <img src="{% static "img/no-image.png" %}" />
+            {% endif %}
+        </div>
+        <div class="small-10 columns">
+            {% if value %}
+                <div class="file-name">{{value|filename}}</div>
+                <div class="file-size">{{value.size|filesizeformat}}</div>
+                <div class="dimensions">{{value.width}}x{{value.height}}</div>
+            {% else %}
+                <div class="file-name"></div>
+                <div class="file-size"></div>
+                <div class="dimensions"></div>
+            {% endif %}
+        </div>
+    </div>
+    <div>
+        <button class="clear">Clear</button><button class="reset">Reset</button>
+        <div class="upload button">
+            <span>Upload</span>
+            <input type="file" data-url="{% url "file_upload" %}" />
+        </div>
+    </div>
+    <input type="hidden" name="{{name}}" value="{{value}}" />
+    <!-- <div class="progress">
+        <div class="meter" style="width: 0%;"></div>
+    </div> -->
+</div>

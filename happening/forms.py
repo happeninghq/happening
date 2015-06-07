@@ -3,6 +3,9 @@ from django import forms
 from django.template.loader import render_to_string
 from happening.utils import convert_to_underscore
 import json
+import os
+from django.conf import settings
+from django.core.files import File
 
 
 class PropertiesWidget(forms.Widget):
@@ -150,3 +153,37 @@ class TimeWidget(forms.TextInput):
         attrs['class'] = 'time-widget ' + attrs.get('class', '')
         attrs['data-time-format'] = 'H:i'
         return super(DateWidget, self).render(name, value, attrs)
+
+
+class ImageWidget(forms.TextInput):
+
+    """A widget that adds an ajax image uploader."""
+
+    def render(self, name, value, attrs):
+        """Render the widget."""
+        return render_to_string("forms/widgets/image_widget.html", {
+            "name": name,
+            "value": value
+        })
+
+
+class ImageField(forms.ImageField):
+
+    """An input for an image file."""
+
+    widget = ImageWidget
+
+    def clean(self, value, initial):
+        """Turn the path into the name and reference."""
+        if not value:
+            return value
+        # Ensure that the path is within the media root
+        media_path = os.path.realpath(settings.MEDIA_ROOT)
+        input_path = os.path.realpath(value)
+
+        if not input_path.startswith(media_path):
+            return None  # Not in the correct directory
+
+        # Otherwise open the file and pass the handle back
+        filename = value.rsplit("/", 1)[-1].split("_", 1)[1]
+        return (filename, File(open(value)))

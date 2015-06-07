@@ -8,6 +8,7 @@ import datetime
 from django.shortcuts import redirect
 from django.contrib.admin.views.decorators import staff_member_required as smr
 from django.contrib.auth.decorators import user_passes_test
+from math import log
 
 
 def staff_member_required(view_func, **kwargs):
@@ -95,3 +96,19 @@ def get_all_subclasses(cls):
         yield s
         for ss in get_all_subclasses(s):
             yield ss
+
+
+def format_bytes(num, suffix='B'):
+    """Format bytes as human readable."""
+    unit_list = zip(['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+                    [0, 0, 1, 2, 2, 2])
+    if num > 1:
+        exponent = min(int(log(num, 1024)), len(unit_list) - 1)
+        quotient = float(num) / 1024**exponent
+        unit, num_decimals = unit_list[exponent]
+        format_string = '{:.%sf} {}' % (num_decimals)
+        return format_string.format(quotient, unit)
+    if num == 0:
+        return '0 bytes'
+    if num == 1:
+        return '1 byte'

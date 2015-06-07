@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 import importlib
 from happening.utils import plugin_enabled_decorator
 from lib.required import required
+from happening import views
 
 urlpatterns = [
     url(r'^staff/', include('staff.urls')),
@@ -20,6 +21,8 @@ urlpatterns = [
     url(r'^notifications/', include('notifications.urls')),
     url(r'^pages/', include('pages.urls')),
     url(r'^payments/', include('payments.urls')),
+
+    url(r'^upload$', views.file_upload, name='file_upload'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

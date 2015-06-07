@@ -359,3 +359,36 @@ p {
         opacity: 0.7;
     }
 }
+
+
+// widgets
+
+
+.image-widget {
+    img {
+        max-width: 100px;
+    }
+
+    .upload {
+        position: relative;
+        overflow: hidden;
+
+        // These numbers are magic - they work in Chrome
+        // Need to check in other browers TODO
+        margin: 0px;
+        left: -5px;
+        top: 20px;
+
+        input {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+    }
+}
