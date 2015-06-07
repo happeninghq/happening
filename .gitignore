@@ -15,3 +15,5 @@ media/media
 docs/_build
 docs/api
 static/css/generated.css
+media/site
+media/tmp
