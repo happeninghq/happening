@@ -26,8 +26,8 @@ fi
 bower install
 
 python manage.py migrate --noinput
+python manage.py generate_css
 python manage.py collectstatic --noinput
 python manage.py compress
-python manage.py generate_css
 
 echo "-----> Post-compile done"
