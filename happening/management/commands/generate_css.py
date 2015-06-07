@@ -11,5 +11,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """Generate CSS according to settings."""
-        with open("static/css/generated.css", "w") as o:
+        with open("static/css/generated.css", "w+") as o:
             o.write(generate_css())
