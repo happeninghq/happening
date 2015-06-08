@@ -5,6 +5,7 @@ from happening.utils import format_bytes
 from uuid import uuid4
 from PIL import Image
 from django.core.files.storage import default_storage
+from django.conf import settings
 
 
 @require_POST
@@ -24,7 +25,7 @@ def file_upload(request):
         dimensions = "%sx%s" % im.size
 
     return JsonResponse(
-        {"src": "/media/tmp/%s_%s" % (uuid, filename),
+        {"src": "%s/tmp/%s_%s" % (settings.MEDIA_URL, uuid, filename),
          "filesize": format_bytes(filesize),
          "dimensions": dimensions,
          "filename": filename,
