@@ -190,6 +190,9 @@ def appearance(request):
                 # Regenerate CSS
                 site.save()
                 with default_storage.open("css/generated.css", "w+") as o:
+                    # This next line is S3 specific
+                    if hasattr(o, "_storage"):
+                        o._storage.headers['Content-Type'] = 'text/css'
                     o.write(happening_generate_css())
 
             if form.cleaned_data['large_logo'] == "DELETE":

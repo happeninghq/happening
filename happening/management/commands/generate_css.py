@@ -19,8 +19,9 @@ class Command(BaseCommand):
             # - to create the structure
             default_storage.save(
                 "css/generated.css",
-                # Ensure that we load a css file for mimetype
-                File(open("static/lib/datatables.foundation/" +
-                          "datatables.foundation.css")))
+                File(open("README.md")))
         with default_storage.open("css/generated.css", "w+") as o:
+            # This next line is S3 specific
+            if hasattr(o, "_storage"):
+                o._storage.headers['Content-Type'] = 'text/css'
             o.write(generate_css())
