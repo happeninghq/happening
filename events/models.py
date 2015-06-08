@@ -102,11 +102,6 @@ class Event(db.Model):
             start__lt=self.start).order_by("-start").first()
 
     @property
-    def is_voting(self):
-        """Return True if the event is currently accepting language votes."""
-        return self.is_future and not self.challenge_language
-
-    @property
     def recommended_languages(self):
         """Return all languages suggested so far."""
         all_votes = [t.default_votes for t in self.tickets.all()
@@ -231,7 +226,6 @@ class Event(db.Model):
         kwargs = {"event": self,
                   "event_name": str(self),
                   "time_to_event": self.time_to_string,
-                  "is_voting": self.is_voting,
                   "is_final_notification": is_final
                   }
         e = EventInformationNotification(user, **kwargs)

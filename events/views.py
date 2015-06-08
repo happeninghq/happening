@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from forms import TicketForm, GroupNumberForm
 from forms import GroupSubmissionForm
 from django.views.decorators.http import require_POST
-import json
 
 
 def view(request, pk):
@@ -63,27 +62,6 @@ def events(request):
     events = Event.objects.all().order_by("-start")
     return render(request, "events/events.html",
                   {"all_events": events})
-
-
-@require_POST
-@login_required
-def vote(request, pk):
-    """Vote for languages for an event."""
-    event = get_object_or_404(Event, pk=pk)
-
-    if not event.is_voting:
-        return redirect("view_event", event.pk)
-
-    # Check that we have tickets
-    ticket = event.tickets.get(user=request.user, cancelled=False)
-    if not ticket:
-        return redirect("view_event", event.pk)
-
-    # Record the vote
-    ticket.votes = json.loads(request.POST['languages'])
-    ticket.save()
-
-    return redirect("view_event", event.pk)
 
 
 @require_POST

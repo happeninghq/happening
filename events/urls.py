@@ -10,5 +10,4 @@ urlpatterns = [
     url(r'^tickets_purchased/(?P<pk>\d+)', views.tickets_purchased,
         name='tickets_purchased'),
     url(r'^$', views.events, name='events'),
-    url(r'^(?P<pk>\d+)/vote', views.vote, name='vote'),
 ]

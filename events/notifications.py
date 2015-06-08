@@ -7,7 +7,7 @@ class EventInformationNotification(Notification):
     """An event you have tickets to is coming up."""
 
     required_data = ["event", "event_name", "time_to_event",
-                     "is_final_notification", "is_voting"]
+                     "is_final_notification"]
     category = "Events"
 
 
