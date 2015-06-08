@@ -18,6 +18,7 @@ class Command(BaseCommand):
             # We'll create the file with rubbish in it
             # - to create the structure
             default_storage.save("css/generated.css",
-                                 File(open("README.md")))
+                                 File(open("README.md")),
+                                 content_type="text/css")
         with default_storage.open("css/generated.css", "w+") as o:
             o.write(generate_css())
