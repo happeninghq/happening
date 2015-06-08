@@ -9,7 +9,7 @@ def migrate_dojo_fields(apps, schema_editor):
     """Migrate dojo specific fields."""
     from events.models import Event
     for event in Event.objects.all():
-        event.title = event.heading
+        event.title = event.heading()
         x = ""
         if event._data.get('description'):
             x = event._data['description']
