@@ -15,8 +15,8 @@ def migrate_dojo_fields(apps, schema_editor):
             x = event._data['description']
         if event.challenge_text:
             x += event.challenge_text + "\n\n"
-        if event.solutions_text:
-            x += event.solutions_text
+        if event.solution_text:
+            x += event.solution_text
         event._data['description'] = x
         event.save()
 
