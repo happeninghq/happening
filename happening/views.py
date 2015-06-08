@@ -1,6 +1,5 @@
 """General Happening views."""
 from django.views.decorators.http import require_POST
-from django.conf import settings
 from django.http import JsonResponse
 from happening.utils import format_bytes
 from uuid import uuid4
@@ -13,7 +12,7 @@ def file_upload(request):
     """Handle an ajax file upload."""
     uuid = uuid4().hex
     filename = request.FILES['files[]'].name
-    filepath = '%s/tmp/%s_%s' % (settings.MEDIA_ROOT, uuid, filename)
+    filepath = 'tmp/%s_%s' % (uuid, filename)
     with default_storage.open(filepath, 'wb+') as destination:
         for chunk in request.FILES['files[]'].chunks():
             destination.write(chunk)

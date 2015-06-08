@@ -3,7 +3,6 @@ from django import forms
 from django.template.loader import render_to_string
 from happening.utils import convert_to_underscore
 import json
-from django.conf import settings
 from django.core.files import File
 from django.core.files.storage import default_storage
 
@@ -188,7 +187,6 @@ class ImageField(forms.ImageField):
         if value.startswith("tmp"):
             is_temp = True
 
-        value = "%s/%s" % (settings.MEDIA_ROOT, value)
         # TODO: What happens if they use ../../ etc.
         # Can they mess with stuff they shouldn't?
 
