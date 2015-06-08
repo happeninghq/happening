@@ -19,7 +19,7 @@
                     <h3>Sponsored Events</h3>
                     <ul>
                         {% for event in sponsor.event_set.all %}
-                            <li><a href="{% url "view_event" event.pk %}">{{event.year_heading}}</a></li>
+                            <li><a href="{% url "view_event" event.pk %}">{{event}}</a></li>
                         {% endfor %}
                     </ul>
                 {% endif %}

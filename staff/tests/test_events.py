@@ -93,10 +93,6 @@ class TestEvents(TestCase):
             "title": "NEW TITLE",
             "start": "2010-05-05 19:00:00",
             "available_tickets": "30",
-            "challenge_language": "",
-            "challenge_title": "",
-            "challenge_text": "",
-            "solution_text": "",
 
             # TODO: These two shouldn't be tested here
             "ticket_purchased_message": ".",
@@ -118,10 +114,6 @@ class TestEvents(TestCase):
             "title": "NEW TITLE",
             "start": "2010-05-05 19:00:00",
             "available_tickets": "30",
-            "challenge_language": "",
-            "challenge_title": "",
-            "challenge_text": "",
-            "solution_text": "",
 
             # TODO: These two shouldn't be tested here
             "ticket_purchased_message": ".",

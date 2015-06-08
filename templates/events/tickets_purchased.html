@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="small-12 column">
-                <h2>{{ticket.event.heading}}</h2>
+                <h2>{{ticket.event}}</h2>
 
                 <p>You have purchased <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize:"s"}} to <a href="{% url "view_event" ticket.event.pk %}">the {{ticket.event}}</a>.</p>
 

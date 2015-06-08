@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="small-12 column">
-                <h2>{{group.event.heading}}</h2>
+                <h2>{{group.event}}</h2>
                 <h3>Add Group</h3>
                 <form method="POST" action="{% url "add_group" event.pk %}">
                     {% csrf_token %}

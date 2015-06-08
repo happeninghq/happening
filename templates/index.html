@@ -28,7 +28,7 @@
             <div class="small-12 column">
                 {% if latest_event %}
                     {% if latest_event.is_future %}
-                        <h2 id="next"><a href="{% url "view_event" latest_event.pk %}">{{latest_event.heading}}</a></h2>
+                        <h2 id="next"><a href="{% url "view_event" latest_event.pk %}">{{latest_event}}</a></h2>
                         <div id="next-event">
                             <p>Our next event will be on {{latest_event.start}}</p>
 

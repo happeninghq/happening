@@ -8,7 +8,7 @@
     <div class="container">
         <div class="row">
             <div class="small-12 column">
-                <h2>{{event.heading}}</h2>
+                <h2>{{event}}</h2>
                 <p class="date-range">{{event.date_range}}</p>
 
                 {{"events.event_configuration.Description"|get_configuration:event}}
@@ -26,17 +26,6 @@
                         {% include "events/_ticket_widget.html" %}
                     {% endif %}
                     {% include "events/_attending_members.html" %}
-                {% endif %}
-                {% if event.challenge_text %}
-                    <h2>The Challenge</h2>
-                    <div id="challenge-text">
-                        {{event.challenge_text|markdown}}
-                    </div>
-                {% endif %}
-                {% if event.image %}
-                    <div class="image" id="event-image">
-                        <img src="{{ event.image.url }}">
-                    </div>
                 {% endif %}
                 {% plugin_block "events.event_long" event %}
             </div>

@@ -50,16 +50,6 @@ class Event(db.Model):
     # The number of tickets available in total for this event
     available_tickets = models.IntegerField(default=30)
 
-    # If completed, this information will be used on the "info" page
-    challenge_language = models.CharField(max_length=200, blank=True,
-                                          null=True)
-    challenge_title = models.CharField(max_length=200, blank=True, null=True)
-
-    challenge_text = models.TextField(blank=True, null=True)
-    solution_text = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to="media/event_images", blank=True,
-                              null=True)
-
     # Has the first "upcoming event" notification been sent?
     upcoming_notification_1_sent = models.BooleanField(default=False)
 
@@ -113,18 +103,6 @@ class Event(db.Model):
         return all_votes
 
     @property
-    def winning_language(self):
-        """Return the language which has the most votes."""
-        from voting import AVVote
-        vote = AVVote()
-        if self.previous_event and self.previous_event.challenge_language:
-            vote = AVVote(ignore=[self.previous_event.challenge_language])
-        for ticket in self.tickets.all():
-            if ticket.default_votes is not None:
-                vote.add_preference(ticket.default_votes)
-        return vote.winner
-
-    @property
     def taken_tickets(self):
         """Return the number of tickets purchased."""
         return sum(
@@ -150,30 +128,6 @@ class Event(db.Model):
             return self.start.strftime("%b. %d, %Y, %H:%M") +\
                 '-' + self.end.strftime("%b. %d, %Y, %H:%M")
         return self.start.strftime("%b. %d, %Y, %H:%M")
-
-    def challenge(self):
-        """Return the language and challenge if available."""
-        if self.challenge_language and self.challenge_title:
-            return "%s %s" % (self.challenge_language, self.challenge_title)
-        elif self.challenge_title:
-            return self.challenge_title
-        elif self.challenge_language:
-            return self.challenge_language
-        return None
-
-    def heading(self):
-        """Return the title and challenge."""
-        return "%s (%s)" % (self.__unicode__(), self.challenge()) if\
-            self.challenge() else self.__unicode__()
-
-    def year_heading(self):
-        """Return the month, year, and challenge."""
-        return "%s (%s)" % (self.__unicode__(), self.challenge()) if\
-            self.challenge() else self.__unicode__()
-
-    def month_year(self):
-        """Return the month and year."""
-        return self.start.strftime("%B %Y")
 
     def buy_ticket(self, user, tickets=1):
         """Buy the given number of tickets for the given user."""

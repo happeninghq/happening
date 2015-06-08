@@ -28,8 +28,8 @@ class TestPreviousEvents(TestCase):
         lis = response.soup.find(id="all-events").findAll(
             "li")
         self.assertEqual(2, len(lis))
-        self.assertEqual(later_event.year_heading(), lis[0].find("a").text)
-        self.assertEqual(earlier_event.year_heading(), lis[1].find("a").text)
+        self.assertEqual(str(later_event), lis[0].find("a").text)
+        self.assertEqual(str(earlier_event), lis[1].find("a").text)
 
         # Check that links work correctly
         response = self.client.get(lis[0].find("a")['href'])

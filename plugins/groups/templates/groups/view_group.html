@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="small-12 column">
-                <h2><a href="{% url "view_event" group.event.pk %}">{{group.event.heading}}</a></h2>
+                <h2><a href="{% url "view_event" group.event.pk %}">{{group.event}}</a></h2>
                 <h3>{{group.name}}</h3>
                 {% if not user|has_group:group.event %}
                     {% if user|can_move_groups:group.event %}
