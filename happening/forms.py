@@ -5,7 +5,7 @@ from happening.utils import convert_to_underscore
 import json
 from django.conf import settings
 from django.core.files import File
-from django.core.files.storage import get_storage_class
+from django.core.files.storage import default_storage
 
 
 class PropertiesWidget(forms.Widget):
@@ -192,11 +192,9 @@ class ImageField(forms.ImageField):
         # TODO: What happens if they use ../../ etc.
         # Can they mess with stuff they shouldn't?
 
-        c = get_storage_class()()
-
         # Otherwise open the file and pass the handle back
         filename = value.rsplit("/", 1)[-1]
         if is_temp:
             filename = filename.split("_", 1)[1]
 
-        return (filename, File(c.open(value)))
+        return (filename, File(default_storage.open(value)))

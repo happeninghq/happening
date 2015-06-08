@@ -9,6 +9,9 @@
     <title>{{"pages.configuration.SiteTitle"|get_configuration}}</title>
     <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/generated.css" />
     {% compress css %}
+        <link rel="stylesheet" type="text/css" href="{% static "sass/icons.scss" %}" />
+        <link rel="stylesheet" type="text/css" href="{% static "lib/datatables.foundation/datatables.foundation.css" %}" />
+        <link rel="stylesheet" type="text/css" href="{% static "datetimepicker/jquery.datetimepicker.css" %}" />
         <link rel="stylesheet" type="text/css" href="{% static "lib/responsive-tables/css/responsive-tables.css" %}" />
         {% block style %}
 

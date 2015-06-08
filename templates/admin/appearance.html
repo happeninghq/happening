@@ -8,6 +8,7 @@
             <div class="small-12 column">
                 <h2>Appearance</h2>
                 <form method="POST" action="{% url "appearance" %}">
+                    {% csrf_token %}
                     <h3>Theme</h3>
                     {{theme_form|foundation}}
                     <button type="submit">Save</button>

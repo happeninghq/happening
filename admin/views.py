@@ -19,7 +19,7 @@ import re
 from django.http import HttpResponseForbidden
 from django.contrib.sites.models import Site
 from happening.appearance import generate_css as happening_generate_css
-from django.core.files.storage import get_storage_class
+from django.core.files.storage import default_storage
 
 
 @admin_required
@@ -189,9 +189,8 @@ def appearance(request):
                 site.primary_colour = form.cleaned_data['primary_colour']
                 # Regenerate CSS
                 site.save()
-                c = get_storage_class()()
-                with c.open("%s/css/generated.css" % settings.MEDIA_ROOT,
-                            "w+") as o:
+                path = "%s/css/generated.css" % settings.MEDIA_ROOT
+                with default_storage.open(path, "w+") as o:
                     o.write(happening_generate_css())
 
             if form.cleaned_data['large_logo'] == "DELETE":
