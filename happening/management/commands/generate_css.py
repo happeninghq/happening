@@ -17,8 +17,10 @@ class Command(BaseCommand):
         if not default_storage.exists("css/generated.css"):
             # We'll create the file with rubbish in it
             # - to create the structure
-            default_storage.save("css/generated.css",
-                                 File(open("README.md")),
-                                 content_type="text/css")
+            default_storage.save(
+                "css/generated.css",
+                # Ensure that we load a css file for mimetype
+                File(open("static/lib/datatables.foundation/" +
+                          "datatables.foundation.css")))
         with default_storage.open("css/generated.css", "w+") as o:
             o.write(generate_css())
