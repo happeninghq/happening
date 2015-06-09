@@ -14,5 +14,5 @@ urlpatterns = [
 ]
 
 admin_links = (
-    ("Socal Links", "social_links"),
+    ("Social Links", "social_links"),
 )
