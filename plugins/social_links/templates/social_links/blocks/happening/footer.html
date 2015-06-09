@@ -1,0 +1,14 @@
+{% load staticfiles %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 column">
+            <div id="contacts">
+                {% for social_link in social_links %}
+                    {% with social_link.provider|add:".png" as filename %}
+                        <a href="{{social_link.url}}"><img src="{% static "social_links/"|add:filename %}"></a>
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

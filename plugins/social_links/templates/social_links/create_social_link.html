@@ -1,0 +1,20 @@
+{% extends "admin/base.html" %}
+{% load staticfiles %}
+{% load foundation %}
+
+{% block admin_content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>New Social Link</h2>
+                    
+                <form method="POST" action="{% url "create_social_link" %}">
+                    {% csrf_token %}
+                    {{form|foundation}}
+                    <button type="submit">Save</button>
+                    <a class="button warning" href="{% url "social_links" %}">Cancel</a>
+                </form>
+            </div>
+        </p>
+    </div>
+{% endblock %}
