@@ -21,6 +21,7 @@ def split_attributes(str):
                 num_parenthesis -= 1
     if current_attribute:
         attributes.append(current_attribute)
+    return attributes
 
 
 def query(str, data_type=User):
