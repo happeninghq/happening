@@ -63,14 +63,15 @@ class TestFiltering(TestCase):
         self.assertEqual(len(results), 3)
 
         # Members who have tickets to event 1
-        results = filtering.query("tickets__event__id:1")
+        results = filtering.query("tickets__event__id:%s" % event1.pk)
         self.assertEqual(len(results), 2)
 
         # Members who have cancelled tickets for event 1
-        results = filtering.query("tickets__has:(event__id:1 cancelled:True)")
+        results = filtering.query(
+            "tickets__has:(event__id:%s cancelled:True)" % event1.id)
         self.assertEqual(len(results), 1)
 
         # Members who have tickets for event 1 and 2
-        results = filtering.query("tickets__has:(event__id:1) " +
-                                  "tickets__has:(event__id:2)")
+        results = filtering.query("tickets__has:(event__id:%s) " % event1.id +
+                                  "tickets__has:(event__id:%s)" % event2.id)
         self.assertEqual(len(results), 1)
