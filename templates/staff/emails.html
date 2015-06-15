@@ -1,0 +1,31 @@
+{% extends "staff/base.html" %}
+{% load datetime %}
+
+{% block staff_content %}
+    <a class="button" href="{% url "create_email" %}">New Email</a>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>To</th>
+                <th>Start</th>
+                <th>Stop</th>
+                <th>Status</th>
+                <th>Number Sent</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for email in emails %}
+                <tr>
+                    <td><a href="{% url "email" email.pk %}">{{email.subject}}</a></td>
+                    <td>{{email.to}}</td>
+                    <td data-sort="{{email.start_sending|epoch}}">{{email.start_sending}}</td>
+                    <td data-sort="{{email.stop_sending|epoch}}">{% if email.stop_sending %}{{email.stop_sending}}{% endif %}</td>
+                    <td>{{email.status}}</td>
+                    <td>{{email.sent_emails.count}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

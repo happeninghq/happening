@@ -13,7 +13,6 @@ urlpatterns = [
     url(r'^members/(?P<pk>\d+)/staff$', views.make_staff, name='make_staff'),
     url(r'^members/(?P<pk>\d+)/not-staff$', views.make_not_staff,
         name='make_not_staff'),
-    url(r'^send_email$', views.send_email, name='staff_send_email'),
     url(r'^events$', views.events, name='staff_events'),
     url(r'^event_presets$', views.event_presets, name='event_presets'),
     url(r'^event_presets/create$', views.create_event_preset,
@@ -39,6 +38,10 @@ urlpatterns = [
         name='cancel_check_in'),
     url(r'^events/(?P<pk>\d+)/manage_check_ins$', views.manage_check_ins,
         name='manage_check_ins'),
+
+    url(r'^emails$', views.staff_emails, name='staff_emails'),
+    url(r'^emails/(?P<pk>\d+)$', views.email, name='email'),
+    url(r'^create_email$', views.create_email, name='create_email'),
 ]
 
 if hasattr(settings, "PLUGINS"):

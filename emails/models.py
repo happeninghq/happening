@@ -1,0 +1,51 @@
+"""Email models."""
+from django.db import models
+from happening import db
+from django.conf import settings
+from datetime import datetime
+from happening import filtering
+
+
+class Email(db.Model):
+
+    """An instruction to send a templated email."""
+
+    # This is a query
+    to = models.TextField()
+    subject = models.CharField(max_length=255)
+    content = models.TextField()
+    start_sending = models.DateTimeField()
+    stop_sending = models.DateTimeField()
+
+    @property
+    def status(self):
+        """Return Completed/Active/Pending depending on start and end dates."""
+        now = datetime.now()
+        if self.stop_sending < now:
+            return "Completed"
+        elif self.start_sending < now:
+            return "Active"
+        return "Pending"
+
+    def send(self, user):
+        """Send the email to a user, if they haven't already received it."""
+        if self.sent_emails.filter(user=user).count() > 0:
+            return
+
+        # TODO: Send the email
+        SentEmail(email=self, user=user).save()
+
+    def send_all(self):
+        """Send the email to all eligible users."""
+        for user in filtering.query(self.to):
+            self.send(user)
+
+
+class SentEmail(db.Model):
+
+    """An Email sent to a User."""
+
+    email = models.ForeignKey(Email, related_name="sent_emails")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             related_name="received_emails")
+    sent_datetime = models.DateTimeField(auto_now_add=True)

@@ -1,0 +1,47 @@
+{% extends "staff/base.html" %}
+
+{% block staff_content %}
+    <table>
+        <tr>
+            <th>Start Sending</th>
+            <td>{{email.start_sending}}</td>
+        </tr>
+        <tr>
+            <th>Stop Sending</th>
+            <td>{{email.stop_sending}}</td>
+        </tr>
+        <tr>
+            <th>Subject</th>
+            <td>{{email.subject}}</td>
+        </tr>
+        <tr>
+            <th colspan="2">
+                Content
+            </th>
+        <tr>
+            <td colspan="2">
+                {{email.content}}
+            </td>
+        </tr>
+    </table>
+
+    <h3>Emails Sent</h3>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Sent</th>
+                <th>Recipient</th>
+                <th>Email Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sent_email in email.sent_emails.all %}
+                <tr>
+                    <td>{{sent_email.sent_datetime}}</td>
+                    <td><a href="{% url "view_profile" sent_email.user.pk %}">{{sent_email.user}}</a></td>
+                    <td>{{sent_email.user.email}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -9,13 +9,12 @@ from pages.forms import PageForm
 from forms import EmailForm
 from django.http import HttpResponse
 import json
-from admin.notifications import AdminEventMessageNotification
-from admin.notifications import AdminMessageNotification
 from django.contrib import messages
 from datetime import datetime
 from happening.configuration import get_configuration_variables, attach_to_form
 from happening.configuration import save_variables
 from events.utils import dump_preset
+from emails.models import Email
 
 
 @staff_member_required
@@ -254,25 +253,6 @@ def email_event(request, pk):
 
 
 @staff_member_required
-def send_email(request):
-    """Send an email to all members."""
-    form = EmailForm()
-    if request.method == "POST":
-        form = EmailForm(request.POST)
-        if form.is_valid():
-            # Send email to members
-            for user in get_user_model().objects.filter(is_active=True):
-                n = AdminMessageNotification(
-                    user,
-                    subject=form.cleaned_data.get("subject"),
-                    message=form.cleaned_data['content'])
-                n.send()
-            return redirect("staff_send_email")
-    return render(request, "staff/send_email.html",
-                  {"form": form})
-
-
-@staff_member_required
 def get_vote_winner(request, pk):
     """Get an AJAX response of the winning language for an event."""
     event = get_object_or_404(Event, pk=pk)
@@ -320,3 +300,42 @@ def create_page(request):
             messages.success(request, 'Page created.')
             return redirect("staff_pages")
     return render(request, "staff/create_page.html", {"form": form})
+
+
+@staff_member_required
+def staff_emails(request):
+    """List emails."""
+    return render(request,
+                  "staff/emails.html",
+                  {"emails": Email.objects.all()})
+
+
+@staff_member_required
+def email(request, pk):
+    """Show email details."""
+    email = get_object_or_404(Email, pk=pk)
+    return render(request,
+                  "staff/email.html",
+                  {"email": email})
+
+
+@staff_member_required
+def create_email(request):
+    """Send an email."""
+    form = EmailForm()
+    if request.method == "POST":
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            email = Email(
+                to=form.cleaned_data['to'],
+                subject=form.cleaned_data['subject'],
+                content=form.cleaned_data['content'],
+                start_sending=form.cleaned_data['start_sending'],
+                stop_sending=form.cleaned_data['stop_sending'],
+            )
+            email.save()
+
+            # TODO: If this includes the current time - send it now
+            return redirect("staff_emails")
+    return render(request, "staff/create_email.html",
+                  {"form": form})

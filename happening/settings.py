@@ -72,6 +72,7 @@ INSTALLED_APPS = (
     'template_profiler_panel',
 
     'happening',
+    'emails',
     'external',
     'events',
     'members',

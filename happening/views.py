@@ -25,7 +25,7 @@ def file_upload(request):
         dimensions = "%sx%s" % im.size
 
     return JsonResponse(
-        {"src": "%s/tmp/%s_%s" % (settings.MEDIA_URL, uuid, filename),
+        {"src": "%stmp/%s_%s" % (settings.MEDIA_URL, uuid, filename),
          "filesize": format_bytes(filesize),
          "dimensions": dimensions,
          "filename": filename,
