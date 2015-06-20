@@ -4,22 +4,28 @@ from happening import db
 from django.conf import settings
 from django.utils import timezone
 from happening import filtering
+from events.models import Event
 
 
 class Email(db.Model):
 
     """An instruction to send a templated email."""
 
+    # Optionally link the email to an event
+    event = models.ForeignKey(Event, null=True)
     # This is a query
     to = models.TextField()
     subject = models.CharField(max_length=255)
     content = models.TextField()
     start_sending = models.DateTimeField()
     stop_sending = models.DateTimeField()
+    disabled = models.BooleanField(default=False)
 
     @property
     def status(self):
         """Return Completed/Active/Pending depending on start and end dates."""
+        if self.disabled:
+            return "Disabled"
         now = timezone.now()
         if self.stop_sending < now:
             return "Completed"
@@ -42,6 +48,11 @@ class Email(db.Model):
 
     def save(self):
         """Automatically send emails if required."""
+        # Do any replacements needed in the "to"
+
+        if self.event:
+            self.to = self.to.replace("{{event.id}}", str(self.event.pk))
+
         is_new = True if self.pk is None else False
         super(Email, self).save()
         if is_new and self.start_sending < timezone.now() < self.stop_sending:

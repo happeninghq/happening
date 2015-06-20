@@ -11,5 +11,6 @@ def send_emails():
     now = datetime.now()
     for email in Email.objects.all().filter(
             start_sending__lt=now,
-            stop_sending__gt=now):
+            stop_sending__gt=now,
+            disabled=False):
         email.send_all()

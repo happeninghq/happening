@@ -278,8 +278,8 @@ class EmailsField(ConfigurationVariable):
             start_sending = get_time(event, email['start_sending'])
             stop_sending = get_time(event, email['stop_sending'])
 
-            # TODO: Move replacements out of here
-            Email(to=email['to'].replace("{{event.id}}", str(event.id)),
+            Email(event=event,
+                  to=email['to'],
                   subject=email['subject'],
                   content=email['content'],
                   start_sending=start_sending,

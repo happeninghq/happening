@@ -1,0 +1,22 @@
+{% extends "staff/base.html" %}
+{% load staticfiles %}
+{% load foundation %}
+{% load widget_tweaks %}
+{% load markdown_deux_tags %}
+
+{% block staff_content %}
+    <div class="container">
+        <div class="row">
+            <div class="small-12 column">
+                <h2>Edit Email</h2>
+                    
+                <form method="POST" action="{% url "edit_email" email.pk %}">
+                    {% csrf_token %}
+                    {{form|foundation}}
+                    <button type="submit">Save</button>
+                    <a class="button warning" href="{% url "staff" %}">Cancel</a>
+                </form>
+            </div>
+        </p>
+    </div>
+{% endblock %}

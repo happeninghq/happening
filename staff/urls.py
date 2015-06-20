@@ -41,6 +41,13 @@ urlpatterns = [
 
     url(r'^emails$', views.staff_emails, name='staff_emails'),
     url(r'^emails/(?P<pk>\d+)$', views.email, name='email'),
+    url(r'^emails/(?P<pk>\d+)/edit$', views.edit_email, name='edit_email'),
+    url(r'^emails/(?P<pk>\d+)/disable$', views.disable_email,
+        name='disable_email'),
+    url(r'^emails/(?P<pk>\d+)/enable$', views.enable_email,
+        name='enable_email'),
+    url(r'^emails/(?P<pk>\d+)/delete$', views.delete_email,
+        name='delete_email'),
     url(r'^create_email$', views.create_email, name='create_email'),
 ]
 

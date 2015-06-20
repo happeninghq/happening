@@ -15,6 +15,7 @@ from happening.configuration import get_configuration_variables, attach_to_form
 from happening.configuration import save_variables
 from events.utils import dump_preset
 from emails.models import Email
+from django.views.decorators.http import require_POST
 
 
 @staff_member_required
@@ -333,16 +334,57 @@ def create_email(request):
     if request.method == "POST":
         form = EmailForm(request.POST)
         if form.is_valid():
-            email = Email(
-                to=form.cleaned_data['to'],
-                subject=form.cleaned_data['subject'],
-                content=form.cleaned_data['content'],
-                start_sending=form.cleaned_data['start_sending'],
-                stop_sending=form.cleaned_data['stop_sending'],
-            )
-            email.save()
-
-            # TODO: If this includes the current time - send it now
+            form.save()
+            messages.success(request, "Email created")
             return redirect("staff_emails")
     return render(request, "staff/create_email.html",
                   {"form": form})
+
+
+@staff_member_required
+def edit_email(request, pk):
+    """Edit an email."""
+    email = get_object_or_404(Email, pk=pk)
+    form = EmailForm(instance=email)
+    if request.method == "POST":
+        form = EmailForm(request.POST, instance=email)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Email edited")
+            return redirect(request.GET.get("redirect", "staff_emails"))
+    return render(request, "staff/edit_email.html",
+                  {"form": form, "email": email})
+
+
+@staff_member_required
+def disable_email(request, pk):
+    """Disable an email."""
+    email = get_object_or_404(Email, pk=pk)
+    email.disabled = True
+    email.save()
+    messages.success(request, "The email has been disabled")
+    return redirect(request.GET.get("redirect", "staff_emails"))
+
+
+@staff_member_required
+def enable_email(request, pk):
+    """Enable an email."""
+    email = get_object_or_404(Email, pk=pk)
+    email.disabled = False
+    email.save()
+    messages.success(request, "The email has been enabled")
+    return redirect(request.GET.get("redirect", "staff_emails"))
+
+
+@staff_member_required
+@require_POST
+def delete_email(request, pk):
+    """Delete an email."""
+    email = get_object_or_404(Email, pk=pk)
+    if email.sent_emails.count() > 0:
+        messages.error(request, "You can not delete an email which has been " +
+                       "sent. Disable it instead.")
+    else:
+        email.delete()
+        messages.success(request, "The email has been deleted")
+    return redirect(request.GET.get("redirect", "staff_emails"))
