@@ -196,3 +196,36 @@ class ImageField(forms.ImageField):
             filename = filename.split("_", 1)[1]
 
         return (filename, File(default_storage.open(value)))
+
+
+class EmailsWidget(forms.Widget):
+
+    """A widget that allows for configuring emails."""
+
+    def __init__(self, *args, **kwargs):
+        """Create an emails widget."""
+        super(EmailsWidget, self).__init__(*args, **kwargs)
+
+    def render(self, name, value, attrs):
+        """Render the widget."""
+        if not isinstance(value, basestring):
+            value = json.dumps(value)
+        return render_to_string("forms/widgets/emails_widget.html", {
+            "name": name,
+            "value": value
+        })
+
+    def value_from_datadict(self, data, files, name):
+        """Get the value as a string."""
+        return data[name]
+
+
+class EmailsField(forms.CharField):
+
+    """A field that allows for configuring emails."""
+
+    widget = EmailsWidget
+
+    def clean(self, value):
+        """Turn the JSON into a Python list."""
+        return json.loads(value)

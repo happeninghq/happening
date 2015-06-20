@@ -10,7 +10,7 @@ from forms import EmailForm
 from django.http import HttpResponse
 import json
 from django.contrib import messages
-from datetime import datetime
+from django.utils import timezone
 from happening.configuration import get_configuration_variables, attach_to_form
 from happening.configuration import save_variables
 from events.utils import dump_preset
@@ -159,7 +159,7 @@ def check_in(request, pk):
     ticket = get_object_or_404(Ticket, pk=pk)
     if not ticket.checked_in:
         ticket.checked_in = True
-        ticket.checked_in_datetime = datetime.now()
+        ticket.checked_in_datetime = timezone.now()
         ticket.save()
         messages.success(request, ticket.user.name() + " has been checked in.")
     return redirect(request.GET.get("redirect_to"))
@@ -171,7 +171,7 @@ def cancel_check_in(request, pk):
     ticket = get_object_or_404(Ticket, pk=pk)
     if ticket.checked_in:
         ticket.checked_in = False
-        ticket.checked_in_datetime = datetime.now()
+        ticket.checked_in_datetime = timezone.now()
         ticket.save()
         messages.success(request, ticket.user.name() +
                          " is no longer checked in.")
@@ -200,13 +200,13 @@ def edit_event(request, pk):
     variables = get_configuration_variables("event_configuration", event)
     if request.method == "POST":
         form = EventForm(request.POST, request.FILES, instance=event)
-        attach_to_form(form, variables)
+        attach_to_form(form, variables, editing=True)
         if form.is_valid():
             save_variables(form, variables)
             form.save()
             return redirect("staff_event", event.pk)
     else:
-        attach_to_form(form, variables)
+        attach_to_form(form, variables, editing=True)
     return render(request, "staff/edit_event.html",
                   {"event": event, "form": form})
 
@@ -224,6 +224,7 @@ def create_event(request):
             variables = get_configuration_variables("event_configuration",
                                                     event)
             save_variables(form, variables)
+
             return redirect("staff_events")
     else:
         attach_to_form(form, variables)
@@ -236,18 +237,24 @@ def create_event(request):
 def email_event(request, pk):
     """Send an email to attendees."""
     event = get_object_or_404(Event, pk=pk)
-    form = EmailForm()
+    form = EmailForm(initial={
+        "to": "tickets__has:(event__id:%s cancelled:False)" % event.id,
+        "subject": event.title
+    })
     if request.method == "POST":
         form = EmailForm(request.POST)
         if form.is_valid():
             # Send email to attendees
-            for user in event.attending_users():
-                kwargs = {"event_name": str(event),
-                          "subject": form.cleaned_data.get("subject"),
-                          "message": form.cleaned_data['content']}
-                n = AdminEventMessageNotification(user, **kwargs)
-                n.send()
-            return redirect("staff_events")
+            email = Email(
+                to=form.cleaned_data['to'],
+                subject=form.cleaned_data['subject'],
+                content=form.cleaned_data['content'],
+                start_sending=form.cleaned_data['start_sending'],
+                stop_sending=form.cleaned_data['stop_sending'],
+            )
+            email.save()
+            messages.success(request, "Email created")
+            return redirect("staff_emails")
     return render(request, "staff/email_event.html",
                   {"event": event, "form": form})
 

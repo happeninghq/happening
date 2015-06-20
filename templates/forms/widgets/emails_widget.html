@@ -1,0 +1,92 @@
+<div class="emails-widget widget">
+    <input type="hidden" name="{{name}}" data-bind="value: value" value='{{value|safe}}'>
+    <table class="full-width">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Start Sending</th>
+                <th>Stop Sending</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: emails">
+            <tr>
+                <td data-bind="text: subject"></td>
+                <td data-bind="text: formatted_start_sending"></td>
+                <td data-bind="text: formatted_stop_sending"></td>
+                <td>
+                    <a href="#" data-bind="click: editEmail">edit</a>
+                    <a href="#" data-bind="click: deleteEmail">delete</a>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <a href="#" data-bind="click: addEmail">Add Email</a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div id="add-email" class="reveal-modal" data-reveal>
+        <!-- ko if: mode() == "ADDING" -->
+            <h3>Add Email</h3>
+        <!-- /ko -->
+        <!-- ko if: mode() == "EDITING" -->
+            <h3>Edit Email</h3>
+        <!-- /ko -->
+        <label>To
+            <input id="add-email-to" type="text" class="to" placeholder="{% verbatim %}tickets__has:(event__id:{{event.id}} cancelled:False){% endverbatim %}"></label>
+        <label>Subject
+            <input id="add-email-subject" type="text" class="subject" placeholder="{% verbatim %}{{event.title}}{% endverbatim %}"></label>
+        <label>Content
+            <textarea id="add-email-content" class="content"></textarea>
+        </label>
+        <label>Start Sending
+            <div class="row">
+                <div class="small-4 columns">
+                    <input id="add-email-start-sending-number" type="text" />
+                </div>
+                <div class="small-4 columns">
+                    <select id="add-email-start-sending-type">
+                        <option>weeks</option>
+                        <option selected>days</option>
+                        <option>hours</option>
+                    </select>
+                </div>
+                <div class="small-4 columns">
+                    <select id="add-email-start-sending-start">
+                        <option selected>before event</option>
+                        <option>after event</option>
+                        <option>after event creation</option>
+                    </select>
+                </div>
+            </div>
+        </label>
+        <label>Stop Sending
+            <div class="row">
+                <div class="small-4 columns">
+                    <input id="add-email-stop-sending-number" type="text" />
+                </div>
+                <div class="small-4 columns">
+                    <select id="add-email-stop-sending-type">
+                        <option>weeks</option>
+                        <option selected>days</option>
+                        <option>hours</option>
+                    </select>
+                </div>
+                <div class="small-4 columns">
+                    <select id="add-email-stop-sending-start">
+                        <option selected>before event</option>
+                        <option>after event</option>
+                        <option>after event creation</option>
+                    </select>
+                </div>
+            </div>
+        </label>
+
+        <button data-bind="click: confirmAdding">Save</button>
+        <button class="warning" data-bind="click: cancelAdding">Cancel</button>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+</div>

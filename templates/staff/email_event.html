@@ -12,8 +12,7 @@
                     
                 <form method="POST" action="{% url "email_event" event.pk %}">
                     {% csrf_token %}
-                    <label>Subject (Optional)<br />{{form.subject}}</label>
-                    <label>Content<br />{% markdown_allowed %} {{form.content|add_class:"edit_markdown"}}</label>
+                    {{form|foundation}}
                     <button type="submit">Send</button>
                     <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
                 </form>

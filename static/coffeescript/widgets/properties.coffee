@@ -19,7 +19,7 @@ $ ->
 
     $this = $(this)
 
-    $this.data 'reload-properties', () ->
+    $this.data 'reload', () ->
       viewModel.properties.removeAll()
       value = $this.find('[type="hidden"]').val()
       if value
@@ -28,7 +28,5 @@ $ ->
           viewModel.properties.push(property(i.name, i.type))
 
 
-    $this.data('reload-properties')()
+    $this.data('reload')()
     ko.applyBindings(viewModel, this)
-
-    window.v = viewModel

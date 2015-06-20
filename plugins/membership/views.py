@@ -4,7 +4,7 @@ from payments.decorators import payment_successful, payment_failed
 from payments.models import Payment
 from forms import PaymentForm
 from django.contrib import messages
-from datetime import datetime
+from django.utils import timezone
 from dateutil.relativedelta import relativedelta
 from models import Membership
 from notifications import MembershipPaymentSuccessfulNotification
@@ -59,8 +59,8 @@ def membership_payment_success(request, payment):
         return HttpResponseForbidden()
 
     membership = Membership(user=member,
-                            start_time=datetime.now(),
-                            end_time=datetime.now() +
+                            start_time=timezone.now(),
+                            end_time=timezone.now() +
                             relativedelta(years=1),
                             amount=payment.amount / 100,
                             payment_id=payment.id)

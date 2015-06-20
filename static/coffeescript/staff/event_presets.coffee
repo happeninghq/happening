@@ -7,6 +7,7 @@ $ ->
         v = JSON.stringify(v)
       $('[name="' + k + '"]').val(v)
 
-    $('.properties-widget').each ->
-      $(this).data('reload-properties')()
+    $('.widget').each ->
+      if $(this).data('reload')
+        $(this).data('reload')()
     false

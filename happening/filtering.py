@@ -50,6 +50,13 @@ def query(str, data_type=User):
                 q = q.filter(**{key_parts[0] + "__in": results})
                 continue
 
+        # Now check if we need to coerce the type of value. For example
+        # If value is "True" or "False" (regardless of case) and the datatype
+        # of key is Boolean then we convert it to boolean
+        if value.lower() in ['true', 'false']:
+            key_type = data_type._meta.get_field_by_name(key)[0]
+            if key_type.__class__.__name__ == "BooleanField":
+                value = value.lower() == 'true'
         q = q.filter(**{key: value})
 
     return q

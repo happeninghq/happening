@@ -12,7 +12,7 @@
                     
                 <form method="POST" action="{% url "create_email" %}">
                     {% csrf_token %}
-                    {{form}}
+                    {{form|foundation}}
                     <button type="submit">Save</button>
                     <a class="button warning" href="{% url "staff" %}">Cancel</a>
                 </form>

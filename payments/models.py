@@ -3,7 +3,7 @@ from django.db import models
 from happening import db
 from django_pgjson.fields import JsonField
 from django.contrib.auth.models import User
-from datetime import datetime
+from django.utils import timezone
 
 
 class Payment(db.Model):
@@ -53,7 +53,7 @@ class Payment(db.Model):
         """Set the payment as complete."""
         if not val == self._complete:
             self._complete = val
-            self.complete_datetime = datetime.now()
+            self.complete_datetime = timezone.now()
             self.save()
 
     @property
@@ -68,7 +68,7 @@ class Payment(db.Model):
             raise ValueError("Must be PENDING, PAID, or FAILED")
         if not val == self._status:
             self._status = val
-            self.status_changed_datetime = datetime.now()
+            self.status_changed_datetime = timezone.now()
             self.save()
 
 

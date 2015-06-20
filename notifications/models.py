@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 import json
 from cached_property import threaded_cached_property
 from bs4 import BeautifulSoup
-from datetime import datetime
+from django.utils import timezone
 from markdown_deux import markdown
 from happening.utils import convert_to_camelcase
 from django.core.mail import send_mail
@@ -26,7 +26,7 @@ class NotificationManager(models.Manager):
         """Mark all notifications as read."""
         for n in self.unread():
             n.read = True
-            n.read_datetime = datetime.now()
+            n.read_datetime = timezone.now()
             n.save()
 
     def ordered(self):

@@ -2,7 +2,7 @@
 from django.db import models
 from happening import db
 from django.conf import settings
-from datetime import datetime
+from django.utils import timezone
 from happening import filtering
 
 
@@ -20,7 +20,7 @@ class Email(db.Model):
     @property
     def status(self):
         """Return Completed/Active/Pending depending on start and end dates."""
-        now = datetime.now()
+        now = timezone.now()
         if self.stop_sending < now:
             return "Completed"
         elif self.start_sending < now:
@@ -39,6 +39,13 @@ class Email(db.Model):
         """Send the email to all eligible users."""
         for user in filtering.query(self.to):
             self.send(user)
+
+    def save(self):
+        """Automatically send emails if required."""
+        is_new = True if self.pk is None else False
+        super(Email, self).save()
+        if is_new and self.start_sending < timezone.now() < self.stop_sending:
+            self.send_all()
 
 
 class SentEmail(db.Model):
