@@ -245,7 +245,7 @@ class EmailsField(ConfigurationVariable):
     def set(self, value):
         """Save this variable and then schedule the emails."""
         super(EmailsField, self).set(value)
-        
+
         # Schedule emails
         for email in value:
 
@@ -284,7 +284,6 @@ class EmailsField(ConfigurationVariable):
                   content=email['content'],
                   start_sending=start_sending,
                   stop_sending=stop_sending).save()
-
 
 
 class CustomProperties(ConfigurationVariable):
