@@ -14,4 +14,5 @@ If you'd like to use Happening to host your own event or community, read these t
    tickets
    pages
    emails
+   filtering
    plugins/index
