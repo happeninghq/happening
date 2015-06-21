@@ -30,38 +30,3 @@ class TestStaffMembers(TestCase):
 
         response = self.client.get("/staff/members")
         self.assertEquals(12, len(response.soup.find("table").findAll("tr")))
-
-    def test_make_staff(self):
-        """Test we can make a member staff."""
-        self.client.login(username=self.user.username, password="password")
-        mommy.make(settings.AUTH_USER_MODEL)
-
-        response = self.client.get("/staff/members")
-        trs = response.soup.find("table").findAll("tr")
-        # [1] is ourself, so we can't toggle staff
-        staff_td = trs[1].find("td", "is_staff")
-        self.assertEquals("True", staff_td.text.strip())
-        self.assertIsNone(staff_td.find("a"))
-
-        # [1] is another user
-        staff_td = trs[2].find("td", "is_staff")
-        self.assertEquals("False", staff_td.text.strip())
-        self.assertIsNotNone(staff_td.find("a"))
-
-        response = self.client.post(staff_td.find("a")['href'], follow=True)
-        trs = response.soup.find("table").findAll("tr")
-        # Will set to staff and redirect to current page
-
-        # [1] is another user
-        staff_td = trs[2].find("td", "is_staff")
-        self.assertEquals("True", staff_td.text.strip())
-        self.assertIsNotNone(staff_td.find("a"))
-
-        response = self.client.post(staff_td.find("a")['href'], follow=True)
-        trs = response.soup.find("table").findAll("tr")
-        # Will set to not staff and redirect to current page
-
-        # [1] is another user
-        staff_td = trs[2].find("td", "is_staff")
-        self.assertEquals("False", staff_td.text.strip())
-        self.assertIsNotNone(staff_td.find("a"))
