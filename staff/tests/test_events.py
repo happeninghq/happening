@@ -8,6 +8,7 @@ import pytz
 from uuid import uuid4
 from django.core import mail
 from django.conf import settings
+from django.utils import timezone
 
 
 class TestEvents(TestCase):
@@ -32,8 +33,13 @@ class TestEvents(TestCase):
         self.client.login(username=self.user.username, password="password")
 
         self.client.post("/staff/events/%s/email" % self.event.id, {
+            "to": "tickets__has:(event__id:%s cancelled:False)" %
+            self.event.id,
             "subject": test_subject,
-            "content": test_content
+            "content": test_content,
+            "start_sending": timezone.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "stop_sending": (timezone.now() + timedelta(days=1))
+            .strftime("%Y-%m-%d %H:%M:%S")
             })
 
         self.assertEquals(1, len(mail.outbox))
@@ -44,8 +50,13 @@ class TestEvents(TestCase):
         # With two attendees
         mommy.make("Ticket", event=self.event, number=1)
         self.client.post("/staff/events/%s/email" % self.event.id, {
+            "to": "tickets__has:(event__id:%s cancelled:False)" %
+            self.event.id,
             "subject": test_subject,
-            "content": test_content
+            "content": test_content,
+            "start_sending": timezone.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "stop_sending": (timezone.now() + timedelta(days=1))
+            .strftime("%Y-%m-%d %H:%M:%S")
             })
         self.assertEquals(2, len(mail.outbox))
 

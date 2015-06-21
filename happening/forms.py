@@ -217,7 +217,9 @@ class EmailsWidget(forms.Widget):
 
     def value_from_datadict(self, data, files, name):
         """Get the value as a string."""
-        return data[name]
+        if name in data:
+            return data[name]
+        return ''
 
 
 class EmailsField(forms.CharField):
@@ -228,4 +230,7 @@ class EmailsField(forms.CharField):
 
     def clean(self, value):
         """Turn the JSON into a Python list."""
-        return json.loads(value)
+        try:
+            json.loads(value)
+        except ValueError:
+            return []

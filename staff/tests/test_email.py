@@ -5,6 +5,8 @@ from model_mommy import mommy
 from uuid import uuid4
 from django.core import mail
 from django.conf import settings
+from django.utils import timezone
+from datetime import timedelta
 
 
 class TestEmail(TestCase):
@@ -24,9 +26,13 @@ class TestEmail(TestCase):
         self.client.login(username=self.user.username, password="password")
 
         # With a single attendee
-        self.client.post("/staff/send_email", {
+        self.client.post("/staff/create_email", {
+            "to": "",
             "subject": test_subject,
-            "content": test_content
+            "content": test_content,
+            "start_sending": timezone.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "stop_sending": (timezone.now() + timedelta(days=1))
+            .strftime("%Y-%m-%d %H:%M:%S")
             })
 
         self.assertEquals(1, len(mail.outbox))
@@ -36,8 +42,12 @@ class TestEmail(TestCase):
 
         # With two members
         mommy.make(settings.AUTH_USER_MODEL)
-        self.client.post("/staff/send_email", {
+        self.client.post("/staff/create_email", {
+            "to": "",
             "subject": test_subject,
-            "content": test_content
+            "content": test_content,
+            "start_sending": timezone.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "stop_sending": (timezone.now() + timedelta(days=1))
+            .strftime("%Y-%m-%d %H:%M:%S")
             })
         self.assertEquals(2, len(mail.outbox))
