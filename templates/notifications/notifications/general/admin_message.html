@@ -1,5 +1,0 @@
-{% extends "notifications/notifications/events/base.html" %}
-
-{% block subject %}{% if subject %}{{subject}}{% else %}{{event_name}}{% endif %}{% endblock %}
-
-{% block email_content %}{{message}}{% endblock %}

@@ -5,6 +5,8 @@ from django.conf import settings
 from django.utils import timezone
 from happening import filtering
 from events.models import Event
+from emails.notifications import EmailNotification
+from django.template import Context, Template
 
 
 class Email(db.Model):
@@ -38,7 +40,20 @@ class Email(db.Model):
         if self.sent_emails.filter(user=user).count() > 0:
             return
 
-        # TODO: Send the email
+        # We have to run the django template renderer first
+        # this will allow us to send a html and non-html version
+        # of the email
+
+        var = {"user": user}
+        if self.event:
+            var["event"] = self.event
+        context = Context(var)
+
+        EmailNotification(user,
+                          subject=Template(self.subject).render(context),
+                          content=Template(self.content).render(context)
+                          ).send()
+
         SentEmail(email=self, user=user).save()
 
     def send_all(self):
@@ -51,7 +66,8 @@ class Email(db.Model):
         # Do any replacements needed in the "to"
 
         if self.event:
-            self.to = self.to.replace("{{event.id}}", str(self.event.pk))
+            self.to = self.to.replace("{{event.id}}", str(self.event.pk))\
+                             .replace("{{event.pk}}", str(self.event.pk))
 
         is_new = True if self.pk is None else False
         super(Email, self).save()

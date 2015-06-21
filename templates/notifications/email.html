@@ -1,24 +1,13 @@
+{% load markdown_deux_tags %}
 <email_subject>{{notification.subject}}</email_subject>
 <email_text>
-Hello {{notification.user}},
-
+{{email_header}}
 {{notification.email_text|safe}}
-
-Jonny
-Southampton Code Dojo
-http://southamptoncodedojo.com
-
-(Update subscription preferences at https://www.southamptoncodedojo.com/notifications/settings)
+{{email_footer}}
 </email_text>
 
 <email_html>
-<p>Hello <strong>{{notification.user}}</strong>,</p>
-
+{{email_header|markdown}}
 {{notification.email_html|safe}}
-
-<p>
-    <strong>Jonny</strong><br />
-    <a href="http://southamptoncodedojo.com">Southampton Code Dojo</a>
-    <p>(<a href="https://www.southamptoncodedojo.com/notifications/settings">update subscription preferences</a>)</p>
-</p>
+{{email_footer|markdown}}
 </email_html>

@@ -14,9 +14,7 @@ class EmailForm(forms.ModelForm):
         model = Email
         fields = ['to', 'subject', 'content', 'start_sending', 'stop_sending']
 
-    to = forms.CharField()
-# subject = forms.CharField(required=False)
-# content = forms.CharField(widget=forms.Textarea)
+    to = forms.CharField(required=False)
     start_sending = forms.DateTimeField(widget=DateTimeWidget(),
                                         initial=timezone.now)
     stop_sending = forms.DateTimeField(widget=DateTimeWidget())

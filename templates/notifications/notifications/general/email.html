@@ -1,0 +1,7 @@
+{% extends "notifications/notification.html" %}
+
+{% block subject %}{{subject}}{% endblock %}
+{% block email %}{{content}}{% endblock %}
+{% block text %}
+<p><a id="main-link" href="#">You have received an email: {{subject}}</a></p>
+{% endblock %}

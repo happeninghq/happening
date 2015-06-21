@@ -12,6 +12,9 @@ from django.core.mail import send_mail
 from django.conf import settings
 from happening import notifications
 from configuration import NotificationsEmailAddress
+from django.contrib.sites.models import Site
+from configuration import EmailFooter, EmailHeader
+from django.template import Context, Template
 
 
 class NotificationManager(models.Manager):
@@ -69,9 +72,12 @@ class Notification(db.Model):
         n = [c for c in notifications.Notification.__subclasses__() if
              c.__name__ == notification_name][0]
 
+        d = self.data2
+        d["site"] = Site.objects.first().happening_site
+
         data = render_to_string("notifications/notifications/" +
                                 n.category.lower() + "/" +
-                                self.template + ".html", self.data2)
+                                self.template + ".html", d)
         return data
 
     def url(self):
@@ -100,9 +106,7 @@ class Notification(db.Model):
             return content
 
         # If there is no content, for now just send the notification title
-        # TODO: Make this configurable
-        return "You have a " + self.template + " notification." +\
-               " Visit https://www.southamptoncodedojo.com to check it."
+        return "You have a " + self.template + " notification."
 
     @threaded_cached_property
     def email_html(self):
@@ -132,8 +136,18 @@ class Notification(db.Model):
 
     def email_notification(self):
         """Send an email of the notification to the user."""
+        # First we need to render the header and footer
+        # Then we can provide it to the template to do a text/html version
+
+        header = Template(EmailHeader().get()).render(
+            Context({"user": self.user}))
+        footer = Template(EmailFooter().get()).render(
+            Context({"user": self.user}))
+
         data = render_to_string("notifications/email.html",
-                                {"notification": self})
+                                {"notification": self,
+                                 "email_header": header,
+                                 "email_footer": footer})
         text_content = data.split("<email_text>")[1].split("</email_text>")[0]
         html_content = data.split("<email_html>")[1].split("</email_html>")[0]
         send_mail(self.subject,

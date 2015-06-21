@@ -2,15 +2,6 @@
 from happening.notifications import Notification
 
 
-class EventInformationNotification(Notification):
-
-    """An event you have tickets to is coming up."""
-
-    required_data = ["event", "event_name", "time_to_event",
-                     "is_final_notification"]
-    category = "Events"
-
-
 class CancelledTicketNotification(Notification):
 
     """You have cancelled your tickets for an event."""
