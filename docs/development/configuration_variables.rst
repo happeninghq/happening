@@ -130,7 +130,7 @@ First, we must create a subclass of ``django.forms.Widget``, and implement the `
 In this case we have overridded forms.Textarea which is a subclass of forms.Widget and takes care of rendering a TextArea. We could have used render_to_string here to render completely custom html.
 
 We then create a subclass of ``django.forms.Field``, which references the widget to be rendered. It's often best here to subclass an existing ``Field`` subclass (see ``Django Form Fields Documentation <https://docs.djangoproject.com/en/1.8/ref/forms/fields/>``_, of which there are many::
-
+    
     class EpicEditorField(forms.CharField):
 
         """A field that uses an EpicEditor markdown editor."""

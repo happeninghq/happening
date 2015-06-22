@@ -1,5 +1,4 @@
 """Membership views."""
-from django.http import HttpResponseForbidden
 from payments.decorators import payment_successful, payment_failed
 from payments.models import Payment
 from forms import PaymentForm
@@ -55,8 +54,6 @@ def membership(request, pk):
 def membership_payment_success(request, payment):
     """Membership payment successful."""
     member = get_object_or_404(get_user_model(), pk=payment.extra["member"])
-    if not payment.user == request.user:
-        return HttpResponseForbidden()
 
     membership = Membership(user=member,
                             start_time=timezone.now(),

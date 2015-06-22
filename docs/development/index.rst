@@ -15,5 +15,6 @@ To contribute to development of Happening, or to develop a plugin for use with H
    configuration_variables
    configuration
    event_configuration
+   payment
    plugins/index
    

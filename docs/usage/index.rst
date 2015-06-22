@@ -15,4 +15,5 @@ If you'd like to use Happening to host your own event or community, read these t
    pages
    emails
    filtering
+   payment
    plugins/index
