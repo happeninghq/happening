@@ -208,6 +208,8 @@ class EmailsWidget(forms.Widget):
 
     def render(self, name, value, attrs):
         """Render the widget."""
+        if not value:
+            value = []
         if not isinstance(value, basestring):
             value = json.dumps(value)
         return render_to_string("forms/widgets/emails_widget.html", {
@@ -231,6 +233,6 @@ class EmailsField(forms.CharField):
     def clean(self, value):
         """Turn the JSON into a Python list."""
         try:
-            json.loads(value)
+            return json.loads(value)
         except ValueError:
             return []
