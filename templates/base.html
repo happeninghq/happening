@@ -64,17 +64,17 @@
     {% block external_scripts %}
     {% endblock %}
     {% compress js %}
-        <script src="{% static "jquery/dist/jquery.min.js" %}"></script>
+        <script src="{% static "jquery/dist/jquery.js" %}"></script>
         <script src="{% static "lib/throttle.js" %}"></script>
         <script src="{% static "knockout/dist/knockout.js" %}"></script>
-        <script src="{% static "foundation/js/foundation.min.js" %}"></script>
+        <script src="{% static "foundation/js/foundation.js" %}"></script>
         <script src="{% static "foundation/js/foundation/foundation.topbar.js" %}"></script>
         <!-- We put this here rather that at each point to make it easier to replace later if needed. Will also need to edit edit_markdown.coffee -->
-        <script src="{% static "epiceditor/epiceditor/js/epiceditor.min.js" %}"></script>
+        <script src="{% static "epiceditor/epiceditor/js/epiceditor.js" %}"></script>
         <script src="{% static "datetimepicker/jquery.datetimepicker.js" %}"></script>
         <script src="{% static "lib/responsive-tables/js/responsive-tables.js" %}"></script>
         <script src="{% static "jquery-timeago/jquery.timeago.js" %}"></script>
-        <script src="{% static "datatables/media/js/jquery.dataTables.min.js" %}"></script>
+        <script src="{% static "datatables/media/js/jquery.dataTables.js" %}"></script>
         <script src="{% static "lib/datatables.foundation/datatables.foundation.js" %}"></script>
         <script src="{% static "jquery-cookie/jquery.cookie.js" %}"></script>
         <script type="text/coffeescript" src="{% static "coffeescript/notifications.coffee" %}"></script>
