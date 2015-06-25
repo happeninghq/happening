@@ -16,6 +16,7 @@
                 <td data-bind="text: formatted_start_sending"></td>
                 <td data-bind="text: formatted_stop_sending"></td>
                 <td>
+                    <a href="#" data-bind="click: viewPreview">view</a>
                     <a href="#" data-bind="click: editEmail">edit</a>
                     <a href="#" data-bind="click: deleteEmail">delete</a>
                 </td>
@@ -29,6 +30,17 @@
             </tr>
         </tfoot>
     </table>
+    <div id="view-email-preview" class="reveal-modal" data-reveal>
+        <p>Preview</p>
+        <select class="preview-event" data-bind="value: previewEvent, event: {change: refreshPreview}">
+            {% for event in events %}
+                <option value="{{event.pk}}">{{event.title}} ({{event.start}})</option>
+            {% endfor %}
+        </select>
+        <div class="preview-subject" data-bind="text: previewSubject"></div>
+        <div class="preview-content" data-bind="html: previewContent"></div>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
     <div id="add-email" class="reveal-modal" data-reveal>
         <!-- ko if: mode() == "ADDING" -->
             <h3>Add Email</h3>

@@ -40,6 +40,7 @@ urlpatterns = [
         name='manage_check_ins'),
 
     url(r'^emails$', views.staff_emails, name='staff_emails'),
+    url(r'^emails/preview$', views.preview_email, name='preview_email'),
     url(r'^emails/(?P<pk>\d+)$', views.email, name='email'),
     url(r'^emails/(?P<pk>\d+)/edit$', views.edit_email, name='edit_email'),
     url(r'^emails/(?P<pk>\d+)/disable$', views.disable_email,

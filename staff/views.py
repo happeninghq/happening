@@ -16,6 +16,9 @@ from happening.configuration import save_variables
 from events.utils import dump_preset
 from emails.models import Email
 from django.views.decorators.http import require_POST
+from emails import render_email
+from markdown_deux import markdown
+from django.http import JsonResponse
 
 
 @staff_member_required
@@ -232,6 +235,23 @@ def create_event(request):
     return render(request, "staff/create_event.html",
                   {"form": form,
                    "event_presets": EventPreset.objects.all()})
+
+
+@staff_member_required
+def preview_email(request):
+    """Render an email as it would be sent."""
+    if request.GET.get('event'):
+        event = get_object_or_404(Event, pk=request.GET['event'])
+    else:
+        event = None
+
+    subject = render_email(request.GET['subject'], request.user, event)
+    content = render_email(request.GET['content'], request.user, event)
+
+    # Then apply markdown
+    content = markdown(content)
+
+    return JsonResponse({"subject": subject, "content": content})
 
 
 @staff_member_required

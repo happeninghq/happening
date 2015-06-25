@@ -5,6 +5,7 @@ from happening.utils import convert_to_underscore
 import json
 from django.core.files import File
 from django.core.files.storage import default_storage
+from events.models import Event
 
 
 class PropertiesWidget(forms.Widget):
@@ -214,7 +215,8 @@ class EmailsWidget(forms.Widget):
             value = json.dumps(value)
         return render_to_string("forms/widgets/emails_widget.html", {
             "name": name,
-            "value": value
+            "value": value,
+            "events": Event.objects.all()
         })
 
     def value_from_datadict(self, data, files, name):

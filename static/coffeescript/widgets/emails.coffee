@@ -1,5 +1,6 @@
 $ ->
   $('.emails-widget').each ->
+    $this = $(this)
     email = (to, subject, content, start_sending, stop_sending) ->
       r = {
         to: ko.observable(to)
@@ -10,6 +11,12 @@ $ ->
 
         deleteEmail: () ->
           viewModel.emails.remove(this)
+
+        viewPreview: () ->
+          viewModel.activeEmail(this)
+          viewModel.mode("PREVIEW")
+          viewModel.refreshPreview()
+          $('#view-email-preview').foundation('reveal', 'open')
 
         editEmail: () ->
           viewModel.activeEmail(this)
@@ -42,6 +49,10 @@ $ ->
       emails: ko.observableArray()
       activeEmail: ko.observable()
       mode: ko.observable("NONE") # NONE/EDITING/ADDING
+
+      previewEvent: ko.observable()
+      previewSubject: ko.observable("LOADING")
+      previewContent: ko.observable("LOADING")
 
       addEmail: () ->
         viewModel.mode("ADDING")
@@ -83,14 +94,23 @@ $ ->
 
         $('#add-email').foundation('reveal', 'close')
         viewModel.mode("NONE")
+
+      refreshPreview: () ->
+        data = {
+          subject: viewModel.activeEmail().subject()
+          content: viewModel.activeEmail().content()
+          event: viewModel.previewEvent()
+        }
+
+        $.getJSON "/staff/emails/preview", data, (response) ->
+          viewModel.previewSubject(response.subject)
+          viewModel.previewContent(response.content)
     }
 
     viewModel.value = ko.computed () ->
       # Convert viewModel.emails into json
       console.log JSON.stringify(ko.toJS(viewModel).emails)
       return JSON.stringify(ko.toJS(viewModel).emails)
-
-    $this = $(this)
 
     $this.data 'reload', () ->
       viewModel.emails.removeAll()
