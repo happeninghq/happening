@@ -1,5 +1,6 @@
+{% load strings %}
 <div class="emails-widget widget">
-    <input type="hidden" name="{{name}}" data-bind="value: value" value='{{value|safe}}'>
+    <input type="hidden" name="{{name}}" data-bind="value: value" value='{{value|search:"'"|replace:"&#x27;"|safe}}'>
     <table class="full-width">
         <thead>
             <tr>
