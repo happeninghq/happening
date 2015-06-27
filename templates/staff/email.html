@@ -1,4 +1,5 @@
 {% extends "staff/base.html" %}
+{% load markdown_deux_tags %}
 
 {% block staff_content %}
     <table>
@@ -20,7 +21,7 @@
             </th>
         <tr>
             <td colspan="2">
-                {{email.content}}
+                {{email.content|markdown}}
             </td>
         </tr>
     </table>
