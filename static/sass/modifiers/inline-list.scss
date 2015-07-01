@@ -1,0 +1,40 @@
+/*doc
+---
+title: Inline List
+name: inline-list
+category: Modifiers
+---
+
+Display lists inline
+
+```html_example
+
+<ul class="inline-list inline-list--space">
+    <li>A</li>
+    <li>B</li>
+</ul>
+
+<ul class="inline-list inline-list--space">
+    <li>Spaced</li>
+    <li>List</li>
+</ul>
+```
+*/
+.inline-list {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+    > li {
+        display: inline-block;
+    }
+}
+
+/**
+ * Add spaces between list items
+ */
+.inline-list--space {
+    > li {
+        margin-right: 1em;
+    }
+}

@@ -1,0 +1,40 @@
+/*doc
+---
+title: Button
+name: btn
+category: Forms
+---
+
+A basic button
+
+```html_example
+
+<button class="btn">Button</button>
+<a class="btn">Button</a>
+<button class="btn btn--full-width">Full width button</button>
+<a class="btn btn--full-width">Full width button</a>
+```
+*/
+button, .btn {
+    display: inline-block;
+    background: $HEADER-COLOR;
+    text-align: center;
+    margin: 1em;
+    padding: 1em;
+    line-height: 1.8;
+    @include appearance(none);
+    box-shadow: none;
+    border-radius: 0;
+
+    color: #FFF;
+    text-decoration: none;
+}
+
+/**
+ * Extend the button to the full width of
+ * the container
+ */
+.btn--full-width {
+    display: block;
+    width: 100%;
+}

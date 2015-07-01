@@ -17,6 +17,7 @@ django-contrib-comments==1.6.1 # Comments
 django-pgjson==0.2.3 # Using Postgres JSON field
 python-memcached # Memcached bindings
 git+https://github.com/rhec/django-html5.git
+django-sekizai==0.8.2 # For better media inclusion
 
 # Heroku
 gunicorn==19.1.1 # For hosting on heroku
@@ -29,7 +30,7 @@ boto==2.34.0 # Media storage on AWS
 # Static files
 
 django_compressor==1.5 # This allows us to use Coffeescript and SCSS
-django-libsass==0.2 # Plugin for compressor to use SCSS
+django-libsass==0.8.2 # Plugin for compressor to use SCSS
 
 # Authentication
 

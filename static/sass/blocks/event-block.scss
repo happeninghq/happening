@@ -1,0 +1,64 @@
+/*doc
+---
+title: Event Block
+name: event-block
+category: Blocks
+---
+
+A block which goes into a block-list. This block include event information.
+
+```html_example
+
+<div class="block block-list__item event-block">
+    <div class="l-container">
+        <div class="l-primary-content">
+            <header class="block__header">
+                <h2 class="block__header-text">
+                    <a href="#" class="plain-link">Board Games Night</a>
+                </h2>
+            </header>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <ul class="inline-list inline-list--space">
+                <li class="valign-together small"><i class="fa fa-comment"></i> <a href="#">16 Comments</a></li>
+                <li class="valign-together small"><i class="fa fa-user"></i> <a href="#">40 Attendees</a></li>
+            </ul>
+        </div>
+        <div class="l-secondary-content">
+            <div class="icon-text">
+                <i class="fa fa-calendar icon-text__icon"></i>
+                <span class="icon-text__text">December 15 7PM-9PM</span>
+            </div>
+            <div class="icon-text event-block__sidebar-spacing">
+                <i class="fa fa-map-marker icon-text__icon"></i>
+                <div class="icon-text__text">
+                   Building 32,<br />
+                   University of Southampton,<br />
+                   Highfield Campus<br />
+                   SO15 3JB
+                </div>
+            </div>
+
+            <div class="ticket-information event-block__sidebar-spacing">
+                <span class="ticket-information__available"><strong>0</strong> Tickets available</span>
+                <a href="#" class="btn btn--full-width">Join Waiting List</a>
+            </div>
+        </div>
+    </div>
+</div>
+```
+*/
+.event-block {
+    
+}
+
+/**
+ * Set up spacing for sidebar items on event blocks
+ */
+.event-block__sidebar-spacing {
+    margin-top: 1em;
+}

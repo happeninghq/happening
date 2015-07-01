@@ -1,0 +1,33 @@
+/* Base Rules */
+
+/**********
+ * Set basic font and colours
+ **********/
+body {
+    background: $BACKGROUND-COLOR;
+    color: $FONT-COLOR;
+    font-family: 'Cabin', sans-serif;
+}
+
+/**********
+ * Set default link style
+ **********/
+a {
+    text-decoration: underline;
+    color: $FONT-COLOR;
+}
+
+/**********
+ * Set default heading styles.
+ **********/
+h1, .h2, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    font-weight: normal;
+}
+
+
+/**
+ * We don't want any images growing too wide
+ */
+img {
+    max-width: 100%;
+}

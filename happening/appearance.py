@@ -17,7 +17,6 @@ def generate_css(variables=None):
     try:
         for k, v in variables.items():
             target.write("$%s: %s;\n" % (k, v))
-        target.write('@import "default_foundation_settings";')
         target.write('@import "main.scss";')
         target.close()
 

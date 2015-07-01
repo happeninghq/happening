@@ -1,0 +1,75 @@
+/*doc
+---
+title: Activity
+name: activity
+category: Happening
+---
+
+An activity is used to show a quick view of a recent event on Happening.
+It is used on the index in the activity list.
+
+An activity should contain an activity__type, and activity__name, and activity__info.
+
+You can also use a l-container to provide secondary information if needed.
+
+```html_example
+
+<div class="activity">
+    <div class="l-container">
+        <div class="l-primary-content">
+            <span class="activity__type">Event Sold Out</span>
+            <a href="#" class="activity__name">Board Games Night</a>
+            <div class="activity__info valign-together">
+                <span>6 hours ago</span><span>40 tickets sold</span>
+            </div>
+        </div>
+        <div class="l-secondary-content">
+            LO
+        </div>
+    </div>
+</div>
+```
+
+*/
+.activity {
+
+}
+
+/**
+ * The small activity type (e.g. "EVENT SOLD OUT")
+ */
+.activity__type {
+    text-transform: uppercase;
+    display: block;
+
+    font-size: 0.5em;
+}
+
+/**
+ * The name + link to the subject of the activity.
+ */
+.activity__name {
+    text-transform: uppercase;
+}
+
+/**
+ * The small additional information about the event.
+ * (e.g. "6 hours ago", "6 people")
+ */
+.activity__info {
+    display: block;
+
+    // The final item may be floated
+    @include clearfix;
+
+    > * {
+        display: inline;
+        margin-right: 2em;
+        font-size: 0.5em;
+
+        &:last-child {
+            float: right;
+            margin: 0;
+        }
+    }
+}

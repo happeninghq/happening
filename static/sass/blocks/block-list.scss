@@ -1,0 +1,54 @@
+/*doc
+---
+title: Block List
+name: block-list
+category: Blocks
+---
+
+A block list provides a space for a number of Blocks to be placed.
+
+Each block should have the class block-list__item
+
+There is also block-list__link which will be right aligned to stand
+out amongst the blocks.
+
+```html_example
+
+<div class="block-list">
+    <div class="block block-list__item">
+        <header class="block__header">
+            <h2 class="block__header-text">
+                <a href="#" class="plain-link">Event title</a>
+            </h2>
+        </header>
+        <p>Block text...</p>
+    </div>
+
+    <a href="#" class="block-list__link block-list__item">View all upcoming events</a>
+</div>
+```
+
+*/
+.block-list {
+    @include clearfix;
+}
+
+/**
+ * An entry in the block list
+ */
+.block-list__item {
+    margin-top: 1em;
+    clear: both;
+}
+
+/**
+ * A link which will align right to stand out amongst the blocks.
+ */
+.block-list__link {
+    display: block;
+    float: right;
+
+    // We add the spacing here because due to the float the following item
+    // won't be able to margin correctly.
+    margin-bottom: 1em;
+}

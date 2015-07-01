@@ -1,0 +1,38 @@
+/*doc
+---
+title: Main Header
+name: main-header
+category: Layout
+---
+
+The header and main navigation for Happening.
+
+```html_example
+
+<header class="main-header">
+        <div class="l-container">
+            <h2 class="main-header__heading">
+                <a href="#" class="plain-link">Happening</a>
+            </h1>
+        </div>
+    </header>
+```
+*/
+.main-header {
+    background: $HEADER-COLOR;
+    padding-top: 1em;
+    padding-bottom: 1em;
+
+    box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.50);
+}
+
+
+/**
+ * The main site title
+ */
+.main-header__heading {
+    // Clear the margin so that it doesn't move the header
+    margin: 0;
+
+    color: $SECONDARY-COLOR;
+}

@@ -1,0 +1,18 @@
+/*doc
+---
+title: Small
+name: small
+category: Modifiers
+---
+
+Half the font size
+
+```html_example
+
+<span>Full Size</span> <span class="small">Small</span>
+
+```
+*/
+.small {
+    font-size: 0.5em;
+}

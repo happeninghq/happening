@@ -1,0 +1,20 @@
+/*doc
+---
+title: Ticket Information
+name: ticket-information
+category: Happening
+---
+
+List number of tickets remaining and link to get tickets.
+
+```html_example
+
+<div class="ticket-information">
+    <span class="ticket-information__available"><strong>0</strong> Tickets available</span>
+    <a href="#" class="btn btn--full-width">Join Waiting List</a>
+</div>
+```
+*/
+.ticket-information {
+    text-align: center;
+}

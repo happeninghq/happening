@@ -24,4 +24,4 @@ class Command(BaseCommand):
             # This next line is S3 specific
             if hasattr(o, "_storage"):
                 o._storage.headers['Content-Type'] = 'text/css'
-            o.write(generate_css())
+            o.write(generate_css().encode('utf-8'))

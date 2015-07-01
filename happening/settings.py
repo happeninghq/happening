@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'markdown_deux',
 
     'compressor',
+    'sekizai',
     'ganalytics',
 
     'storages',
@@ -68,7 +69,7 @@ INSTALLED_APPS = (
     'django_gravatar',
     'foundationform',
 
-    'debug_toolbar',
+    # 'debug_toolbar',
     'template_profiler_panel',
 
     'happening',
@@ -109,7 +110,7 @@ if 'scdtest' not in os.environ and 'travis' not in os.environ:
 
 
 MIDDLEWARE_CLASSES = (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
     'sslify.middleware.SSLifyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -193,6 +194,8 @@ FIXTURE_DIRS = (
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     # Required by allauth template tags
     "django.core.context_processors.request",
+
+    "sekizai.context_processors.sekizai",
 
     # allauth specific context processors
     "allauth.account.context_processors.account",

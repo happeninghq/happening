@@ -1,0 +1,91 @@
+/*doc
+---
+title: Block
+name: block
+category: Blocks
+---
+
+A block exists within a block-list. It will contain information about
+a single subject.
+
+```html_example
+
+<div class="block-list">
+    <div class="block block-list__item">
+        <header class="block__header">
+            <h2 class="block__header-text">
+                <a href="#" class="plain-link">Event title</a>
+            </h2>
+        </header>
+        <p>Block text...</p>
+    </div>
+
+    <a href="#" class="block-list__link block-list__item">View all upcoming events</a>
+</div>
+```
+
+If you're going to use a block\_\_header-extra-link, the block__header must use valign-together
+
+```html_example
+
+<div class="block-list">
+    <div class="block block-list__item">
+        <header class="block__header valign-together">
+            <h2 class="block__header-text block__header-text--small">
+                <a href="#" class="plain-link">Small header</a>
+            </h2>
+            <a href="#" class="block__header-extra-link">Extra link</a>
+        </header>
+        <p>Block text...</p>
+    </div>
+
+    <a href="#" class="block-list__link block-list__item">View all upcoming events</a>
+</div>
+```
+
+*/
+.block {
+    background: $BLOCK-COLOR;
+    padding: 1em;
+}
+
+/**
+ * The header of the block. This will typically
+ * contain block__header-text and possibly a
+ * block__header-extra-link
+ *
+ * It sets up the border underneath the header
+ * and self-clears incase a block__header-extra-link
+ * is floated.
+ */
+.block__header {
+    border-bottom: 2px solid $FONT-COLOR;
+    
+    margin-bottom: 0.5em;
+    padding-bottom: 0.5em;
+
+    // This may contain floated elements, so let's self-clear
+    @include clearfix;
+}
+
+/**
+ * The text of the header (typically a h2)
+ */
+.block__header-text {
+    display: inline;
+}
+
+/**
+ * Used for keeping the header size at 1em. E.g. in sidebars
+ */
+.block__header-text.block__header-text--small {
+    font-size: 1em;
+}
+
+/**
+ * Floats a small link to the side of the header.
+ */
+.block__header-extra-link {
+    font-size: 0.7em;
+    float: right;
+}

@@ -1,0 +1,38 @@
+/*doc
+---
+title: Icon Text
+name: icon-text
+category: General
+---
+
+Put some text alongside an icon.
+
+```html_example
+
+<div class="icon-text">
+    <i class="fa fa-calendar icon-text__icon"></i>
+    <span class="icon-text__text">December 15 7PM-9PM</span>
+</div>
+```
+*/
+.icon-text {
+    @include clearfix;
+}
+
+/**
+  * The icon in the icon-text
+  */
+.icon-text__icon {
+    float: left;
+    margin-right: 0.2em;
+    width: 1em;
+    text-align: center;
+}
+
+
+/**
+ * The text in the icon-text
+ */
+.icon-text__text {
+    float: left;
+}

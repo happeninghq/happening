@@ -1,0 +1,30 @@
+/*doc
+---
+title: Valign Together
+name: valign-together
+category: Modifiers
+---
+
+Vertically center the contents of a container
+
+```html_example
+
+<header class="block__header">
+    <h2 class="block__header-text block__header-text--small">Without valign-together</h2>
+    <a href="#" class="block__header-extra-link">(not you? Log out)</a>
+</header>
+
+<header class="block__header valign-together">
+    <h2 class="block__header-text block__header-text--small">With valign-together</h2>
+    <a href="#" class="block__header-extra-link">(not you? Log out)</a>
+</header>
+
+```
+*/
+.valign-together {
+    line-height: 1em;
+
+    > * {
+        vertical-align: middle;
+    }
+}

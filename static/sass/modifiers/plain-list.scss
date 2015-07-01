@@ -1,0 +1,28 @@
+/*doc
+---
+title: Plain List
+name: plain-list
+category: Modifiers
+---
+
+Remove list styling from lists
+
+```html_example
+
+<ul>
+    <li>Default</li>
+    <li>List</li>
+</ul>
+
+<ul class="plain-list">
+    <li>Plain</li>
+    <li>List</li>
+</ul>
+
+```
+*/
+.plain-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}

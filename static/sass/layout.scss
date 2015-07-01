@@ -1,0 +1,52 @@
+/* Layout */
+
+
+
+/**
+ * Use border-box for everything
+ */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
+/*doc
+---
+title: Container
+name: l-container
+category: Layout
+---
+
+Restrict the width of the content, and prepare for use of the grid
+
+```html_example
+
+<div class="l-container">
+    This has restricted width
+</div>
+
+<div class="l-container">
+    <div class="l-primary-content">
+        This is primary content
+    </div>
+    <div class="l-secondary-content">
+        This is secondary content
+    </div>
+</div>
+
+```
+*/
+.l-container {
+    @include outer-container;
+}
+
+.l-primary-content {
+    @include span-columns(8);
+}
+
+.l-secondary-content {
+    @include span-columns(4);
+}

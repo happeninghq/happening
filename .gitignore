@@ -20,3 +20,6 @@ media/tmp
 media/css
 happening.sublime-workspace
 happening.sublime-project
+static/.sass-cache
+.sass-cache
+styleguide

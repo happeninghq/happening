@@ -1,0 +1,42 @@
+/*doc
+---
+title: Secondary Navigation
+name: secondary-navigation
+category: Layout
+---
+
+Secondary, category-specific navigation.
+
+```html_example
+
+<nav class="secondary-navigation">
+    <div class="l-container">
+        <ul class="inline-list inline-list--space">
+            <li><a href="#" class="secondary-navigation__link secondary-navigation__link--active">Home</a></li>
+            <li><a href="#" class="secondary-navigation__link">About</a></li>
+            <li><a href="#" class="secondary-navigation__link">Sponsors</a></li>
+        </ul>
+    </div>
+</nav>
+```
+*/
+.secondary-navigation {
+    background: $SECONDARY-COLOR;
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+}
+
+/**
+ * A link in the secondary navigation list.
+ */
+.secondary-navigation__link {
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+/**
+ * The currently selected, or hovered, link
+ */
+.secondary-navigation__link--active, .secondary-navigation__link:hover {
+    border-bottom: 2px solid $FONT-COLOR;
+}

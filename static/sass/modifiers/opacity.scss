@@ -1,0 +1,24 @@
+/*doc
+---
+title: Low Opacity
+name: low-opacity
+category: Modifiers
+---
+
+Lower Opacity to 40%
+
+```html_example
+
+<span class="low-opacity full-opacity-on-hover">Low Opacity</span>
+```
+*/
+.low-opacity {
+    opacity: 0.4;
+}
+
+/**
+ * Restore opacity when hovering
+ */
+.full-opacity-on-hover:hover {
+    opacity: 1;
+}
