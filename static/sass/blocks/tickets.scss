@@ -1,0 +1,69 @@
+/*doc
+---
+title: Tickets
+name: tickets
+category: Events
+---
+
+Table for listing available tickets
+
+```html_example
+
+<table class="tickets">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Remaining</th>
+            <th>End</th>
+            <th></th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Ticket</td>
+            <td>
+                10 Tickets
+            </td>
+            <td>27/07/16 7PM</td>
+            <td>Free</td>
+            <td>
+                <select>
+                    <option value="0">0 tickets</option>
+                    <option value="1">1 ticket</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="tickets__totals">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>£0.00 Total</td>
+            <td>
+                <button class="btn" type="submit">Register</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+```
+*/
+.tickets {
+    tr {
+        border-bottom: 1px solid $FONT-COLOR;
+        padding-bottom: 0.5em;
+
+        &.tickets__totals {
+            border-bottom: none;
+        }
+    }
+
+    th, td:first-child {
+        text-align: left;
+        text-transform: uppercase;
+    }
+
+    th, td {
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+    }
+}

@@ -18,28 +18,9 @@ from happening.plugins import trigger_action
 import json
 
 
-class EventManager(models.Manager):
-
-    """Custom Event Manager, to add site-wide functionality."""
-
-    def latest_event(self):
-        """Get the latest event.
-
-        This will be either the next one in future or the most recent one
-        if there are no future events.
-        """
-        next_event = self.all().filter(
-            start__gte=timezone.now()).order_by("start").first()
-        if next_event:
-            return next_event
-        return self.all().order_by("-start").first()
-
-
 class Event(db.Model):
 
     """An event."""
-
-    objects = EventManager()
 
     start = models.DateTimeField()
     end = models.DateTimeField(null=True)

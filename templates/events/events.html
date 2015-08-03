@@ -1,20 +1,46 @@
 {% extends "base.html" %}
 {% load plugins %}
 
+{% block secondary_navigation %}
+    <ul class="inline-list inline-list--space">
+        <li><a href="#" class="secondary-navigation__link secondary-navigation__link--active">Upcoming</a></li>
+        <li><a href="#" class="secondary-navigation__link">Past</a></li>
+    </ul>
+{% endblock %}
+
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>
-                    {% with v="pages.configuration.NameOfEvents"|get_configuration %}
-                        {{v|title}}s
-                    {% endwith %}
-                </h2>
-                <ul id="all-events">
-                    {% for event in all_events %}
-                        <li><a href="{% url "view_event" event.pk %}">{{event}}</a></li>
-                    {% endfor %}
-                </ul>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            {% for event in all_events %}
+                <div class="block block-list__item event-block">
+                    {% include "events/_event_block.html" %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header valign-together">
+                    <h2 class="block__header-text block__header-text--small">Filters</h2>
+                    <a href="#" class="block__header-extra-link">(reset)</a>
+                </header>
+                <div class="input-grid">
+                    <span class="input-grid__header">Event Type</span>
+                    <div class="input-grid__container">
+                        <label class="input-grid__container__item radio"><input name="event-type" type="radio" class="checkbox">Global Game Jam</label>
+                        <label class="input-grid__container__item radio"><input name="event-type" type="radio" class="checkbox">Board Games Night</label>
+                    </div>
+                    <span class="input-grid__header">Ticket Availability</span>
+                    <div class="input-grid__container">
+                        <label class="input-grid__container__item radio"><input name="ticket-availability" type="radio" class="checkbox">Tickets Available</label>
+                        <label class="input-grid__container__item radio"><input name="ticket-availability" type="radio" class="checkbox">Waiting List Available</label>
+                        <label class="input-grid__container__item radio"><input name="ticket-availability" type="radio" class="checkbox">Sold Out</label>
+                    </div>
+                    <span class="input-grid__header">My Status</span>
+                    <div class="input-grid__container">
+                        <label class="input-grid__container__item radio"><input name="my-status" type="radio" class="checkbox">Attending</label>
+                        <label class="input-grid__container__item radio"><input name="my-status" type="radio" class="checkbox">Not Attending</label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

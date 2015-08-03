@@ -1,0 +1,53 @@
+/*doc
+---
+title: Input Grid
+name: input-grid
+category: Input
+---
+
+A grid used to lay out a grid of options, e.g. when filtering.
+
+```html_example
+
+<div class="l-secondary-content block-list">
+    <div class="block block-list__item">
+        <header class="block__header valign-together">
+            <h2 class="block__header-text block__header-text--small">Filters</h2>
+            <a href="#" class="block__header-extra-link">(reset)</a>
+        </header>
+        <div class="input-grid">
+            <span class="input-grid__header">Event Type</span>
+            <div class="input-grid__container">
+                <label class="input-grid__container__item"><input type="checkbox" class="checkbox">Global Game Jam</label>
+                <label class="input-grid__container__item"><input type="checkbox" class="checkbox">Board Games Night</label>
+            </div>
+            <span class="input-grid__header">Ticket Availability</span>
+            <div class="input-grid__container">
+                <label class="input-grid__container__item"><input type="checkbox" class="checkbox">Tickets Available</label>
+                <label class="input-grid__container__item"><input type="checkbox" class="checkbox">Waiting List Available</label>
+                <label class="input-grid__container__item"><input type="checkbox" class="checkbox">Sold Out</label>
+            </div>
+            <span class="input-grid__header">My Status</span>
+            <div class="input-grid__container">
+                <label class="input-grid__container__item"><input type="checkbox" class="checkbox">Attending</label>
+                <label class="input-grid__container__item"><input type="checkbox" class="checkbox">Not Attending</label>
+            </div>
+        </div>
+    </div>
+</div>
+```
+*/
+.input-grid {}
+
+.input-grid__header {
+    display: block;
+    font-weight: bold;
+}
+
+.input-grid__container {
+    @include outer-container;
+}
+
+.input-grid__container__item {
+    @include span-columns(6);
+}

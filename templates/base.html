@@ -28,220 +28,53 @@
     <header class="main-header">
         <div class="l-container">
             <h2 class="main-header__heading">
-                <a href="#" class="plain-link">Happening</a>
+                <a href="{% url "index" %}" class="plain-link">Happening</a>
             </h1>
 
-            <!-- <div class="menu">
-                <div class="menu__toggle"><i class="fa fa-bars"></i></div>
-                <ul class="menu__list">
-                    <li><a href="#">Test1</a></li>
-                    <li><a href="#">Test2</a></li>
+            <div class="main-header__menu menu">
+                <ul class="menu__list inline-list">
+                    <li class="menu__item menu__item--with-icon">
+                        <a href="#" class="menu__item__icon plain-link"><i class="fa fa-calendar"></i></a>
+                        <a href="{% url "events" %}" class="menu__item__text plain-link">
+                            {% with v="pages.configuration.NameOfEvents"|get_configuration %}
+                                {{v|title}}s
+                            {% endwith %}
+                        </a>
+                    </li>
+                    <li class="menu__item menu__item--with-icon">
+                        <a href="#" class="menu__item__icon plain-link"><i class="fa fa-user"></i></a>
+                        <a href="#" class="menu__item__text plain-link">Members</a>
+                    </li>
+                    <li class="menu__item menu__item--with-icon">
+                        <a href="#" class="menu__item__icon plain-link"><i class="fa fa-bell"></i></a>
+                        <a href="#" class="menu__item__text plain-link">Notifications</a>
+                    </li>
+                    {% if request.user.is_staff %}
+                        <li class="menu__item menu__item--with-icon">
+                            <a href="#" class="menu__item__icon plain-link"><i class="fa fa-cogs"></i></a>
+                            <a href="#" class="menu__item__text plain-link">Admin</a>
+                        </li>
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+                        <li class="menu__item menu__item--with-icon">
+                            <a href="#" class="menu__item__icon plain-link"><i class="fa fa-sign-out"></i></a>
+                            <a href="#" class="menu__item__text plain-link">Log Out</a>
+                        </li>
+                    {% endif %}
                 </ul>
-            </div> -->
+            </div>
         </div>
     </header>
     <nav class="secondary-navigation">
         <div class="l-container">
-            <ul class="inline-list inline-list--space">
-                <li><a href="#" class="secondary-navigation__link secondary-navigation__link--active">Home</a></li>
-                <li><a href="#" class="secondary-navigation__link">About</a></li>
-                <li><a href="#" class="secondary-navigation__link">Sponsors</a></li>
-            </ul>
+            {% block secondary_navigation %}
+
+            {% endblock %}
         </div>
     </nav>
 
-    <div class="l-container">
-        <div class="l-primary-content block-list">
-            <div class="block block-list__item event-block">
-                <div class="l-container">
-                    <div class="l-primary-content">
-                        <header class="block__header">
-                            <h2 class="block__header-text">
-                                <a href="#" class="plain-link">Board Games Night</a>
-                            </h2>
-                        </header>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <ul class="inline-list inline-list--space">
-                            <li class="valign-together small"><i class="fa fa-comment"></i> <a href="#">16 Comments</a></li>
-                            <li class="valign-together small"><i class="fa fa-user"></i> <a href="#">40 Attendees</a></li>
-                        </ul>
-                    </div>
-                    <div class="l-secondary-content">
-                        <div class="icon-text">
-                            <i class="fa fa-calendar icon-text__icon"></i>
-                            <span class="icon-text__text">December 15 7PM-9PM</span>
-                        </div>
-                        <div class="icon-text event-block__sidebar-spacing">
-                            <i class="fa fa-map-marker icon-text__icon"></i>
-                            <div class="icon-text__text">
-                               Building 32,<br />
-                               University of Southampton,<br />
-                               Highfield Campus<br />
-                               SO15 3JB
-                            </div>
-                        </div>
-
-                        <div class="ticket-information event-block__sidebar-spacing">
-                            <span class="ticket-information__available"><strong>0</strong> Tickets available</span>
-                            <a href="#" class="btn btn--full-width">Join Waiting List</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="block block-list__item">
-                <div class="l-container">
-                    <div class="l-primary-content">
-                        <header class="block__header">
-                            <h2 class="block__header-text">Global Game Jam 2016</h2>
-                        </header>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <ul class="inline-list inline-list--space">
-                            <li class="valign-together small"><i class="fa fa-comment"></i> <a href="#">16 Comments</a></li>
-                            <li class="valign-together small"><i class="fa fa-user"></i> <a href="#">40 Attendees</a></li>
-                        </ul>
-                    </div>
-                    <div class="l-secondary-content">
-                        <div class="icon-text">
-                            <i class="fa fa-calendar icon-text__icon"></i>
-                            <span class="icon-text__text">December 15 7PM-9PM</span>
-                        </div>
-                        <div class="icon-text event-block__sidebar-spacing">
-                            <i class="fa fa-map-marker icon-text__icon"></i>
-                            <div class="icon-text__text">
-                               Building 32,<br />
-                               University of Southampton,<br />
-                               Highfield Campus<br />
-                               SO15 3JB
-                            </div>
-                        </div>
-
-                        <div class="ticket-information event-block__sidebar-spacing">
-                            <span class="ticket-information__available"><strong>0</strong> Tickets available</span>
-                            <a href="#" class="btn btn--full-width">Join Waiting List</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="#" class="block-list__link block-list__item">View all upcoming events</a>
-
-            <div class="block block-list__item low-opacity full-opacity-on-hover">
-                <div class="l-container">
-                    <div class="l-primary-content">
-                        <header class="block__header">
-                            <h2 class="block__header-text">Global Game Jam 2015</h2>
-                        </header>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <ul class="inline-list inline-list--space">
-                            <li class="valign-together small"><i class="fa fa-comment"></i> <a href="#">16 Comments</a></li>
-                            <li class="valign-together small"><i class="fa fa-user"></i> <a href="#">40 Attendees</a></li>
-                        </ul>
-                    </div>
-                    <div class="l-secondary-content">
-                        <div class="icon-text">
-                            <i class="fa fa-calendar icon-text__icon"></i>
-                            <span class="icon-text__text">December 15 7PM-9PM</span>
-                        </div>
-                        <div class="icon-text event-block__sidebar-spacing">
-                            <i class="fa fa-map-marker icon-text__icon"></i>
-                            <div class="icon-text__text">
-                               Building 32,<br />
-                               University of Southampton,<br />
-                               Highfield Campus<br />
-                               SO15 3JB
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="#" class="block-list__link block-list__item">View all events</a>
-        </div>
-
-        <div class="l-secondary-content block_list">
-            <div class="block block-list__item">
-                <header class="block__header valign-together">
-                    <h2 class="block__header-text block__header-text--small">Welcome back <strong>Kim</strong></h2>
-                    <a href="#" class="block__header-extra-link">(not you? Log out)</a>
-                </header>
-                <div class="l-container">
-                    <div class="l-primary-content">
-                        <ul class="plain-list">
-                            <li>
-                                <div class="icon-text">
-                                    <i class="fa fa-envelope icon-text__icon"></i>
-                                    <span class="icon-text__text"><strong>0</strong> new <a href="#">private messages</a></span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="icon-text">
-                                    <i class="fa fa-bell icon-text__icon"></i>
-                                    <span class="icon-text__text"><strong>0</strong> <a href="#">notifications</a></span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="icon-text">
-                                    <i class="fa fa-calendar icon-text__icon"></i>
-                                    <span class="icon-text__text"><strong>3</strong> <a href="#">upcoming events</a></span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="l-secondary-content">
-                        AAA
-                    </div>
-                </div>
-            </div>
-
-            <div class="block block-list__item">
-                <header class="block__header">
-                    <h2 class="block__header-text block__header-text--small">What's New</h2>
-                </header>
-                <ul class="plain-list">
-                    <li class="activity">
-                        <div class="l-container">
-                            <div class="l-primary-content">
-                                <span class="activity__type">Event Sold Out</span>
-                                <a href="#" class="activity__name">Board Games Night</a>
-                                <div class="activity__info valign-together">
-                                    <span>6 hours ago</span><span>40 tickets sold</span>
-                                </div>
-                            </div>
-                            <div class="l-secondary-content">
-                                LO
-                            </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="block block-list__item">
-                <header class="block__header valign-together">
-                    <h2 class="block__header-text block__header-text--small">Sponsors</h2>
-                    <a href="#" class="block__header-extra-link">View more</a>
-                </header>
-                <ul class="plain-list">
-                    <li><a href="#"><img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97150&w=350&h=150"></a></li>
-                    <li><a href="#"><img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97150&w=350&h=150"></a></li>
-                    <li><a href="#"><img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97150&w=350&h=150"></a></li>
-            </div>
-        </div>
-    </div>
+    {% block content %}
+    {% endblock %}
 
     {% compress js %}
         <!-- Needed for Django Debug Toolbar -->

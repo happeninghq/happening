@@ -1,0 +1,44 @@
+/*doc
+---
+title: Radio
+name: radio
+category: Input
+---
+
+Format a radio button neatly
+
+```html_example
+
+<label class="radio">
+    <input type="radio">
+    Radio label
+</label>
+```
+*/
+.radio {
+
+}
+
+.radio input {
+    margin-right: 0.5em;
+
+    @include appearance(none);
+
+
+    background: $RADIO-BACKGROUND-COLOR;
+    width: 1em;
+    height: 1em;
+    border-radius: 3px;
+
+    &:checked {
+        &:after {
+            font-family: FontAwesome;
+            content: "\f00c";
+            color: $RADIO-COLOR;
+            position: relative;
+            top: -3px;
+            left: 1px;
+            font-size: 0.8em;
+        }
+    }
+}

@@ -35,4 +35,14 @@ The header and main navigation for Happening.
     margin: 0;
 
     color: $SECONDARY-COLOR;
+
+
+    float: left;
+}
+
+/**
+ * The menu in the header
+ */
+.main-header__menu {
+    float: right;
 }

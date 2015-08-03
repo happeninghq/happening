@@ -4,31 +4,52 @@
 {% load tickets %}
 {% load plugins %}
 
+{% block secondary_navigation %}
+    <ul class="inline-list inline-list--space">
+        <li><a href="{% url "view_event" event.pk %}" class="secondary-navigation__link secondary-navigation__link--active">Info</a></li>
+        <li><a href="#" class="secondary-navigation__link">Attendees</a></li>
+        <li><a href="#" class="secondary-navigation__link">Discussion</a></li>
+    </ul>
+{% endblock %}
+
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>{{event}}</h2>
-                <p class="date-range">{{event.date_range}}</p>
+    <div class="l-container">
+        <div class="block-list__item block">
+            <h2>{{event}}</h2>
+        </div>
+        <div class="l-primary-content block-list">
 
+            <div class="block-list__item block">
                 {{"events.event_configuration.Description"|get_configuration:event}}
-
-                {% if event.is_future %}
-                    {% if user.is_authenticated %}
-                        {% if user|has_tickets:event %}
-                            <div class="panel">
-                                <p>You have tickets for the {{event}}. <a href="{% url "my_tickets" %}">View my tickets.</a></p>
-                            </div>
-                        {% else %}
-                            {% include "events/_ticket_widget.html" %}
-                        {% endif %}
-                    {% else %}
-                        {% include "events/_ticket_widget.html" %}
-                    {% endif %}
-                    {% include "events/_attending_members.html" %}
-                {% endif %}
-                {% plugin_block "events.event_long" event %}
             </div>
-        </p>
+
+            <div class="block-list__item block">
+                <header class="block__header">
+                    <h2>Tickets</h2>
+                </header>
+                {% include "events/_ticket_widget.html" %}
+            </div>
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block-list__item block">
+                <div class="icon-text">
+                    <i class="fa fa-calendar icon-text__icon"></i>
+                    <span class="icon-text__text">{{event.date_range}}</span>
+                </div>
+                {% if event.location %}
+                    <div class="icon-text event-block__sidebar-spacing">
+                        <i class="fa fa-map-marker icon-text__icon"></i>
+                        <div class="icon-text__text">
+                           {{event.location}}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="block-list__item block">
+                <header class="block__header">
+                    <h2>Attendees</h2>
+                </header>
+            </div>
+        </div>
     </div>
 {% endblock %}

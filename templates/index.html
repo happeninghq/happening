@@ -1,74 +1,114 @@
 {% extends "base.html" %}
-
-{% load staticfiles %}
 {% load markdown_deux_tags %}
-{% load tickets %}
 {% load plugins %}
 
-{% block navbar %}
-    {% if site.large_logo %}
-        <div class="top-container">
-        </div>
-        <div id="logo-container">
-            <div class="container">
-                <div class="row">
-                    <div class="small-12 column">
-                        <a href="/"><img id="logo" src="{{site.large_logo.url}}"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-    {% include "_navbar.html" %}
+{% block secondary_navigation %}
+<ul class="inline-list inline-list--space">
+    <li><a href="{% url "index" %}" class="secondary-navigation__link secondary-navigation__link--active">Home</a></li>
+    <li><a href="#" class="secondary-navigation__link">About</a></li>
+    <li><a href="#" class="secondary-navigation__link">Sponsors</a></li>
+</ul>
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                {% if latest_event %}
-                    {% if latest_event.is_future %}
-                        <h2 id="next"><a href="{% url "view_event" latest_event.pk %}">{{latest_event}}</a></h2>
-                        <div id="next-event">
-                            <p>Our next event will be on {{latest_event.start}}</p>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            {% for event in future_events.all|slice:":2" %}
+                <div class="block block-list__item event-block">
+                    {% include "events/_event_block.html"}
+                </div>
+            {% endfor %}
 
-                            {{"events.event_configuration.Description"|get_configuration:latest_event}}
-                            {% if user.is_authenticated %}
-                                {% if user|has_tickets:latest_event %}
-                                    <div class="panel">
-                                        <p>You have tickets for the {{latest_event}}. <a href="{% url "my_tickets" %}">View my tickets.</a></p>
-                                    </div>
-                                {% else %}
-                                    {% include "events/_ticket_widget.html" with event=latest_event %}
-                                {% endif %}
-                            {% else %}
-                                {% include "events/_ticket_widget.html" with event=latest_event %}
-                            {% endif %}
+            <a href="#" class="block-list__link block-list__item">View all upcoming events</a>
 
-                            {% plugin_block "events.event_short" latest_event %}
+            {% for event in past_events.all|slice:":1" %}
+                <div class="block block-list__item event-block low-opacity full-opacity-on-hover">
+                    {% include "events/_event_block.html" %}
+                </div>
+            {% endfor %}
 
-                            {% include "events/_attending_members.html" with event=latest_event %}
-                        </div>
+            <a href="#" class="block-list__link block-list__item">View all events</a>
+        </div>
+
+        <div class="l-secondary-content block_list">
+            <div class="block block-list__item">
+                <header class="block__header valign-together">
+                    {% if request.user.is_authenticated %}
+                        <h2 class="block__header-text block__header-text--small">Welcome back, <strong>{{request.user}}</strong></h2>
+                        <a href="{% url "account_logout" %}" class="block__header-extra-link">(not you? Log out)</a>
                     {% else %}
-                        <p id="recent-event">Our most recent event was the <a href="{% url "view_event" latest_event.pk %}">{{latest_event}}</a> on {{latest_event.start.date}}.</p>
-
-                        {% plugin_block "events.event_short" latest_event %}
+                        <h2 class="block__header-text block__header-text--small">Welcome, <strong>Guest</strong></h2>
                     {% endif %}
-                {% else %}
-                    <div id="no-events">
-                        <p>Check back for information on our events.</p>
+                </header>
+                {% if request.user.is_authenticated %}
+                    <div class="l-container">
+                        <div class="l-primary-content">
+                            <ul class="plain-list">
+                                <li>
+                                    <div class="icon-text">
+                                        <i class="fa fa-envelope icon-text__icon"></i>
+                                        <span class="icon-text__text"><strong>0</strong> new <a href="#">private messages</a></span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon-text">
+                                        <i class="fa fa-bell icon-text__icon"></i>
+                                        <span class="icon-text__text"><strong>{{user.notifications.unread.count}}</strong> unread <a href="{% url "notifications_list" %}">notification{{user.notifications.unread.count|pluralize}}</a></span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon-text">
+                                        <i class="fa fa-calendar icon-text__icon"></i>
+                                        <span class="icon-text__text"><strong>3</strong> <a href="#">upcoming events</a></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="l-secondary-content">
+                            <img src="{{request.user.profile.photo_url}}">
+                        </div>
                     </div>
+                {% else %}
+                    <ul class="inline-list">
+                        <li><a class="btn" href="{% url "account_login" %}">Log In</a></li>
+                        <li>or</li>
+                        <li><a class="btn" href="{% url "account_signup" %}">Sign Up</a></li>
+                    </ul>
                 {% endif %}
 
-                {% if not request.user.is_authenticated %}
-                    <p>To to be alerted when future events are announced and tickets are available, <a href="{% url "account_signup" %}">Register for an account</a>.</p>
-                {% endif %}
+            </div>
+
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">What's New</h2>
+                </header>
+                <ul class="plain-list">
+                    <li class="activity">
+                        <div class="l-container">
+                            <div class="l-primary-content">
+                                <span class="activity__type">Event Sold Out</span>
+                                <a href="#" class="activity__name">Board Games Night</a>
+                                <div class="activity__info valign-together">
+                                    <span>6 hours ago</span><span>40 tickets sold</span>
+                                </div>
+                            </div>
+                            <div class="l-secondary-content">
+                                LO
+                            </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="block block-list__item">
+                <header class="block__header valign-together">
+                    <h2 class="block__header-text block__header-text--small">Sponsors</h2>
+                    <a href="#" class="block__header-extra-link">View more</a>
+                </header>
+                <ul class="plain-list">
+                    <li><a href="#"><img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97150&w=350&h=150"></a></li>
+                    <li><a href="#"><img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97150&w=350&h=150"></a></li>
+                    <li><a href="#"><img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97150&w=350&h=150"></a></li>
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block scripts %}
-    <script type="text/javascript" src="{% static "lib/html5sortable/js/jquery.sortable.min.js" %}"></script>
-    <script type="text/coffeescript" src="{% static "coffeescript/vote.coffee" %}"></script>
 {% endblock %}
