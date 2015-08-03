@@ -3,21 +3,21 @@
 {% load foundation %}
 
 {% block staff_content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>
-                    New Event
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header valign-together">
+                    <h2 class="block__header-text">New Event</h2>
                     {% if event_presets|length > 0 %}
-                        <button href="#" data-dropdown="event_presets" aria-controls="event_presets" aria-expanded="false" class="button dropdown">Load Preset</button><br>
-                        <ul id="event_presets" data-dropdown-content class="f-dropdown" aria-hidden="true">
+                        <a href="#" data-dropdown="event_presets" aria-controls="event_presets" aria-expanded="false" class="btn dropdown block__header-extra-link">Load Preset</a>
+
+                        <!-- <ul id="event_presets" data-dropdown-content class="f-dropdown" aria-hidden="true">
                             {% for preset in event_presets %}
                                 <li><a href="#" data-preset="{{preset.value}}" class="event_preset">{{preset.name}}</a></li>
                             {% endfor %}
-                        </ul>
+                        </ul> -->
                     {% endif %}
-
-                </h2>
+                </header>
 
                     
                 <form method="POST" action="{% url "create_event" %}">
@@ -27,10 +27,6 @@
                     <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
                 </form>
             </div>
-        </p>
+        </div>
     </div>
-{% endblock %}
-
-{% block scripts %}
-    <script type="text/coffeescript" src="{% static "coffeescript/staff/event_presets.coffee" %}"></script>
 {% endblock %}

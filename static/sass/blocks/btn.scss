@@ -25,9 +25,16 @@ button, .btn {
     @include appearance(none);
     box-shadow: none;
     border-radius: 0;
+    border: none;
 
     color: #FFF;
     text-decoration: none;
+
+    position: relative;
+
+    &:active {
+        top: 1px;
+    }
 }
 
 /**

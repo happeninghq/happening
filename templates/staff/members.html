@@ -2,51 +2,60 @@
 {% load staticfiles %}
 
 {% block staff_content %}
-    <table style="width: 100%;" class="data-table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Staff</th>
-                <th>Active</th>
-                <th>Paid</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for member in members %}
-                <tr>
-                    <td><a href="{% url "view_profile" member.pk %}">{{member.profile}}</a></td>
-                    <td>{{member.email}}</td>
-                    <td class="is_staff">
-                        {% if member.is_staff %}
-                            {% if member == request.user %}
-                                True
-                            {% else %}
-                                <a class="confirm" data-confirm="Are you sure you wish to make this member non-staff?" href="{% url "make_not_staff" member.pk %}">True</a>
-                            {% endif %}
-                        {% else %}
-                            <a class="confirm" data-confirm="Are you sure you wish to make this member staff?" href="{% url "make_staff" member.pk %}">False</a>
-                        {% endif %}
-                    </td>
-                    <td>{{member.is_active}}</td>
-                    <td>
-                        {% if member.profile.active_paid_membership == None %}
-                            False
-                        {% else %}
-                            True
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a href="{% url "edit_profile" member.pk %}">Edit Profile</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% endblock %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Staff</th>
+                            <th>Active</th>
+                            <th>Paid</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in members %}
+                            <tr>
+                                <td><a href="{% url "view_profile" member.pk %}">{{member.profile}}</a></td>
+                                <td>{{member.email}}</td>
+                                <td class="is_staff">
+                                    {% if member.is_staff %}
+                                        {% if member == request.user %}
+                                            True
+                                        {% else %}
+                                            <a class="confirm" data-confirm="Are you sure you wish to make this member non-staff?" href="{% url "make_not_staff" member.pk %}">True</a>
+                                        {% endif %}
+                                    {% else %}
+                                        <a class="confirm" data-confirm="Are you sure you wish to make this member staff?" href="{% url "make_staff" member.pk %}">False</a>
+                                    {% endif %}
+                                </td>
+                                <td>{{member.is_active}}</td>
+                                <td>
+                                    {% if member.profile.active_paid_membership == None %}
+                                        False
+                                    {% else %}
+                                        True
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url "edit_profile" member.pk %}">Edit Profile</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-{% block scripts %}
-    <script src="{% static "jquery.cookie/jquery.cookie.js" %}"></script>
-    <script type="text/coffeescript" src="{% static "coffeescript/confirm.coffee" %}"></script>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Members</h2>
+                </header>
+            </div>
+        </div>
+    </div>
 {% endblock %}

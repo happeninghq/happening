@@ -27,14 +27,14 @@
 <body>
     <header class="main-header">
         <div class="l-container">
-            <h2 class="main-header__heading">
+            <h2 class="main-header__heading main-header__padded">
                 <a href="{% url "index" %}" class="plain-link">Happening</a>
             </h1>
 
             <div class="main-header__menu menu">
                 <ul class="menu__list inline-list">
-                    <li class="menu__item menu__item--with-icon">
-                        <a href="#" class="menu__item__icon plain-link"><i class="fa fa-calendar"></i></a>
+                    <li class="menu__item menu__item--with-icon menu__item--active main-header__padded">
+                        <a href="{% url "events" %}" class="menu__item__icon plain-link"><i class="fa fa-calendar"></i></a>
                         <a href="{% url "events" %}" class="menu__item__text plain-link">
                             {% with v="pages.configuration.NameOfEvents"|get_configuration %}
                                 {{v|title}}s
@@ -51,8 +51,12 @@
                     </li>
                     {% if request.user.is_staff %}
                         <li class="menu__item menu__item--with-icon">
-                            <a href="#" class="menu__item__icon plain-link"><i class="fa fa-cogs"></i></a>
-                            <a href="#" class="menu__item__text plain-link">Admin</a>
+                            <a href="{% url "admin" %}" class="menu__item__icon plain-link"><i class="fa fa-cogs"></i></a>
+                            <a href="{% url "admin" %}" class="menu__item__text plain-link">Admin</a>
+                        </li>
+                        <li class="menu__item menu__item--with-icon">
+                            <a href="{% url "staff" %}" class="menu__item__icon plain-link"><i class="fa fa-cogs"></i></a>
+                            <a href="{% url "staff" %}" class="menu__item__text plain-link">Staff</a>
                         </li>
                     {% endif %}
                     {% if request.user.is_authenticated %}

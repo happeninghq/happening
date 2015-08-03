@@ -1,23 +1,15 @@
 {% extends "base.html" %}
 
+{% block secondary_navigation %}
+    <ul class="inline-list inline-list--space">
+        {% for text, link in staff_urls %}
+            <li><a class="secondary-navigation__link" href="{% url link %}">{{text}}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
 {% block content %}
-<div class="row">
-    <h2>Staff</h2>
-    <div class="small-2 columns">
-        <ul class="side-nav">
-            {% for text, link in staff_urls %}
-                <li><a href="{% url link %}">{{text}}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
+    {% block staff_content %}
 
-    <div class="small-10 columns">
-        <div style="padding: 10px;">
-            {% block staff_content %}
-
-            {% endblock %}
-        </div>
-    </div>
-</div>
-
+    {% endblock %}
 {% endblock %}

@@ -3,53 +3,68 @@
 {% load staticfiles %}
 
 {% block staff_content %}
-    <a class="button" href="{% url "create_email" %}">New Email</a>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                {% if emails|length > 0 %}
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Event</th>
+                                <th>Subject</th>
+                                <th>To</th>
+                                <th>Start</th>
+                                <th>Stop</th>
+                                <th>Status</th>
+                                <th>Number Sent</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for email in emails %}
+                                <tr>
+                                    <td>
+                                        {% if email.event %}
+                                            <a href="{% url "staff_event" email.event.pk %}">{{email.event}}</a>
+                                        {% endif %}
+                                    </td>
+                                    <td><a href="{% url "email" email.pk %}">{{email.subject}}</a></td>
+                                    <td>{{email.to}}</td>
+                                    <td data-sort="{{email.start_sending|epoch}}">{{email.start_sending}}</td>
+                                    <td data-sort="{{email.stop_sending|epoch}}">{% if email.stop_sending %}{{email.stop_sending}}{% endif %}</td>
+                                    <td>{{email.status}}</td>
+                                    <td>{{email.sent_emails.count}}</td>
+                                    <td>
+                                        <a href="{% url "edit_email" email.pk %}">Edit</a>
+                                        {% if email.sent_emails.count == 0 %}
+                                            <a href="{% url "delete_email" email.pk %}" class="confirm" data-confirm="Are you sure you want to delete this email?">Delete</a>
+                                        {% endif %}
+                                        {% if email.disabled %}
+                                            <a href="{% url "enable_email" email.pk %}">Enable</a>
+                                        {% else %}
+                                            <a href="{% url "disable_email" email.pk %}">Disable</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No emails have been created yet. <a href="{% url "create_email" %}">Why not create one?</a></p>
+                {% endif %}
+            </div>
+        </div>
 
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Event</th>
-                <th>Subject</th>
-                <th>To</th>
-                <th>Start</th>
-                <th>Stop</th>
-                <th>Status</th>
-                <th>Number Sent</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for email in emails %}
-                <tr>
-                    <td>
-                        {% if email.event %}
-                            <a href="{% url "staff_event" email.event.pk %}">{{email.event}}</a>
-                        {% endif %}
-                    </td>
-                    <td><a href="{% url "email" email.pk %}">{{email.subject}}</a></td>
-                    <td>{{email.to}}</td>
-                    <td data-sort="{{email.start_sending|epoch}}">{{email.start_sending}}</td>
-                    <td data-sort="{{email.stop_sending|epoch}}">{% if email.stop_sending %}{{email.stop_sending}}{% endif %}</td>
-                    <td>{{email.status}}</td>
-                    <td>{{email.sent_emails.count}}</td>
-                    <td>
-                        <a href="{% url "edit_email" email.pk %}">Edit</a>
-                        {% if email.sent_emails.count == 0 %}
-                            <a href="{% url "delete_email" email.pk %}" class="confirm" data-confirm="Are you sure you want to delete this email?">Delete</a>
-                        {% endif %}
-                        {% if email.disabled %}
-                            <a href="{% url "enable_email" email.pk %}">Enable</a>
-                        {% else %}
-                            <a href="{% url "disable_email" email.pk %}">Disable</a>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% endblock %}
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Emails</h2>
+                </header>
 
-{% block scripts %}
-    <script src="{% static "jquery.cookie/jquery.cookie.js" %}"></script>
-    <script type="text/coffeescript" src="{% static "coffeescript/confirm.coffee" %}"></script>
+                <ul class="plain-list">
+                    <li><a href="{% url "create_email" %}">New Email</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}

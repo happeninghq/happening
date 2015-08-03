@@ -7,13 +7,17 @@
         display: block;
         text-align: center;
         font-size: 1.5em;
-        color: $SECONDARY-COLOR;
+        color: $MENU-COLOR;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
     }
 
     .menu__item__text {
         display: block;
         text-align: center;
-        color: $SECONDARY-COLOR;
+        color: $MENU-COLOR;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
     }
 }
 
@@ -23,4 +27,8 @@
 
 .menu__item--with-icon {
 
+}
+
+.menu__item--active {
+    background: $MENU-HIGHLIGHT-BACKGROUND-COLOR;
 }

@@ -9,7 +9,7 @@ from django.views.decorators.http import require_POST
 
 
 def view(request, pk):
-    """View an event (typically a past event)."""
+    """View an event."""
     event = get_object_or_404(Event, pk=pk)
 
     group_form = GroupNumberForm()
