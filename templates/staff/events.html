@@ -1,12 +1,16 @@
-{% extends "staff/base.html" %}
+{% load xextends %}
+
+{% xextends "staff/base.html" with secondary_nav="staff_events" %}
 {% load datetime %}
+{% load staticfiles %}
+{% load sekizai_tags %}
 
 {% block staff_content %}
     <div class="l-container">
         <div class="l-primary-content block-list">
             <div class="block block-list__item">
                 {% if events|length > 0 %}
-                    <table class="data-table" data-order='[[ 1, "desc" ]]'>
+                    <table class="data-table" data-order='[[ 1, "desc" ]]' id="events-list">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -40,13 +44,15 @@
                 </ul>
             </div>
 
+            {% include "events/_filter_block.html" %}
+
             <div class="block block-list__item">
                 <header class="block__header">
                     <h2 class="block__header-text block__header-text--small">Events</h2>
                 </header>
 
-                <ul class="plain-list">
-                    <li><a href="{% url "create_event" %}">New Event</a></li>
+                <ul class="button-list">
+                    <li><a class="btn" href="{% url "create_event" %}">New Event</a></li>
                 </ul>
             </div>
         </div>

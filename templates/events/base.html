@@ -1,0 +1,11 @@
+{% load xextends %}
+{% xextends "base.html" with primary_nav="events" %}
+
+
+{% block secondary_navigation %}
+    <ul class="inline-list inline-list--space">
+        {% include "_secondary_navigation_item.html" with link="events" text="Upcoming" %}
+        {% include "_secondary_navigation_item.html" with link="past_events" text="Past" %}
+        {% include "_secondary_navigation_item.html" with link="event_feeds" text="Feeds" %}
+    </ul>
+{% endblock %}

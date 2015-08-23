@@ -1,17 +1,22 @@
-{% extends "base.html" %}
+{% load xextends %}
+
+{% xextends "notifications/base.html" with secondary_nav="notifications_list" %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Notifications</h2>
-                <div id="full_notifications">
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header valign-together">
+                    <h2 class="block__header-text">Notifications</h2>
+                    <a href="{% url "notifications_settings" %}" class="block__header-extra-link">(Notification Settings)</a>
+                </header>
+                <div class="notifications">
                     {% for notification in request.user.notifications.ordered %}
-                        <div class="row">
-                            <div class="small-1 columns">
+                        <div class="l-container">
+                            <div class="l-secondary-content">
                                 {{notification.image|safe}}
                             </div>
-                            <div class="small-11 columns">
+                            <div class="l-primary-content">
                                 <div>
                                     {{notification.full|safe}}
                                 </div>
@@ -21,11 +26,21 @@
                     {% endfor %}
                 </div>
             </div>
-        </p>
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header valign-together">
+                    <h2 class="block__header-text block__header-text--small">Filters</h2>
+                    <a href="#" class="block__header-extra-link">(reset)</a>
+                </header>
+                <div class="input-grid">
+                    <!-- <span class="input-grid__header">Event Type</span>
+                    <div class="input-grid__container">
+                        <label class="input-grid__container__item radio"><input name="event-type" type="radio" class="checkbox">Global Game Jam</label>
+                        <label class="input-grid__container__item radio"><input name="event-type" type="radio" class="checkbox">Board Games Night</label>
+                    </div> -->
+                </div>
+            </div>
+        </div>
     </div>
-{% endblock %}
-{% block scripts %}
-<script>
-    $("p.time").timeago();
-</script>
 {% endblock %}

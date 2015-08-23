@@ -44,3 +44,12 @@ button, .btn {
 .btn--full-width {
     display: block;
 }
+
+.btn--disabled {
+    cursor: default;
+    opacity: 0.3;
+
+    &:active {
+        top: 0px;
+    }
+}

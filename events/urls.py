@@ -2,6 +2,7 @@
 
 from django.conf.urls import url
 from events import views
+from feeds import AllEventsFeed
 
 urlpatterns = [
     url(r'^(?P<pk>\d+)$', views.view, name='view_event'),
@@ -9,5 +10,8 @@ urlpatterns = [
         name='purchase_tickets'),
     url(r'^tickets_purchased/(?P<pk>\d+)', views.tickets_purchased,
         name='tickets_purchased'),
-    url(r'^$', views.events, name='events'),
+    url(r'^$', views.upcoming_events, name='events'),
+    url(r'^past$', views.past_events, name='past_events'),
+    url(r'^feeds$', views.feeds, name='event_feeds'),
+    url(r'^feeds/all.ics$', AllEventsFeed(), name="all_events_feed"),
 ]

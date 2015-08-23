@@ -1,7 +1,7 @@
 """Page forms."""
 
-from django import forms
 from django.forms import ModelForm
+from happening.forms import MarkdownField
 from models import Page
 
 
@@ -9,8 +9,8 @@ class PageForm(ModelForm):
 
     """Form for creating/editing pages."""
 
-    path = forms.CharField(required=False)
+    content = MarkdownField()
 
     class Meta:
         model = Page
-        fields = ['url', 'title', 'path', 'content']
+        fields = ['url', 'title', 'content']

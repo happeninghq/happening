@@ -1,30 +1,42 @@
-{% extends "admin/base.html" %}
-{% load staticfiles %}
+{% load xextends %}
+
+{% xextends "admin/base.html" with secondary_nav="social_links" %}
 
 {% block admin_content %}
-    <a class="button" href="{% url "create_social_link" %}">New Social Link</a>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Social Links</h2>
+                </header>
 
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Provider</th>
-                <th>URL</th>
-                <td></td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for social_link in social_links %}
-                <tr>
-                    <td>{{social_link.provider}}</td>
-                    <td>{{social_link.url}}</td>
-                    <td><a href="{% url "edit_social_link" social_link.pk %}">Edit</a> <a href="{% url "delete_social_link" social_link.pk %}" class="confirm" data-confirm="Are you sure you want to delete this social link?">Delete</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% endblock %}
-
-{% block scripts %}
-    <script src="{% static "jquery.cookie/jquery.cookie.js" %}"></script>
-    <script type="text/coffeescript" src="{% static "coffeescript/confirm.coffee" %}"></script>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Provider</th>
+                            <th>URL</th>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for social_link in social_links %}
+                            <tr>
+                                <td>{{social_link.provider}}</td>
+                                <td>{{social_link.url}}</td>
+                                <td><a href="{% url "edit_social_link" social_link.pk %}">Edit</a> <a href="{% url "delete_social_link" social_link.pk %}" class="confirm" data-confirm="Are you sure you want to delete this social link?">Delete</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Social Links</h2>
+                </header>
+                <a class="btn" href="{% url "create_social_link" %}">New Social Link</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -114,36 +114,36 @@ This is all that is needed to allow users to add their own properties to models.
 
 **Custom Variable Types**
 
-Creating a custom variable type typically requires the creation of three classes. To demonstrate we'll create an "EpicEditorField", which is simply a TextArea with a particular class added (that Javascript can hook onto).
+Creating a custom variable type typically requires the creation of three classes. To demonstrate we'll create a "MarkdownField", which is simply a TextArea with a particular class added (that Javascript can hook onto).
 
 First, we must create a subclass of ``django.forms.Widget``, and implement the ``render`` method::
 
-    class EpicEditorWidget(forms.Textarea):
+    class MarkdownWidget(forms.Textarea):
 
-        """A widget that uses EpicEditor."""
+        """A widget for editing markdown."""
 
         def render(self, name, value, attrs):
             """Render the widget."""
-            attrs['class'] = 'edit_markdown ' + attrs.get('class', '')
-            return super(EpicEditorWidget, self).render(name, value, attrs)
+            attrs['class'] = 'markdown-widget ' + attrs.get('class', '')
+            return super(MarkdownWidget, self).render(name, value, attrs)
 
 In this case we have overridded forms.Textarea which is a subclass of forms.Widget and takes care of rendering a TextArea. We could have used render_to_string here to render completely custom html.
 
 We then create a subclass of ``django.forms.Field``, which references the widget to be rendered. It's often best here to subclass an existing ``Field`` subclass (see ``Django Form Fields Documentation <https://docs.djangoproject.com/en/1.8/ref/forms/fields/>``_, of which there are many::
     
-    class EpicEditorField(forms.CharField):
+    class MarkdownField(forms.CharField):
 
-        """A field that uses an EpicEditor markdown editor."""
+        """A field for editing markdown."""
 
-        widget = EpicEditorWidget
+        widget = MarkdownWidget
 
 In this case we subclass CharField as the widget will return a text value.
 
 Finally, you need to create a subclass of ``happening.configuration.ConfigurationVariable``. At a minimum this should point to the Field just created::
     
-    class EpicEditorField(ConfigurationVariable):
+    class MarkdownField(ConfigurationVariable):
 
-        field = EpicEditorField
+        field = forms.MarkdownField
 
 This could also be achieved without the ``ConfigurationVariable`` subclass. However, in this case you would be required to reference the ``Field`` subclass each time you create a new configuration variable of this type. For example::
 
@@ -151,13 +151,13 @@ This could also be achieved without the ``ConfigurationVariable`` subclass. Howe
 
         """Event Description."""
 
-        field = forms.EpicEditorField
+        field = forms.MarkdownField
 
 In this case, we simply override the field for the Description variable.
 
 **Custom Variable Renderers**
 
-With the previous example of the EpicEditorField, we allow the users to create markdown input using EpicEditor. However the output will need to be formatted as markdown each time it is used. To avoid this, we can create a subclass of the ``happening.configuration.Renderer`` class::
+With the previous example of the MarkdownField, we allow the users to create markdown. However the output will need to be formatted as markdown each time it is used. To avoid this, we can create a subclass of the ``happening.configuration.Renderer`` class::
     
     class MarkdownRenderer(Renderer):
 
@@ -169,9 +169,9 @@ With the previous example of the EpicEditorField, we allow the users to create m
 
 and then reference this in our variable/variable type::
 
-    class EpicEditorField(ConfigurationVariable):
+    class MarkdownField(ConfigurationVariable):
 
-        field = forms.EpicEditorField
+        field = forms.MarkdownField
         renderer = MarkdownRenderer()
 
 This will ensure that when using the default functionality for getting variables, it will get the rendered HTML rather than the raw markdown. This can also be used to format data in the correct type (boolean, int, etc.).

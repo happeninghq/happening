@@ -1,0 +1,15 @@
+{% load xextends %}
+{% xextends "base.html" with primary_nav="members" %}
+
+{% block secondary_navigation %}
+    <ul class="inline-list inline-list--space">
+        {% include "_secondary_navigation_item.html" with link="members" text="Members" %}
+        {% include "_secondary_navigation_item.html" with link="my_profile" text="My Profile" %}
+    </ul>
+{% endblock %}
+
+{% block content %}
+    {% block members_content %}
+
+    {% endblock %}
+{% endblock %}

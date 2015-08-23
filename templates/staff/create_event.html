@@ -1,6 +1,6 @@
 {% extends "staff/base.html" %}
 {% load staticfiles %}
-{% load foundation %}
+{% load forms %}
 
 {% block staff_content %}
     <div class="l-container">
@@ -22,7 +22,7 @@
                     
                 <form method="POST" action="{% url "create_event" %}">
                     {% csrf_token %}
-                    {{form|foundation}}
+                    {{form|render}}
                     <button type="submit">Save</button>
                     <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
                 </form>

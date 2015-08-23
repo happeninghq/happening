@@ -1,0 +1,41 @@
+/*doc
+---
+title: Message Box
+name: mesage-box
+category: Messages
+---
+
+A basic button
+
+```html_example
+
+<div class="message-box">
+    <p>Content goes here</p>
+</div>
+
+<div class="message-box message-box--success">
+    <p>Content goes here</p>
+</div>
+
+<div class="message-box message-box--error">
+    <p>Content goes here</p>
+</div>
+```
+*/
+.message-box {
+    background: $MESSAGE-BACKGROUND-COLOR;
+
+    padding: 1em;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.message-box--error {
+    background: $ERROR-MESSAGE-BACKGROUND-COLOR;
+}
+
+.message-box--success {
+    background: $SUCCESS-MESSAGE-BACKGROUND-COLOR;
+}

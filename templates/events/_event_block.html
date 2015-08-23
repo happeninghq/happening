@@ -28,14 +28,24 @@
         {% endif %}
 
         <div class="ticket-information event-block__sidebar-spacing">
-            <span class="ticket-information__available"><strong>{{event.remaining_tickets}}</strong> Tickets available</span>
-            <a href="#" class="btn btn--full-width">
+            {% if event.is_future %}
+                <span class="ticket-information__available"><strong>{{event.remaining_tickets}}</strong> Tickets available</span>
                 {% if event.remaining_tickets > 0 %}
-                    Get Tickets
+                    <a href="#" class="btn btn--full-width">
+                        Get Tickets
+                    </a>a>
                 {% else %}
-                    Join Waiting List
+                    <!-- TODO: Waiting list -->
+                    <a href="#" class="btn btn--full-width btn--disabled">
+                        No Tickets Available
+                    </a>
                 {% endif %}
-            </a>
+            {% else %}
+                <span class="ticket-information__available"><strong>0</strong> Tickets available</span>
+                <a href="#" class="btn btn--full-width btn--disabled">
+                    No Tickets Available
+                </a>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -3,21 +3,23 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from events.models import Ticket
 from events.forms import TicketForm
-from forms import ProfileForm, ProfilePhotoForm, CroppingImageForm
+from forms import ProfileForm
 from forms import UsernameForm
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from django.views.decorators.http import require_POST
-from StringIO import StringIO
-from PIL import Image
-from django.core.files import File
 from happening.configuration import get_configuration_variables
 from happening.configuration import attach_to_form
 from happening.configuration import save_variables
 from members.user_profile import CustomProperties
 from members.configuration import ProfileProperties
 from decorators import require_editing_own_profile
+
+
+def index(request):
+    """Show the members list."""
+    return render(request, "members/index.html",
+                  {"members": get_user_model().objects.filter(is_active=True)})
 
 
 @login_required
@@ -74,6 +76,12 @@ def cancel_ticket(request, pk):
     return render(request, "members/cancel_ticket.html", {"ticket": ticket})
 
 
+@login_required
+def my_profile(request):
+    """View my own profile."""
+    return redirect("view_profile", request.user.pk)
+
+
 def view_profile(request, pk):
     """View a member's profile."""
     member = get_object_or_404(get_user_model(), pk=pk)
@@ -81,10 +89,15 @@ def view_profile(request, pk):
     profile_properties = ProfileProperties().get()
     custom_properties = CustomProperties(member).get()
 
+    secondary_nav = "members"
+    if member.pk == request.user.pk:
+        secondary_nav = "my_profile"
+
     return render(request, "members/view_profile.html",
                   {"member": member,
                    "profile_properties": profile_properties,
-                   "custom_properties": custom_properties})
+                   "custom_properties": custom_properties,
+                   "secondary_nav": secondary_nav})
 
 
 @require_editing_own_profile
@@ -92,6 +105,11 @@ def edit_profile(request, pk):
     """Edit a member's profile."""
     member = get_object_or_404(get_user_model(), pk=pk)
     variables = get_configuration_variables("user_profile", member)
+
+    secondary_nav = "members"
+    if member.pk == request.user.pk:
+        secondary_nav = "my_profile"
+
     form = ProfileForm(
         initial={
             "first_name": member.first_name,
@@ -103,6 +121,7 @@ def edit_profile(request, pk):
             "show_twitter_urls": member.profile.show_twitter_urls,
             "show_google_urls": member.profile.show_google_urls,
             "show_stackexchange_urls": member.profile.show_stackexchange_urls,
+            "profile_image": member.profile.photo,
         })
     attach_to_form(form, variables)
     if request.method == "POST":
@@ -125,6 +144,13 @@ def edit_profile(request, pk):
             member.profile.show_stackexchange_urls = \
                 form.cleaned_data['show_stackexchange_urls']
 
+            if form.cleaned_data['profile_image'] == "DELETE":
+                member.profile.photo.delete(False)
+            elif form.cleaned_data['profile_image']:
+                member.profile.photo.save(
+                    form.cleaned_data['profile_image'][0],
+                    form.cleaned_data['profile_image'][1], False)
+
             member.profile.save()
             member.save()
             save_variables(form, variables)
@@ -133,60 +159,10 @@ def edit_profile(request, pk):
         else:
             attach_to_form(form, variables)
 
-    profile_photo_form = ProfilePhotoForm()
-
     return render(request, "members/edit_profile.html",
                   {"member": member,
                    "form": form,
-                   "profile_photo_form": profile_photo_form})
-
-
-@require_POST
-@require_editing_own_profile
-def upload_profile_photo(request, pk):
-    """Upload a new profile photo and forward for cropping."""
-    member = get_object_or_404(get_user_model(), pk=pk)
-    form = ProfilePhotoForm(request.POST, request.FILES)
-
-    if form.is_valid():
-        member.profile.photo = request.FILES['photo']
-        member.profile.save()
-        return redirect("resize_crop_profile_photo", pk)
-    return redirect("edit_profile", member.pk)
-
-
-@require_editing_own_profile
-def resize_crop_profile_photo(request, pk):
-    """Resize and crop profile photo."""
-    member = get_object_or_404(get_user_model(), pk=pk)
-    if not member.profile.photo:
-        return redirect("edit_profile", member.pk)
-    form = CroppingImageForm()
-    if request.method == "POST":
-        form = CroppingImageForm(request.POST)
-        if form.is_valid():
-            # Crop the image to the correct size
-            imagedata = StringIO(member.profile.photo.file.read())
-            image = Image.open(imagedata)
-            image = image.crop([int(form.cleaned_data['x1']),
-                                int(form.cleaned_data['y1']),
-                                int(form.cleaned_data['x2']),
-                                int(form.cleaned_data['y2'])])
-
-            im_data = StringIO()
-            image.save(im_data, 'PNG')
-            im_data.seek(0)
-            image.close()
-
-            member.profile.photo.save("%s.png" % member.id,
-                                      File(im_data))
-
-            return redirect("view_profile", pk)
-
-    return render(request, "members/resize_crop_photo.html",
-                  {"member": member,
-                   "profile_photo": member.profile.photo,
-                   "form": form})
+                   "secondary_nav": secondary_nav})
 
 
 @require_editing_own_profile

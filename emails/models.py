@@ -23,6 +23,10 @@ class Email(db.Model):
     stop_sending = models.DateTimeField()
     disabled = models.BooleanField(default=False)
 
+    class Meta:
+        # Needed because this is loaded early
+        app_label = 'emails'
+
     @property
     def status(self):
         """Return Completed/Active/Pending depending on start and end dates."""
@@ -74,3 +78,7 @@ class SentEmail(db.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name="received_emails")
     sent_datetime = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        # Needed because this is loaded early
+        app_label = 'emails'

@@ -1,0 +1,25 @@
+{% load xextends %}
+{% xextends "events/base.html" with secondary_nav="event_feeds" %}
+
+{% block content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Event Feeds</h2>
+                </header>
+
+                <p>Use these feeds to subscribe to events and have them appear in your calendar.</p>
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>All Events</th>
+                            <td><a href="{% url "all_events_feed" %}"><i class="fa fa-calendar"></i></a> <a href="{% url "all_events_feed" %}">iCal</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

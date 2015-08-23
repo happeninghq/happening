@@ -1,25 +1,26 @@
-{% extends "staff/base.html" %}
-{% load staticfiles %}
-{% load foundation %}
-{% load widget_tweaks %}
-{% load markdown_deux_tags %}
+{% load xextends %}
+
+{% xextends "staff/base.html" with secondary_nav="staff_events" %}
+{% load forms %}
 
 {% block staff_content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Create preset</h2>
-                    
-                <form method="POST" action="{% url "create_event_preset" %}">
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header valign-together">
+                    <h2 class="block__header-text">Create Preset</h2>
+                </header>
+                <form method="POST" action="{% url "create_event_preset" %}" class="form">
                     {% csrf_token %}
-                    <label>Preset Name:
-                    <input type="text" name="preset_name" value="{{preset.name}}">
-                    </label>
-                    {{form}}
+                    <div class="form__field">
+                        <label for="preset_name">Preset Name</label>
+                        <input type="text" name="preset_name" value="{{preset.name}}">
+                    </div>
+                    {{form|render}}
                     <button type="submit">Save</button>
                     <a class="button warning" href="{% url "event_presets" %}">Cancel</a>
                 </form>
             </div>
-        </p>
+        </div>
     </div>
 {% endblock %}

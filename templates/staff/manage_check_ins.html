@@ -3,11 +3,13 @@
 {% load staticfiles %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h3>{{event}}</h3>
-                <table class="members tickets data-table">
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">{{event}}</h2>
+                </header>
+                <table class="data-table">
                     <thead>
                         <tr>
                             <th>Member</th>
@@ -39,11 +41,11 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <ul class="stack button-group">
+                                        <ul>
                                             {% if ticket.checked_in %}
-                                                <li><a href="{% url "cancel_check_in" ticket.id %}?redirect_to={% url "manage_check_ins" event.id %}" class="button">Cancel Check In</a></li>
+                                                <li><a href="{% url "cancel_check_in" ticket.id %}?redirect_to={% url "manage_check_ins" event.id %}" class="btn">Cancel Check In</a></li>
                                             {% else %}
-                                                <li><a href="{% url "check_in" ticket.id %}?redirect_to={% url "manage_check_ins" event.id %}" class="button">Check In</a></li>
+                                                <li><a href="{% url "check_in" ticket.id %}?redirect_to={% url "manage_check_ins" event.id %}" class="btn">Check In</a></li>
                                             {% endif %}
                                         </ul>
                                     </td>
@@ -53,6 +55,6 @@
                     </tbody>
                 </table>
             </div>
-        </p>
+        </div>
     </div>
 {% endblock %}

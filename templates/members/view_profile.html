@@ -1,115 +1,111 @@
-{% extends "base.html" %}
+{% load xextends %}
+
+{% xextends "members/base.html" with secondary_nav=secondary_nav %}
+
+{% load plugins %}
 {% load staticfiles %}
 {% load markdown_deux_tags %}
-{% load plugins %}
 
-{% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>{{member}}</h2>
-                {% if member == request.user %} 
-                    <a class="button" href="{% url "edit_profile" member.pk %}">Edit Profile</a>
-                {% endif %}
+{% block members_content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header valign-together">
+                    <h2 class="block__header-text">{{member}}</h2>
+                    {% if member == request.user %} 
+                        <a class="block__header-extra-link" href="{% url "edit_profile" member.pk %}">Edit Profile</a>
+                    {% endif %}
+                </header>
 
-                <div class="row">
-                    <div class="small-6 column">
-                        <img src="{{member.profile.photo_url}}" style="max-width: 300px;">
-                        {% plugin_block "members.profile.image" member %}
-                    </div>
-                    <div class="small-6 column">
-                        <table style="width: 100%">
-                            {% if member.first_name %}
-                                <tr>
-                                    <th>First Name</th>
-                                    <td>{{member.first_name}}</td>
-                                </tr>
-                            {% endif %}
-                            {% if member.last_name %}
-                                <tr>
-                                    <th>Last Name</th>
-                                    <td>{{member.last_name}}</td>
-                                </tr>
-                            {% endif %}
-                            {% if member.profile.show_github_urls %}
-                                {% if member.profile.github_urls|length > 0 %}
-                                    <tr>
-                                        <th>Github</th>
-                                        <td>
-                                            {% for url in member.profile.github_urls %}
-                                                <a href="{{url}}" target="_BLANK">{{url}}</a><br />
-                                            {% endfor %}
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                            {% endif %}
-                            {% if member.profile.show_facebook_urls %}
-                                {% if member.profile.facebook_urls|length > 0 %}
-                                    <tr>
-                                        <th>Facebook</th>
-                                        <td>
-                                            {% for url in member.profile.facebook_urls %}
-                                                <a href="{{url}}" target="_BLANK">{{url}}</a><br />
-                                            {% endfor %}
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                            {% endif %}
-                            {% if member.profile.show_linkedin_urls %}
-                                {% if member.profile.linkedin_urls|length > 0 %}
-                                    <tr>
-                                        <th>LinkedIn</th>
-                                        <td>
-                                            {% for url in member.profile.linkedin_urls %}
-                                                <a href="{{url}}" target="_BLANK">{{url}}</a><br />
-                                            {% endfor %}
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                            {% endif %}
-                            {% if member.profile.show_twitter_urls %}
-                                {% if member.profile.twitter_urls|length > 0 %}
-                                    <tr>
-                                        <th>Twitter</th>
-                                        <td>
-                                            {% for url in member.profile.twitter_urls %}
-                                                <a href="{{url}}" target="_BLANK">{{url}}</a><br />
-                                            {% endfor %}
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                            {% endif %}
-                            {% if member.profile.show_google_urls %}
-                                {% if member.profile.google_urls|length > 0 %}
-                                    <tr>
-                                        <th>Google</th>
-                                        <td>
-                                            {% for url in member.profile.google_urls %}
-                                                <a href="{{url}}" target="_BLANK">{{url}}</a><br />
-                                            {% endfor %}
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                            {% endif %}
-                            <!-- Removed the profile below for the time being as we're not getting the correct profile URL -->
-                            <!-- {% if member.profile.show_stackexchange_urls %}
-                                {% if member.profile.stackexchange_urls|length > 0 %}
-                                    <tr>
-                                        <th>Stack Exchange</th>
-                                        <td>
-                                            {% for url in member.profile.stackexchange_urls %}
-                                                <a href="{{url}}" target="_BLANK">{{url}}</a><br />
-                                            {% endfor %}
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                            {% endif %} -->
-                            {{profile_properties|properties_as_table:custom_properties}}
-                        </table>
-                        <p>{{member.profile.bio|markdown}}</p>
-                    </div>
-                </div>
+                <p>{{member.profile.bio|markdown}}</p>
             </div>
-        </p>
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">{{member}}</h2>
+                </header>
+
+                <img src="{{member.profile.photo_url}}">
+                {% plugin_block "members.profile.image" member %}
+            </div>
+            <div class="block block-list__item">
+                <table>
+                    {% if member.first_name %}
+                        <tr>
+                            <th>First Name</th>
+                            <td>{{member.first_name}}</td>
+                        </tr>
+                    {% endif %}
+                    {% if member.last_name %}
+                        <tr>
+                            <th>Last Name</th>
+                            <td>{{member.last_name}}</td>
+                        </tr>
+                    {% endif %}
+                    {% if member.profile.show_github_urls %}
+                        {% if member.profile.github_urls|length > 0 %}
+                            <tr>
+                                <th>Github</th>
+                                <td>
+                                    {% for url in member.profile.github_urls %}
+                                        <a href="{{url}}" target="_BLANK">{{url}}</a><br />
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endif %}
+                    {% if member.profile.show_facebook_urls %}
+                        {% if member.profile.facebook_urls|length > 0 %}
+                            <tr>
+                                <th>Facebook</th>
+                                <td>
+                                    {% for url in member.profile.facebook_urls %}
+                                        <a href="{{url}}" target="_BLANK">{{url}}</a><br />
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endif %}
+                    {% if member.profile.show_linkedin_urls %}
+                        {% if member.profile.linkedin_urls|length > 0 %}
+                            <tr>
+                                <th>LinkedIn</th>
+                                <td>
+                                    {% for url in member.profile.linkedin_urls %}
+                                        <a href="{{url}}" target="_BLANK">{{url}}</a><br />
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endif %}
+                    {% if member.profile.show_twitter_urls %}
+                        {% if member.profile.twitter_urls|length > 0 %}
+                            <tr>
+                                <th>Twitter</th>
+                                <td>
+                                    {% for url in member.profile.twitter_urls %}
+                                        <a href="{{url}}" target="_BLANK">{{url}}</a><br />
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endif %}
+                    {% if member.profile.show_google_urls %}
+                        {% if member.profile.google_urls|length > 0 %}
+                            <tr>
+                                <th>Google</th>
+                                <td>
+                                    {% for url in member.profile.google_urls %}
+                                        <a href="{{url}}" target="_BLANK">{{url}}</a><br />
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endif %}
+                    {{profile_properties|properties_as_table:custom_properties}}
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}

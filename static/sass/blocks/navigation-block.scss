@@ -1,0 +1,39 @@
+/*doc
+---
+title: Navigation Block
+name: navigation-block
+category: Blocks
+---
+
+A block used for tertiary navigation
+
+```html_example
+
+
+```
+
+*/
+.navigation-block {
+    padding: 0;
+}
+
+.navigation-block__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navigation-block__link {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding-left: 2em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.navigation-block__link--active, .navigation-block__link:hover {
+    background: $MENU-HIGHLIGHT-BACKGROUND-COLOR;
+    color: #FFF;
+}

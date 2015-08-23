@@ -1,4 +1,6 @@
-{% extends "admin/base.html" %}
+{% load xextends %}
+
+{% xextends "admin/base.html" with secondary_nav="admin" %}
 
 {% block admin_content %}
     <!-- TODO: Add some stats/etc -->

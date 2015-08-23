@@ -3,10 +3,12 @@
 {% load markdown_deux_tags %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>{{sponsor}}</h2>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">{{sponsor}}</h2>
+                </header>
 
                 <blockquote>
                     <div style="text-align: center; margin-bottom: 2em;">
@@ -14,16 +16,22 @@
                     </div>
                     {{sponsor.description|markdown}}
                 </blockquote>
+            </div>
+        </div>
 
-                {% if sponsor.event_set.count > 0 %}
-                    <h3>Sponsored Events</h3>
+        <div class="l-secondary-content block-list">
+            {% if sponsor.event_sponsors.count > 0 %}
+                <div class="block block-list__item">
+                    <header class="block__header">
+                        <h2 class="block__header-text block__header-text--small">Sponsored Events</h2>
+                    </header>
                     <ul>
-                        {% for event in sponsor.event_set.all %}
-                            <li><a href="{% url "view_event" event.pk %}">{{event}}</a></li>
+                        {% for event_sponsor in sponsor.event_sponsors.all %}
+                            <li><a href="{% url "view_event" event_sponsor.event.pk %}">{{event_sponsor.event}}</a></li>
                         {% endfor %}
                     </ul>
-                {% endif %}
-            </div>
-        </p>
+                </div>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

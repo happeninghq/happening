@@ -1,0 +1,17 @@
+html { padding:10px; }
+
+body {
+  border:0;
+  background:#fcfcfc;
+  font-family:monospace;
+  padding:10px;
+  line-height:1.35em;
+  margin:0;
+  padding:0;
+
+
+  /** TODO: Figure out how we can import this style rather than hard-code ;*/
+  color: #3C6080;
+  font-family: 'Cabin', sans-serif;
+  font-size:16px;
+}

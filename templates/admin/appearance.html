@@ -1,28 +1,29 @@
-{% extends "admin/base.html" %}
+{% load xextends %}
+
+{% load forms %}
+{% xextends "admin/base.html" with secondary_nav="appearance" %}
 {% load staticfiles %}
-{% load foundation %}
 
 {% block admin_content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Appearance</h2>
-                <form method="POST" action="{% url "appearance" %}">
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Appearance</h2>
+                </header>
+                <form method="POST" action="{% url "appearance" %}" class="form">
                     {% csrf_token %}
-                    <h3>Theme</h3>
-                    {{theme_form|foundation}}
+                    {{theme_form|render}}
                     <button type="submit">Save</button>
                 </form>
             </div>
-        </p>
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Appearance</h2>
+                </header>
+            </div>
+        </div>
     </div>
-{% endblock %}
-
-{% block style %}
-    <link rel="stylesheet" href="{% static "spectrum/spectrum.css" %}" />
-{% endblock %}
-
-{% block scripts %}
-<script src="{% static "spectrum/spectrum.js" %}"></script>
-<script type="text/coffeescript" src="{% static "coffeescript/appearance.coffee" %}"></script>
 {% endblock %}

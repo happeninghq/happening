@@ -1,12 +1,16 @@
-{% extends "staff/base.html" %}
-{% load staticfiles %}
+{% load xextends %}
+{% load forms %}
 {% load markdown_deux_tags %}
 
+{% xextends "staff/base.html" with secondary_nav="staff_sponsors" %}
+
 {% block staff_content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>{{sponsor}}</h2>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">{{sponsor}}</h2>
+                </header>
 
                 <blockquote>
                     <div style="text-align: center; margin-bottom: 2em;">
@@ -14,10 +18,20 @@
                     </div>
                     {{sponsor.description|markdown}}
                 </blockquote>
+            </div>
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">{{sponsor}}</h2>
+                </header>
+                <a class="btn" href="{% url "edit_sponsor" sponsor.pk %}">Edit Sponsor</a>
+            </div>
 
-                <a class="button" href="{% url "edit_sponsor" sponsor.pk %}">Edit Sponsor</a>
-
-                <h3>Tiers</h3>
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Tiers</h2>
+                </header>
                 {% if sponsor.community_sponsorships.count > 0 %}
                     <table>
                         <thead>
@@ -34,8 +48,8 @@
                         </tbody>
                     </table>
                 {% endif %}
-                <a class="button" href="{% url "add_community_sponsorship_to_sponsor" sponsor.pk %}">Add Tier</a>
+                <a class="btn" href="{% url "add_community_sponsorship_to_sponsor" sponsor.pk %}">Add Tier</a>
             </div>
-        </p>
+        </div>
     </div>
 {% endblock %}

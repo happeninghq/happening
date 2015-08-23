@@ -5,32 +5,29 @@
     <div class="row">
         <div class="small-2 columns">
             {% if value %}
-                <img src="{{value.url}}" />
+                <img class="image-widget__image" src="{{value.url}}" />
             {% else %}
-                <img src="{% static "img/no-image.png" %}" />
+                <img class="image-widget__image" src="{% static "img/no-image.png" %}" />
             {% endif %}
         </div>
         <div class="small-10 columns">
             {% if value %}
-                <div class="file-name">{{value|filename}}</div>
-                <div class="file-size">{{value.size|filesizeformat}}</div>
-                <div class="dimensions">{{value.width}}x{{value.height}}</div>
+                <div class="image-widget__file-name">{{value|filename}}</div>
+                <div class="image-widget__file-size">{{value.size|filesizeformat}}</div>
+                <div class="image-widget__dimensions">{{value.width}}x{{value.height}}</div>
             {% else %}
-                <div class="file-name"></div>
-                <div class="file-size"></div>
-                <div class="dimensions"></div>
+                <div class="image-widget__file-name"></div>
+                <div class="image-widget__file-size"></div>
+                <div class="image-widget__dimensions"></div>
             {% endif %}
         </div>
     </div>
     <div>
-        <button class="clear">Clear</button><button class="reset">Reset</button>
-        <div class="upload button">
+        <button class="image-widget__clear">Clear</button><button class="image-widget__reset">Reset</button>
+        <div class="image-widget__upload btn">
             <span>Upload</span>
             <input type="file" data-url="{% url "file_upload" %}" />
         </div>
     </div>
     <input type="hidden" name="{{name}}" value="INITIAL" />
-    <!-- <div class="progress">
-        <div class="meter" style="width: 0%;"></div>
-    </div> -->
 </div>

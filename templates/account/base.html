@@ -1,10 +1,11 @@
 {% extends "base.html" %}
-{% block container %}
-    <div class="row">
-        <div class="small-12 columns">
-            {% block content %}
 
-            {% endblock %}
-        </div>
-    </div>
+{% load i18n %}
+
+{% block secondary_navigation %}
+    <ul class="inline-list inline-list--space">
+        <li><a class="secondary-navigation__link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a></li>
+        <li><a class="secondary-navigation__link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a></li>
+        <li><a class="secondary-navigation__link" href="{% url 'account_reset_password' %}">{% trans "Forgot Password" %}</a></li>
+    </ul>
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% load foundation %}
+{% load forms %}
 
 {% block content %}
     <div class="container">
@@ -8,9 +8,9 @@
             <div class="small-12 column">
                 <h2>{{group.event}}</h2>
                 <h3>Add Group</h3>
-                <form method="POST" action="{% url "add_group" event.pk %}">
+                <form method="POST" action="{% url "add_group" event.pk %}" class="form">
                     {% csrf_token %}
-                    {{form|foundation}}
+                    {{form|render}}
                     <button type="submit">Save</button>
                     <a href="{% url "view_event" event.pk %}" class="button warning">Cancel</a>
                 </form>

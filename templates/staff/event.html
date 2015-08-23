@@ -1,22 +1,17 @@
-{% extends "staff/base.html" %}
+{% load xextends %}
+
+{% xextends "staff/base.html" with secondary_nav="staff_events" %}
 {% load plugins %}
 {% load staticfiles %}
 
 {% block staff_content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h3>{{event}}</h3>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Tickets</h2>
+                </header>
 
-                <a class="button" href="{% url "view_event" event.pk %}">View Event</a>
-
-                <a class="button" href="{% url "edit_event" event.pk %}">Edit</a>
-                <a class="button" href="{% url "email_event" event.pk %}">Send Email</a>
-                <a class="button" href="{% url "manage_check_ins" event.pk %}">Manage Check Ins</a>
-
-                {% plugin_block "staff.event.buttons" event %}
-
-                <h3>Tickets</h3>
                 <table class="members tickets data-table">
                     <thead>
                         <tr>
@@ -75,6 +70,21 @@
 
                 {% plugin_block "staff.event" event %}
             </div>
-        </p>
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">{{event}}</h2>
+                </header>
+
+                <a class="button" href="{% url "view_event" event.pk %}">View Event</a>
+
+                <a class="button" href="{% url "edit_event" event.pk %}">Edit</a>
+                <a class="button" href="{% url "email_event" event.pk %}">Send Email</a>
+                <a class="button" href="{% url "manage_check_ins" event.pk %}">Manage Check Ins</a>
+
+                {% plugin_block "staff.event.buttons" event %}
+            </div>
+        </div>
     </div>
 {% endblock %}

@@ -8,6 +8,7 @@
  */
 @import "../../bower_components/bourbon/app/assets/stylesheets/bourbon";
 @import "../../bower_components/neat/app/assets/stylesheets/neat";
+
 /*
  * RESET
  * Fix browser inconsistencies
@@ -31,6 +32,14 @@
  * Sets up the grid and breakpoints
  */
 @import "layout.scss";
+
+/*
+ *
+ * FORMS
+ * Sets up basic form settings
+ */
+@import "forms.scss";
+
 /*
  *
  * ICONS
@@ -49,3 +58,8 @@
  * MODIFIERS
  */
 @import "modifiers.scss";
+
+/*
+ * dataTables
+ */
+@import "lib/jquery.dataTables.scss";

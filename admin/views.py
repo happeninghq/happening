@@ -175,8 +175,7 @@ def appearance(request):
     form = ThemeForm(initial={
         "theme_colour": site.theme_colour,
         "primary_colour": site.primary_colour,
-        "large_logo": site.large_logo,
-        "small_logo": site.small_logo
+        "logo": site.logo
     })
 
     if request.method == "POST":
@@ -195,16 +194,11 @@ def appearance(request):
                         o._storage.headers['Content-Type'] = 'text/css'
                     o.write(happening_generate_css())
 
-            if form.cleaned_data['large_logo'] == "DELETE":
-                site.large_logo.delete(False)
-            elif form.cleaned_data['large_logo']:
-                site.large_logo.save(form.cleaned_data['large_logo'][0],
-                                     form.cleaned_data['large_logo'][1], False)
-            if form.cleaned_data['small_logo'] == "DELETE":
-                site.small_logo.delete()
-            elif form.cleaned_data['small_logo']:
-                site.small_logo.save(form.cleaned_data['small_logo'][0],
-                                     form.cleaned_data['small_logo'][1], False)
+            if form.cleaned_data['logo'] == "DELETE":
+                site.logo.delete(False)
+            elif form.cleaned_data['logo']:
+                site.logo.save(form.cleaned_data['logo'][0],
+                               form.cleaned_data['logo'][1], False)
 
             site.save()
             return redirect("appearance")

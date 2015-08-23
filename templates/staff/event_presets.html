@@ -1,5 +1,9 @@
-{% extends "staff/base.html" %}
+{% load xextends %}
+
+{% xextends "staff/base.html" with secondary_nav="staff_events" %}
 {% load staticfiles %}
+{% load staticfiles %}
+{% load sekizai_tags %}
 
 {% block staff_content %}
     <div class="l-container">
@@ -44,8 +48,8 @@
                     <h2 class="block__header-text block__header-text--small">Event Presets</h2>
                 </header>
 
-                <ul class="plain-list">
-                    <li><a href="{% url "create_event_preset" %}">New Preset</a></li>
+                <ul class="button-list">
+                    <li><a class="btn" href="{% url "create_event_preset" %}">New Preset</a></li>
                 </ul>
             </div>
         </div>

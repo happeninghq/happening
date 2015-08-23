@@ -1,22 +1,24 @@
 {% extends "staff/base.html" %}
 {% load staticfiles %}
-{% load foundation %}
+{% load forms %}
 {% load widget_tweaks %}
 {% load markdown_deux_tags %}
 
 {% block staff_content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Email attendees of {{event}}</h2>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Email attendees of {{event}}</h2>
+                </header>
                     
-                <form method="POST" action="{% url "email_event" event.pk %}">
+                <form method="POST" action="{% url "email_event" event.pk %}" class="form">
                     {% csrf_token %}
-                    {{form|foundation}}
+                    {{form|render}}
                     <button type="submit">Send</button>
                     <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
                 </form>
             </div>
-        </p>
+        </div>
     </div>
 {% endblock %}

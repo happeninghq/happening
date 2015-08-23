@@ -1,14 +1,16 @@
-{% extends "base.html" %}
+{% load xextends %}
+{% xextends "base.html" with primary_nav="staff" %}
 
 {% block secondary_navigation %}
     <ul class="inline-list inline-list--space">
         {% for text, link in staff_urls %}
-            <li><a class="secondary-navigation__link" href="{% url link %}">{{text}}</a></li>
+            <li><a class="secondary-navigation__link {% if secondary_nav == link %}secondary-navigation__link--active{% endif %}" href="{% url link %}">{{text}}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
 
 {% block content %}
+
     {% block staff_content %}
 
     {% endblock %}

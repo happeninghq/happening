@@ -1,6 +1,7 @@
-{% extends "staff/base.html" %}
+{% load xextends %}
+
+{% xextends "staff/base.html" with secondary_nav="staff_emails" %}
 {% load datetime %}
-{% load staticfiles %}
 
 {% block staff_content %}
     <div class="l-container">
@@ -61,8 +62,8 @@
                     <h2 class="block__header-text block__header-text--small">Emails</h2>
                 </header>
 
-                <ul class="plain-list">
-                    <li><a href="{% url "create_email" %}">New Email</a></li>
+                <ul class="button-list">
+                    <li><a class="btn" href="{% url "create_email" %}">New Email</a></li>
                 </ul>
             </div>
         </div>

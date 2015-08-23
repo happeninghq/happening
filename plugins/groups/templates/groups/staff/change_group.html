@@ -1,14 +1,14 @@
 {% extends "staff/base.html" %}
-{% load foundation %}
+{% load forms %}
 {% load staticfiles %}
 
 {% block staff_content %}
     <h3>{{event}}</h3>
     <div class="panel">
-        <form method="POST" action="{% url "change_group" ticket.pk %}">
+        <form method="POST" action="{% url "change_group" ticket.pk %}" class="form">
             {% csrf_token %}
 
-            {{form|foundation}}
+            {{form|render}}
             <div>
                 <button type="submit">Confirm</button>
                 <a href="{% url "staff_event" ticket.event.pk %}" class="button">Cancel</a>

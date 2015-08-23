@@ -2,9 +2,9 @@
     <h3>Sponsors</h3>
     {% if event.sponsor %}
         <p>{{event}} is sponsored by <a href="{% url "view_sponsor" event.sponsor.pk %}">{{event.sponsor}}</a></p>
-        <a class="button" href="{% url "sponsor_edit_on_event" event.pk %}">Edit Sponsor</a>
+        <a class="btn" href="{% url "sponsor_edit_on_event" event.pk %}">Edit Sponsor</a>
     {% else %}
         <p>This event is not currently sponsored.</p>
-        <a class="button" href="{% url "sponsor_edit_on_event" event.pk %}">Add Sponsor</a>
+        <a class="btn" href="{% url "sponsor_edit_on_event" event.pk %}">Add Sponsor</a>
     {% endif %}
 </div>

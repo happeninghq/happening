@@ -1,6 +1,6 @@
 .. _filtering:
 
-Filtering
+User Filtering
 ==============
 
 The Happening Filtering Language will be used throughout happening to allow staff members to target members. Currently it is only used as a target for :ref:`emails`, but in the future it will be used to specify ticket eligibility, voting eligibility, group membership, etc.

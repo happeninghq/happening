@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from forms import TicketForm, GroupNumberForm
 from forms import GroupSubmissionForm
 from django.views.decorators.http import require_POST
+from django.utils import timezone
 
 
 def view(request, pk):
@@ -57,11 +58,23 @@ def tickets_purchased(request, pk):
     return render(request, "events/tickets_purchased.html", {"ticket": ticket})
 
 
-def events(request):
-    """List events."""
-    events = Event.objects.all().order_by("-start")
+def upcoming_events(request):
+    """Upcoming events."""
+    events = Event.objects.filter(start__gt=timezone.now()).order_by("-start")
     return render(request, "events/events.html",
-                  {"all_events": events})
+                  {"events": events, "secondary_nav": "events"})
+
+
+def past_events(request):
+    """Past events."""
+    events = Event.objects.filter(start__lt=timezone.now()).order_by("-start")
+    return render(request, "events/events.html",
+                  {"events": events, "secondary_nav": "past_events"})
+
+
+def feeds(request):
+    """List feeds."""
+    return render(request, "events/feeds.html")
 
 
 @require_POST

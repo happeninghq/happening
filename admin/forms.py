@@ -25,8 +25,7 @@ class ThemeForm(forms.Form):
 
     """Form for changing theme options."""
 
-    large_logo = happening_forms.ImageField()
-    small_logo = happening_forms.ImageField()
+    logo = happening_forms.ImageField()
 
     theme_colour = forms.CharField(widget=html5_widgets.ColorInput)
     primary_colour = forms.CharField(widget=html5_widgets.ColorInput)

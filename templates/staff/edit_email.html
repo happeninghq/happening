@@ -1,22 +1,24 @@
-{% extends "staff/base.html" %}
-{% load staticfiles %}
-{% load foundation %}
-{% load widget_tweaks %}
-{% load markdown_deux_tags %}
+{% load xextends %}
+
+{% xextends "staff/base.html" with secondary_nav="staff_emails" %}
+{% load datetime %}
+{% load forms %}
 
 {% block staff_content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Edit Email</h2>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Edit Email</h2>
+                </header>
                     
                 <form method="POST" action="{% url "edit_email" email.pk %}">
                     {% csrf_token %}
-                    {{form|foundation}}
+                    {{form|render}}
                     <button type="submit">Save</button>
                     <a class="button warning" href="{% url "staff" %}">Cancel</a>
                 </form>
             </div>
-        </p>
+        </div>
     </div>
 {% endblock %}

@@ -2,6 +2,7 @@
 
 from django import forms
 from models import Sponsor, SponsorTier
+from happening.forms import MarkdownWidget
 
 
 class SponsorForm(forms.ModelForm):
@@ -11,6 +12,8 @@ class SponsorForm(forms.ModelForm):
     class Meta:
         model = Sponsor
         fields = ['name', 'description', 'url', 'logo']
+
+    description = forms.CharField(widget=MarkdownWidget(), required=True)
 
 
 class SponsorTierForm(forms.ModelForm):

@@ -1,18 +1,28 @@
-{% extends "admin/base.html" %}
-{% load staticfiles %}
-{% load foundation %}
+{% load xextends %}
+{% load forms %}
+
+{% xextends "admin/base.html" with secondary_nav="configuration" %}
 
 {% block admin_content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Configuration</h2>
-                <form method="POST" action="{% url "configuration" %}">
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Configuration</h2>
+                </header>
+                <form method="POST" action="{% url "configuration" %}" class="form">
                     {% csrf_token %}
-                    {{form|foundation}}
+                    {{form|render}}
                     <button type="submit">Save</button>
                 </form>
             </div>
-        </p>
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Configuration</h2>
+                </header>
+            </div>
+        </div>
     </div>
 {% endblock %}

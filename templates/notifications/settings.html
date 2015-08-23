@@ -1,49 +1,58 @@
-{% extends "base.html" %}
+{% load xextends %}
+
+{% xextends "notifications/base.html" with secondary_nav="notifications_settings" %}
+
 {% load staticfiles %}
 {% load strings %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Notification Settings</h2>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Notification Settings</h2>
+                </header>
                 <form method="POST" action="{% url "notifications_settings" %}">
                     {% csrf_token %}
                     <table id="notifications_settings">
-                        <tr>
-                            <th></th>
-                            <th>Notification</th>
-                            <th>Email</th>
-                        </tr>
-                        {% for category, notifications in categories.items %}
+                        <thead>
                             <tr>
-                                <th colspan="3">
-                                    {{category}}
-                                </th>
+                                <th></th>
+                                <th>Notification</th>
+                                <th>Email</th>
                             </tr>
-                            {% for notification_name, notification_description, can_edit_send_notification, notification_notification, can_edit_send_email, notification_email in notifications %}
-                            <tr>
-                                <td>
-                                    <strong>{{notification_name|spaces}}</strong>
-                                    <p>{{notification_description}}</p>
-                                </td>
-                                <td>
-                                    {% if can_edit_send_notification %}
-                                        <input name="{{notification_name}}_notification" type="checkbox" {% if notification_notification %}checked{% endif %}/>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if can_edit_send_email %}
-                                        <input name="{{notification_name}}_email" type="checkbox" {% if notification_email %}checked{% endif %}/>
-                                    {% endif %}
-                                </td>
-                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category, notifications in categories.items %}
+                                <tr>
+                                    <th colspan="3">
+                                        {{category}}
+                                    </th>
+                                </tr>
+                                {% for notification_name, notification_description, can_edit_send_notification, notification_notification, can_edit_send_email, notification_email in notifications %}
+                                <tr>
+                                    <td>
+                                        <strong>{{notification_name|spaces}}</strong>
+                                        <p>{{notification_description}}</p>
+                                    </td>
+                                    <td>
+                                        {% if can_edit_send_notification %}
+                                            <input name="{{notification_name}}_notification" type="checkbox" {% if notification_notification %}checked{% endif %}/>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if can_edit_send_email %}
+                                            <input name="{{notification_name}}_email" type="checkbox" {% if notification_email %}checked{% endif %}/>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
                             {% endfor %}
-                        {% endfor %}
+                        </tbody>
                     </table>
                     <button type="submit">Save</button>
                 </form>
             </div>
-        </p>
+        </div>
     </div>
 {% endblock %}

@@ -67,9 +67,8 @@ INSTALLED_APPS = (
     'periodically',
 
     'django_gravatar',
-    'foundationform',
 
-    # 'debug_toolbar',
+    'debug_toolbar',
     'template_profiler_panel',
 
     'happening',
@@ -110,7 +109,7 @@ if 'scdtest' not in os.environ and 'travis' not in os.environ:
 
 
 MIDDLEWARE_CLASSES = (
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
     'sslify.middleware.SSLifyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -122,9 +121,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'happening.middleware.VaryByHostMiddleware',
-    # 'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.cache.FetchFromCacheMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 
@@ -172,7 +171,7 @@ STATICFILES_DIRS = (
 
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
-    ('text/coffeescript', 'coffee --compile --stdio'),
+    ('text/ecmascript-6', 'babel {infile}'),
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'compiled_static')
@@ -204,7 +203,7 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     "admin.context_processors.admin_urls",
     "staff.context_processors.staff_urls",
     "events.context_processors.events",
-    "pages.context_processors.pages_navigation",
+    "pages.context_processors.pages",
     "happening.context_processors.site",
 )
 
@@ -354,5 +353,5 @@ if 'scdtest' in os.environ:
     # TODO: Write replacement templatetags that do nothing.
     COMPRESS_PRECOMPILERS = (
         ('text/x-scss', 'echo'),
-        ('text/coffeescript', 'echo'),
+        ('text/ecmascript-6', 'echo'),
     )

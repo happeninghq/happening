@@ -7,5 +7,5 @@ class MembershipMessage(configuration.CharField):
 
     """The message shown on the page where membership can be taken out."""
 
-    field = forms.EpicEditorField
+    field = forms.MarkdownField
     renderer = configuration.MarkdownRenderer()

@@ -105,21 +105,21 @@ class CustomPropertiesField(forms.CharField):
         return json.loads(value)
 
 
-class EpicEditorWidget(forms.Textarea):
+class MarkdownWidget(forms.Textarea):
 
     """A widget that uses EpicEditor."""
 
     def render(self, name, value, attrs):
         """Render the widget."""
-        attrs['class'] = 'edit_markdown ' + attrs.get('class', '')
-        return super(EpicEditorWidget, self).render(name, value, attrs)
+        attrs['class'] = 'markdown-widget ' + attrs.get('class', '')
+        return super(MarkdownWidget, self).render(name, value, attrs)
 
 
-class EpicEditorField(forms.CharField):
+class MarkdownField(forms.CharField):
 
     """A field that uses an EpicEditor markdown editor."""
 
-    widget = EpicEditorWidget
+    widget = MarkdownWidget
 
 
 class DateTimeWidget(forms.TextInput):
@@ -238,3 +238,33 @@ class EmailsField(forms.CharField):
             return json.loads(value)
         except ValueError:
             return []
+
+
+class CheckboxInput(forms.widgets.CheckboxInput):
+
+    """A checkbox which wraps the label."""
+
+    def __init__(self, *args, **kwargs):
+        """Create a CheckboxInput."""
+        self.label = kwargs.pop('label')
+        super(CheckboxInput, self).__init__(*args, **kwargs)
+
+    def render(self, name, value, attrs=None):
+        """Render the CheckboxInput."""
+        return "<label>%s %s</label>" % (
+            super(CheckboxInput, self).render(name, value, attrs),
+            self.label)
+
+
+class BooleanField(forms.BooleanField):
+
+    """BooleanField with correct widget for Happening."""
+
+    widget = CheckboxInput
+
+    def __init__(self, *args, **kwargs):
+        """Create the Boolean Field."""
+        # Remove the overall label, as we want the inputs to look native
+        kwargs['widget'] = self.widget(label=kwargs.get('label', ''))
+        kwargs['label'] = ''
+        super(BooleanField, self).__init__(*args, **kwargs)

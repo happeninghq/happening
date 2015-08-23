@@ -1,14 +1,14 @@
-{% extends "admin/base.html" %}
-{% load staticfiles %}
+{% load xextends %}
+
+{% xextends "admin/base.html" with secondary_nav="payment_handlers" %}
 
 {% block admin_content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Payment Handlers</h2>
-
-                <a class="button" href="{% url "add_payment_handler" %}">Add Payment Handler</a>
-
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Payment Handlers</h2>
+                </header>
                 <table class="data-table">
                     <thead>
                         <tr>
@@ -39,10 +39,13 @@
                 </table>
             </div>
         </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Payment Handlers</h2>
+                </header>
+                <a class="btn" href="{% url "add_payment_handler" %}">Add Payment Handler</a>
+            </div>
+        </div>
     </div>
-{% endblock %}
-
-{% block scripts %}
-    <script src="{% static "jquery.cookie/jquery.cookie.js" %}"></script>
-    <script type="text/coffeescript" src="{% static "coffeescript/confirm.coffee" %}"></script>
 {% endblock %}

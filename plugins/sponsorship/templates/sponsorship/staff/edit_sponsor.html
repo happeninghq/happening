@@ -1,25 +1,23 @@
-{% extends "staff/base.html" %}
-{% load staticfiles %}
-{% load foundation %}
-{% load widget_tweaks %}
-{% load markdown_deux_tags %}
+{% load xextends %}
+{% load forms %}
+
+{% xextends "staff/base.html" with secondary_nav="staff_sponsors" %}
 
 {% block staff_content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Edit {{sponsor}}</h2>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Edit {{sponsor}}</h2>
+                </header>
                     
-                <form method="POST" action="{% url "edit_sponsor" sponsor.pk %}" enctype="multipart/form-data">
+                <form method="POST" action="{% url "edit_sponsor" sponsor.pk %}" enctype="multipart/form-data" class="form">
                     {% csrf_token %}
-                    <label>Name {{form.name}}</label>
-                    <label>Description<br />{% markdown_allowed %} {{form.description|add_class:"edit_markdown"}}</label>
-                    <label>URL {{form.url}}</label>
-                    <label>Logo {{form.logo}}</label>
+                    {{form|render}}
                     <button type="submit">Save</button>
                     <a class="button warning" href="{% url "staff_sponsors" %}">Cancel</a>
                 </form>
             </div>
-        </p>
+        </div>
     </div>
 {% endblock %}

@@ -1,14 +1,8 @@
-{% extends "base.html" %}
+{% load xextends %}
+
+{% xextends "base.html" with secondary_nav="index" %}
 {% load markdown_deux_tags %}
 {% load plugins %}
-
-{% block secondary_navigation %}
-<ul class="inline-list inline-list--space">
-    <li><a href="{% url "index" %}" class="secondary-navigation__link secondary-navigation__link--active">Home</a></li>
-    <li><a href="#" class="secondary-navigation__link">About</a></li>
-    <li><a href="#" class="secondary-navigation__link">Sponsors</a></li>
-</ul>
-{% endblock %}
 
 {% block content %}
     <div class="l-container">
@@ -19,7 +13,9 @@
                 </div>
             {% endfor %}
 
-            <a href="#" class="block-list__link block-list__item">View all upcoming events</a>
+            {% if future_events.count > 0 %}
+                <a href="#" class="block-list__link block-list__item">View all upcoming events</a>
+            {% endif %}
 
             {% for event in past_events.all|slice:":1" %}
                 <div class="block block-list__item event-block low-opacity full-opacity-on-hover">
@@ -27,7 +23,9 @@
                 </div>
             {% endfor %}
 
-            <a href="#" class="block-list__link block-list__item">View all events</a>
+            {% if past_events.count > 0 %}
+                <a href="#" class="block-list__link block-list__item">View all events</a>
+            {% endif %}
         </div>
 
         <div class="l-secondary-content block_list">
@@ -44,12 +42,12 @@
                     <div class="l-container">
                         <div class="l-primary-content">
                             <ul class="plain-list">
-                                <li>
+                                <!-- <li>
                                     <div class="icon-text">
                                         <i class="fa fa-envelope icon-text__icon"></i>
                                         <span class="icon-text__text"><strong>0</strong> new <a href="#">private messages</a></span>
                                     </div>
-                                </li>
+                                </li> -->
                                 <li>
                                     <div class="icon-text">
                                         <i class="fa fa-bell icon-text__icon"></i>
@@ -59,7 +57,7 @@
                                 <li>
                                     <div class="icon-text">
                                         <i class="fa fa-calendar icon-text__icon"></i>
-                                        <span class="icon-text__text"><strong>3</strong> <a href="#">upcoming events</a></span>
+                                        <span class="icon-text__text"><strong>{{future_events.count}}</strong> <a href="{% url "events" %}">upcoming events</a></span>
                                     </div>
                                 </li>
                             </ul>
@@ -78,7 +76,7 @@
 
             </div>
 
-            <div class="block block-list__item">
+            <!-- <div class="block block-list__item">
                 <header class="block__header">
                     <h2 class="block__header-text block__header-text--small">What's New</h2>
                 </header>
@@ -97,18 +95,9 @@
                             </div>
                     </li>
                 </ul>
-            </div>
+            </div> -->
 
-            <div class="block block-list__item">
-                <header class="block__header valign-together">
-                    <h2 class="block__header-text block__header-text--small">Sponsors</h2>
-                    <a href="#" class="block__header-extra-link">View more</a>
-                </header>
-                <ul class="plain-list">
-                    <li><a href="#"><img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97150&w=350&h=150"></a></li>
-                    <li><a href="#"><img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97150&w=350&h=150"></a></li>
-                    <li><a href="#"><img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97150&w=350&h=150"></a></li>
-            </div>
+            {% plugin_block "index.secondary_content" %}
         </div>
     </div>
 {% endblock %}

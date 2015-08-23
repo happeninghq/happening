@@ -1,20 +1,30 @@
-{% extends "admin/base.html" %}
-{% load staticfiles %}
-{% load foundation %}
+{% load xextends %}
+{% load forms %}
+
+{% xextends "admin/base.html" with secondary_nav="social_links" %}
 
 {% block admin_content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>New Social Link</h2>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">New Social Link</h2>
+                </header>
                     
-                <form method="POST" action="{% url "create_social_link" %}">
+                <form method="POST" action="{% url "create_social_link" %}" class="form">
                     {% csrf_token %}
-                    {{form|foundation}}
+                    {{form|render}}
                     <button type="submit">Save</button>
                     <a class="button warning" href="{% url "social_links" %}">Cancel</a>
                 </form>
             </div>
-        </p>
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">New Social Link</h2>
+                </header>
+            </div>
+        </div>
     </div>
 {% endblock %}

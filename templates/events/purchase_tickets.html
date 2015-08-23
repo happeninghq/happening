@@ -2,7 +2,7 @@
 
 {% load loops %}
 {% load staticfiles %}
-{% load foundation %}
+{% load forms %}
 
 {% block content %}
     <div class="container">
@@ -11,9 +11,9 @@
                 <h2>{{event}}</h2>
                 <h3>Purchase Tickets</h3>
 
-                <form action="{% url "purchase_tickets" event.id %}" method="POST">
+                <form action="{% url "purchase_tickets" event.id %}" method="POST" class="form">
                     {% csrf_token %}
-                    {{form|foundation}}
+                    {{form|render}}
                     <button type="submit">Submit</button>
                 </form>
             </div>

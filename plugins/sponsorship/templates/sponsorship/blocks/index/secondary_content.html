@@ -1,0 +1,14 @@
+<div class="block block-list__item">
+    <header class="block__header">
+        <h2 class="block__header-text block__header-text--small">Sponsors</h2>
+    </header>
+    <ul class="plain-list">
+        {% for tier in sponsor_tiers %}
+            {% if tier.community_sponsorships.count > 0 %}
+                {% for sponsorship in tier.community_sponsorships.all %}
+                    <li><a href="{% url "view_sponsor" sponsorship.sponsor.pk %}"><img src="{{sponsorship.sponsor.logo.url}}"></a></li>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>

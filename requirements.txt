@@ -6,7 +6,6 @@ django-gravatar2==1.1.4 # For gravatar
 django-cleanup==0.3.0 # Remove images when replacing them
 django-templated-email==0.4.9 # For sending emails
 git+https://github.com/boecklic/django-periodically.git # Periodic tasks
-foundationform==0.2 # Rendering foundation forms automatically
 django-ganalytics==0.3 # Include analytics from settings
 django-widget-tweaks==1.3 # For editing form attributes in templates
 django-markdown-deux==1.0.5 # For rendering markdown
@@ -18,6 +17,7 @@ django-pgjson==0.2.3 # Using Postgres JSON field
 python-memcached # Memcached bindings
 git+https://github.com/rhec/django-html5.git
 django-sekizai==0.8.2 # For better media inclusion
+django-ical==1.3 # For ical feed generation
 
 # Heroku
 gunicorn==19.1.1 # For hosting on heroku
@@ -29,8 +29,8 @@ boto==2.34.0 # Media storage on AWS
 
 # Static files
 
-django_compressor==1.5 # This allows us to use Coffeescript and SCSS
-django-libsass==0.8.2 # Plugin for compressor to use SCSS
+django_compressor==1.5 # This allows us to use babel and SCSS
+django-libsass==0.3 # Plugin for compressor to use SCSS
 
 # Authentication
 

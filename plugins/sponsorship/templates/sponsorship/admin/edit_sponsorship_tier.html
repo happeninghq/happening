@@ -1,19 +1,23 @@
-{% extends "admin/base.html" %}
-{% load foundation %}
+{% load xextends %}
+{% load forms %}
+
+{% xextends "admin/base.html" with secondary_nav="admin_sponsorship_tiers" %}
 
 {% block admin_content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Edit {{sponsorship_tier}}</h2>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Edit {{sponsorship_tier}}</h2>
+                </header>
                     
-                <form method="POST" action="{% url "edit_sponsorship_tier" sponsorship_tier.pk %}">
+                <form method="POST" action="{% url "edit_sponsorship_tier" sponsorship_tier.pk %}" class="form">
                     {% csrf_token %}
-                    {{form|foundation}}
+                    {{form|render}}
                     <button type="submit">Save</button>
                     <a class="button warning" href="{% url "admin_sponsorship_tiers" %}">Cancel</a>
                 </form>
             </div>
-        </p>
+        </div>
     </div>
 {% endblock %}

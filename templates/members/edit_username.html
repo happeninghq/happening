@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% load foundation %}
+{% load forms %}
 
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="small-12 column">
                 <h2>Edit Username</h2>
-                <form method="POST" action="{% url "edit_username" member.pk %}">
+                <form method="POST" action="{% url "edit_username" member.pk %}" class="form">
                     {% csrf_token %}
-                    {{form|foundation}}
+                    {{form|render}}
                     <button type="submit">Save</button>
                     <a class="button warning" href="{% url "settings" member.pk %}">Cancel</a>
                 </form>

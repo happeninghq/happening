@@ -48,7 +48,7 @@ Table for listing available tickets
 ```
 */
 .tickets {
-    tr {
+    > tr {
         border-bottom: 1px solid $FONT-COLOR;
         padding-bottom: 0.5em;
 
@@ -57,12 +57,12 @@ Table for listing available tickets
         }
     }
 
-    th, td:first-child {
+    > th, td:first-child {
         text-align: left;
         text-transform: uppercase;
     }
 
-    th, td {
+    > th, td {
         padding-top: 0.5em;
         padding-bottom: 0.5em;
     }

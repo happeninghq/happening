@@ -89,3 +89,12 @@ If you're going to use a block\_\_header-extra-link, the block__header must use 
     font-size: 0.7em;
     float: right;
 }
+
+/**
+ * Provides extra margin for content if it is needed.
+ *
+ * e.g. if form fields are going over the edge of the block
+ */
+.block__content {
+    margin-right: 1em;
+}

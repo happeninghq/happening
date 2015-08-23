@@ -1,22 +1,39 @@
-{% extends "staff/base.html" %}
+{% load xextends %}
+
+{% xextends "staff/base.html" with secondary_nav="staff_sponsors" %}
 
 {% block staff_content %}
-    <a class="button" href="{% url "create_sponsor" %}">New Sponsor</a>
-
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Sponsored Events</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for sponsor in sponsors %}
-                <tr>
-                    <td><a href="{% url "staff_view_sponsor" sponsor.pk %}">{{sponsor.name}}</a></td>
-                    <td>{{sponsor.event_sponsors.count}} event{{sponsor.event_sponsors.count|pluralize}}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Sponsors</h2>
+                </header>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Sponsored Events</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sponsor in sponsors %}
+                            <tr>
+                                <td><a href="{% url "staff_view_sponsor" sponsor.pk %}">{{sponsor.name}}</a></td>
+                                <td>{{sponsor.event_sponsors.count}} event{{sponsor.event_sponsors.count|pluralize}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Sponsors</h2>
+                </header>
+                <a class="btn" href="{% url "create_sponsor" %}">New Sponsor</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

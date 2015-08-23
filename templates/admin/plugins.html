@@ -1,32 +1,48 @@
-{% extends "admin/base.html" %}
+{% load xextends %}
+
+{% xextends "admin/base.html" with secondary_nav="plugins" %}
 {% load staticfiles %}
 
 {% block admin_content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Plugins</h2>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Plugins</h2>
+                </header>
                 <form method="POST" action="{% url "plugins" %}">
                     {% csrf_token %}
                     <table id="plugins">
-                        <tr>
-                            <th>Plugin</th>
-                            <th>Enabled</th>
-                        </tr>
-                        {% for plugin_id, plugin_name, plugin_description, enabled in plugins %}
+                        <thead>
                             <tr>
-                                <td>
-                                    <strong>{{plugin_name}}</strong>
-                                    <p>{{plugin_description}}</p>
-                                </td>
-                                <td>
-                                        <input name="{{plugin_id}}_plugin" type="checkbox" {% if enabled %}checked{% endif %}/>
-                                </td>
+                                <th>Plugin</th>
+                                <th>Enabled</th>
                             </tr>
-                        {% endfor %}
+                        </thead>
+                        <tbody>
+                            {% for plugin_id, plugin_name, plugin_description, enabled in plugins %}
+                                <tr>
+                                    <td>
+                                        <strong>{{plugin_name}}</strong>
+                                        <p>{{plugin_description}}</p>
+                                    </td>
+                                    <td>
+                                            <input name="{{plugin_id}}_plugin" type="checkbox" {% if enabled %}checked{% endif %}/>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
                     </table>
                     <button type="submit">Save</button>
                 </form>
+            </div>
+        </div>
+
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Plugins</h2>
+                </header>
             </div>
         </div>
     </div>

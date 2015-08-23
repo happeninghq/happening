@@ -1,59 +1,28 @@
-{% extends "base.html" %}
+{% load xextends %}
+
+{% xextends "members/base.html" with secondary_nav=secondary_nav %}
+
 {% load staticfiles %}
 {% load widget_tweaks %}
 {% load markdown_deux_tags %}
-{% load foundation %}
+{% load forms %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Edit {{member}}</h2>
-                <div class="panel">
-                    <h3>Profile</h3>
-                    <form method="POST" action="{% url "edit_profile" member.pk %}">
-                        {% csrf_token %}
-<!--                         <label>First Name {{form.first_name}}</label>
-                        <label>Last Name {{form.last_name}}</label>
-                        <label>Bio<br />{% markdown_allowed %} {{form.bio|add_class:"edit_markdown"}}</label>
-                        <label>Social Accounts</label>
-                        Select the accounts you wish to show on your profile.<br />
-                        {{form.show_facebook_urls}}<label for="id_show_facebook_urls">Facebook</label>
-                        {{form.show_github_urls}}<label for="id_show_github_urls">Github</label>
-                        {{form.show_linkedin_urls}}<label for="id_show_linkedin_urls">LinkedIn</label>
-                        {{form.show_twitter_urls}}<label for="id_show_twitter_urls">Twitter</label>
-                        {{form.show_google_urls}}<label for="id_show_google_urls">Google</label>
-                        {{form.show_stackexchange_urls}}<label for="id_show_stackexchange_urls">Stack Exchange</label>
-                        <br /> -->
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header valign-together">
+                    <h2 class="block__header-text">Edit {{member}}</h2>
+                </header>
+                <form method="POST" action="{% url "edit_profile" member.pk %}" class="form">
+                    {% csrf_token %}
 
-                        {{form|foundation}}
+                    {{form|render}}
 
-                        <button type="submit">Save</button>
-                        <a class="button warning" href="{% url "view_profile" member.pk %}">Cancel</a>
-                    </form>
-                </div>
-                <div class="panel">
-                    <h3>Profile Image</h3>
-                    <div>
-                        <img src="{{member.profile.photo_url}}" style="width: 100px;">
-                    </div>
-                    {% if member.photo %}
-                        <p>Uploaded profile photo. <a href="#">Delete photo</a>.</p>
-                    {% else %}
-                        {% if member.has_gravatar %}
-                            <p>Profile image from <a href="https://gravatar.com">Gravatar</a>.</p>
-                        {% else %}
-                            <p>No profile image</p>
-                        {% endif %}
-                    {% endif %}
-
-                    <form method="POST" action="{% url "upload_profile_photo" member.pk %}" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{profile_photo_form}}
-                        <button type="submit">Upload Image</button>
-                    </form>
-                </div>
+                    <button type="submit">Save</button>
+                    <a href="{% url "view_profile" member.pk %}">Cancel</a>
+                </form>
             </div>
-        </p>
+        </div>
     </div>
 {% endblock %}

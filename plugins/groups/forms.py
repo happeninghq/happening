@@ -3,7 +3,7 @@
 from django import forms
 from django.forms import ModelForm
 from models import Group
-from happening.forms import EpicEditorWidget
+from happening.forms import MarkdownWidget
 
 
 class GroupGenerationForm(forms.Form):
@@ -20,7 +20,7 @@ class GroupForm(ModelForm):
     """Form for creating/editing events."""
 
     team_name = forms.CharField(required=False)
-    description = forms.CharField(widget=EpicEditorWidget(), required=False)
+    description = forms.CharField(widget=MarkdownWidget(), required=False)
 
     class Meta:
         model = Group

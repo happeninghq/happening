@@ -1,10 +1,18 @@
-{% extends "base.html" %}
+{% load xextends %}
+
+{% xextends "base.html" with secondary_nav=page.url %}
+
 {% load markdown_deux_tags %}
 
 {% block content %}
-<div class="row">
-    <div class="small-12 column">
-        {{page.content|markdown}}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header valign-together">
+                    <h2 class="block__header-text">{{page.title}}</h2>
+                </header>
+                {{page.content|markdown}}
+            </div>
+        </div>
     </div>
-</div>
 {% endblock %}

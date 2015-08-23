@@ -19,8 +19,12 @@
         {% block style %}
 
         {% endblock style %}
+
+
+        <!-- used for date-widget, time-widget, and datetime-widget -->
+        <link rel="stylesheet" type="text/css" href="{% static "datetimepicker/jquery.datetimepicker.css" %}" />
+
     {% endcompress %}
-    {% render_block "css" postprocessor "compressor.contrib.sekizai.compress" %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% ganalytics %}
 </head>
@@ -28,42 +32,37 @@
     <header class="main-header">
         <div class="l-container">
             <h2 class="main-header__heading main-header__padded">
-                <a href="{% url "index" %}" class="plain-link">Happening</a>
+                <a href="{% url "index" %}" class="plain-link">
+                    {% if site.logo %}
+                        <img class="main-header__logo" src="{{site.logo.url}}" alt="{{"pages.configuration.SiteTitle"|get_configuration}}">
+                    {% else %}
+                        {{"pages.configuration.SiteTitle"|get_configuration}}
+                    {% endif %}
+                </a>
             </h1>
 
             <div class="main-header__menu menu">
                 <ul class="menu__list inline-list">
-                    <li class="menu__item menu__item--with-icon menu__item--active main-header__padded">
-                        <a href="{% url "events" %}" class="menu__item__icon plain-link"><i class="fa fa-calendar"></i></a>
-                        <a href="{% url "events" %}" class="menu__item__text plain-link">
-                            {% with v="pages.configuration.NameOfEvents"|get_configuration %}
-                                {{v|title}}s
-                            {% endwith %}
-                        </a>
-                    </li>
-                    <li class="menu__item menu__item--with-icon">
-                        <a href="#" class="menu__item__icon plain-link"><i class="fa fa-user"></i></a>
-                        <a href="#" class="menu__item__text plain-link">Members</a>
-                    </li>
-                    <li class="menu__item menu__item--with-icon">
-                        <a href="#" class="menu__item__icon plain-link"><i class="fa fa-bell"></i></a>
-                        <a href="#" class="menu__item__text plain-link">Notifications</a>
-                    </li>
+                    {% with v="pages.configuration.NameOfEvents"|get_configuration %}
+                        {% with vv=v|title|add:"s" %}
+                            {% include "_primary_navigation_item.html" with link="events" text=vv icon="calendar" %}
+                        {% endwith %}
+                    {% endwith %}
+                    {% include "_primary_navigation_item.html" with link="members" text="Members" icon="user" %}
+                    {% if request.user.is_authenticated %}
+                        {% include "_primary_navigation_item.html" with link="notifications_list" text="Notifications" icon="bell" %}
+                    {% endif %}
                     {% if request.user.is_staff %}
-                        <li class="menu__item menu__item--with-icon">
-                            <a href="{% url "admin" %}" class="menu__item__icon plain-link"><i class="fa fa-cogs"></i></a>
-                            <a href="{% url "admin" %}" class="menu__item__text plain-link">Admin</a>
-                        </li>
-                        <li class="menu__item menu__item--with-icon">
-                            <a href="{% url "staff" %}" class="menu__item__icon plain-link"><i class="fa fa-cogs"></i></a>
-                            <a href="{% url "staff" %}" class="menu__item__text plain-link">Staff</a>
-                        </li>
+                        {% include "_primary_navigation_item.html" with link="admin" text="Admin" icon="cogs" %}
+                        {% include "_primary_navigation_item.html" with link="staff" text="Staff" icon="cogs" %}
                     {% endif %}
                     {% if request.user.is_authenticated %}
-                        <li class="menu__item menu__item--with-icon">
-                            <a href="#" class="menu__item__icon plain-link"><i class="fa fa-sign-out"></i></a>
-                            <a href="#" class="menu__item__text plain-link">Log Out</a>
+                        <li class="menu__item menu__item--with-icon main-header__padded">
+                            <a href="{% url "account_logout" %}" class="menu__item__icon plain-link"><i class="fa fa-sign-out"></i></a>
+                            <a href="{% url "account_logout" %}" class="menu__item__text plain-link">Log Out</a>
                         </li>
+                    {% else %}
+                        {% include "_primary_navigation_item.html" with link="account_login" text="Log In" icon="sign-in" %}
                     {% endif %}
                 </ul>
             </div>
@@ -72,18 +71,89 @@
     <nav class="secondary-navigation">
         <div class="l-container">
             {% block secondary_navigation %}
-
+                <ul class="inline-list inline-list--space">
+                    {% include "_secondary_navigation_item.html" with link="index" text="Home" %}
+                    {% for page in pages %}
+                        <li><a class="secondary-navigation__link {% if secondary_nav == page.url %}secondary-navigation__link--active{% endif %}" href="{% url "view_page" page.url %}">{{page.title}}</a></li>
+                    {% endfor %}
+                </ul>
             {% endblock %}
         </div>
     </nav>
 
+    {% if messages %}
+        <div class="l-container">
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="message-box message-box--error">
+                {% else %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                        <div class="message-box message-box--info">
+                    {% else %}
+                        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                            <div class="message-box message-box--success">
+                        {% else %}
+                            <div class="message-box">
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+
+                    <p>{{message}}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
     {% block content %}
     {% endblock %}
 
     {% compress js %}
-        <!-- Needed for Django Debug Toolbar -->
+        <!-- Needed for Django Debug Toolbar, used in a number of other scripts -->
         <script src="{% static "jquery/dist/jquery.js" %}"></script>
+
+        <!-- ensure that jquery ajax works with csrftoken -->
+        <script src="{% static "js/ajax.js" %}"></script>
+
+        <!-- used to provide sortable tables on every table with the class "data-table" -->
+        <script src="{% static "datatables/media/js/jquery.dataTables.min.js" %}"></script>
+        <script src="{% static "js/blocks/data-table.js" %}"></script>
+
+        <!-- used to provide sorting/filtering to every list with class searchable-list -->
+        <script src="{% static "js/blocks/searchable-list.js" %}"></script>
+
+        <!-- used for filtering/searching datatables and searchable-lists CLASS: filter-form -->
+        <script src="{% static "js/blocks/form/filter-form.js" %}"></script>
+
+        <!-- used for editing markdown CLASS: markdown-widget -->
+        <script src="{% static "epiceditor/epiceditor/js/epiceditor.min.js" %}"></script>
+        <script src="{% static "js/blocks/form/markdown-widget.js" %}"></script>
+
+        <!-- used for inputting date/times CLASS: datetime-widget -->
+        <script src="{% static "datetimepicker/jquery.datetimepicker.js" %}"></script>
+        <script src="{% static "js/blocks/form/date-widget.js" %}"></script>
+        <script src="{% static "js/blocks/form/time-widget.js" %}"></script>
+        <script src="{% static "js/blocks/form/datetime-widget.js" %}"></script>
+
+        <!-- used for inputting emails CLASS: emails-widget -->
+        <script src="{% static "knockout/dist/knockout.js" %}"></script>
+        <script src="{% static "js/blocks/form/emails-widget.js" %}"></script>
+
+        <!-- used for inputting properties CLASS: properties-widget -->
+        <script src="{% static "js/blocks/form/properties-widget.js" %}"></script>
+
+        <!-- used for time block CLASS: time -->
+        <script src="{% static "jquery-timeago/jquery.timeago.js" %}"></script>
+        <script src="{% static "js/blocks/time.js" %}"></script>
+
+        <!-- used for confirmation dialogs CLASS: confirm -->
+        <script src="{% static "jquery-cookie/jquery.cookie.js" %}"></script>
+        <script src="{% static "js/confirm.js" %}"></script>
+
+        <!-- used for uploading images CLASS: image-widget -->
+        <script src="{% static "jquery-file-upload/js/vendor/jquery.ui.widget.js" %}"></script>
+        <script src="{% static "jquery-file-upload/js/jquery.iframe-transport.js" %}"></script>
+        <script src="{% static "jquery-file-upload/js/jquery.fileupload.js" %}"></script>
+        <script src="{% static "js/blocks/form/image-widget.js" %}"></script>
     {% endcompress %}
-    {% render_block "js" postprocessor "compressor.contrib.sekizai.compress" %}
 </body>
 </html>

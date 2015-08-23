@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% load foundation %}
+{% load forms %}
 
 {% block content %}
     <div class="container">
@@ -8,9 +8,9 @@
             <div class="small-12 column">
                 <h2>{{group.event}}</h2>
                 <h3>{{group}}</h3>
-                <form method="POST" action="{% url "edit_group" group.event.pk group.team_number %}">
+                <form method="POST" action="{% url "edit_group" group.event.pk group.team_number %}" class="form">
                     {% csrf_token %}
-                    {{form|foundation}}
+                    {{form|render}}
                     <button type="submit">Save</button>
                     <a href="{% url "view_event" group.event.pk %}" class="button warning">Cancel</a>
                 </form>

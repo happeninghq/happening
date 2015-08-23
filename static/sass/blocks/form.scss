@@ -1,0 +1,35 @@
+.form {
+
+}
+
+.form__field {
+    margin-bottom: 1em;
+}
+
+
+.form__field {
+
+    > label {
+        text-transform:uppercase;
+        display: block;
+        opacity: 0.7;
+        margin-bottom: 0.3em;
+    }
+
+    > input, > textarea {
+        border: none;
+        padding: 0.5em;
+
+        width: 100%;
+    }
+
+    > select {
+        width: 100%;
+        border: none;
+        height: 2em;
+        background: #FFF;
+        border-radius: 0;
+        @include appearance(none);
+        padding-left: 0.4em;
+    }
+}

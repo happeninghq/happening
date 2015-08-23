@@ -1,0 +1,36 @@
+{% load xextends %}
+
+{% xextends "members/base.html" with secondary_nav="members" %}
+{% load plugins %}
+{% load staticfiles %}
+
+{% block members_content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Members</h2>
+                </header>
+
+                <table class="data-table" id="members-list">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in members %}
+                            <tr>
+                                <td><a href="{% url "view_profile" member.pk %}">{{member}}</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="l-secondary-content block-list">
+            {% include "members/_filter_block.html" %}
+        </div>
+    </div>
+{% endblock %}
