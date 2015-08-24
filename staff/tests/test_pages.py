@@ -22,11 +22,12 @@ class TestPages(TestCase):
         response = self.client.get("/staff/pages")
 
         # No pages, just header
-        self.assertEquals(1, len(response.soup.find("table").findAll("tr")))
+        self.assertIsNone(response.soup.find("table"))
 
         mommy.make("Page")
 
         response = self.client.get("/staff/pages")
+        self.assertIsNotNone(response.soup.find("table"))
         self.assertEquals(2, len(response.soup.find("table").findAll("tr")))
 
     def test_create_page(self):
@@ -57,10 +58,6 @@ class TestPages(TestCase):
             response.soup.find("input", {"id": "id_title"})['value'].strip(),
             page.title)
         self.assertEquals(
-            response.soup.find("input",
-                               {"id": "id_path"}).get('value'),
-            page.path)
-        self.assertEquals(
             response.soup.find("textarea", {"id": "id_content"}).text.strip(),
             page.content)
 
@@ -69,7 +66,6 @@ class TestPages(TestCase):
             {
                 "url": "test123",
                 "title": "test title",
-                "path": "a/b",
                 "content": "test content"
             }, follow=True)
 
@@ -77,7 +73,6 @@ class TestPages(TestCase):
 
         self.assertEquals(page.url, "test123")
         self.assertEquals(page.title, "test title")
-        self.assertEquals(page.path, "a/b")
         self.assertEquals(page.content, "test content")
 
     def test_delete_page(self):
@@ -90,4 +85,4 @@ class TestPages(TestCase):
 
         response = self.client.post(delete_url, follow=True)
         # Will delete and return to page
-        self.assertEquals(1, len(response.soup.find("table").findAll("tr")))
+        self.assertIsNone(response.soup.find("table"))

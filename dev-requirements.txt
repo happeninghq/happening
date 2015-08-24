@@ -1,6 +1,6 @@
 # For testing
 django-beautifulsoup-test==1.0.1 # HTML Testing
-model_mommy==1.2.4 # For creating test objects
+model_mommy==1.2.5 # For creating test objects
 
 # For development
 flake8==2.4.1 # PEP8
