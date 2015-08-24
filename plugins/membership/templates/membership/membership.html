@@ -2,15 +2,22 @@
 {% load staticfiles %}
 {% load widget_tweaks %}
 {% load plugins %}
+{% load forms %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Membership</h2>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block-list__item block">
+                <header class="block__header">
+                    <h2 class="block__header-text">Membership</h2>
+                </header>
                 {{"plugins.membership.configuration.MembershipMessage"|get_configuration}}
-                {% if memberships|length > 0 %}
-                    <h2>Your Membership</h2>
+            </div>
+            {% if memberships|length > 0 %}
+                <div class="block-list__item block">
+                    <header class="block__header">
+                        <h2 class="block__header-text">Your Membership</h2>
+                    </header>
                     <table id="memberships">
                         <tr>
                             <th>#</th>
@@ -27,23 +34,28 @@
                             </tr>
                         {% endfor %}
                     </table>
-                {% endif %}
+                </div>
+            {% endif %}
 
 
-                <h2>Purchase Membership</h2>
+            <div class="block-list__item block">
+                <header class="block__header">
+                    <h2 class="block__header-text">Purchase Membership</h2>
+                </header>
                 <p>Select the amount of money you feel your membership is worth.</p>
                 <form method="POST" action="{% url "membership" member.pk %}">
                     {% csrf_token %}
-                    {% for error in form.other_amount.errors %}
+                    <!-- {% for error in form.other_amount.errors %}
                     <div data-alert class="alert-box alert">
                         {{error}}
                     </div>
                     {% endfor %}
                     <label>Amount: {{form.amount}}</label>
-                    <label id="other_amount">Other Amount (£): {{form.other_amount}}</label>
+                    <label id="other_amount">Other Amount (£): {{form.other_amount}}</label> -->
+                    {{form|render}}
                     <button type="submit">Continue to payment</button>
                 </form>
             </div>
-        </p>
+        </div>
     </div>
 {% endblock %}

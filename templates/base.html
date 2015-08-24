@@ -50,7 +50,7 @@
                     {% endwith %}
                     {% include "_primary_navigation_item.html" with link="members" text="Members" icon="user" %}
                     {% if request.user.is_authenticated %}
-                        <li class="menu__item menu__item--with-icon main-header__padded notification-button {% if primary_nav == link %}menu__item--active{% endif %}">
+                        <li class="menu__item menu__item--with-icon main-header__padded notification-button {% if primary_nav == "notifications_list" %}menu__item--active{% endif %}">
                             <a href="{% url "notifications_list" %}" class="menu__item__icon plain-link notifications-list-link" data-jq-dropdown="#notifications-list"><i class="fa fa-bell"></i></a>
                             <a href="{% url "notifications_list" %}" data-jq-dropdown="#notifications-list" class="menu__item__text plain-link notifications-list-link">Notifications</a>
                             <a href="{% url "notifications_list" %}" data-jq-dropdown="#notifications-list" class="notification-button__unread{% if request.user.notifications.unread.count > 0 %} notification-button__unread--unread{% endif %} notifications-list-link">{{request.user.notifications.unread.count}}</a>

@@ -1,7 +1,7 @@
 {% for notification in request.user.notifications.ordered|slice:":3" %}
     <li data-url="{{notification.url}}" class="notifications-list__notification{% if notification.unread %} .notifications-list__notification--unread{% endif %}">
         <div class="l-container">
-            <div class="l-secondary-content notifications-list__notification__image-container">
+            <div class="l-secondary-content">
                 {{notification.image|safe}}
             </div>
             <div class="l-primary-content">
