@@ -9,13 +9,15 @@
                 <header class="block__header valign-together">
                     <h2 class="block__header-text">New Event</h2>
                     {% if event_presets|length > 0 %}
-                        <a href="#" data-dropdown="event_presets" aria-controls="event_presets" aria-expanded="false" class="btn dropdown block__header-extra-link">Load Preset</a>
-
-                        <!-- <ul id="event_presets" data-dropdown-content class="f-dropdown" aria-hidden="true">
-                            {% for preset in event_presets %}
-                                <li><a href="#" data-preset="{{preset.value}}" class="event_preset">{{preset.name}}</a></li>
-                            {% endfor %}
-                        </ul> -->
+                        <div class="event-presets">
+                            <a href="#" class="btn dropdown block__header-extra-link" data-jq-dropdown="#presets-list">Load Preset</a>
+                        <div id="presets-list" class="jq-dropdown jq-dropdown-tip">
+                            <ul class="jq-dropdown-menu">
+                                {% for preset in event_presets %}
+                                    <li><a href="#" data-preset="{{preset.value}}" class="event-preset">{{preset.name}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     {% endif %}
                 </header>
 

@@ -18,7 +18,8 @@
     "jquery-file-upload": "9.9.4",
     "bourbon": "4.2.3",
     "neat": "1.7.2",
-    "font-awesome": "4.3.0"
+    "font-awesome": "4.3.0",
+    "jquery-dropdown": "2.0.1"
   },
   "devDependencies": {
     "hologram-github-theme": "~0.1.3"
