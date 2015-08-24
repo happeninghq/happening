@@ -1,0 +1,27 @@
+.notifications-list {
+
+}
+
+.notifications-list__notification {
+    cursor: pointer;
+    height: 6.5em;
+}
+
+.notifications-list__notification:hover {
+    background: $MENU-HIGHLIGHT-BACKGROUND-COLOR;
+}
+
+.notifications-list__notification--unread {
+    background: $BLOCK-COLOR;
+}
+
+.notifications-list__notification__image-container {
+    height: 6.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.notifications-list__more {
+    text-align: center;
+}

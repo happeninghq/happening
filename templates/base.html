@@ -50,7 +50,20 @@
                     {% endwith %}
                     {% include "_primary_navigation_item.html" with link="members" text="Members" icon="user" %}
                     {% if request.user.is_authenticated %}
-                        {% include "_primary_navigation_item.html" with link="notifications_list" text="Notifications" icon="bell" %}
+                        <li class="menu__item menu__item--with-icon main-header__padded notification-button {% if primary_nav == link %}menu__item--active{% endif %}">
+                            <a href="{% url "notifications_list" %}" class="menu__item__icon plain-link notifications-list-link" data-jq-dropdown="#notifications-list"><i class="fa fa-bell"></i></a>
+                            <a href="{% url "notifications_list" %}" data-jq-dropdown="#notifications-list" class="menu__item__text plain-link notifications-list-link">Notifications</a>
+                            <a href="{% url "notifications_list" %}" data-jq-dropdown="#notifications-list" class="notification-button__unread{% if request.user.notifications.unread.count > 0 %} notification-button__unread--unread{% endif %} notifications-list-link">{{request.user.notifications.unread.count}}</a>
+                        </li>
+
+                        <div id="notifications-list" class="jq-dropdown">
+                            <ul class="jq-dropdown-menu">
+                                {% include "notifications/_short.html" %}
+                                <li><a class="notifications-list__more" href="{% url "notifications_list" %}">View more</a></li>
+                            </ul>
+                        </div>
+
+
                     {% endif %}
                     {% if request.user.is_staff %}
                         {% include "_primary_navigation_item.html" with link="admin" text="Admin" icon="cogs" %}
@@ -160,6 +173,9 @@
 
         <!-- used for loading event presets on create even CLASS: event-preset -->
         <script src="{% static "js/staff/event-presets.js" %}"></script>
+
+        <!--- used for managing notifications CLASS: notifications -->
+        <script src="{% static "js/blocks/notifications-list.js" %}"></script>
     {% endcompress %}
 </body>
 </html>

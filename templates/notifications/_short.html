@@ -1,0 +1,15 @@
+{% for notification in request.user.notifications.ordered|slice:":3" %}
+    <li data-url="{{notification.url}}" class="notifications-list__notification{% if notification.unread %} .notifications-list__notification--unread{% endif %}">
+        <div class="l-container">
+            <div class="l-secondary-content notifications-list__notification__image-container">
+                {{notification.image|safe}}
+            </div>
+            <div class="l-primary-content">
+                <div>
+                    {{notification.short|safe}}
+                </div>
+                <p class="time" title="{{notification.sent_datetime.isoformat}}">{{notification.sent_datetime.isoformat}}</p>
+            </div>
+        </div>
+    </li>
+{% endfor %}

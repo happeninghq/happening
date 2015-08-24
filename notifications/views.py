@@ -1,10 +1,11 @@
 """Notification views."""
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from models import NotificationPreference
+from models import NotificationPreference, Notification
 from happening import notifications
 from django.contrib import messages
 from happening.plugins import plugin_enabled
+from django.http import JsonResponse
 
 
 @login_required()
@@ -15,14 +16,10 @@ def list(request):
     return rendered
 
 
-@login_required()
-def short(request):
-    """Return rendered list of short notifications."""
-    # TODO: Replace this with a JSON request
-    # and render client side
-    rendered = render(request, "notifications/short.html")
-    request.user.notifications.mark_all_as_read()
-    return rendered
+def mark_read(request):
+    """Mark all notifications as read."""
+    Notification.objects.mark_all_as_read()
+    return JsonResponse({})
 
 
 def save_settings(request, notification_types):
