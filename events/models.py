@@ -30,6 +30,8 @@ class Event(db.Model):
     # The number of tickets available in total for this event
     available_tickets = models.IntegerField(default=30)
 
+    image = models.ImageField(upload_to="events", null=True)
+
     def get_absolute_url(self):
         """Get the url to the event."""
         return reverse('view_event', kwargs={"pk": self.pk})

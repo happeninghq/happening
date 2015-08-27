@@ -9,7 +9,7 @@
         <div class="l-primary-content block-list">
             {% for event in future_events.all|slice:":2" %}
                 <div class="block block-list__item event-block">
-                    {% include "events/_event_block.html"}
+                    {% include "events/_event_block.html" %}
                 </div>
             {% endfor %}
 

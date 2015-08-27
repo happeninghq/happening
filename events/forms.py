@@ -3,6 +3,7 @@
 from django import forms
 from django.forms import ModelForm
 from models import Event
+from happening import forms as happening_forms
 from happening.forms import DateTimeWidget
 
 
@@ -32,6 +33,7 @@ class EventForm(ModelForm):
 
     start = forms.DateTimeField(widget=DateTimeWidget())
     end = forms.DateTimeField(widget=DateTimeWidget(), required=False)
+    image = happening_forms.ImageField()
 
     class Meta:
         model = Event

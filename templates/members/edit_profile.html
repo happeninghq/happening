@@ -14,7 +14,7 @@
                 <header class="block__header valign-together">
                     <h2 class="block__header-text">Edit {{member}}</h2>
                 </header>
-                <form method="POST" action="{% url "edit_profile" member.pk %}" class="form">
+                <form method="POST" action="{% url "edit_profile" member.pk %}" class="form" enctype="multipart/form-data">
                     {% csrf_token %}
 
                     {{form|render}}

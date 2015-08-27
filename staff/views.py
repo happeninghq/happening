@@ -207,7 +207,7 @@ def edit_event(request, pk):
         attach_to_form(form, variables, editing=True)
         if form.is_valid():
             save_variables(form, variables)
-            form.save()
+            event = form.save()
             return redirect("staff_event", event.pk)
     else:
         attach_to_form(form, variables, editing=True)

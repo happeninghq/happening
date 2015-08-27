@@ -173,15 +173,14 @@ class ImageField(forms.ImageField):
 
     widget = ImageWidget
 
-    def clean(self, value, initial):
-        """Turn the path into the name and reference."""
-        # This is really hacky. TODO Tidy this a lot
-        # We shouldn't be returning "DELETE" to delete
-        # and None for unchanged - it's totally unclear
-        if not value:
-            return "DELETE"
+    def to_python(self, value):
+        """Get the image selected."""
+        # This just needs to return a File
 
-        if value == "INITIAL":
+        # We force this here so that a "None" value isn't an error
+        self.required = False
+
+        if not value:
             return None
 
         is_temp = False
@@ -191,12 +190,12 @@ class ImageField(forms.ImageField):
         # TODO: What happens if they use ../../ etc.
         # Can they mess with stuff they shouldn't?
 
-        # Otherwise open the file and pass the handle back
+        # TODO: Rename the file to remove the prefix
         filename = value.rsplit("/", 1)[-1]
         if is_temp:
             filename = filename.split("_", 1)[1]
 
-        return (filename, File(default_storage.open(value)))
+        return File(default_storage.open(value))
 
 
 class EmailsWidget(forms.Widget):

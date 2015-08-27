@@ -1,7 +1,7 @@
 $(function() {
     $('.image-widget').each(function() {
         $this = $(this);
-        $this.data('initial-src', $this.find('image-widget__image').attr("src"));
+        $this.data('initial-src', $this.find('.image-widget__image').attr("src"));
         $this.data('initial-file-name', $this.find('.image-widget__file-name').text());
         $this.data('initial-file-size', $this.find('.image-widget__file-size').text());
         $this.data('initial-dimensions', $this.find('.image-widget__dimensions').text());

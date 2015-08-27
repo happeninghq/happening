@@ -193,13 +193,7 @@ def appearance(request):
                     if hasattr(o, "_storage"):
                         o._storage.headers['Content-Type'] = 'text/css'
                     o.write(happening_generate_css())
-
-            if form.cleaned_data['logo'] == "DELETE":
-                site.logo.delete(False)
-            elif form.cleaned_data['logo']:
-                site.logo.save(form.cleaned_data['logo'][0],
-                               form.cleaned_data['logo'][1], False)
-
+            site.logo = form.cleaned_data['logo']
             site.save()
             return redirect("appearance")
     return render(request, "admin/appearance.html",

@@ -144,12 +144,14 @@ def edit_profile(request, pk):
             member.profile.show_stackexchange_urls = \
                 form.cleaned_data['show_stackexchange_urls']
 
-            if form.cleaned_data['profile_image'] == "DELETE":
-                member.profile.photo.delete(False)
-            elif form.cleaned_data['profile_image']:
-                member.profile.photo.save(
-                    form.cleaned_data['profile_image'][0],
-                    form.cleaned_data['profile_image'][1], False)
+            member.profile.photo = form.cleaned_data['profile_image']
+
+            # if form.cleaned_data['profile_image'] == "DELETE":
+            #     member.profile.photo.delete(False)
+            # elif form.cleaned_data['profile_image']:
+            #     member.profile.photo.save(
+            #         form.cleaned_data['profile_image'][0],
+            #         form.cleaned_data['profile_image'][1], False)
 
             member.profile.save()
             member.save()
