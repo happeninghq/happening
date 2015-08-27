@@ -23,3 +23,4 @@ happening.sublime-project
 static/.sass-cache
 .sass-cache
 styleguide
+media/events/*
