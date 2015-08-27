@@ -66,7 +66,7 @@
                     </tbody>
                 </table>
                 
-                <a class="button" href="{% url "add_attendee" event.pk %}">Add Attendee</a>
+                <a class="btn" href="{% url "add_attendee" event.pk %}">Add Attendee</a>
 
                 {% plugin_block "staff.event" event %}
             </div>
@@ -77,13 +77,13 @@
                     <h2 class="block__header-text block__header-text--small">{{event}}</h2>
                 </header>
 
-                <a class="button" href="{% url "view_event" event.pk %}">View Event</a>
-
-                <a class="button" href="{% url "edit_event" event.pk %}">Edit</a>
-                <a class="button" href="{% url "email_event" event.pk %}">Send Email</a>
-                <a class="button" href="{% url "manage_check_ins" event.pk %}">Manage Check Ins</a>
-
-                {% plugin_block "staff.event.buttons" event %}
+                <ul class="button-list">
+                    <li><a class="btn" href="{% url "view_event" event.pk %}">View Event</a></li>
+                    <li><a class="btn" href="{% url "edit_event" event.pk %}">Edit</a></li>
+                    <li><a class="btn" href="{% url "email_event" event.pk %}">Send Email</a></li>
+                    <li><a class="btn" href="{% url "manage_check_ins" event.pk %}">Manage Check Ins</a></li>
+                    {% plugin_block "staff.event.buttons" event %}
+                </ul>
             </div>
         </div>
     </div>
