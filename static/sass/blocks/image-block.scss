@@ -1,0 +1,25 @@
+.image-block {
+    position: relative;
+
+    padding: 2px;
+}
+
+.image-block__image-container {
+    overflow: hidden;
+    max-height: 15em;
+}
+
+.image-block__image {
+    width: 100%;
+}
+
+.image-block__text {
+    position: absolute;
+    right: 1em;
+    bottom: 0.1em;
+    color: #FFF;
+
+    background: #000;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.5em 1em 0.5em 1em;
+}

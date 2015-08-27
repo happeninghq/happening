@@ -8,8 +8,13 @@
 
 {% block content %}
     <div class="l-container">
-        <div class="block-list__item block">
-            <h2>{{event}}</h2>
+        <div class="block-list__item block image-block">
+            {% if event.image %}
+                <div class="image-block__image-container">
+                    <img class="image-block__image" src="{{event.image.url}}">
+                </div>
+            {% endif %}
+            <h2 class="image-block__text">{{event}}</h2>
         </div>
         <div class="l-primary-content block-list">
 
@@ -19,7 +24,7 @@
 
             <div class="block-list__item block">
                 <header class="block__header">
-                    <h2>Tickets</h2>
+                    <h2 class="block__header-text">Tickets</h2>
                 </header>
                 {% include "events/_ticket_widget.html" %}
             </div>
@@ -41,7 +46,7 @@
             </div>
             <div class="block-list__item block">
                 <header class="block__header">
-                    <h2>Attendees</h2>
+                    <h2 class="block__header-text">Attendees</h2>
                 </header>
             </div>
         </div>
