@@ -18,14 +18,7 @@
             <i class="fa fa-calendar icon-text__icon"></i>
             <span class="icon-text__text">{{event.date_range}}</span>
         </div>
-        {% if event.location %}
-            <div class="icon-text event-block__sidebar-spacing">
-                <i class="fa fa-map-marker icon-text__icon"></i>
-                <div class="icon-text__text">
-                   {{event.location}}
-                </div>
-            </div>
-        {% endif %}
+        {% include "events/_location.html" %}
 
         <div class="ticket-information event-block__sidebar-spacing">
             {% if event.is_future %}

@@ -37,7 +37,8 @@ class EventForm(ModelForm):
 
     class Meta:
         model = Event
-        fields = ['title', 'start', 'end', 'image', 'available_tickets']
+        fields = ['title', 'start', 'end', 'image', 'location',
+                  'available_tickets']
 
 
 class GroupNumberForm(forms.Form):

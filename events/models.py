@@ -16,6 +16,7 @@ from notifications import PurchasedTicketNotification
 from django.conf import settings
 from happening.plugins import trigger_action
 import json
+from happening.db import AddressField
 
 
 class Event(db.Model):
@@ -31,6 +32,7 @@ class Event(db.Model):
     available_tickets = models.IntegerField(default=30)
 
     image = models.ImageField(upload_to="events", null=True)
+    location = AddressField(null=True)
 
     def get_absolute_url(self):
         """Get the url to the event."""

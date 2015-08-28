@@ -11,3 +11,13 @@ class Model(models.Model):
 
     class Meta:
         abstract = True
+
+
+class AddressField(JsonField):
+
+    """Field for storing address information."""
+
+    def formfield(self, **kwargs):
+        """Load correct form field for address."""
+        from happening import forms
+        return forms.AddressField(**kwargs)

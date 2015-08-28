@@ -267,3 +267,61 @@ class BooleanField(forms.BooleanField):
         kwargs['widget'] = self.widget(label=kwargs.get('label', ''))
         kwargs['label'] = ''
         super(BooleanField, self).__init__(*args, **kwargs)
+
+
+class AddressWidget(forms.Widget):
+
+    """A widget that allows for inputting an address."""
+
+    def __init__(self, *args, **kwargs):
+        """Create an address widget."""
+        super(AddressWidget, self).__init__(*args, **kwargs)
+
+    def render(self, name, value, attrs):
+        """Render the widget."""
+        if not value:
+            value = []
+        if isinstance(value, basestring):
+            print value
+            print dir(value)
+            value = json.loads(value)
+        return render_to_string("forms/widgets/address_widget.html", {
+            "name": name,
+            "value": value
+        })
+
+    def value_from_datadict(self, data, files, name):
+        """Get the value as a dict."""
+        line_1 = data.get(name + '_line_1')
+        line_2 = data.get(name + '_line_2')
+        line_3 = data.get(name + '_line_3')
+        city = data.get(name + '_city')
+        state = data.get(name + '_state')
+        country = data.get(name + '_country')
+        postcode = data.get(name + '_postcode')
+        longitude = data.get(name + '_longitude')
+        latitude = data.get(name + '_latitude')
+
+        return {
+            "line_1": line_1,
+            "line_2": line_2,
+            "line_3": line_3,
+            "city": city,
+            "state": state,
+            "country": country,
+            "postcode": postcode,
+            "longitude": longitude,
+            "latitude": latitude
+        }
+
+
+class AddressField(forms.CharField):
+
+    """A field for inputting an address."""
+
+    widget = AddressWidget
+
+    def to_python(self, value):
+        """Get the address as dict."""
+        # This just needs to return the value
+        return value

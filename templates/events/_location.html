@@ -1,0 +1,35 @@
+{% if event.location %}
+    <div class="icon-text event-block__sidebar-spacing">
+        <i class="fa fa-map-marker icon-text__icon"></i>
+        <div class="icon-text__text">
+        {% if event.location.line_1 %}
+            {{event.location.line_1}}<br />
+        {% endif %}
+        {% if event.location.line_2 %}
+            {{event.location.line_2}}<br />
+        {% endif %}
+        {% if event.location.line_3 %}
+            {{event.location.line_3}}<br />
+        {% endif %}
+        {% if event.location.city %}
+            {{event.location.city}}<br />
+        {% endif %}
+        {% if event.location.state %}
+            {{event.location.state}}<br />
+        {% endif %}
+        {% if event.location.country %}
+            {{event.location.country}}<br />
+        {% endif %}
+        {% if event.location.postcode %}
+            {{event.location.postcode}}<br />
+        {% endif %}
+
+        {% if event.location.latitude %}
+            {% if event.location.longitude %}
+                <!-- Map disable for now -->
+                <!-- <div class="google-map" data-latitude="{{event.location.latitude}}" data-longitude="{{event.location.longitude}}" data-zoom="16"></div> -->
+            {% endif %}
+        {% endif %}
+        </div>
+    </div>
+{% endif %}
