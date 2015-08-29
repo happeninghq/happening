@@ -7,7 +7,9 @@
     <div class="l-container">
         <div class="l-primary-content block-list searchable-list" id="events-list">
             {% for event in events %}
-                <div class="block block-list__item event-block searchable-list__item" data-searchable-title="{{event.title}}" data-searchable-description="{{"events.event_configuration.Description"|get_configuration:event}}">
+                {% with "events.event_configuration.Description"|get_configuration:event as desc %}
+                    <div class="block block-list__item event-block searchable-list__item" data-searchable-title="{{event.title|striptags}}" data-searchable-description="{{desc|striptags}}">
+                {% endwith %}
                     {% include "events/_event_block.html" %}
                 </div>
             {% empty %}
