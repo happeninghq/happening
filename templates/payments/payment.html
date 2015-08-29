@@ -2,41 +2,47 @@
 {% load staticfiles %}
 {% load widget_tweaks %}
 
+{% block secondary_navigation %}{% endblock %}
+
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Payment</h2>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block-list__item block">
+                <header class="block__header">
+                    <h2 class="block__header-text">Payment</h2>
+                </header>
 
                 <form method="POST" id="payment-form" action="{% url "make_payment" payment.pk %}" style="display: none">
                     {% csrf_token %}
                     {{payment_form}}
                 </form>
 
-                <form method="POST" id="stripe-form">
+                <form method="POST" id="stripe-form" class="form stripe-form" data-payment-form="#payment-form">
                     <span class="payment-errors"></span>
 
-
-                    <label>Card Number:
-                         <input type="text" size="20" data-stripe="number"/>
-                    </label>
-                    <label>CVC:
-                        <input type="text" size="4" data-stripe="cvc"/>
-                    </label>
-                    <label>Expiration (MM/YYYY)
-                        <div class="row">
-                            <div class="small-5 columns">
-                                <input type="text" size="2" data-stripe="exp-month" placeholder="MM" />
+                    <div class="form__field">
+                        <label for="card-number">Card Number</label>
+                        <input name="card-number" type="text" size="20" data-stripe="number"/>
+                    </div>
+                    <div class="form__field">
+                        <label for="cvc">CVC</label>
+                        <input name="cvc"type="text" size="4" data-stripe="cvc"/>
+                    </div>
+                    <div class="form__field">
+                        <label for="mm">Expiration (MM/YYYY)</label>
+                        <div class="l-container">
+                            <div class="l-secondary-content">
+                                <input name="mm" type="text" size="2" data-stripe="exp-month" placeholder="MM" />
                             </div>
-                            <div class="small-7 columns">
-                                <input type="text" size="4" data-stripe="exp-year" placeholder="YYYY" />
+                            <div class="l-primary-content">
+                                <input name="yyyy" type="text" size="4" data-stripe="exp-year" placeholder="YYYY" />
                             </div>
                         </div>
-                    </label>
+                    </div>
                     <button type="submit">Submit Payment</button>
                 </form>
             </div>
-        </p>
+        </div>
     </div>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <script>Stripe.setPublishableKey("{{stripe_key}}");</script>

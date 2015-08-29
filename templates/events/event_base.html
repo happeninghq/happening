@@ -5,7 +5,6 @@
 {% block secondary_navigation %}
     <ul class="inline-list inline-list--space">
         <li><a class="secondary-navigation__link {% if secondary_nav == "view_event" %}secondary-navigation__link--active{% endif %}" href="{% url "view_event" event.pk %}">Info</a></li>
-        <!-- <li><a href="#" class="secondary-navigation__link">Attendees</a></li>
-        <li><a href="#" class="secondary-navigation__link">Discussion</a></li> -->
+        <li><a class="secondary-navigation__link {% if secondary_nav == "view_event_attendees" %}secondary-navigation__link--active{% endif %}" href="{% url "view_event_attendees" event.pk %}">Attendees</a></li>
     </ul>
 {% endblock %}

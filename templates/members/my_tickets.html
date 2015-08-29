@@ -1,36 +1,46 @@
-{% extends "base.html" %}
+{% load xextends %}
+{% xextends "events/base.html" with secondary_nav="my_tickets" %}
+
 {% load staticfiles %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>My Tickets</h2>
-                {% for ticket in request.user.tickets.all %}
-                    <div class="ticket {% if ticket.cancelled %}cancelled{% endif %}">
-                        <div class="row">
-                            <div class="small-9 column">
-                                <h3><a href="{% url "view_event" ticket.event.pk %}">{{ticket.event}}</a></h3>
-                                {% if ticket.cancelled %}
-                                    <p>You cancelled <strong>{{ticket.number}}</strong> tickets.</p>
-                                {% else %}
-                                    <p>You have <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize:",s"}}.</p>
-                                {% endif %}
-                            </div>
-                            <div class="small-3 column">
-                                {% if not ticket.cancelled %}
-                                    {% if ticket.event.is_future %}
-                                        <ul class="stack button-group">
-                                          <li><a href="{% url "edit_ticket" ticket.pk %}" class="button">Edit</a></li>
-                                          <li><a href="{% url "cancel_ticket" ticket.pk %}" class="button warning">Cancel</a></li>
-                                        </ul>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">My Tickets</h2>
+                </header>
+
+                <table>
+                    <tbody>
+                        {% for ticket in request.user.tickets.all %}
+                            <tr class="{% if ticket.cancelled %}low-opacity full-opacity-on-hover{% endif %}">
+                                <td>
+                                    <a href="{% url "view_event" ticket.event.pk %}">{{ticket.event}}</a>
+                                </td>
+                                <td>
+                                    {% if ticket.cancelled %}
+                                        <p>You cancelled <strong>{{ticket.number}}</strong> tickets.</p>
+                                    {% else %}
+                                        <p>You have <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize:",s"}}.</p>
                                     {% endif %}
+                                </td>
+                                {% if ticket.event.is_future and not ticket.cancelled %}
+                                    <td>
+                                        <a href="{% url "edit_ticket" ticket.pk %}" class="btn">Edit</a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url "cancel_ticket" ticket.pk %}" class="btn">Cancel</a>
+                                    </td>
+                                {% else %}
+                                    <td></td><td></td>
                                 {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-        </p>
+        </div>
     </div>
 {% endblock %}

@@ -45,7 +45,7 @@ button, .btn {
     display: block;
 }
 
-.btn--disabled {
+.btn--disabled, button:disabled {
     cursor: default;
     opacity: 0.3;
 

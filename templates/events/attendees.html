@@ -1,0 +1,27 @@
+{% load xextends %}
+{% xextends "events/event_base.html" with secondary_nav="view_event_attendees" %}
+
+{% block content %}
+    <div class="l-container">
+        <div class="block-list__item block image-block">
+            {% if event.image %}
+                <div class="image-block__image-container">
+                    <img class="image-block__image" src="{{event.image.url}}">
+                </div>
+            {% endif %}
+            <h2 class="image-block__text">{{event}}</h2>
+        </div>
+        <div class="l-primary-content block-list">
+            <div class="block-list__item block">
+                <header class="block__header">
+                    <h2 class="block__header-text">Attendees</h2>
+                </header>
+
+                {% include "members/_members-table.html" with members=event.attending_users %}
+            </div>
+        </div>
+        <div class="l-secondary-content block-list">
+            {% include "members/_filter_block.html" %}
+        </div>
+    </div>
+{% endblock %}

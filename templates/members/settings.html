@@ -1,12 +1,17 @@
-{% extends "base.html" %}
+{% load xextends %}
+
+{% xextends "members/base.html" with secondary_nav="my_settings" %}
+
 {% load staticfiles %}
 {% load plugins %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>Settings</h2>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header valign-together">
+                    <h2 class="block__header-text">Settings</h2>
+                </header>
 
                 <table>
                     <tr>
@@ -23,6 +28,7 @@
                         <th>Social Accounts</th>
                         <td>{{member.socialaccount_set.count}} account{{member.socialaccount_set.count|pluralize:",s"}}</td>
                         <td><a href="{% url "socialaccount_connections" %}">Edit</a></td>
+                    </tr>
                     <tr>
                         <th>Password</th>
                         <td>**********</td>
@@ -35,6 +41,6 @@
                     </tr>
                 </table>
             </div>
-        </p>
+        </div>
     </div>
 {% endblock %}

@@ -9,21 +9,21 @@
 
 .form__field {
 
-    > label {
+    label {
         text-transform:uppercase;
         display: block;
         opacity: 0.7;
         margin-bottom: 0.3em;
     }
 
-    > input, > textarea {
+    input, textarea {
         border: none;
         padding: 0.5em;
 
         width: 100%;
     }
 
-    > select {
+    select {
         width: 100%;
         border: none;
         height: 2em;

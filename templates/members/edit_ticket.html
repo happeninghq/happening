@@ -1,14 +1,16 @@
-{% extends "base.html" %}
+{% load xextends %}
+{% xextends "events/base.html" with secondary_nav="my_tickets" %}
 
 {% load loops %}
 {% load forms %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>{{ticket.event}}</h2>
-                <h3>Edit Tickets</h3>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Edit {{ticket.event}} Tickets</h2>
+                </header>
 
                 <form action="{% url "edit_ticket" ticket.id %}{% if request.GET.redirect_to %}?redirect_to={{request.GET.redirect_to}}{% endif %}" method="POST" class="form">
                     {% csrf_token %}

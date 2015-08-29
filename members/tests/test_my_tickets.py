@@ -40,7 +40,7 @@ class TestMyTickets(TestCase):
 
         # First check links aren't visible on my tickets
         response = self.client.get("/member/tickets")
-        past_ticket = response.soup.findAll("div", {"class": "ticket"})[0]
+        past_ticket = response.soup.findAll("li")[0]
         self.assertIsNone(past_ticket.find("a", {"class": "button"}))
 
         # Then check we can't hit the edit or cancel links
@@ -88,10 +88,10 @@ class TestMyTickets(TestCase):
 
         # First check link is visible on my tickets
         response = self.client.get("/member/tickets")
-        future_ticket = response.soup.findAll("div", {"class": "ticket"})[1]
+        future_ticket = response.soup.findAll("tr")[1]
         cancel_url = "/member/tickets/%s/cancel" % self.ticket2.pk
         self.assertIsNotNone(
-            future_ticket.find("a", {"class": "button", "href": cancel_url}))
+            future_ticket.find("a", {"class": "btn", "href": cancel_url}))
 
         # Then GET the link
         response = self.client.get(cancel_url)

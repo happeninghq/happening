@@ -6,6 +6,8 @@ from feeds import AllEventsFeed
 
 urlpatterns = [
     url(r'^(?P<pk>\d+)$', views.view, name='view_event'),
+    url(r'^(?P<pk>\d+)/attendees$', views.view_attendees,
+        name='view_event_attendees'),
     url(r'^(?P<pk>\d+)/purchase_tickets', views.purchase_tickets,
         name='purchase_tickets'),
     url(r'^tickets_purchased/(?P<pk>\d+)', views.tickets_purchased,

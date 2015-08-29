@@ -1,4 +1,6 @@
-{% extends "base.html" %}
+{% load xextends %}
+
+{% xextends "members/base.html" with secondary_nav="membership" %}
 {% load staticfiles %}
 {% load widget_tweaks %}
 {% load plugins %}
@@ -45,13 +47,6 @@
                 <p>Select the amount of money you feel your membership is worth.</p>
                 <form method="POST" action="{% url "membership" member.pk %}">
                     {% csrf_token %}
-                    <!-- {% for error in form.other_amount.errors %}
-                    <div data-alert class="alert-box alert">
-                        {{error}}
-                    </div>
-                    {% endfor %}
-                    <label>Amount: {{form.amount}}</label>
-                    <label id="other_amount">Other Amount (£): {{form.other_amount}}</label> -->
                     {{form|render}}
                     <button type="submit">Continue to payment</button>
                 </form>

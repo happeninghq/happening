@@ -12,20 +12,7 @@
                     <h2 class="block__header-text">Members</h2>
                 </header>
 
-                <table class="data-table" id="members-list">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for member in members %}
-                            <tr>
-                                <td><a href="{% url "view_profile" member.pk %}">{{member}}</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                {% include "members/_members-table.html" %}
             </div>
         </div>
 

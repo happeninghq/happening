@@ -1,8 +1,8 @@
-<ul class="members-list">
+<ul class="members-list inline-list">
     {% for member in members %}
-        <li>
+        <li class="members-list__member">
             <a title="{{member.profile}}" href="{% url "view_profile" member.pk %}">
-                {% include "members/_member_image.html" %}
+                <img class="members-list__image" src="{{member.profile.photo_url}}">
             </a>
         </li>
     {% endfor %}

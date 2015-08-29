@@ -1,12 +1,15 @@
-{% extends "base.html" %}
+{% load xextends %}
+{% xextends "events/base.html" with secondary_nav="my_tickets" %}
 {% load staticfiles %}
 {% load plugins %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>{{ticket.event}}</h2>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">{{ticket.event}}</h2>
+                </header>
 
                 <p>You have purchased <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize:"s"}} to <a href="{% url "view_event" ticket.event.pk %}">the {{ticket.event}}</a>.</p>
 
@@ -14,6 +17,6 @@
 
                 <p>You will be emailed with more information about the event soon.</p>
             </div>
-        </p>
+        </div>
     </div>
 {% endblock %}

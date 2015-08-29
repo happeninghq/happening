@@ -22,12 +22,14 @@
                 {{"events.event_configuration.Description"|get_configuration:event}}
             </div>
 
-            <div class="block-list__item block">
-                <header class="block__header">
-                    <h2 class="block__header-text">Tickets</h2>
-                </header>
-                {% include "events/_ticket_widget.html" %}
-            </div>
+            {% if not request.user|has_tickets:event %}
+                <div class="block-list__item block">
+                    <header class="block__header">
+                        <h2 class="block__header-text">Tickets</h2>
+                    </header>
+                    {% include "events/_ticket_widget.html" %}
+                </div>
+            {% endif %}
         </div>
         <div class="l-secondary-content block-list">
             <div class="block-list__item block">
@@ -39,9 +41,12 @@
                 {% include "events/_location.html" %}
             </div>
             <div class="block-list__item block">
-                <header class="block__header">
-                    <h2 class="block__header-text">Attendees</h2>
+                <header class="block__header valign-together">
+                    <h2 class="block__header-text block__header-text--small">Attendees</h2>
+                    <a href="{% url "view_event_attendees" event.pk %}" class="block__header-extra-link">(view all)</a>
                 </header>
+
+                {% include "members/_list.html" with members=event.attending_users %}
             </div>
         </div>
     </div>

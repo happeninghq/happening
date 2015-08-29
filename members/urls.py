@@ -5,6 +5,7 @@ from members import views
 
 urlpatterns = [
     url(r'^$', views.index, name='members'),
+    url(r'^settings$', views.my_settings, name='my_settings'),
     url(r'^(?P<pk>\d+)/settings$', views.settings, name='settings'),
     url(r'^(?P<pk>\d+)/settings/username$', views.edit_username,
         name='edit_username'),

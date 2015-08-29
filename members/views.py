@@ -167,6 +167,11 @@ def edit_profile(request, pk):
                    "secondary_nav": secondary_nav})
 
 
+def my_settings(request):
+    """Link to my settings."""
+    return redirect("settings", request.user.pk)
+
+
 @require_editing_own_profile
 def settings(request, pk):
     """Overview settings."""
