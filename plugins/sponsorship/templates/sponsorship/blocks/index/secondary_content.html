@@ -2,11 +2,11 @@
     <header class="block__header">
         <h2 class="block__header-text block__header-text--small">Sponsors</h2>
     </header>
-    <ul class="plain-list">
+    <ul class="plain-list sponsors">
         {% for tier in sponsor_tiers %}
             {% if tier.community_sponsorships.count > 0 %}
                 {% for sponsorship in tier.community_sponsorships.all %}
-                    <li><a href="{% url "view_sponsor" sponsorship.sponsor.pk %}"><img src="{{sponsorship.sponsor.logo.url}}"></a></li>
+                    <li class="sponsors__sponsor"><a href="{% url "view_sponsor" sponsorship.sponsor.pk %}"><img class = "sponsors__sponsor-image" src="{{sponsorship.sponsor.logo.url}}"></a></li>
                 {% endfor %}
             {% endif %}
         {% endfor %}
