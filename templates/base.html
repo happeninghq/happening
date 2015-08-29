@@ -35,9 +35,8 @@
                 <a href="{% url "index" %}" class="plain-link">
                     {% if site.logo %}
                         <img class="main-header__logo" src="{{site.logo.url}}" alt="{{"pages.configuration.SiteTitle"|get_configuration}}">
-                    {% else %}
-                        {{"pages.configuration.SiteTitle"|get_configuration}}
                     {% endif %}
+                    {{"pages.configuration.SiteTitle"|get_configuration}}
                 </a>
             </h1>
 
