@@ -10,7 +10,7 @@
         {{"events.event_configuration.Description"|get_configuration:event}}
         <ul class="inline-list inline-list--space">
             <!-- <li class="valign-together small"><i class="fa fa-comment"></i> <a href="#">16 Comments</a></li> -->
-            <li class="valign-together small"><i class="fa fa-user"></i> <a href="#">{{event.attending_users|length}} Attendee{{event.attending_users|length|pluralize}}</a></li>
+            <li class="valign-together small"><i class="fa fa-user"></i> <a href="{% url "view_event_attendees" event.pk %}">{{event.attending_users|length}} Attendee{{event.attending_users|length|pluralize}}</a></li>
         </ul>
     </div>
     <div class="l-secondary-content">
@@ -24,7 +24,7 @@
             {% if event.is_future %}
                 <span class="ticket-information__available"><strong>{{event.remaining_tickets}}</strong> Tickets available</span>
                 {% if event.remaining_tickets > 0 %}
-                    <a href="#" class="btn btn--full-width">
+                    <a href="{% url "view_event" event.pk %}" class="btn btn--full-width">
                         Get Tickets
                     </a>
                 {% else %}

@@ -1,13 +1,25 @@
-<table class="data-table" id="members-list">
+<table class="data-table members-list" id="members-list">
     <thead>
         <tr>
+            <th></th>
             <th>Username</th>
+            <th>Name</th>
         </tr>
     </thead>
     <tbody>
         {% for member in members %}
             <tr>
-                <td><a href="{% url "view_profile" member.pk %}">{{member}}</a></td>
+                <td>
+                    <a title="{{member.profile}}" href="{% url "view_profile" member.pk %}">
+                        <img class="members-list__image" src="{{member.profile.photo_url}}">
+                    </a>
+                </td>
+                <td>
+                    <a title="{{member.profile}}" href="{% url "view_profile" member.pk %}">{{member}}</a>
+                </td>
+                <td>
+                    {{member.first_name}} {{member.last_name}}
+                </td>
             </tr>
         {% endfor %}
     </tbody>
