@@ -2,7 +2,6 @@
   "name": "Happening",
   "version": "0.0.1",
   "dependencies": {
-    "normalize.css": "3.0.3",
     "html5shiv": "3.7.0",
     "respond": "1.3.0",
     "underscore": "1.7.0",
