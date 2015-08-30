@@ -1,5 +1,7 @@
-<div>
-    <h3>Sponsors</h3>
+<div class="block block-list__item">
+    <header class="block__header">
+        <h2 class="block__header-text">Sponsors</h2>
+    </header>
     {% if event.sponsor %}
         <p>{{event}} is sponsored by <a href="{% url "view_sponsor" event.sponsor.pk %}">{{event.sponsor}}</a></p>
         <a class="btn" href="{% url "sponsor_edit_on_event" event.pk %}">Edit Sponsor</a>

@@ -1,4 +1,6 @@
-{% extends "base.html" %}
+{% load xextends %}
+
+{% xextends "staff/base.html" with secondary_nav="staff_events" %}
 {% load plugins %}
 {% load staticfiles %}
 
@@ -9,10 +11,12 @@
                 <header class="block__header">
                     <h2 class="block__header-text">{{event}}</h2>
                 </header>
-                <table class="data-table">
+                <table class="data-table" id="tickets-list">
                     <thead>
                         <tr>
-                            <th>Member</th>
+                            <th></th>
+                            <th>Username</th>
+                            <th>Name</th>
                             <th>Tickets</th>
                             <th>Checked In</th>
                             <th></th>
@@ -24,10 +28,14 @@
                                 <tr>
                                     <td>
                                         <a title="{{ticket.user.profile}}" href="{% url "view_profile" ticket.user.pk %}">
-                                            {% include "members/_member_image.html" with member=ticket.user %}
+                                            <img class="members-list__image" src="{{ticket.user.profile.photo_url}}">
                                         </a>
-                                        <div><a title="{{ticket.user.profile}}" href="{% url "view_profile" ticket.user.pk %}">{{ticket.user}}</a></div>
-                                        <div><a title="{{ticket.user.profile}}" href="{% url "view_profile" ticket.user.pk %}">{{ticket.user.first_name}} {{ticket.user.last_name}}</a></div>
+                                    </td>
+                                    <td>
+                                        <a title="{{ticket.user.profile}}" href="{% url "view_profile" ticket.user.pk %}">{{ticket.user}}</a>
+                                    </td>
+                                    <td>
+                                        {{ticket.user.first_name}} {{ticket.user.last_name}}
                                     </td>
                                     <td>
                                         {{ticket.number}}
@@ -41,7 +49,7 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <ul>
+                                        <ul class="button-list">
                                             {% if ticket.checked_in %}
                                                 <li><a href="{% url "cancel_check_in" ticket.id %}?redirect_to={% url "manage_check_ins" event.id %}" class="btn">Cancel Check In</a></li>
                                             {% else %}
@@ -55,6 +63,9 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="l-secondary-content block-list">
+            {% include "staff/_tickets_filter_block.html" %}
         </div>
     </div>
 {% endblock %}

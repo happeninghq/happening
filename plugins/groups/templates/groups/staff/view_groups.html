@@ -1,19 +1,24 @@
-{% extends "base.html" %}
+{% load xextends %}
+
+{% xextends "staff/base.html" with secondary_nav="staff_events" %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h3>{{event}} groups</h3>
-                <div class="row">
-                    {% for group in event.groups %}
-                        <div class="small-offset-1 small-3 columns panel">
-                            <strong>{{group}}</strong>
-                            {% include "members/_list_with_names.html" with members=group.members %}
-                        </div>
-                    {% endfor %}
-                </div>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h3 class="block__header-text">{{event}} groups</h3>
+                </header>
             </div>
+
+            {% for group in event.groups %}
+                <div class="block block-list__item">
+                    <header class="block__header">
+                        <h3 class="block__header-text block__header-text--small">{{group}}</h3>
+                    </header>
+                    {% include "members/_list_with_names.html" with members=group.members %}
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
