@@ -6,7 +6,7 @@
 
     <ul>
         {% for group in event.groups %}
-            <li><a href="{% url "view_group" event.pk group.pk %}">{{group.name}}</a></li>
+            <li><a href="{% url "view_group" event.pk group.team_number %}">{{group.name}}</a></li>
         {% endfor %}
     </ul>
 </div>
