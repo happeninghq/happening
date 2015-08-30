@@ -70,7 +70,12 @@ class Notification(db.Model):
         notification_name = convert_to_camelcase(self.template) +\
             "Notification"
         n = [c for c in notifications.Notification.__subclasses__() if
-             c.__name__ == notification_name][0]
+             c.__name__ == notification_name]
+
+        if len(n) == 0:
+            return None
+
+        n = n[0]
 
         d = self.data2
         d["site"] = Site.objects.first().happening_site
@@ -88,18 +93,24 @@ class Notification(db.Model):
     @threaded_cached_property
     def image(self):
         """Return the image for this notification."""
+        if not self._rendered_notification:
+            return None
         return self._rendered_notification.split("<notification_image>")[1]\
                    .split("</notification_image>")[0]
 
     @threaded_cached_property
     def full(self):
         """Return the full text for this notification."""
+        if not self._rendered_notification:
+            return None
         return self._rendered_notification.split("<notification_text>")[1]\
                    .split("</notification_text>")[0]
 
     @threaded_cached_property
     def email_text(self):
         """Return the text email for this notification."""
+        if not self._rendered_notification:
+            return None
         content = self._rendered_notification.split("<notification_email>")[1]\
                       .split("</notification_email>")[0]
         if content:
@@ -111,6 +122,8 @@ class Notification(db.Model):
     @threaded_cached_property
     def email_html(self):
         """Return the text email for this notification."""
+        if not self._rendered_notification:
+            return None
         content = self._rendered_notification.split("<notification_email>")[1]\
                       .split("</notification_email>")[0]
         if content:
@@ -121,6 +134,8 @@ class Notification(db.Model):
     @threaded_cached_property
     def subject(self):
         """Return the email subject for this notification."""
+        if not self._rendered_notification:
+            return None
         return self._rendered_notification.split("<notification_subject>")[1]\
                    .split("</notification_subject>")[0]
 
