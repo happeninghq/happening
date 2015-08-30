@@ -206,11 +206,8 @@ def edit_event(request, pk):
         form = EventForm(request.POST, request.FILES, instance=event)
         attach_to_form(form, variables, editing=True)
         if form.is_valid():
-            print "R", form.cleaned_data['location']
+            form.save()
             save_variables(form, variables)
-            print "R2", form.cleaned_data['location']
-            event = form.save()
-            print "R3", form.cleaned_data['location']
             return redirect("staff_event", event.pk)
     else:
         attach_to_form(form, variables, editing=True)
