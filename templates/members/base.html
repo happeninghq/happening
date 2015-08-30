@@ -1,4 +1,5 @@
 {% load xextends %}
+{% load plugins %}
 {% xextends "base.html" with primary_nav="members" %}
 
 {% block secondary_navigation %}
@@ -6,6 +7,8 @@
         {% include "_secondary_navigation_item.html" with link="members" text="Members" %}
         {% include "_secondary_navigation_item.html" with link="my_profile" text="My Profile" %}
         {% include "_secondary_navigation_item.html" with link="my_settings" text="Settings" %}
+
+        {% plugin_block "members.secondary_navigation" secondary_nav %}
     </ul>
 {% endblock %}
 

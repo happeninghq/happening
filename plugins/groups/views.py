@@ -135,7 +135,7 @@ def add_group(request, pk):
     form = GroupForm()
     ticket = request.user.tickets.filter(event=event, cancelled=False).first()
     if not can_create_group(request.user, event):
-        return redirect("view_event", event.pk)
+        return redirect("groups", event.pk)
     variables = get_configuration_variables("group_form",
                                             event=event)
     attach_to_form(form, variables)
@@ -157,9 +157,17 @@ def add_group(request, pk):
             TicketInGroup(ticket=ticket, group=group).save()
 
             messages.success(request, "The group has been created.")
-            return redirect("view_event", event.pk)
+            return redirect("groups", event.pk)
     return render(request, "groups/add_group.html",
                   {"form": form, "event": event})
+
+
+def groups(request, pk):
+    """List groups."""
+    event = get_object_or_404(Event, pk=pk)
+
+    return render(request, "groups/groups.html",
+                  {"event": event})
 
 
 def view_group(request, pk, group_number):
@@ -171,7 +179,7 @@ def view_group(request, pk, group_number):
     custom_properties = CustomProperties(group).get()
 
     return render(request, "groups/view_group.html",
-                  {"group": group,
+                  {"event": event, "group": group,
                    "group_properties": group_properties,
                    "custom_properties": custom_properties})
 
@@ -181,7 +189,7 @@ def edit_group(request, pk, group_number):
     event = get_object_or_404(Event, pk=pk)
     group = event.raw_groups.filter(team_number=group_number).first()
     if not can_edit_groups(request.user, event):
-        return redirect("view_event", event.pk)
+        return redirect("groups", event.pk)
     if not group.is_editable_by(request.user):
         raise PermissionDenied()
     variables = get_configuration_variables("group_form", group,
@@ -204,9 +212,9 @@ def edit_group(request, pk, group_number):
                     user_photo_url=request.user.profile.photo_url()
                 ).send()
             messages.success(request, "The group has been updated.")
-            return redirect("view_event", event.pk)
+            return redirect("groups", event.pk)
     return render(request, "groups/edit_group.html",
-                  {"group": group, "form": form})
+                  {"event": event, "group": group, "form": form})
 
 
 def join_group(request, pk, group_number):
@@ -215,12 +223,12 @@ def join_group(request, pk, group_number):
     group = event.raw_groups.filter(team_number=group_number).first()
 
     if not can_move_groups(request.user, event):
-        return redirect("view_event", event.pk)
+        return redirect("groups", event.pk)
 
     if group.add_user(request.user):
         messages.success(request, "You have joined the group")
 
-    return redirect("view_event", event.pk)
+    return redirect("groups", event.pk)
 
 
 def leave_group(request, pk, group_number):
@@ -229,8 +237,8 @@ def leave_group(request, pk, group_number):
     group = event.raw_groups.filter(team_number=group_number).first()
 
     if not can_move_groups(request.user, event):
-        return redirect("view_event", event.pk)
+        return redirect("groups", event.pk)
 
     if group.remove_user(request.user):
         messages.success(request, "You have left the group")
-    return redirect("view_event", event.pk)
+    return redirect("groups", event.pk)

@@ -1,18 +1,20 @@
-{% extends "base.html" %}
+{% load xextends %}
+{% xextends "events/event_base.html" with secondary_nav="groups" %}
 {% load static %}
 {% load forms %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>{{group.event}}</h2>
-                <h3>{{group}}</h3>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block-list__item block">
+                <header class="block__header">
+                    <h2 class="block__header-text">Edit {{group.name}}</h2>
+                </header>
                 <form method="POST" action="{% url "edit_group" group.event.pk group.team_number %}" class="form">
                     {% csrf_token %}
                     {{form|render}}
                     <button type="submit">Save</button>
-                    <a href="{% url "view_event" group.event.pk %}" class="button warning">Cancel</a>
+                    <a href="{% url "groups" group.event.pk %}" class="btn">Cancel</a>
                 </form>
             </div>
         </div>

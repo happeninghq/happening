@@ -48,6 +48,8 @@
 
                 {% include "members/_list.html" with members=event.attending_users %}
             </div>
+
+            {% plugin_block "events.event.secondary_content" event %}
         </div>
     </div>
 {% endblock %}

@@ -85,6 +85,9 @@
             {% block secondary_navigation %}
                 <ul class="inline-list inline-list--space">
                     {% include "_secondary_navigation_item.html" with link="index" text="Home" %}
+
+                    {% plugin_block "happening.secondary_navigation" secondary_nav %}
+
                     {% for page in pages %}
                         <li><a class="secondary-navigation__link {% if secondary_nav == page.url %}secondary-navigation__link--active{% endif %}" href="{% url "view_page" page.url %}">{{page.title}}</a></li>
                     {% endfor %}

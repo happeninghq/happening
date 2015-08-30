@@ -1,4 +1,5 @@
 {% load xextends %}
+{% load plugins %}
 {% xextends "base.html" with primary_nav="events" %}
 
 
@@ -8,5 +9,7 @@
         {% include "_secondary_navigation_item.html" with link="past_events" text="Past" %}
         {% include "_secondary_navigation_item.html" with link="event_feeds" text="Feeds" %}
         {% include "_secondary_navigation_item.html" with link="my_tickets" text="My Tickets" %}
+
+        {% plugin_block "events.secondary_navigation" secondary_nav %}
     </ul>
 {% endblock %}

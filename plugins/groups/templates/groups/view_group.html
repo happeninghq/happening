@@ -1,26 +1,28 @@
-{% extends "base.html" %}
+{% load xextends %}
+{% xextends "events/event_base.html" with secondary_nav="groups" %}
 {% load plugins %}
 {% load markdown_deux_tags %}
 {% load group_permissions %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2><a href="{% url "view_event" group.event.pk %}">{{group.event}}</a></h2>
-                <h3>{{group.name}}</h3>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block-list__item block">
+                <header class="block__header">
+                    <h2 class="block__header-text">{{group.name}}</h2>
+                </header>
                 {% if not user|has_group:group.event %}
                     {% if user|can_move_groups:group.event %}
-                        <a class="button" href="{% url "join_group" group.event.pk group.team_number %}">Join Group</a>
+                        <a class="btn" href="{% url "join_group" group.event.pk group.team_number %}">Join Group</a>
                     {% endif %}
                 {% endif %}
                 {% if user|group:group.event == group %}
                     {% if user|can_move_groups:group.event %}
-                        <a class="button" href="{% url "leave_group" group.event.pk group.team_number %}">Leave Group</a>
+                        <a class="btn" href="{% url "leave_group" group.event.pk group.team_number %}">Leave Group</a>
                     {% endif %}
                 {% endif %}
                 {% if user|can_edit_group:group %}
-                    <a class="button" href="{% url "edit_group" group.event.pk group.team_number %}">Edit</a>
+                    <a class="btn" href="{% url "edit_group" group.event.pk group.team_number %}">Edit</a>
                 {% endif %}
 
                 {{group.description|markdown}}
@@ -30,7 +32,6 @@
                 <table>
                     {{group_properties|properties_as_table:custom_properties}}
                 </table>
-
             </div>
         </div>
     </div>
