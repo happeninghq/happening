@@ -1,5 +1,11 @@
 <tr>
     <th>Membership</th>
-    <td>None</td>
+    <td>
+        {% if member.profile.active_paid_membership %}
+            Until {{member.profile.active_paid_membership.end_time}}
+        {% else %}
+            None
+        {% endif %}
+    </td>
     <td><a href="{% url "membership" member.pk %}">Change</a></td>
 </tr>
