@@ -1,16 +1,17 @@
-{% extends "base.html" %}
+{% load xextends %}
+{% xextends "events/event_base.html" with secondary_nav="purchase_ticket" %}
 
 {% load loops %}
 {% load staticfiles %}
 {% load forms %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="small-12 column">
-                <h2>{{event}}</h2>
-                <h3>Purchase Tickets</h3>
-
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block-list__item block">
+                <header class="block__header">
+                    <h2 class="block__header-text">Purchase Tickets to {{event}}</h2>
+                </header>
                 <form action="{% url "purchase_tickets" event.id %}" method="POST" class="form">
                     {% csrf_token %}
                     {{form|render}}
