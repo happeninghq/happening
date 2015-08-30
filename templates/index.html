@@ -14,7 +14,7 @@
             {% endfor %}
 
             {% if future_events.count > 0 %}
-                <a href="#" class="block-list__link block-list__item">View all upcoming events</a>
+                <a href="{% url "events" %}" class="block-list__link block-list__item">View all upcoming events</a>
             {% endif %}
 
             {% for event in past_events.all|slice:":1" %}
@@ -24,7 +24,7 @@
             {% endfor %}
 
             {% if past_events.count > 0 %}
-                <a href="#" class="block-list__link block-list__item">View all events</a>
+                <a href="{% url "past_events" %}" class="block-list__link block-list__item">View all past events</a>
             {% endif %}
         </div>
 
