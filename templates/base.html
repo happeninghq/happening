@@ -32,11 +32,13 @@
     <header class="main-header">
         <div class="l-container">
             <h2 class="main-header__heading main-header__padded">
-                <a href="{% url "index" %}" class="plain-link">
+                <a href="{% url "index" %}" class="plain-link valign-together">
                     {% if site.logo %}
                         <img class="main-header__logo" src="{{site.logo.url}}" alt="{{"pages.configuration.SiteTitle"|get_configuration}}">
                     {% endif %}
-                    {{"pages.configuration.SiteTitle"|get_configuration}}
+                    <span>
+                        {{"pages.configuration.SiteTitle"|get_configuration}}
+                    </span>
                 </a>
             </h1>
 
