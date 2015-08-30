@@ -50,3 +50,13 @@ Restrict the width of the content, and prepare for use of the grid
 .l-secondary-content {
     @include span-columns(4);
 }
+
+@include media($mobile) {
+    .l-primary-content {
+        @include span-columns(12);
+    }
+
+    .l-secondary-content {
+        @include span-columns(12);
+    }
+}
