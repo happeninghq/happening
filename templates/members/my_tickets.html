@@ -13,7 +13,7 @@
 
                 <table>
                     <tbody>
-                        {% for ticket in request.user.tickets.all %}
+                        {% for ticket in tickets %}
                             <tr class="{% if ticket.cancelled %}low-opacity full-opacity-on-hover{% endif %}">
                                 <td>
                                     <a href="{% url "view_event" ticket.event.pk %}">{{ticket.event}}</a>

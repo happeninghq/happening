@@ -25,7 +25,8 @@ def index(request):
 @login_required
 def my_tickets(request):
     """List tickets I have purchased."""
-    return render(request, "members/my_tickets.html")
+    tickets = request.user.tickets.order_by('-purchased_datetime')
+    return render(request, "members/my_tickets.html", {"tickets": tickets})
 
 
 @login_required
