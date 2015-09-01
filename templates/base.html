@@ -14,6 +14,10 @@
     <link href='http://fonts.googleapis.com/css?family=Cabin:400,700' rel='stylesheet' type='text/css'>
     <!-- End Web Fonts -->
 
+    {% if site.logo %}
+        <link rel="shortcut icon" type="image/x-icon" href="{{site.logo.url}}" />
+    {% endif %}
+
     {% compress css %}
         <link rel="stylesheet" type="text/x-scss" href="{% static "sass/main.scss" %}" />
         {% block style %}
