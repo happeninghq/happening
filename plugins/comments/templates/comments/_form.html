@@ -1,10 +1,14 @@
 {% load forms %}
 
-<div class="comment-form form">
-    <form action="{% url "post_comment" %}" method="POST">
-        <input type="hidden" name="parent" value="{{parent}}">
-        <input type="hidden" name="redirect_url" value="{{request.path}}">
-        {{form|render}}
-        <button type="submit">Submit</button>
-    </form>
-</div>
+{% if request.user.is_authenticated %}
+    <div class="comment-form form">
+        <form action="{% url "post_comment" %}" method="POST">
+            <input type="hidden" name="parent" value="{{parent}}">
+            <input type="hidden" name="redirect_url" value="{{request.path}}">
+            {{form|render}}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+{% else %}
+    <p>You must be <a href="{% url "account_login" %}?next={{request.path}}">signed in</a> to participate in discussions.</p>
+{% endif %}
