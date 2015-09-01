@@ -84,9 +84,7 @@ INSTALLED_APPS = (
     'payments',
 
     'django_cleanup',
-) + tuple(PLUGINS) + (
-    'django_comments',
-)
+) + tuple(PLUGINS)
 
 SOCIALACCOUNT_PROVIDERS = {
     "persona": {

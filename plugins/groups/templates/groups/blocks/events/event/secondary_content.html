@@ -1,12 +1,14 @@
-<div class="block-list__item block">
-    <header class="block__header valign-together">
-        <h2 class="block__header-text block__header-text--small">Groups</h2>
-        <a href="{% url "groups" event.pk %}" class="block__header-extra-link">(view all)</a>
-    </header>
+{% if event.groups|length > 0 %}
+    <div class="block-list__item block">
+        <header class="block__header valign-together">
+            <h2 class="block__header-text block__header-text--small">Groups</h2>
+            <a href="{% url "groups" event.pk %}" class="block__header-extra-link">(view all)</a>
+        </header>
 
-    <ul>
-        {% for group in event.groups %}
-            <li><a href="{% url "view_group" event.pk group.team_number %}">{{group.name}}</a></li>
-        {% endfor %}
-    </ul>
-</div>
+        <ul>
+            {% for group in event.groups %}
+                <li><a href="{% url "view_group" event.pk group.team_number %}">{{group.name}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

@@ -1,0 +1,10 @@
+{% load forms %}
+
+<div class="comment-form form">
+    <form action="{% url "post_comment" %}" method="POST">
+        <input type="hidden" name="parent" value="{{parent}}">
+        <input type="hidden" name="redirect_url" value="{{request.path}}">
+        {{form|render}}
+        <button type="submit">Submit</button>
+    </form>
+</div>

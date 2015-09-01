@@ -1,3 +1,3 @@
 $(function() {
-    $("p.time").timeago();
+    $(".time").timeago();
 });

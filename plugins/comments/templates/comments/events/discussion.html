@@ -1,0 +1,21 @@
+{% load xextends %}
+{% load comments %}
+
+{% xextends "events/event_base.html" with secondary_nav="event_discussion" %}
+
+
+{% block content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block-list__item block">
+                <header class="block__header">
+                    <h2 class="block__header-text">Discussion</h2>
+                </header>
+                {% comments event %}
+            </div>
+        </div>
+        <div class="l-secondary-content block-list">
+            
+        </div>
+    </div>
+{% endblock %}

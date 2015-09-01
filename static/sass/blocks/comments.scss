@@ -1,0 +1,24 @@
+.comments {
+
+}
+
+.comments__comment {
+    @include outer-container;
+    margin-bottom: 0.5em;
+}
+
+.comments__comment__author__image-container {
+    @include span-columns(1);
+}
+
+.comments__comment__content {
+    @include span-columns(11);
+
+    background: #FFF;
+    padding: 1em;
+}
+
+.comments__comment__posted-at {
+    font-size: 0.9em;
+    opacity: 0.6;
+}

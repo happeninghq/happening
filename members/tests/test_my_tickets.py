@@ -88,10 +88,9 @@ class TestMyTickets(TestCase):
 
         # First check link is visible on my tickets
         response = self.client.get("/member/tickets")
-        future_ticket = response.soup.findAll("tr")[1]
         cancel_url = "/member/tickets/%s/cancel" % self.ticket2.pk
         self.assertIsNotNone(
-            future_ticket.find("a", {"class": "btn", "href": cancel_url}))
+            response.soup.find("a", {"class": "btn", "href": cancel_url}))
 
         # Then GET the link
         response = self.client.get(cancel_url)

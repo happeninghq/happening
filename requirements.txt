@@ -12,7 +12,6 @@ django-markdown-deux==1.0.5 # For rendering markdown
 jsonfield==1.0.0 # For JSON serialization
 raven==5.1.1 # for Sentry error reporting
 django-sslify==0.2.5 # Force SSL
-django-contrib-comments==1.6.1 # Comments
 django-pgjson==0.2.3 # Using Postgres JSON field
 python-memcached # Memcached bindings
 git+https://github.com/rhec/django-html5.git

@@ -1,0 +1,12 @@
+{% load markdown_deux_tags %}
+<li class="comments__comment">
+    <div class="comments__comment__author__image-container">
+        <a href="{% url "view_profile" comment.author.pk %}">
+            <img class="comments__comment__author__image" src="{{comment.author.profile.photo_url}}">
+        </a>
+    </div>
+    <div class="comments__comment__content">
+        <div><a class="comments__comment__author__name" href="{% url "view_profile" comment.author.pk %}">{{comment.author}}</a> {{comment.content|markdown}}</div>
+        <div class="time comments__comment__posted-at" title="{{comment.created_at.isoformat}}">{{comment.created_at.isoformat}}</div>
+    </div>
+</li>

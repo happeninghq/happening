@@ -9,8 +9,9 @@
         </header>
         {{"events.event_configuration.Description"|get_configuration:event}}
         <ul class="inline-list inline-list--space">
-            <!-- <li class="valign-together small"><i class="fa fa-comment"></i> <a href="#">16 Comments</a></li> -->
             <li class="valign-together small"><i class="fa fa-user"></i> <a href="{% url "view_event_attendees" event.pk %}">{{event.attending_users|length}} Attendee{{event.attending_users|length|pluralize}}</a></li>
+
+            {% plugin_block "events.event_block.small_info" event %}
         </ul>
     </div>
     <div class="l-secondary-content">
