@@ -3,7 +3,7 @@
 Filtering
 ==============
 
-Filtering is used frequently in Happening to allow viewing subsets of large amounts of data. It involves the creation of a ``filter-form`` and associating it with either a ``searchable-list`` or a :ref:`_dev_datatables`::
+Filtering is used frequently in Happening to allow viewing subsets of large amounts of data. It involves the creation of a ``filter-form`` and associating it with either a ``searchable-list`` or a :ref:`dev_datatables`::
 
     <form class="filter-form input-grid" data-filter="#members-table">
         <div class="input-grid__container">
