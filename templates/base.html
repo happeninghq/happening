@@ -14,8 +14,8 @@
     <link href='http://fonts.googleapis.com/css?family=Cabin:400,700' rel='stylesheet' type='text/css'>
     <!-- End Web Fonts -->
 
-    {% if site.logo %}
-        <link rel="shortcut icon" type="image/x-icon" href="{{site.logo.url}}" />
+    {% if happening_site.logo %}
+        <link rel="shortcut icon" type="image/x-icon" href="{{happening_site.logo.url}}" />
     {% endif %}
 
     {% compress css %}
@@ -37,8 +37,8 @@
         <div class="l-container">
             <h2 class="main-header__heading main-header__padded">
                 <a href="{% url "index" %}" class="plain-link valign-together">
-                    {% if site.logo %}
-                        <img class="main-header__logo" src="{{site.logo.url}}" alt="{{"pages.configuration.SiteTitle"|get_configuration}}">
+                    {% if happening_site.logo %}
+                        <img class="main-header__logo" src="{{happening_site.logo.url}}" alt="{{"pages.configuration.SiteTitle"|get_configuration}}">
                     {% endif %}
                     <span>
                         {{"pages.configuration.SiteTitle"|get_configuration}}
