@@ -70,7 +70,7 @@ def post_comment(request):
              "author_name": str(comment.author),
              "object_name": str(parent),
              "object_url": request.POST['next']},
-            ignore=[])
+            ignore=[request.user])
 
         # Redirect
         return redirect(request.POST['next'])

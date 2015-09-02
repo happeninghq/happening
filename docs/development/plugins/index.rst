@@ -8,4 +8,5 @@ Plugins
 
    groups
    sponsorship
+   comments
    

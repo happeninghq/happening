@@ -1,3 +1,5 @@
+.. _dev_flash_messages:
+
 Flash Messages
 ================
 
