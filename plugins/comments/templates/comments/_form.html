@@ -3,6 +3,7 @@
 {% if request.user.is_authenticated %}
     <div class="comment-form form">
         <form action="{% url "post_comment" %}" method="POST">
+            {% csrf_token %}
             <input type="hidden" name="parent" value="{{parent}}">
             <input type="hidden" name="next" value="{{request.path}}">
             {{form|render}}
