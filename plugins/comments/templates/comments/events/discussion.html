@@ -8,8 +8,24 @@
     <div class="l-container">
         <div class="l-primary-content block-list">
             <div class="block-list__item block">
-                <header class="block__header">
+                <header class="block__header valign-together">
                     <h2 class="block__header-text">Discussion</h2>
+
+                    {% if request.user.is_authenticated %}
+                        {% if user_is_following %}
+                            <form action="{% url "unfollow" %}?next={{request.path}}" method="POST" class="block__header-extra-link block__header-extra-link--large">
+                                <input type="hidden" name="object" value="{{follow_code}}">
+                                <input type="hidden" name="message" value="You are no longer following {{event.name}} discussion">
+                                <button class="btn btn--small" type="submit"><i class="fa fa-star"></i> Unfollow</button>
+                            </form>
+                        {% else %}
+                            <form action="{% url "follow" %}?next={{request.path}}" method="POST" class="block__header-extra-link block__header-extra-link--large">
+                                <input type="hidden" name="object" value="{{follow_code}}">
+                                <input type="hidden" name="message" value="You are now following {{event.name}} discussion">
+                                <button class="btn btn--small" type="submit"><i class="fa fa-star-o"></i> Follow</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
                 </header>
                 {% comments event %}
             </div>

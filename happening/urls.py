@@ -24,6 +24,10 @@ urlpatterns = [
 
     url(r'^upload$', views.file_upload, name='file_upload'),
 
+
+    url(r'^follow$', views.follow, name='follow'),
+    url(r'^unfollow$', views.unfollow, name='unfollow'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 for plugin in settings.PLUGINS:

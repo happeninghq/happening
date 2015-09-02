@@ -1,6 +1,7 @@
 """Notifications."""
 from happening.utils import convert_to_underscore, dump_django
 from django.contrib.contenttypes.models import ContentType
+from happening.models import Follow
 
 
 class Notification(object):
@@ -57,3 +58,18 @@ class Notification(object):
         # If we should email it, we do so
         if notification_preferences['send_emails']:
             n.email_notification()
+
+
+def notify_following(obj, role, notification, data, ignore=[]):
+    """Notify those following the given object/role."""
+    object_type = ContentType.objects.get_for_model(obj)
+    follows = Follow.objects.filter(
+        target_content_type=object_type,
+        target_object_id=obj.pk,
+        role=role,
+        is_subscribed=True)
+
+    for follow in follows:
+        if follow.user not in ignore:
+            n = notification(follow.user, **data)
+            n.send()

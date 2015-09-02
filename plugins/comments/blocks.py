@@ -24,7 +24,7 @@ def event_block_small_info(request, event):
 @plugin_block("events.event.primary_content")
 def event_primary_content(request, event):
     """Add discussion to event info."""
-    recent_comments = [a for a in reversed(event.comments())][:3]
+    recent_comments = [a for a in event.comments()][:3]
     return render_to_string(
         "comments/blocks/events/event/primary_content.html",
         {"event": event, "recent_comments": recent_comments},

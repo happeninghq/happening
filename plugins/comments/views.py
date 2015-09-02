@@ -8,6 +8,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseForbidden
+from django.db.models import get_model
+from notifications import CommentNotification
+from happening.notifications import notify_following
 
 signer = Signer()
 
@@ -15,8 +18,16 @@ signer = Signer()
 def event_discussion(request, pk):
     """Discuss an event."""
     event = get_object_or_404(Event, pk=pk)
+
+    follow_code = ""
+    user_is_following = False
+    if request.user.is_authenticated():
+        follow_code = request.user.follow_object_code(event, "discuss")
+        user_is_following = request.user.is_following(event, "discuss")
+
     return render(request, "comments/events/discussion.html",
-                  {"event": event})
+                  {"event": event, "follow_code": follow_code,
+                   "user_is_following": user_is_following})
 
 
 @require_POST
@@ -46,7 +57,22 @@ def post_comment(request):
         # Add to messages
         messages.success(request, "Comment added.")
 
+        # Subscribe the user to future comments
+        parent_object_type = get_model(app_label, model)
+        parent = parent_object_type.objects.get(pk=parent_object_id)
+        request.user.follow(parent, "discuss")
+
+        # Send notifications
+        notify_following(
+            parent, "discuss", CommentNotification,
+            {"comment": comment,
+             "author_photo_url": comment.author.profile.photo_url(),
+             "author_name": str(comment.author),
+             "object_name": str(parent),
+             "object_url": request.POST['next']},
+            ignore=[])
+
         # Redirect
-        return redirect(request.POST['redirect_url'])
+        return redirect(request.POST['next'])
 
     return redirect("index")

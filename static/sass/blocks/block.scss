@@ -91,6 +91,13 @@ If you're going to use a block\_\_header-extra-link, the block__header must use 
 }
 
 /**
+ * Makes the link large
+ */
+.block__header-extra-link--large {
+    font-size: 1em;
+}
+
+/**
  * Provides extra margin for content if it is needed.
  *
  * e.g. if form fields are going over the edge of the block
