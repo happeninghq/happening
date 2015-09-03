@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.signing import Signer
+from django_pgjson.fields import JsonField
 
 signer = Signer()
 
@@ -21,9 +22,7 @@ class HappeningSite(db.Model):
 
     site = models.ForeignKey(Site)
 
-    # Theme settings
-    theme_colour = models.CharField(max_length=7, default="#65afdc")
-    primary_colour = models.CharField(max_length=7, default="#008CBA")
+    theme_settings = JsonField(default={})
 
     logo = models.ImageField(upload_to="site", null=True)
 

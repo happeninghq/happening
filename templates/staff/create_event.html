@@ -9,9 +9,7 @@
                 <header class="block__header valign-together">
                     <h2 class="block__header-text">New Event</h2>
                     {% if event_presets|length > 0 %}
-                        <div class="event-presets">
-                            <a href="#" class="btn dropdown block__header-extra-link" data-jq-dropdown="#presets-list">Load Preset</a>
-                        </div>
+                        <a href="#" class="btn btn--small dropdown block__header-extra-link" data-jq-dropdown="#presets-list">Load Preset</a>
                         <div id="presets-list" class="jq-dropdown jq-dropdown-tip">
                             <ul class="jq-dropdown-menu">
                                 {% for preset in event_presets %}

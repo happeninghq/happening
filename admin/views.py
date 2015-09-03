@@ -19,7 +19,10 @@ import re
 from django.http import HttpResponseForbidden
 from django.contrib.sites.models import Site
 from happening.appearance import generate_css as happening_generate_css
+from happening.appearance import parse_settings
 from django.core.files.storage import default_storage
+from django import forms
+from html5.forms import widgets as html5_widgets
 
 
 @admin_required
@@ -172,29 +175,47 @@ def make_active_payment_handler(request, pk):
 def appearance(request):
     """Allow configuring logo and css."""
     site = Site.objects.first().happening_site
-    form = ThemeForm(initial={
-        "theme_colour": site.theme_colour,
-        "primary_colour": site.primary_colour,
-        "logo": site.logo
-    })
+
+    variables = []
+    with open("static/sass/settings.scss") as f:
+        settings = parse_settings(f.read())
+
+    initial_data = {"logo": site.logo}
+
+    def setup_form(form):
+        for category, items in settings.items():
+            for item, value in items.items():
+                form.fields[item] = forms.CharField(
+                    widget=html5_widgets.ColorInput,
+                    label=item.replace("-", " ").title())
+                if item in site.theme_settings:
+                    initial_data[item] = site.theme_settings[item]
+                else:
+                    initial_data[item] = value
+                variables.append(item)
+
+    form = ThemeForm(initial=initial_data)
+    setup_form(form)
 
     if request.method == "POST":
         form = ThemeForm(request.POST)
+        setup_form(form)
         if form.is_valid():
-            if not site.theme_colour == form.cleaned_data['theme_colour'] or\
-                    not site.primary_colour ==\
-                    form.cleaned_data['primary_colour']:
-                site.theme_colour = form.cleaned_data['theme_colour']
-                site.primary_colour = form.cleaned_data['primary_colour']
-                # Regenerate CSS
-                site.save()
-                with default_storage.open("css/generated.css", "w+") as o:
-                    # This next line is S3 specific
-                    if hasattr(o, "_storage"):
-                        o._storage.headers['Content-Type'] = 'text/css'
-                    o.write(happening_generate_css())
+            site.theme_settings = {}
+            for variable in variables:
+                site.theme_settings[variable] = form.cleaned_data[variable]
             site.logo = form.cleaned_data['logo']
             site.save()
+
+            # Regenerate CSS
+            with default_storage.open("css/generated.css", "w+") as o:
+                # This next line is S3 specific
+                if hasattr(o, "_storage"):
+                    o._storage.headers['Content-Type'] = 'text/css'
+                d = happening_generate_css()
+                print d
+                o.write(d.encode('utf8'))
+
             return redirect("appearance")
     return render(request, "admin/appearance.html",
                   {"theme_form": form})
@@ -203,16 +224,13 @@ def appearance(request):
 @admin_required
 def generate_css(request):
     """Generate temporary css for use on the admin appearance panel."""
-    theme_colour = request.GET.get("theme_colour")
-    primary_colour = request.GET.get("primary_colour")
     hex_regex = re.compile("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
-    theme_colour = "#" + theme_colour
-    primary_colour = "#" + primary_colour
+    variables = {}
+    for k, v in request.GET.items():
+        variables[k] = "#" + v
 
-    for c in [theme_colour, primary_colour]:
-        if not hex_regex.match(c):
+        if not hex_regex.match(variables[k]):
             return HttpResponseForbidden()
-    compiled = happening_generate_css(
-        {"THEME-COLOUR": theme_colour,
-         "PRIMARY-COLOUR": primary_colour})
+
+    compiled = happening_generate_css(variables)
     return HttpResponse(compiled, content_type="text/css")

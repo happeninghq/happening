@@ -18,13 +18,18 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{happening_site.logo.url}}" />
     {% endif %}
 
+    {% if debug %}
+        {% compress css %}
+            <link rel="stylesheet" type="text/x-scss" href="{% static "sass/dev.scss" %}" />
+        {% endcompress %}
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/generated.css" />
+    {% endif %}
+
     {% compress css %}
-        <link rel="stylesheet" type="text/x-scss" href="{% static "sass/main.scss" %}" />
         {% block style %}
 
         {% endblock style %}
-
-
         <!-- used for date-widget, time-widget, and datetime-widget -->
         <link rel="stylesheet" type="text/css" href="{% static "datetimepicker/jquery.datetimepicker.css" %}" />
 
@@ -191,6 +196,10 @@
 
         <!-- use for payment CLASS: stripe-form -->
         <script src="{% static "js/stripe.js" %}"></script>
+
+        {% block script %}
+
+        {% endblock %}
     {% endcompress %}
 </body>
 </html>
