@@ -105,7 +105,6 @@ if 'scdtest' not in os.environ and 'travis' not in os.environ:
                        'allauth.socialaccount.providers.twitter',
                        'allauth.socialaccount.providers.google',)
 
-
 MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
@@ -189,14 +188,9 @@ FIXTURE_DIRS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
-    # Required by allauth template tags
     "django.core.context_processors.request",
 
     "sekizai.context_processors.sekizai",
-
-    # allauth specific context processors
-    "allauth.account.context_processors.account",
-    "allauth.socialaccount.context_processors.socialaccount",
 
     "admin.context_processors.admin_urls",
     "staff.context_processors.staff_urls",

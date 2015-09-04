@@ -8,7 +8,7 @@ from models import PluginSetting
 from happening.configuration import get_configuration_variables
 from happening.configuration import attach_to_form
 from happening.configuration import save_variables
-from forms import ConfigurationForm, ThemeForm
+from forms import ConfigurationForm, ThemeForm, SocialAppForm
 from happening import plugins as happening_plugins
 from payments.models import PaymentHandler
 from django.db import transaction
@@ -23,6 +23,7 @@ from happening.appearance import parse_settings
 from django.core.files.storage import default_storage
 from django import forms
 from html5.forms import widgets as html5_widgets
+from allauth.socialaccount.models import SocialApp
 
 
 @admin_required
@@ -234,3 +235,50 @@ def generate_css(request):
 
     compiled = happening_generate_css(variables)
     return HttpResponse(compiled, content_type="text/css")
+
+
+@admin_required
+def authentication(request):
+    """List social apps."""
+    social_apps = SocialApp.objects.all()
+    return render(request, "admin/authentication/index.html",
+                  {"social_apps": social_apps})
+
+
+@admin_required
+def add_authentication(request):
+    """Add a social app."""
+    form = SocialAppForm()
+    if request.method == "POST":
+        form = SocialAppForm(request.POST)
+        if form.is_valid():
+            social_app = form.save()
+            social_app.sites.add(Site.objects.first())
+            messages.success(request, "Authentication provider added.")
+            return redirect("authentication")
+    return render(request, "admin/authentication/add.html", {"form": form})
+
+
+@admin_required
+@require_POST
+def delete_authentication(request, pk):
+    """Delete a social app."""
+    social_app = get_object_or_404(SocialApp, pk=pk)
+    social_app.delete()
+    messages.success(request, "Authentication provider deleted.")
+    return redirect("authentication")
+
+
+@admin_required
+def edit_authentication(request, pk):
+    """Edit a social app."""
+    social_app = get_object_or_404(SocialApp, pk=pk)
+    form = SocialAppForm(instance=social_app)
+    if request.method == "POST":
+        form = SocialAppForm(request.POST, instance=social_app)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Authentication provider updated.")
+            return redirect("authentication")
+    return render(request, "admin/authentication/edit.html",
+                  {"form": form, "social_app": social_app})

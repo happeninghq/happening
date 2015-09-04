@@ -1,0 +1,31 @@
+{% load xextends %}
+{% load forms %}
+
+{% xextends "admin/base.html" with secondary_nav="authentication" %}
+
+{% block admin_content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Edit Authentication Provider</h2>
+                </header>
+
+                <form method="POST" action="{% url "edit_authentication" social_app.pk %}" class="form">
+                    {% csrf_token %}
+                    {{form|render}}
+
+                    <button type="submit">Submit</button>
+                    <a href="{% url "authentication" %}" class="button warning">Cancel</a>
+                </form>
+            </div>
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Edit Authentication Provider</h2>
+                </header>
+            </div>
+        </div>
+    </div>
+{% endblock %}

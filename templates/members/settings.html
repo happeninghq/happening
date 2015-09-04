@@ -4,6 +4,7 @@
 
 {% load staticfiles %}
 {% load plugins %}
+{% load auth %}
 
 {% block content %}
     <div class="l-container">
@@ -24,11 +25,13 @@
                         <td>{{member.emailaddress_set.count}} address{{member.emailaddress_set.count|pluralize:",es"}}</td>
                         <td><a href="{% url "account_email" %}">Edit</a></td>
                     </tr>
-                    <tr>
-                        <th>Social Accounts</th>
-                        <td>{{member.socialaccount_set.count}} account{{member.socialaccount_set.count|pluralize:",s"}}</td>
-                        <td><a href="{% url "socialaccount_connections" %}">Edit</a></td>
-                    </tr>
+                    {% if ""|providers_enabled %}
+                        <tr>
+                            <th>Social Accounts</th>
+                            <td>{{member.socialaccount_set.count}} account{{member.socialaccount_set.count|pluralize:",s"}}</td>
+                            <td><a href="{% url "socialaccount_connections" %}">Edit</a></td>
+                        </tr>
+                    {% endif %}
                     <tr>
                         <th>Password</th>
                         <td>**********</td>

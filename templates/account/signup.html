@@ -3,6 +3,7 @@
 {% load url from future %}
 {% load i18n %}
 {% load forms %}
+{% load auth %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
@@ -27,17 +28,19 @@
             </div>
         </div>
         <div class="l-secondary-content block-list">
-            <div class="block block-list__item">
-                <header class="block__header">
-                    <h2 class="block__header-text block__header-text--small">{% trans "Third Party Accounts" %}</h2>
-                </header>
-                <p>Sign up with one of your existing third party accounts.</p>
-                <div class="socialaccount_ballot">
-                    <ul class="socialaccount_providers">
-                        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                    </ul>
+            {% if ""|providers_enabled %}
+                <div class="block block-list__item">
+                    <header class="block__header">
+                        <h2 class="block__header-text block__header-text--small">{% trans "Third Party Accounts" %}</h2>
+                    </header>
+                    <p>Sign up with one of your existing third party accounts.</p>
+                    <div class="socialaccount_ballot">
+                        <ul class="socialaccount_providers">
+                            {% include "account/socialaccount_provider_list.html" with process="login" %}
+                        </ul>
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

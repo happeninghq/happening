@@ -2,6 +2,7 @@
 from django import forms
 from happening import forms as happening_forms
 from payments.models import PaymentHandler
+from allauth.socialaccount.models import SocialApp
 
 
 class ConfigurationForm(forms.Form):
@@ -25,3 +26,12 @@ class ThemeForm(forms.Form):
     """Form for changing theme options."""
 
     logo = happening_forms.ImageField()
+
+
+class SocialAppForm(forms.ModelForm):
+
+    """Form for creating/modifying social apps."""
+
+    class Meta:
+        model = SocialApp
+        fields = ['provider', 'name', 'client_id', 'secret']

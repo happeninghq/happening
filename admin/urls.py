@@ -24,6 +24,15 @@ urlpatterns = [
     url(r'^payment_handlers/(?P<pk>\d+)/make_active$',
         views.make_active_payment_handler,
         name='make_active_payment_handler'),
+
+    url(r'^authentication$', views.authentication,
+        name='authentication'),
+    url(r'^authentication/add$', views.add_authentication,
+        name='add_authentication'),
+    url(r'^authentication/(?P<pk>\d+)/edit$', views.edit_authentication,
+        name='edit_authentication'),
+    url(r'^authentication/(?P<pk>\d+)/delete$', views.delete_authentication,
+        name='delete_authentication'),
 ]
 
 if hasattr(settings, "PLUGINS"):

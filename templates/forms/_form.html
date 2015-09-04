@@ -1,3 +1,12 @@
+{% if form.errors|length > 0 %}
+    {% for f, errors in form.errors.items %}
+        {% for error in errors %}
+            <div class="message-box message-box--error">
+                <p>{{error}}</p>
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
 {% for field in form %}
     <div class="form__field">
         <div class="form__field__errors">{{ field.errors }}</div>

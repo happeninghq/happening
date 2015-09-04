@@ -6,6 +6,7 @@ cached_admin_urls = [
     (None, "Dashboard", "admin"),
     (None, "Plugins", "plugins"),
     (None, "Configuration", "configuration"),
+    (None, "Authentication", "authentication"),
     (None, "Payment", "payment_handlers"),
     (None, "Appearance", "appearance"),
 ]
