@@ -215,7 +215,6 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
-
 LOGIN_REDIRECT_URL = '/'
 
 TEST_RUNNER = 'happening.runner.CustomTestSuiteRunner'
@@ -232,11 +231,6 @@ else:
     EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
-
-
-# Notification configuration
-FIRST_NOTIFICATION_TIME = 8 * 24  # 1 Week (+ 1 day due to emails at 10am)
-SECOND_NOTIFICATION_TIME = 48     # 1 Day (+ 1 day due to emails at 10am)
 
 # AWS
 if not DEBUG:
@@ -261,14 +255,6 @@ if not DEBUG:
         # ...
         'raven.contrib.django.raven_compat',
     )
-
-
-# Payment details
-# STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY",
-#                                    "pk_test_cmv1GZH3Q5AKXQo05ZVrWkwU")
-# STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY",
-#                                    "sk_test_orNiGg0RhCP2pmksDKgaDGst")
-
 
 # For SSL redirect on Heroku
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
