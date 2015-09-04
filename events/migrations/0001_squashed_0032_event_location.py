@@ -86,36 +86,6 @@ class Migration(migrations.Migration):
             name='image',
             field=models.ImageField(null=True, upload_to=b'media/event_images', blank=True),
         ),
-        migrations.CreateModel(
-            name='EventTodo',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('title', models.CharField(max_length=255)),
-                ('notes', models.TextField()),
-                ('completed_at', models.DateTimeField(null=True)),
-                ('assigned_to', models.ForeignKey(related_name='assigned_todos', to=settings.AUTH_USER_MODEL, null=True)),
-                ('completed_by', models.ForeignKey(related_name='completed_todos', to=settings.AUTH_USER_MODEL, null=True)),
-                ('event', models.ForeignKey(related_name='todos', to='events.Event')),
-            ],
-        ),
-        # migrations.RunPython(
-        #     code=events.migrations.0015_auto_20150202_1330.merge_tickets,
-        # ),
-        migrations.RemoveField(
-            model_name='eventtodo',
-            name='assigned_to',
-        ),
-        migrations.RemoveField(
-            model_name='eventtodo',
-            name='completed_by',
-        ),
-        migrations.RemoveField(
-            model_name='eventtodo',
-            name='event',
-        ),
-        migrations.DeleteModel(
-            name='EventTodo',
-        ),
         migrations.AddField(
             model_name='event',
             name='title',
