@@ -8,9 +8,11 @@ from django.conf import settings
 
 class Migration(migrations.Migration):
 
+    replaces = [(b'emails', '0001_initial'), (b'emails', '0002_auto_20150614_1710'), (b'emails', '0003_email_event'), (b'emails', '0004_email_disabled')]
+
     dependencies = [
-        ('events', '0027_auto_20150608_2056'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('events', '0001_squashed_0032_event_location'),
     ]
 
     operations = [
@@ -22,7 +24,7 @@ class Migration(migrations.Migration):
                 ('template', models.TextField()),
                 ('start_sending', models.DateTimeField()),
                 ('stop_sending', models.DateTimeField()),
-                ('to', models.ForeignKey(to='events.Event')),
+                ('to', models.TextField()),
             ],
             options={
                 'abstract': False,
@@ -40,5 +42,26 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
+        ),
+        migrations.RenameField(
+            model_name='email',
+            old_name='template',
+            new_name='content',
+        ),
+        migrations.AddField(
+            model_name='email',
+            name='subject',
+            field=models.CharField(default='', max_length=255),
+            preserve_default=False,
+        ),
+        migrations.AddField(
+            model_name='email',
+            name='event',
+            field=models.ForeignKey(to='events.Event', null=True),
+        ),
+        migrations.AddField(
+            model_name='email',
+            name='disabled',
+            field=models.BooleanField(default=False),
         ),
     ]
