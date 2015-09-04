@@ -40,17 +40,6 @@ class Migration(migrations.Migration):
                 ('image', models.ImageField(null=True, upload_to=b'event_images', blank=True)),
             ],
         ),
-        migrations.CreateModel(
-            name='EventSolution',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('team_name', models.CharField(max_length=200, null=True)),
-                ('description', models.TextField(null=True, blank=True)),
-                ('github_url', models.URLField()),
-                ('event', models.ForeignKey(related_name='solutions', to='events.Event')),
-                ('team_number', models.IntegerField(default=0)),
-            ],
-        ),
         migrations.RemoveField(
             model_name='event',
             name='eventbrite_url',
@@ -132,16 +121,6 @@ class Migration(migrations.Migration):
             name='title',
             field=models.CharField(default='Code Dojo', max_length=255),
             preserve_default=False,
-        ),
-        # migrations.RunPython(
-        #     code=events.migrations.0020_auto_20150425_1138.group_to_plugin,
-        # ),
-        migrations.RemoveField(
-            model_name='eventsolution',
-            name='event',
-        ),
-        migrations.DeleteModel(
-            name='EventSolution',
         ),
         migrations.RemoveField(
             model_name='ticket',
