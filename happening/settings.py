@@ -87,9 +87,6 @@ INSTALLED_APPS = (
 ) + tuple(PLUGINS)
 
 SOCIALACCOUNT_PROVIDERS = {
-    "persona": {
-        "AUDIENCE": os.environ.get('PERSONA_AUDIENCE', 'http://localhost:8000')
-    },
     "stackexchange": {
         "SITE": "stackoverflow"
     },
@@ -99,7 +96,6 @@ if 'scdtest' not in os.environ and 'travis' not in os.environ:
     # Only if we're not running tests should we enable social auth providers
     INSTALLED_APPS += ('allauth.socialaccount.providers.facebook',
                        'allauth.socialaccount.providers.github',
-                       'allauth.socialaccount.providers.persona',
                        'allauth.socialaccount.providers.linkedin',
                        'allauth.socialaccount.providers.stackexchange',
                        'allauth.socialaccount.providers.twitter',
