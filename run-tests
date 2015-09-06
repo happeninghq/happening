@@ -4,6 +4,6 @@ if [ ! -d "ve" ]; then
     exit
 fi
 
-export scdtest="true";
+export HAPPENING_TESTING="true";
 source ve/bin/activate;
 python manage.py test $1

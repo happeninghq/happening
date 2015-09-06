@@ -24,7 +24,7 @@ SECRET_KEY = os.environ.get(
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', '')) or \
-    'travis' in os.environ or 'scdtest' in os.environ
+    'TRAVIS' in os.environ or 'HAPPENING_TESTING' in os.environ
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -94,7 +94,7 @@ SOCIALACCOUNT_PROVIDERS = {
 if DEBUG:
     INSTALLED_APPS += ('debug_toolbar',)
 
-if 'scdtest' not in os.environ and 'travis' not in os.environ:
+if 'HAPPENING_TESTING' not in os.environ and 'TRAVIS' not in os.environ:
     # Only if we're not running tests should we enable social auth providers
     INSTALLED_APPS += ('allauth.socialaccount.providers.facebook',
                        'allauth.socialaccount.providers.github',
@@ -312,7 +312,7 @@ for app in INSTALLED_APPS:
             importlib.import_module("%s.%s" % (app, p))
 
 
-if 'scdtest' in os.environ:
+if 'HAPPENING_TESTING' in os.environ:
     # Special settings in here to speed up tests
     PASSWORD_HASHERS = (
         'django.contrib.auth.hashers.MD5PasswordHasher',
