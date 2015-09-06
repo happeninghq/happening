@@ -68,7 +68,6 @@ INSTALLED_APPS = (
 
     'django_gravatar',
 
-    'debug_toolbar',
     'template_profiler_panel',
 
     'happening',
@@ -91,6 +90,9 @@ SOCIALACCOUNT_PROVIDERS = {
         "SITE": "stackoverflow"
     },
 }
+
+if DEBUG:
+    INSTALLED_APPS += ('debug_toolbar',)
 
 if 'scdtest' not in os.environ and 'travis' not in os.environ:
     # Only if we're not running tests should we enable social auth providers

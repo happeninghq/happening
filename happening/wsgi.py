@@ -12,4 +12,10 @@ from django.core.wsgi import get_wsgi_application
 from dj_static import Cling, MediaCling
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "happening.settings")
 
+from os.path import join, dirname, abspath
+from dotenv import load_dotenv
+
+dotenv_path = join(dirname(abspath(__file__)), '../.env')
+load_dotenv(dotenv_path)
+
 application = Cling(MediaCling(get_wsgi_application()))

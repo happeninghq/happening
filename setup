@@ -6,8 +6,6 @@ fi
 
 source ve/bin/activate;
 
-export DJANGO_DEBUG="1"
-
 pip install -r requirements.txt;
 pip install -r dev-requirements.txt;
 
@@ -17,10 +15,8 @@ gem install hologram
 echo "Installing bower dependencies";
 bower install;
 
-source .env
-
 python manage.py migrate;
 
-python manage.py loaddata fixtures/common fixtures/users fixtures/socialauth;
+python manage.py loaddata fixtures/common fixtures/users;
 
 python manage.py generate_css

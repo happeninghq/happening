@@ -6,5 +6,4 @@ fi
 
 export scdtest="true";
 source ve/bin/activate;
-source .env
 python manage.py test $1
