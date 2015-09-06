@@ -24,7 +24,7 @@ SECRET_KEY = os.environ.get(
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', '')) or \
-    'TRAVIS' in os.environ or 'HAPPENING_TESTING' in os.environ
+    'HAPPENING_TESTING' in os.environ
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -94,7 +94,7 @@ SOCIALACCOUNT_PROVIDERS = {
 if DEBUG:
     INSTALLED_APPS += ('debug_toolbar',)
 
-if 'HAPPENING_TESTING' not in os.environ and 'TRAVIS' not in os.environ:
+if 'HAPPENING_TESTING' not in os.environ:
     # Only if we're not running tests should we enable social auth providers
     INSTALLED_APPS += ('allauth.socialaccount.providers.facebook',
                        'allauth.socialaccount.providers.github',

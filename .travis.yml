@@ -15,6 +15,6 @@ before_script:
   - bower install
   - python manage.py migrate --noinput
 env:
-  - TRAVIS=true DATABASE_URL='postgres://postgres:@localhost:5432/happening_test'
+  - HAPPENING_TESTING=true DATABASE_URL='postgres://postgres:@localhost:5432/happening_test'
 addons:
   postgresql: "9.3"
