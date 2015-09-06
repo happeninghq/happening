@@ -14,6 +14,7 @@ class TestMyTickets(TestCase):
 
     def setUp(self):
         """Set up a user with some tickets."""
+        super(TestMyTickets, self).setUp()
         self.user = mommy.make(settings.AUTH_USER_MODEL)
         self.user.set_password("password")
         self.user.save()

@@ -10,6 +10,7 @@ class TestVoting(TestCase):
 
     def setUp(self):
         """Create AVVote."""
+        super(TestVoting, self).setUp()
         self.avvote = AVVote()
 
     def test_basic_vote(self):

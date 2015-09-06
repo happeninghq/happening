@@ -13,6 +13,7 @@ class TestPostEventUpdating(TestCase):
 
     def setUp(self):
         """Set up a common user."""
+        super(TestPostEventUpdating, self).setUp()
         self.user = mommy.make(settings.AUTH_USER_MODEL,
                                email="test@example.com")
         self.user.set_password("password")

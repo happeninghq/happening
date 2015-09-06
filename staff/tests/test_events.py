@@ -17,6 +17,7 @@ class TestEvents(TestCase):
 
     def setUp(self):
         """Set up a user."""
+        super(TestEvents, self).setUp()
         self.user = mommy.make(settings.AUTH_USER_MODEL, is_staff=True)
         self.user.set_password("password")
         self.user.save()

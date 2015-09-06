@@ -12,6 +12,7 @@ class TestProfile(TestCase):
 
     def setUp(self):
         """Set up a user."""
+        super(TestProfile, self).setUp()
         self.user = mommy.make(settings.AUTH_USER_MODEL)
         self.user.set_password("password")
         self.user.save()

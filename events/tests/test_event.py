@@ -14,6 +14,7 @@ class TestEvent(TestCase):
 
     def setUp(self):
         """Just get today's day."""
+        super(TestEvent, self).setUp()
         self.today_day = datetime.now(pytz.utc).weekday()
 
     def test_is_future(self):
