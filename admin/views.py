@@ -20,7 +20,7 @@ from django.http import HttpResponseForbidden
 from django.contrib.sites.models import Site
 from happening.appearance import generate_css as happening_generate_css
 from happening.appearance import parse_settings
-from django.core.files.storage import default_storage
+from happening.storage import storage
 from django import forms
 from html5.forms import widgets as html5_widgets
 from allauth.socialaccount.models import SocialApp
@@ -209,12 +209,11 @@ def appearance(request):
             site.save()
 
             # Regenerate CSS
-            with default_storage.open("css/generated.css", "w+") as o:
+            with storage.open("css/generated.css", "w+") as o:
                 # This next line is S3 specific
                 if hasattr(o, "_storage"):
                     o._storage.headers['Content-Type'] = 'text/css'
                 d = happening_generate_css()
-                print d
                 o.write(d.encode('utf8'))
 
             return redirect("appearance")

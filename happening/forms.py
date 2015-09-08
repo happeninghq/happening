@@ -4,7 +4,7 @@ from django.template.loader import render_to_string
 from happening.utils import convert_to_underscore
 import json
 from django.core.files import File
-from django.core.files.storage import default_storage
+from happening.storage import storage
 from events.models import Event
 
 
@@ -195,7 +195,7 @@ class ImageField(forms.ImageField):
         if is_temp:
             filename = filename.split("_", 1)[1]
 
-        return File(default_storage.open(value))
+        return File(storage.open(value))
 
 
 class EmailsWidget(forms.Widget):

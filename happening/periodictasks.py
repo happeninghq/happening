@@ -1,6 +1,6 @@
 """General period tasks."""
 from periodically.decorators import daily
-from django.core.files.storage import default_storage
+from happening.storage import storage
 from datetime import timedelta
 from django.utils import timezone
 
@@ -9,9 +9,9 @@ from django.utils import timezone
 def delete_old_temporary_media():
     """Delete temporary media older than 24 hours."""
     one_day_old = timezone.now() - timedelta(days=1)
-    for f in default_storage.listdir("tmp"):
-        modified_time = default_storage.modified_time("tmp/%s" % f)
+    for f in storage.listdir("tmp"):
+        modified_time = storage.modified_time("tmp/%s" % f)
         if modified_time < one_day_old:
             # At least 24 hours old
             print "Deleting", f
-            default_storage.delete("tmp/%s" % f)
+            storage.delete("tmp/%s" % f)

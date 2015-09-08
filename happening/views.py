@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from happening.utils import format_bytes
 from uuid import uuid4
 from PIL import Image
-from django.core.files.storage import default_storage
+from happening.storage import storage
 from django.conf import settings
 from django.shortcuts import redirect
 from django.core.signing import Signer
@@ -23,11 +23,11 @@ def file_upload(request):
     uuid = uuid4().hex
     filename = request.FILES['files[]'].name
     filepath = 'tmp/%s_%s' % (uuid, filename)
-    with default_storage.open(filepath, 'wb+') as destination:
+    with storage.open(filepath, 'wb+') as destination:
         for chunk in request.FILES['files[]'].chunks():
             destination.write(chunk)
 
-    filesize = default_storage.size(filepath)
+    filesize = storage.size(filepath)
 
     request.FILES['files[]'].seek(0)
     with Image.open(request.FILES['files[]']) as im:
