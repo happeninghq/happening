@@ -55,7 +55,6 @@ INSTALLED_APPS = (
     'markdown_deux',
 
     'compressor',
-    'sekizai',
     'ganalytics',
 
     'storages',
@@ -67,8 +66,6 @@ INSTALLED_APPS = (
     'periodically',
 
     'django_gravatar',
-
-    'template_profiler_panel',
 
     'happening',
     'emails',
@@ -92,6 +89,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 if DEBUG:
+    INSTALLED_APPS += ('template_profiler_panel',)
     INSTALLED_APPS += ('debug_toolbar',)
 
 if 'HAPPENING_TESTING' not in os.environ:
@@ -187,8 +185,6 @@ FIXTURE_DIRS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     "django.core.context_processors.request",
-
-    "sekizai.context_processors.sekizai",
 
     "admin.context_processors.admin_urls",
     "staff.context_processors.staff_urls",
