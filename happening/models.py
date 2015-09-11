@@ -8,6 +8,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.signing import Signer
 from django_pgjson.fields import JsonField
+from happening.storage import media_path
 
 signer = Signer()
 
@@ -24,7 +25,7 @@ class HappeningSite(db.Model):
 
     theme_settings = JsonField(default={})
 
-    logo = models.ImageField(upload_to="site", null=True)
+    logo = models.ImageField(upload_to=media_path("site"), null=True)
 
 
 class Follow(db.Model):

@@ -2,6 +2,7 @@
 from django.db import models
 from happening import db
 from events.models import Event
+from happening.storage import media_path
 
 
 class Sponsor(db.Model):
@@ -12,7 +13,7 @@ class Sponsor(db.Model):
     description = models.TextField()
     url = models.URLField()
 
-    logo = models.ImageField(upload_to="sponsors")
+    logo = models.ImageField(upload_to=media_path("sponsors"))
 
     def __unicode__(self):
         """Return the sponsor's name."""

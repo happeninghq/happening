@@ -17,6 +17,7 @@ from django.conf import settings
 from happening.plugins import trigger_action
 import json
 from happening.db import AddressField
+from happening.storage import media_path
 
 
 class Event(db.Model):
@@ -31,7 +32,7 @@ class Event(db.Model):
     # The number of tickets available in total for this event
     available_tickets = models.IntegerField(default=30)
 
-    image = models.ImageField(upload_to="events", null=True)
+    image = models.ImageField(upload_to=media_path("events"), null=True)
     location = AddressField(null=True)
 
     def get_absolute_url(self):

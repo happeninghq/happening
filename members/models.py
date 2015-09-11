@@ -6,6 +6,7 @@ from django.conf import settings
 from cached_property import threaded_cached_property
 from django_gravatar.helpers import get_gravatar_url, has_gravatar
 from django.contrib.auth.models import User
+from happening.storage import media_path
 
 # Ensure that every user has an associated profile
 User.profile = threaded_cached_property(
@@ -28,7 +29,8 @@ class Profile(db.Model):
                                 related_name="existing_profile")
 
     bio = models.TextField()
-    photo = models.ImageField(null=True, upload_to="profile_photos")
+    photo = models.ImageField(null=True,
+                              upload_to=media_path("profile_photos"))
 
     show_facebook_urls = models.BooleanField(default=False)
     show_github_urls = models.BooleanField(default=False)
