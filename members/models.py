@@ -28,7 +28,7 @@ class Profile(db.Model):
                                 related_name="existing_profile")
 
     bio = models.TextField()
-    photo = models.ImageField(null=True, upload_to="media/profile_photos")
+    photo = models.ImageField(null=True, upload_to="profile_photos")
 
     show_facebook_urls = models.BooleanField(default=False)
     show_github_urls = models.BooleanField(default=False)

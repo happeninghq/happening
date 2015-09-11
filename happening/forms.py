@@ -282,8 +282,6 @@ class AddressWidget(forms.Widget):
         if not value:
             value = []
         if isinstance(value, basestring):
-            print value
-            print dir(value)
             value = json.loads(value)
         return render_to_string("forms/widgets/address_widget.html", {
             "name": name,
