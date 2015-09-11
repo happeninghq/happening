@@ -15,5 +15,6 @@ def media_path(path):
     This is to be used with upload_to.
     """
     def inner(instance, filename):
-        return '/'.join(['path', filename])
+        filename = filename.rsplit("/", 1)[1]
+        return '/'.join([path, filename])
     return inner
