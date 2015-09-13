@@ -12,6 +12,7 @@ from django.http import HttpResponseForbidden
 from django.db.models import get_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+import os
 
 signer = Signer()
 
@@ -34,7 +35,7 @@ def file_upload(request):
         dimensions = "%sx%s" % im.size
 
     return JsonResponse(
-        {"src": "%stmp/%s_%s" % (settings.MEDIA_URL, uuid, filename),
+        {"src": os.path.join(settings.MEDIA_URL, "tmp", uuid + "_" + filename),
          "filesize": format_bytes(filesize),
          "dimensions": dimensions,
          "filename": filename,
