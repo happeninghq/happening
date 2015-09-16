@@ -51,8 +51,7 @@ def save_variables(form, variables):
     """Save variables in a form."""
     for variable in variables:
         v = convert_to_underscore(variable.__class__.__name__)
-        if v in form.cleaned_data:
-            variable.set(form.cleaned_data[v])
+        variable.set(form.cleaned_data.get(v))
 
 
 class Renderer(object):
@@ -128,6 +127,7 @@ class ConfigurationVariable(object):
     references = {}
     renderer = StringRenderer()
     field = forms.CharField
+    required = False
 
     # Will this field also appear on the EDIT page
     editable = True
@@ -150,7 +150,7 @@ class ConfigurationVariable(object):
 
     def django_field(self):
         """Get a form field representing this variable."""
-        return self.field(initial=self._raw_value())
+        return self.field(initial=self._raw_value(), required=self.required)
 
     @property
     def key(self):
@@ -163,7 +163,11 @@ class ConfigurationVariable(object):
 
     def _raw_value(self):
         """Get the raw value of this variable."""
-        return self.fresh_object._data.get(self.key, self.default)
+        v = self.fresh_object._data.get(self.key)
+
+        if v is None:
+            return self.default
+        return v
 
     def set(self, value):
         """Set the value of this variable."""
@@ -206,6 +210,8 @@ class BooleanField(ConfigurationVariable):
     """A boolean field."""
 
     field = forms.BooleanField
+    renderer = Renderer()
+    required = False
 
 
 class ChoiceField(ConfigurationVariable):
@@ -216,7 +222,8 @@ class ChoiceField(ConfigurationVariable):
 
     def django_field(self):
         """Get a form field representing this variable."""
-        return self.field(choices=self.choices, initial=self.get())
+        return self.field(choices=self.choices, initial=self.get(),
+                          required=self.required)
 
 
 class PropertiesField(ConfigurationVariable):
@@ -247,43 +254,43 @@ class EmailsField(ConfigurationVariable):
         super(EmailsField, self).set(value)
 
         # Schedule emails
-        for email in value:
-
-            def get_time(event, time):
-                if time['start'] == 'after event creation':
-                    start_date = timezone.now()
-                elif time['start'] == 'after event':
-                    start_date = event.end
-                    if not start_date:
+        if value:
+            for email in value:
+                def get_time(event, time):
+                    if time['start'] == 'after event creation':
+                        start_date = timezone.now()
+                    elif time['start'] == 'after event':
+                        start_date = event.end
+                        if not start_date:
+                            start_date = event.start
+                    else:
+                        # Must be "before event"
                         start_date = event.start
-                else:
-                    # Must be "before event"
-                    start_date = event.start
 
-                # Now manipulate start_date appropriately
-                if time['type'] == 'hours':
-                    offset = timedelta(hours=int(time['number']))
-                elif email['start_sending']['type'] == 'days':
-                    offset = timedelta(days=int(time['number']))
-                else:
-                    # Must be weeks
-                    offset = timedelta(weeks=int(time['number']))
+                    # Now manipulate start_date appropriately
+                    if time['type'] == 'hours':
+                        offset = timedelta(hours=int(time['number']))
+                    elif email['start_sending']['type'] == 'days':
+                        offset = timedelta(days=int(time['number']))
+                    else:
+                        # Must be weeks
+                        offset = timedelta(weeks=int(time['number']))
 
-                if time['start'].startswith("after"):
-                    return start_date + offset
-                return start_date - offset
+                    if time['start'].startswith("after"):
+                        return start_date + offset
+                    return start_date - offset
 
-            event = self.fresh_object
+                event = self.fresh_object
 
-            start_sending = get_time(event, email['start_sending'])
-            stop_sending = get_time(event, email['stop_sending'])
+                start_sending = get_time(event, email['start_sending'])
+                stop_sending = get_time(event, email['stop_sending'])
 
-            Email(event=event,
-                  to=email['to'],
-                  subject=email['subject'],
-                  content=email['content'],
-                  start_sending=start_sending,
-                  stop_sending=stop_sending).save()
+                Email(event=event,
+                      to=email['to'],
+                      subject=email['subject'],
+                      content=email['content'],
+                      start_sending=start_sending,
+                      stop_sending=stop_sending).save()
 
 
 class CustomProperties(ConfigurationVariable):

@@ -21,3 +21,10 @@ class SiteTitle(configuration.CharField):
     """The title of the website."""
 
     default = "Happening Demo Site"
+
+
+class ForceSSL(configuration.BooleanField):
+
+    """Should SSL be forced."""
+
+    default = False

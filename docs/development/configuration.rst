@@ -15,6 +15,8 @@ For example::
 
 This creates a "name of events" variable which is a string (CharField), and defaults to "event"
 
+You can set this variable to be required, by setting required = True.
+
 To access the content of the variable, create an instance of the class and call .get()::
 
     event_name = NameOfEvents().get()
