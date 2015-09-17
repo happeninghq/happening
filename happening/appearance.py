@@ -11,6 +11,14 @@ def generate_css(variables=None):
         site = Site.objects.first().happening_site
         variables = site.theme_settings
 
+        # Now also load settings file
+        with open("static/sass/settings.scss") as f:
+            settings = parse_settings(f.read())
+            for category in settings:
+                for setting, value in settings[category].items():
+                    if setting not in variables:
+                        variables[setting] = value
+
     uid = uuid4().hex
     target = open("static/sass/%s.scss" % uid, 'w')
     try:
