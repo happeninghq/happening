@@ -2,7 +2,6 @@
 
 from django.shortcuts import render, get_object_or_404, redirect
 from events.models import Ticket
-from events.forms import TicketForm
 from forms import ProfileForm
 from forms import UsernameForm
 from django.http import Http404
@@ -25,38 +24,10 @@ def index(request):
 @login_required
 def my_tickets(request):
     """List tickets I have purchased."""
-    tickets = request.user.tickets.order_by('-purchased_datetime')
-    return render(request, "members/my_tickets.html", {"tickets": tickets})
-
-
-@login_required
-def edit_ticket(request, pk):
-    """Edit the quantity of tickets."""
-    ticket = get_object_or_404(Ticket, pk=pk)
-
-    if not ticket.user == request.user and not request.user.is_staff:
-        raise Http404
-
-    if not ticket.event.is_future:
-        return redirect(request.GET.get("redirect_to", "my_tickets"))
-
-    max_tickets = ticket.event.remaining_tickets + ticket.number + 1
-
-    form = TicketForm(event=ticket.event,
-                      initial={"quantity": ticket.number},
-                      max_tickets=max_tickets)
-
-    if request.method == "POST":
-        form = TicketForm(request.POST,
-                          event=ticket.event,
-                          max_tickets=max_tickets)
-        if form.is_valid():
-            ticket.number = form.cleaned_data['quantity']
-            ticket.save()
-            return redirect(request.GET.get("redirect_to", "my_tickets"))
-
-    return render(request, "members/edit_ticket.html",
-                  {"ticket": ticket, "form": form})
+    orders = request.user.orders.order_by('-purchased_datetime')
+    other_tickets = request.user.tickets.filter(order=None)
+    return render(request, "members/my_tickets.html",
+                  {"orders": orders, "other_tickets": other_tickets})
 
 
 @login_required

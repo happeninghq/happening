@@ -1,0 +1,18 @@
+{% for order in orders %}
+    <tr class="{% if order.cancelled %}low-opacity{% endif %}">
+        <th>Order #{{order.pk}}</th>
+        <td colspan="5">{{order.purchased_datetime}}</td>
+    </tr>
+
+    {% for ticket in order.tickets.all %}
+        {% include "members/_my_tickets_ticket.html" %}
+    {% endfor %}
+{% endfor %}
+{% if other_tickets.count > 0 %}
+    <tr>
+        <td colspan="6"></td>
+    </tr>
+    {% for ticket in other_tickets %}
+        {% include "members/_my_tickets_ticket.html" %}
+    {% endfor %}
+{% endif %}

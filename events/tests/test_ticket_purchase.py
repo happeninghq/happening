@@ -88,9 +88,9 @@ class TestTicketPurchase(TestCase):
             follow=True)
         self.assertTrue(
             "events/tickets_purchased" in response.redirect_chain[0][0])
-        self.assertEquals(self.user.tickets.first(),
-                          response.context["ticket"])
-        self.assertEquals(event.tickets.first(), response.context["ticket"])
+        self.assertEquals(self.user.orders.first(),
+                          response.context["order"])
+        self.assertEquals(event.orders.first(), response.context["order"])
 
     def test_cant_view_others_confirmation(self):
         """Test that users can only view their own order confirmations."""

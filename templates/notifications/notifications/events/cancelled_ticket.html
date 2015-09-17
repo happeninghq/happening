@@ -2,11 +2,11 @@
 {% load staticfiles %}
 
 {% block text %}
-    <p>You have cancelled <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize}} to <a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a>.</p>
+    <p>You have cancelled your ticket to <a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a>.</p>
 {% endblock %}
 
-{% block subject %}Cancelled ticket{{ticket.number|pluralize}} for {{event_name}}{% endblock %}
+{% block subject %}Cancelled ticket for {{event_name}}{% endblock %}
 
 {% block email_content %}
-You have cancelled **{{ticket.number}}** ticket{{ticket.number|pluralize}} for **{{event_name}}**.
+You have cancelled your ticket for **{{event_name}}**.
 {% endblock %}

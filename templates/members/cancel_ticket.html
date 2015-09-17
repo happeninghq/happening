@@ -12,7 +12,7 @@
                 </header>
 
                 <form action="{% url "cancel_ticket" ticket.id %}{% if request.GET.redirect_to %}?redirect_to={{request.GET.redirect_to}}{% endif %}" method="POST">
-                    <p>Are you sure you wish to cancel your <strong>{{ticket.number}}</strong> tickets to The {{ticket.event}}?</p>
+                    <p>Are you sure you wish to cancel your ticket to {{ticket.event}}?</p>
                     {% csrf_token %}
                     <button class="warning" type="submit">Confirm</button>
                     <a class="button" href="{% if request.GET.redirect_to %}{{request.GET.redirect_to}}{% else %}{% url "my_tickets" %}{% endif %}">Cancel</a>

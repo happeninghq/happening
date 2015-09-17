@@ -13,7 +13,6 @@ urlpatterns = [
     url(r'^profile$', views.my_profile, name='my_profile'),
     url(r'^(?P<pk>\d+)/edit$', views.edit_profile, name='edit_profile'),
     url(r'^tickets$', views.my_tickets, name='my_tickets'),
-    url(r'^tickets/(?P<pk>\d+)$', views.edit_ticket, name='edit_ticket'),
     url(r'^tickets/(?P<pk>\d+)/cancel$', views.cancel_ticket,
         name='cancel_ticket'),
 ]

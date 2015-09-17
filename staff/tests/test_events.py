@@ -30,7 +30,7 @@ class TestEvents(TestCase):
         test_subject = uuid4().hex
         test_content = uuid4().hex
         # With a single attendee
-        mommy.make("Ticket", event=self.event, number=1)
+        mommy.make("Ticket", event=self.event)
         self.client.login(username=self.user.username, password="password")
 
         self.client.post("/staff/events/%s/email" % self.event.id, {
@@ -49,7 +49,7 @@ class TestEvents(TestCase):
         mail.outbox = []
 
         # With two attendees
-        mommy.make("Ticket", event=self.event, number=1)
+        mommy.make("Ticket", event=self.event)
         self.client.post("/staff/events/%s/email" % self.event.id, {
             "to": "tickets__has:(event__id:%s cancelled:False)" %
             self.event.id,
@@ -85,7 +85,7 @@ class TestEvents(TestCase):
         # Check that no tickets are listed
         self.assertEquals(1, len(response.soup.find("table").findAll("tr")))
 
-        mommy.make("Ticket", event=self.event, user=self.user, number=1)
+        mommy.make("Ticket", event=self.event, user=self.user)
 
         # Check it lists the ticket
         response = self.client.get("/staff/events/%s" % self.event.id)
@@ -183,7 +183,7 @@ class TestEvents(TestCase):
         """Test checking in."""
         self.client.login(username=self.user.username, password="password")
 
-        mommy.make("Ticket", event=self.event, user=self.user, number=1)
+        mommy.make("Ticket", event=self.event, user=self.user)
 
         # Check it lists the ticket
         response = self.client.get("/staff/events/%s" % self.event.id)
@@ -224,7 +224,7 @@ class TestEvents(TestCase):
         """Test checking in using dedicated page."""
         self.client.login(username=self.user.username, password="password")
 
-        mommy.make("Ticket", event=self.event, user=self.user, number=1)
+        mommy.make("Ticket", event=self.event, user=self.user)
 
         # Check it lists the ticket
         response = self.client.get(

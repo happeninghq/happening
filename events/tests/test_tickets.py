@@ -1,7 +1,6 @@
 """Test ticket purchasing."""
 
 from events.exceptions import EventFinishedError, NoTicketsError
-from events.exceptions import TicketCancelledError
 from unittest import TestCase
 from model_mommy import mommy
 from datetime import datetime, timedelta
@@ -18,9 +17,13 @@ class TestTickets(TestCase):
         """Test that remaining_tickets works."""
         event = mommy.make("Event")
         self.assertEqual(event.available_tickets, event.remaining_tickets)
-        mommy.make("Ticket", event=event, number=1)
+        mommy.make("Ticket", event=event)
         self.assertEqual(event.available_tickets - 1, event.remaining_tickets)
-        mommy.make("Ticket", event=event, number=5)
+        mommy.make("Ticket", event=event)
+        mommy.make("Ticket", event=event)
+        mommy.make("Ticket", event=event)
+        mommy.make("Ticket", event=event)
+        mommy.make("Ticket", event=event)
         self.assertEqual(event.available_tickets - 6, event.remaining_tickets)
 
     def test_buy_tickets(self):
@@ -64,95 +67,33 @@ class TestTickets(TestCase):
 
         self.assertEqual(0, event.remaining_tickets)
 
-    def test_edit_tickets(self):
-        """Test that we can edit tickets."""
-        event = mommy.make("Event", start=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=30)
-        user = mommy.make(settings.AUTH_USER_MODEL)
-
-        ticket = event.buy_ticket(user, tickets=5)
-
-        self.assertEqual(25, event.remaining_tickets)
-
-        mail.outbox = []
-
-        ticket.change_number(1)
-
-        self.assertEqual(1, len(mail.outbox))
-
-        self.assertEqual(29, event.remaining_tickets)
-
-        # Test that we can't edit our number bigger than available tickets
-        ticket.change_number(30)
-        self.assertEqual(0, event.remaining_tickets)
-
-        ticket.change_number(5)
-
-        with self.assertRaises(NoTicketsError):
-            ticket.change_number(31)
-
-        # Test that we can't edit tickets passed the deadline
-
-        event.start = datetime.now(pytz.utc) - timedelta(days=20)
-        event.save()
-
-        with self.assertRaises(EventFinishedError):
-            ticket.change_number(3)
-
-    def test_edit_tickets_zero(self):
-        """Test editing a ticket to 0 cancels it."""
-        event = mommy.make("Event", start=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=30)
-        user = mommy.make(settings.AUTH_USER_MODEL)
-
-        ticket = event.buy_ticket(user, tickets=5)
-
-        self.assertEqual(25, event.remaining_tickets)
-
-        ticket.change_number(0)
-
-        self.assertEqual(30, event.remaining_tickets)
-        self.assertTrue(ticket.cancelled)
-
-    def test_edit_cancelled_ticket(self):
-        """Test editing a cancelled ticket."""
-        event = mommy.make("Event", start=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=30)
-        user = mommy.make(settings.AUTH_USER_MODEL)
-
-        ticket = event.buy_ticket(user, tickets=5)
-        ticket.cancel()
-
-        with self.assertRaises(TicketCancelledError):
-            ticket.change_number(3)
-
     def test_cancel_tickets(self):
         """Test that we can cancel tickets."""
         event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=20), available_tickets=30)
         user = mommy.make(settings.AUTH_USER_MODEL)
 
-        ticket = event.buy_ticket(user, tickets=5)
+        order = event.buy_ticket(user, tickets=5)
 
         self.assertEqual(25, event.remaining_tickets)
 
         mail.outbox = []
 
-        ticket.cancel()
+        order.tickets.first().cancel()
 
         self.assertEqual(1, len(mail.outbox))
 
-        self.assertEqual(30, event.remaining_tickets)
+        self.assertEqual(26, event.remaining_tickets)
         # Test that the cancellation date is recorded
-        self.assertIsNotNone(ticket.cancelled_datetime)
+        self.assertIsNotNone(order.tickets.first().cancelled_datetime)
 
         # Test that we can't cancel tickets passed the deadline
-        ticket = event.buy_ticket(user, tickets=5)
+        order = event.buy_ticket(user, tickets=5)
         event.start = datetime.now(pytz.utc) - timedelta(days=20)
         event.save()
 
         with self.assertRaises(EventFinishedError):
-            ticket.cancel()
+            order.tickets.first().cancel()
 
-        self.assertIsNone(ticket.cancelled_datetime)
-        self.assertFalse(ticket.cancelled)
+        self.assertIsNone(order.tickets.first().cancelled_datetime)
+        self.assertFalse(order.tickets.first().cancelled)

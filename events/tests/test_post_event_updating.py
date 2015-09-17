@@ -23,7 +23,7 @@ class TestPostEventUpdating(TestCase):
         """Test that update details doesn't appear for future event."""
         future_event = mommy.make("Event", start=datetime.now(pytz.utc) +
                                   timedelta(days=20), available_tickets=30)
-        mommy.make("Ticket", event=future_event, user=self.user, number=1)
+        mommy.make("Ticket", event=future_event, user=self.user)
         self.client.login(username=self.user.username, password="password")
         response = self.client.get("/events/%s" % future_event.id)
         self.assertEquals(response.status_code, 200)

@@ -1,6 +1,6 @@
 """Event views."""
 from django.shortcuts import render, get_object_or_404, redirect
-from models import Event, Ticket
+from models import Event, TicketOrder
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from forms import TicketForm
@@ -39,9 +39,9 @@ def purchase_tickets(request, pk):
     if request.method == "POST":
         form = TicketForm(request.POST, event=event)
         if form.is_valid():
-            ticket = event.buy_ticket(request.user,
-                                      int(form.cleaned_data['quantity']))
-            return redirect("tickets_purchased", ticket.pk)
+            order = event.buy_ticket(request.user,
+                                     int(form.cleaned_data['quantity']))
+            return redirect("tickets_purchased", order.pk)
     return render(request, "events/purchase_tickets.html",
                   {"event": event, "form": form})
 
@@ -49,13 +49,13 @@ def purchase_tickets(request, pk):
 @login_required
 def tickets_purchased(request, pk):
     """Ticket has been purchased for an event."""
-    ticket = get_object_or_404(Ticket, pk=pk)
+    order = get_object_or_404(TicketOrder, pk=pk)
 
-    if not ticket.user == request.user:
+    if not order.user == request.user:
         raise Http404
 
-    # TODO: Ensure that this ticket belongs to this user
-    return render(request, "events/tickets_purchased.html", {"ticket": ticket})
+    return render(request, "events/tickets_purchased.html", {
+        "order": order, "event": order.tickets.first().event})
 
 
 def upcoming_events(request):

@@ -10,17 +10,9 @@ class CancelledTicketNotification(Notification):
     category = "Events"
 
 
-class EditedTicketNotification(Notification):
-
-    """You have edited your tickets for an event."""
-
-    required_data = ["ticket", "event", "event_name"]
-    category = "Events"
-
-
 class PurchasedTicketNotification(Notification):
 
     """You have purchased tickets for an event."""
 
-    required_data = ["ticket", "event", "event_name"]
+    required_data = ["order", "tickets_count", "event", "event_name"]
     category = "Events"

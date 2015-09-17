@@ -3,15 +3,12 @@ from django.db import models
 from happening import db
 from django.utils import timezone
 from exceptions import EventFinishedError, NoTicketsError
-from exceptions import TicketCancelledError
 from datetime import datetime, timedelta
 import pytz
 from happening.utils import custom_strftime
-from jsonfield import JSONField
 import random
 from django.core.urlresolvers import reverse
 from notifications import CancelledTicketNotification
-from notifications import EditedTicketNotification
 from notifications import PurchasedTicketNotification
 from django.conf import settings
 from happening.plugins import trigger_action
@@ -84,8 +81,7 @@ class Event(db.Model):
     @property
     def taken_tickets(self):
         """Return the number of tickets purchased."""
-        return sum(
-            [t.number for t in self.tickets.all() if not t.cancelled])
+        return self.tickets.filter(cancelled=False).count()
 
     @property
     def remaining_tickets(self):
@@ -116,18 +112,15 @@ class Event(db.Model):
         if self.remaining_tickets < tickets:
             raise NoTicketsError()
 
-        # First check if they already have tickets - in which case just
-        # add this ticket to theirs
+        order = TicketOrder(user=user, event=self)
+        order.save()
 
-        ticket, created = Ticket.objects.get_or_create(event=self, user=user,
-                                                       cancelled=False)
-        if created:
-            ticket.number = tickets
-        else:
-            ticket.number += tickets
-        ticket.save()
+        for i in range(tickets):
+            ticket = Ticket(event=self, user=user, order=order)
+            ticket.save()
 
-        kwargs = {"ticket": ticket,
+        kwargs = {"order": order,
+                  "tickets_count": order.tickets.count(),
                   "event": self,
                   "event_name": str(self)}
 
@@ -136,15 +129,29 @@ class Event(db.Model):
             **kwargs)
         n.send()
 
-        return ticket
+        return order
 
     def attending_users(self):
         """Get a list of attending users."""
-        return [t.user for t in self.tickets.all() if not t.cancelled]
+        return set([t.user for t in self.tickets.all() if not t.cancelled])
 
     def __unicode__(self):
         """Return the title of this event."""
         return self.title
+
+
+class TicketOrder(db.Model):
+
+    """A ticket order."""
+
+    event = models.ForeignKey(Event, related_name="orders")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="orders")
+    purchased_datetime = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def cancelled(self):
+        """Have all tickets in this order been cancelled."""
+        return all([t.cancelled for t in self.tickets.all()])
 
 
 class Ticket(db.Model):
@@ -152,57 +159,14 @@ class Ticket(db.Model):
     """A claim by a user on a place at an event."""
 
     event = models.ForeignKey(Event, related_name="tickets")
+    # This is nullable until things have been migrated
+    order = models.ForeignKey(TicketOrder, related_name="tickets", null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="tickets")
-    number = models.IntegerField(default=1)
-    purchased_datetime = models.DateTimeField(auto_now_add=True)
-    last_edited_datetime = models.DateTimeField(auto_now=True)
     cancelled = models.BooleanField(default=False)
     cancelled_datetime = models.DateTimeField(blank=True, null=True)
+
     checked_in = models.BooleanField(default=False)
     checked_in_datetime = models.DateTimeField(blank=True, null=True)
-    did_not_attend = models.NullBooleanField()
-    votes = JSONField(null=True)
-
-    @property
-    def default_votes(self):
-        """Return the votes for this event, or previous event."""
-        if self.votes is not None:
-            return self.votes
-
-        # Otherwise find if we have a previous ticket
-        previous_tickets = self.user.tickets.filter(
-            cancelled=False,
-            purchased_datetime__lt=self.purchased_datetime).order_by(
-            '-purchased_datetime')
-        if len(previous_tickets) == 0:
-            return None
-        return previous_tickets[0].default_votes
-
-    def change_number(self, number):
-        """Change the number on the ticket."""
-        if number == 0:
-            return self.cancel()
-
-        if not self.event.is_future:
-            raise EventFinishedError()
-
-        if ((self.event.remaining_tickets + self.number) - number) < 0:
-            # We've ran out of tickets
-            raise NoTicketsError()
-
-        if self.cancelled:
-            raise TicketCancelledError()
-
-        self.number = number
-        self.save()
-        kwargs = {"ticket": self,
-                  "event": self.event,
-                  "event_name": str(self.event)}
-
-        n = EditedTicketNotification(
-            self.user,
-            **kwargs)
-        n.send()
 
     def cancel(self):
         """Cancel the ticket."""
@@ -225,8 +189,8 @@ class Ticket(db.Model):
             n.send()
 
     def __unicode__(self):
-        """Return the ."""
-        return "%s's ticket to %s" % (self.user, self.event)
+        """Return the name."""
+        return "%s's ticket to %s" % (self.order.user, self.event)
 
 
 class EventPreset(db.Model):

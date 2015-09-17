@@ -1,0 +1,21 @@
+<tr class="{% if ticket.cancelled %}low-opacity{% endif %}">
+    <td></td>
+    <td>
+        <a href="{% url "view_event" ticket.event.pk %}">{{ticket.event}}</a>
+    </td>
+    <td>
+        {% if ticket.cancelled %}
+            <p>Cancelled</p>
+        {% else %}
+            <p>1</p>
+        {% endif %}
+    </td>
+    {% if ticket.event.is_future and not ticket.cancelled %}
+        <td>
+            <a href="{% url "cancel_ticket" ticket.pk %}" class="btn">Cancel</a>
+        </td>
+    {% else %}
+        <td></td>
+    {% endif %}
+    </td>
+</tr>

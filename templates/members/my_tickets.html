@@ -13,31 +13,7 @@
 
                 <table>
                     <tbody>
-                        {% for ticket in tickets %}
-                            <tr class="{% if ticket.cancelled %}low-opacity full-opacity-on-hover{% endif %}">
-                                <td>
-                                    <a href="{% url "view_event" ticket.event.pk %}">{{ticket.event}}</a>
-                                </td>
-                                <td>
-                                    {% if ticket.cancelled %}
-                                        <p>You cancelled <strong>{{ticket.number}}</strong> tickets.</p>
-                                    {% else %}
-                                        <p>You have <strong>{{ticket.number}}</strong> ticket{{ticket.number|pluralize:",s"}}.</p>
-                                    {% endif %}
-                                </td>
-                                {% if ticket.event.is_future and not ticket.cancelled %}
-                                    <td>
-                                        <a href="{% url "edit_ticket" ticket.pk %}" class="btn">Edit</a>
-                                    </td>
-                                    <td>
-                                        <a href="{% url "cancel_ticket" ticket.pk %}" class="btn">Cancel</a>
-                                    </td>
-                                {% else %}
-                                    <td></td><td></td>
-                                {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
+                        {% include "members/_tickets_table.html" %}
                     </tbody>
                 </table>
             </div>
