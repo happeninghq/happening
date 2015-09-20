@@ -1,5 +1,5 @@
 <tr class="{% if ticket.cancelled %}low-opacity{% endif %}">
-    <td></td>
+    <td>{{ticket.type.name|upper}}</td>
     <td>
         <a href="{% url "view_event" ticket.event.pk %}">{{ticket.event}}</a>
     </td>

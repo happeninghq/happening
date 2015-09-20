@@ -26,9 +26,6 @@ class Event(db.Model):
 
     title = models.CharField(max_length=255)
 
-    # The number of tickets available in total for this event
-    available_tickets = models.IntegerField(default=30)
-
     image = models.ImageField(upload_to=media_path("events"), null=True)
     location = AddressField(null=True)
 
@@ -79,16 +76,6 @@ class Event(db.Model):
         return all_votes
 
     @property
-    def taken_tickets(self):
-        """Return the number of tickets purchased."""
-        return self.tickets.filter(cancelled=False).count()
-
-    @property
-    def remaining_tickets(self):
-        """Return the number of tickets available to purchase."""
-        return self.available_tickets - self.taken_tickets
-
-    @property
     def is_future(self):
         """Return True if this event is in the future. False otherwise."""
         return self.start > timezone.now()
@@ -104,20 +91,37 @@ class Event(db.Model):
                 '-' + self.end.strftime("%b. %d, %Y, %H:%M")
         return self.start.strftime("%b. %d, %Y, %H:%M")
 
-    def buy_ticket(self, user, tickets=1):
-        """Buy the given number of tickets for the given user."""
+    def buy_ticket(self, user, tickets):
+        """Buy the tickets for the given user.
+
+        tickets should be a dict mapping ticket types to amounts.
+        """
         if not self.is_future:
             raise EventFinishedError()
 
-        if self.remaining_tickets < tickets:
-            raise NoTicketsError()
+        # First verify we have enough tickets
+        tickets = {TicketType.objects.get(pk=pk): number for pk, number
+                   in tickets.items()}
+        for ticket, number in tickets.items():
+            if not ticket.event == self:
+                raise Exception("Incorrect event")
+            if number > ticket.remaining_tickets:
+                # ERROR
+                raise NoTicketsError()
 
+        # TODO: WRITE TESTS
+        # ALSO MAKE SURE THE EMAIL SHOWS THE TICKET TYPES
+
+        # Then create the order
         order = TicketOrder(user=user, event=self)
         order.save()
 
-        for i in range(tickets):
-            ticket = Ticket(event=self, user=user, order=order)
-            ticket.save()
+        # And add the tickets
+        for type, number in tickets.items():
+            for i in range(number):
+                ticket = Ticket(event=self, user=user, order=order,
+                                type=type)
+                ticket.save()
 
         kwargs = {"order": order,
                   "tickets_count": order.tickets.count(),
@@ -131,6 +135,12 @@ class Event(db.Model):
 
         return order
 
+    @property
+    def purchasable_tickets_no(self):
+        """Get number of purchasable tickets."""
+        return sum(t.remaining_tickets for t in
+                   self.ticket_types.purchasable())
+
     def attending_users(self):
         """Get a list of attending users."""
         return set([t.user for t in self.tickets.all() if not t.cancelled])
@@ -138,6 +148,36 @@ class Event(db.Model):
     def __unicode__(self):
         """Return the title of this event."""
         return self.title
+
+
+class TicketTypeManager(models.Manager):
+
+    """Custom TicketType manager."""
+
+    def active(self):
+        """Get active ticket types."""
+        return self.filter(visible=True)
+
+    def purchasable(self):
+        """Get purchasable ticket types."""
+        return [t for t in self.active() if t.remaining_tickets > 0]
+
+
+class TicketType(db.Model):
+
+    """A type of ticket which can be purchased."""
+
+    objects = TicketTypeManager()
+
+    event = models.ForeignKey(Event, related_name="ticket_types")
+    name = models.CharField(max_length=255)
+    number = models.IntegerField()
+    visible = models.BooleanField(default=False)
+
+    @property
+    def remaining_tickets(self):
+        """How many tickets of this time are unsold."""
+        return self.number - self.tickets.filter(cancelled=False).count()
 
 
 class TicketOrder(db.Model):
@@ -159,6 +199,8 @@ class Ticket(db.Model):
     """A claim by a user on a place at an event."""
 
     event = models.ForeignKey(Event, related_name="tickets")
+    # This is nullable until things have been migrated
+    type = models.ForeignKey(TicketType, related_name="tickets", null=True)
     # This is nullable until things have been migrated
     order = models.ForeignKey(TicketOrder, related_name="tickets", null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="tickets")

@@ -32,15 +32,17 @@ def purchase_tickets(request, pk):
     if not event.is_future:
         return redirect("view_event", event.pk)
 
-    if event.remaining_tickets == 0:
+    if event.purchasable_tickets_no == 0:
         return redirect("view_event", event.pk)
 
     form = TicketForm(event=event)
     if request.method == "POST":
         form = TicketForm(request.POST, event=event)
         if form.is_valid():
+            tickets = {p[8:]: int(n) for p, n in form.cleaned_data.items() if
+                       p.startswith("tickets_")}
             order = event.buy_ticket(request.user,
-                                     int(form.cleaned_data['quantity']))
+                                     tickets)
             return redirect("tickets_purchased", order.pk)
     return render(request, "events/purchase_tickets.html",
                   {"event": event, "form": form})

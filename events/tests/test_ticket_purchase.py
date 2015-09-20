@@ -24,9 +24,11 @@ class TestTicketPurchase(TestCase):
     def test_buy_ticket_method(self):
         """Test that buy_ticket doesn't allow us too many tickets."""
         event = mommy.make("Event", start=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=30)
+                           timedelta(days=20))
+        ticket_type = mommy.make("TicketType", event=event, number=30,
+                                 visible=True)
         with self.assertRaises(NoTicketsError):
-            event.buy_ticket(self.user, tickets=31)
+            event.buy_ticket(self.user, {ticket_type.pk: 31})
 
     def test_purchase_requires_login(self):
         """Test you need to be logged in to purchase tickets."""
@@ -47,29 +49,15 @@ class TestTicketPurchase(TestCase):
             response.redirect_chain[0][0].endswith(
                 "/events/%s" % past_event.pk))
 
-    # def test_quantity(self):
-    #     """Test that the quantity box doesn't allow > remainging tickets."""
-    #     event = mommy.make("Event", start=datetime.now(pytz.utc) +
-    #                        timedelta(days=20), available_tickets=30)
-    #     self.client.login(username=self.user.username, password="password")
-    #     response = self.client.get("/events/%s/purchase_tickets" % event.pk)
-    #     quantity = response.soup.find(id="id_quantity")
-    #     highest_value = quantity.findAll("option")[-1]["value"]
-    #     self.assertEquals("30", highest_value)
-
-    #     event.buy_ticket(self.user, tickets=5)
-
-    #     response = self.client.get("/events/%s/purchase_tickets" % event.pk)
-    #     quantity = response.soup.find(id="id_quantity")
-    #     highest_value = quantity.findAll("option")[-1]["value"]
-    #     self.assertEquals("25", highest_value)
-
     def test_sold_out(self):
         """Test that we can't buy tickets once they are sold out."""
         event = mommy.make("Event", start=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=30)
+                           timedelta(days=20))
+        ticket_type = mommy.make("TicketType", event=event, number=30,
+                                 visible=True)
+
         self.client.login(username=self.user.username, password="password")
-        event.buy_ticket(self.user, tickets=30)
+        event.buy_ticket(self.user, {ticket_type.pk: 30})
 
         response = self.client.get("/events/%s/purchase_tickets" % event.pk,
                                    follow=True)
@@ -80,11 +68,13 @@ class TestTicketPurchase(TestCase):
     def test_purchase(self):
         """Test that a purchase creates a ticket and redirects."""
         event = mommy.make("Event", start=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=30)
+                           timedelta(days=20))
+        ticket_type = mommy.make("TicketType", event=event, number=30,
+                                 visible=True)
         self.client.login(username=self.user.username, password="password")
         response = self.client.post(
             "/events/%s/purchase_tickets" % event.pk,
-            {"quantity": 1},
+            {"tickets_" + str(ticket_type.pk): 1},
             follow=True)
         self.assertTrue(
             "events/tickets_purchased" in response.redirect_chain[0][0])
@@ -95,13 +85,15 @@ class TestTicketPurchase(TestCase):
     def test_cant_view_others_confirmation(self):
         """Test that users can only view their own order confirmations."""
         event = mommy.make("Event", start=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=30)
+                           timedelta(days=20))
+        ticket_type = mommy.make("TicketType", event=event, number=30,
+                                 visible=True)
 
         user2 = mommy.make(settings.AUTH_USER_MODEL)
         user2.set_password("password")
         user2.save()
 
-        ticket = event.buy_ticket(self.user, tickets=5)
+        ticket = event.buy_ticket(self.user, {ticket_type.pk: 5})
 
         self.client.login(username=self.user.username, password="password")
 
@@ -116,11 +108,13 @@ class TestTicketPurchase(TestCase):
     def test_ticket_purchase_sends_confirmation_email(self):
         """Test that we send a confirmation email after purchasing ticket."""
         event = mommy.make("Event", start=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=30)
+                           timedelta(days=20))
+        ticket_type = mommy.make("TicketType", event=event, number=30,
+                                 visible=True)
         self.client.login(username=self.user.username, password="password")
         response = self.client.post(
             "/events/%s/purchase_tickets" % event.pk,
-            {"quantity": 1},
+            {"tickets_" + str(ticket_type.pk): 1},
             follow=True)
         self.assertTrue(
             "events/tickets_purchased" in response.redirect_chain[0][0])

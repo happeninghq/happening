@@ -23,7 +23,9 @@ class TestEvents(TestCase):
         self.user.save()
 
         self.event = mommy.make("Event", start=datetime.now(pytz.utc) +
-                                timedelta(days=2), available_tickets=30)
+                                timedelta(days=2))
+        # self.ticket_type = mommy.make("TicketType", event=self.event,
+        #                               number=30, visible=True)
 
     def test_send_email(self):
         """Test that administrators can send emails to attending members."""
@@ -70,7 +72,7 @@ class TestEvents(TestCase):
         self.assertEquals(2, len(response.soup.find("table").findAll("tr")))
         for i in range(10):
             mommy.make("Event", start=datetime.now(pytz.utc) +
-                       timedelta(days=i), available_tickets=30)
+                       timedelta(days=i))
 
         response = self.client.get("/staff/events")
         # We only show up to 10 per page
@@ -104,11 +106,7 @@ class TestEvents(TestCase):
         response = self.client.post("/staff/events/%s/edit" % self.event.id, {
             "title": "NEW TITLE",
             "start": "2010-05-05 19:00:00",
-            "available_tickets": "30",
-
-            # TODO: These two shouldn't be tested here
-            "ticket_purchased_message": ".",
-            "description": "."
+            "tickets": "[]"
         }, follow=True)
         self.assertTrue("/staff/events/%s" % self.event.id in
                         response.redirect_chain[0][0])
@@ -125,11 +123,7 @@ class TestEvents(TestCase):
         response = self.client.post("/staff/events/create", {
             "title": "NEW TITLE",
             "start": "2010-05-05 19:00:00",
-            "available_tickets": "30",
-
-            # TODO: These two shouldn't be tested here
-            "ticket_purchased_message": ".",
-            "description": "."
+            "tickets": "[]"
         }, follow=True)
         self.assertTrue("/staff/events" in
                         response.redirect_chain[0][0])

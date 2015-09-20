@@ -16,66 +16,79 @@ class TestTickets(TestCase):
     def test_remaining_tickets(self):
         """Test that remaining_tickets works."""
         event = mommy.make("Event")
-        self.assertEqual(event.available_tickets, event.remaining_tickets)
-        mommy.make("Ticket", event=event)
-        self.assertEqual(event.available_tickets - 1, event.remaining_tickets)
-        mommy.make("Ticket", event=event)
-        mommy.make("Ticket", event=event)
-        mommy.make("Ticket", event=event)
-        mommy.make("Ticket", event=event)
-        mommy.make("Ticket", event=event)
-        self.assertEqual(event.available_tickets - 6, event.remaining_tickets)
+        ticket_type = mommy.make("TicketType", event=event, number=30,
+                                 visible=True)
+
+        self.assertEqual(ticket_type.number, ticket_type.remaining_tickets)
+        mommy.make("Ticket", event=event, type=ticket_type)
+        self.assertEqual(ticket_type.number - 1,
+                         ticket_type.remaining_tickets)
+        mommy.make("Ticket", event=event, type=ticket_type)
+        mommy.make("Ticket", event=event, type=ticket_type)
+        mommy.make("Ticket", event=event, type=ticket_type)
+        mommy.make("Ticket", event=event, type=ticket_type)
+        mommy.make("Ticket", event=event, type=ticket_type)
+        self.assertEqual(ticket_type.number - 6,
+                         ticket_type.remaining_tickets)
 
     def test_buy_tickets(self):
         """Test that we can buy tickets."""
         event = mommy.make("Event", start=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=30)
+                           timedelta(days=20))
+        ticket_type = mommy.make("TicketType", event=event, number=30,
+                                 visible=True)
         user = mommy.make(settings.AUTH_USER_MODEL)
-        self.assertEqual(30, event.remaining_tickets)
-        event.buy_ticket(user)  # Should buy 1 ticket
-        self.assertEqual(29, event.remaining_tickets)
+        self.assertEqual(30, event.purchasable_tickets_no)
 
-        ticket = event.buy_ticket(user, tickets=3)  # Should buy 3 ticket
-        self.assertEqual(26, event.remaining_tickets)
+        # Should buy 3 tickets
+        order = event.buy_ticket(user, {ticket_type.pk: 3})
+        self.assertEqual(27, event.purchasable_tickets_no)
 
         # Test that the purchase date is recorded
-        self.assertIsNotNone(ticket.purchased_datetime)
+        self.assertIsNotNone(order.purchased_datetime)
 
     def test_buy_passed_deadline(self):
         """Test that we can't buy tickets past the deadline."""
         past_event = mommy.make("Event", start=datetime.now(pytz.utc) -
-                                timedelta(days=20), available_tickets=30)
+                                timedelta(days=20))
+        ticket_type = mommy.make("TicketType", event=past_event, number=30,
+                                 visible=True)
         user = mommy.make(settings.AUTH_USER_MODEL)
 
         with self.assertRaises(EventFinishedError):
-            past_event.buy_ticket(user)
+            past_event.buy_ticket(user, {ticket_type.pk: 1})
 
-        self.assertEqual(30, past_event.remaining_tickets)
+        self.assertEqual(30, ticket_type.remaining_tickets)
 
     def test_buy_tickets_sold_out(self):
         """Test that we can't buy tickets once they are sold out."""
         event = mommy.make("Event", start=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=1)
+                           timedelta(days=20))
+        ticket_type = mommy.make("TicketType", event=event, number=1,
+                                 visible=True)
         user = mommy.make(settings.AUTH_USER_MODEL)
 
-        event.buy_ticket(user)  # This should be the last ticket
+        # This should be the last ticket
+        event.buy_ticket(user, {ticket_type.pk: 1})
 
-        self.assertEqual(0, event.remaining_tickets)
+        self.assertEqual(0, ticket_type.remaining_tickets)
 
         with self.assertRaises(NoTicketsError):
-            event.buy_ticket(user)
+            event.buy_ticket(user, {ticket_type.pk: 1})
 
-        self.assertEqual(0, event.remaining_tickets)
+        self.assertEqual(0, ticket_type.remaining_tickets)
 
     def test_cancel_tickets(self):
         """Test that we can cancel tickets."""
         event = mommy.make("Event", start=datetime.now(pytz.utc) +
-                           timedelta(days=20), available_tickets=30)
+                           timedelta(days=20))
+        ticket_type = mommy.make("TicketType", event=event, number=30,
+                                 visible=True)
         user = mommy.make(settings.AUTH_USER_MODEL)
 
-        order = event.buy_ticket(user, tickets=5)
+        order = event.buy_ticket(user, {ticket_type.pk: 5})
 
-        self.assertEqual(25, event.remaining_tickets)
+        self.assertEqual(25, ticket_type.remaining_tickets)
 
         mail.outbox = []
 
@@ -83,12 +96,12 @@ class TestTickets(TestCase):
 
         self.assertEqual(1, len(mail.outbox))
 
-        self.assertEqual(26, event.remaining_tickets)
+        self.assertEqual(26, ticket_type.remaining_tickets)
         # Test that the cancellation date is recorded
         self.assertIsNotNone(order.tickets.first().cancelled_datetime)
 
         # Test that we can't cancel tickets passed the deadline
-        order = event.buy_ticket(user, tickets=5)
+        order = event.buy_ticket(user, {ticket_type.pk: 5})
         event.start = datetime.now(pytz.utc) - timedelta(days=20)
         event.save()
 

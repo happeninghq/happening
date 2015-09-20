@@ -180,7 +180,7 @@ class ImageField(forms.ImageField):
         # We force this here so that a "None" value isn't an error
         self.required = False
 
-        if not value:
+        if not value or value == "None":
             return None
 
         is_temp = False

@@ -13,6 +13,12 @@
 
                 <p>You have purchased <strong>{{order.tickets.count}}</strong> ticket{{order.tickets.count|pluralize:"s"}} to <a href="{% url "view_event" event.pk %}">the {{event}}</a>.</p>
 
+                <table>
+                    <tbody>
+                        {% include "members/_tickets_table.html" with order=order %}
+                    </tbody>
+                </table>
+
                 <p>You will be emailed with more information about the event soon.</p>
             </div>
         </div>

@@ -1,0 +1,28 @@
+<div class="tickets-widget widget widget--embed">
+    <input type="hidden" name="{{name}}" data-bind="value: value" value='{{value|safe}}'>
+    <table class="full-width">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Number</th>
+                <th>Visible</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: tickets">
+            <tr>
+                <td><input type="text" data-bind="value: name"></td>
+                <td><input type="number" data-bind="value: number"></td>
+                <td><input type="checkbox" data-bind="checked: visible"></td>
+                <td><a href="#" data-bind="click: deleteTicket">X</a></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <a href="#" data-bind="click: addTicket">Add Ticket</a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

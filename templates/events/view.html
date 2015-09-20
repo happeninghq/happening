@@ -23,7 +23,6 @@
             </div>
 
             {% if event.is_future %}
-
                 {% if request.user|has_tickets:event %}
                     <div class="block-list__item block">
                         <header class="block__header">
@@ -37,12 +36,15 @@
                         </table>
                     </div>
                 {% endif %}
-                <div class="block-list__item block">
-                    <header class="block__header">
-                        <h2 class="block__header-text">Tickets</h2>
-                    </header>
-                    {% include "events/_ticket_widget.html" %}
-                </div>
+
+                {% if event.ticket_types.active.count > 0 %}
+                    <div class="block-list__item block">
+                        <header class="block__header">
+                            <h2 class="block__header-text">Tickets</h2>
+                        </header>
+                        {% include "events/_ticket_widget.html" %}
+                    </div>
+                {% endif %}
             {% endif %}
 
             {% plugin_block "events.event.primary_content" event %}

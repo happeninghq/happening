@@ -23,8 +23,8 @@
 
         <div class="ticket-information event-block__sidebar-spacing">
             {% if event.is_future %}
-                <span class="ticket-information__available"><strong>{{event.remaining_tickets}}</strong> Tickets available</span>
-                {% if event.remaining_tickets > 0 %}
+                <span class="ticket-information__available"><strong>{{event.purchasable_tickets_no}}</strong> Ticket{{event.purchasable_tickets_no|pluralize}} available</span>
+                {% if event.purchasable_tickets_no > 0 %}
                     <a href="{% url "view_event" event.pk %}" class="btn btn--full-width">
                         Get Tickets
                     </a>

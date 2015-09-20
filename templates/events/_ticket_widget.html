@@ -6,43 +6,40 @@
             <tr>
                 <th>Type</th>
                 <th>Remaining</th>
-                <th>End</th>
                 <th></th>
                 <th>Quantity</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Ticket</td>
-                <td class="remaining-tickets">
-                    {% if event.remaining_tickets < 1 %}
-                        Sold Out
-                    {% else %}
-                        {{event.remaining_tickets}} Ticket{{event.remaining_tickets|pluralize:",s"}}
-                    {% endif %}
-                </td>
-                <td class="end-date">{{event.start}}</td>
-                <td>Free</td>
-                <td>
-                    {% if event.remaining_tickets > 0 %}
-                        <select name="quantity">
-                            <option value="0">0 tickets</option>
-                            <option value="1">1 ticket</option>
-                            {% comment %}{% for n in event.remaining_tickets|times1 %}
-                                <option value="{{n}}">{{n}} ticket{{n|pluralize}}</option>
-                            {% endfor %}{% endcomment %}
-                        </select>
-                    {% endif %}
-                </td>
-            </tr>
+            {% for ticket_type in event.ticket_types.purchasable %}
+                <tr>
+                    <td>{{ticket_type.name}}</td>
+                    <td>
+                        {% if ticket_type.remaining_tickets < 1 %}
+                            Sold Out
+                        {% else %}
+                            {{ticket_type.remaining_tickets}} Ticket{{ticket_type.remaining_tickets|pluralize:",s"}}
+                        {% endif %}
+                    </td>
+                    <td>Free</td>
+                    <td>
+                        {% if ticket_type.remaining_tickets > 0 %}
+                            <select name="tickets_{{ticket_type.pk}}">
+                                {% for n in ticket_type.remaining_tickets|times0 %}
+                                    <option value="{{n}}">{{n}} ticket{{n|pluralize}}</option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
             <tr class="tickets__totals">
-                <td></td>
                 <td></td>
                 <td></td>
                 <td>£0.00 Total</td>
                 <td>
-                    {% if event.remaining_tickets > 0 %}
-                        <button class="btn" type="submit">Register</button>
+                    {% if event.purchasable_tickets_no > 0 %}
+                        <button class="btn" type="submit">Continue</button>
                     {% endif %}
                 </td>
             </tr>
