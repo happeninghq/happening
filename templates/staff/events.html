@@ -24,7 +24,7 @@
                                     <td><a href="{% url "staff_event" event.pk %}">{{event}}</a></td>
                                     <td data-sort="{{event.start|epoch}}">{{event.start}}</td>
                                     <td data-sort="{{event.end|epoch}}">{% if event.end %}{{event.end}}{% endif %}</td>
-                                    <td>{{event.taken_tickets}} of {{event.available_tickets}}</td>
+                                    <td>{{event.total_sold_tickets}} of {{event.total_available_tickets}}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

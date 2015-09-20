@@ -136,6 +136,17 @@ class Event(db.Model):
         return order
 
     @property
+    def total_sold_tickets(self):
+        """Get total number of sold tickets."""
+        return self.tickets.filter(cancelled=False).count()
+
+    @property
+    def total_available_tickets(self):
+        """Get number of purchasable tickets."""
+        return sum(t.number for t in
+                   self.ticket_types.purchasable())
+
+    @property
     def purchasable_tickets_no(self):
         """Get number of purchasable tickets."""
         return sum(t.remaining_tickets for t in
