@@ -1,11 +1,11 @@
 """Period tasks related to emails."""
 
-from periodically.decorators import hourly
+from periodically.decorators import every
 from models import Email
 from datetime import datetime
 
 
-@hourly()
+@every(minutes=1)
 def send_emails():
     """Send emails which are active."""
     now = datetime.now()

@@ -10,10 +10,17 @@ urlpatterns = [
         name='view_event_attendees'),
     url(r'^(?P<pk>\d+)/purchase_tickets', views.purchase_tickets,
         name='purchase_tickets'),
-    url(r'^tickets_purchased/(?P<pk>\d+)', views.tickets_purchased,
+    url(r'^tickets_purchased/(?P<pk>\d+)$', views.tickets_purchased,
         name='tickets_purchased'),
     url(r'^$', views.upcoming_events, name='events'),
     url(r'^past$', views.past_events, name='past_events'),
     url(r'^feeds$', views.feeds, name='event_feeds'),
     url(r'^feeds/all.ics$', AllEventsFeed(), name="all_events_feed"),
+
+
+    url(r'^(?P<pk>\d+)/payment/$', views.ticket_payment_success,
+        name='ticket_payment_success'),
+    url(r'^(?P<pk>\d+)/payment/fail$',
+        views.ticket_payment_failure,
+        name='ticket_payment_failure'),
 ]

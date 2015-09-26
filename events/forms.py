@@ -7,6 +7,7 @@ from happening import forms as happening_forms
 from happening.forms import DateTimeWidget
 from django.template.loader import render_to_string
 import json
+from payments.models import PaymentHandler
 
 
 class TicketForm(forms.Form):
@@ -26,13 +27,15 @@ class TicketForm(forms.Form):
             if max_tickets:
                 m = min((max_tickets, m))
             choices = [
-                (str(x), str(x)) for x in range(0, m)]
+                (str(x), str(x)) for x in range(0, m + 1)]
             self.fields['tickets_' + str(ticket_type.pk)] = forms.ChoiceField(
                 label=ticket_type.name, choices=choices)
 
     def clean(self):
         """Ensure that at least one ticket is chosen."""
         cleaned_data = super(TicketForm, self).clean()
+
+        print cleaned_data
 
         ticket_keys = [k for k in cleaned_data.keys()
                        if k.startswith("tickets_")]
@@ -54,22 +57,24 @@ class TicketsWidget(forms.Widget):
     def render(self, name, value, attrs):
         """Render the widget."""
         # Convert the value into JSON
-        if value:
+        # Because this isn't mapping to a single field the value will never be
+        # passed. instead we use self.initial.
+        if self.initial:
             value = [{"pk": t.pk,
                       "name": t.name,
                       "number": t.number,
-                      "visible": t.visible} for t in value]
-        elif self.initial:
-            value = [{"pk": t.pk,
-                      "name": t.name,
-                      "number": t.number,
+                      "price": float(t.price) / 100.0,
                       "visible": t.visible} for t in self.initial]
         else:
             value = []
 
+        # payment is enabled if there is an active payment provider
+        payment_enabled = PaymentHandler.objects.active() is not None
+
         return render_to_string("forms/widgets/tickets_widget.html", {
             "name": name,
-            "value": json.dumps(value)
+            "value": json.dumps(value),
+            "payment_enabled": payment_enabled
         })
 
     def value_from_datadict(self, data, files, name):
@@ -135,6 +140,7 @@ class EventForm(ModelForm):
 
             ticket_type.name = ticket['name']
             ticket_type.number = ticket['number']
+            ticket_type.price = float(ticket['price']) * 100
             ticket_type.visible = ticket['visible']
 
             ticket_type.save()

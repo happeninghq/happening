@@ -1,6 +1,16 @@
 {% load loops %}
-<form action="{% url "purchase_tickets" event.pk %}" method="POST">
+{% load currency %}
+<form action="{% url "purchase_tickets" event.pk %}" method="POST" class="purchase-tickets-widget">
     {% csrf_token %}
+
+    {% for errors in form.errors.values %}
+        {% for error in errors %}
+            <div class="message-box message-box--error">
+                {{error}}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     <table class="tickets">
         <thead>
             <tr>
@@ -12,7 +22,7 @@
         </thead>
         <tbody>
             {% for ticket_type in event.ticket_types.purchasable %}
-                <tr>
+                <tr data-price="{{ticket_type.price}}">
                     <td>{{ticket_type.name}}</td>
                     <td>
                         {% if ticket_type.remaining_tickets < 1 %}
@@ -21,7 +31,13 @@
                             {{ticket_type.remaining_tickets}} Ticket{{ticket_type.remaining_tickets|pluralize:",s"}}
                         {% endif %}
                     </td>
-                    <td>Free</td>
+                    <td>
+                        {% if ticket_type.price == 0 %}
+                            Free
+                        {% else %}
+                            &pound;{{ticket_type.price|format_currency}}
+                        {% endif %}
+                    </td>
                     <td>
                         {% if ticket_type.remaining_tickets > 0 %}
                             <select name="tickets_{{ticket_type.pk}}">
@@ -36,7 +52,7 @@
             <tr class="tickets__totals">
                 <td></td>
                 <td></td>
-                <td>£0.00 Total</td>
+                <td class="tickets__totals__total">£0.00 Total</td>
                 <td>
                     {% if event.purchasable_tickets_no > 0 %}
                         <button class="btn" type="submit">Continue</button>

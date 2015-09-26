@@ -5,6 +5,9 @@
             <tr>
                 <th>Name</th>
                 <th>Number</th>
+                {% if payment_enabled %}
+                    <th>Price (£)</th>
+                {% endif %}
                 <th>Visible</th>
                 <th></th>
             </tr>
@@ -13,6 +16,9 @@
             <tr>
                 <td><input type="text" data-bind="value: name"></td>
                 <td><input type="number" data-bind="value: number"></td>
+                {% if payment_enabled %}
+                    <td><input type="number" data-bind="value: price" step="0.01"></td>
+                {% endif %}
                 <td><input type="checkbox" data-bind="checked: visible"></td>
                 <td><a href="#" data-bind="click: deleteTicket">X</a></td>
             </tr>

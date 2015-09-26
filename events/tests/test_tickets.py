@@ -41,7 +41,7 @@ class TestTickets(TestCase):
         self.assertEqual(30, event.purchasable_tickets_no)
 
         # Should buy 3 tickets
-        order = event.buy_ticket(user, {ticket_type.pk: 3})
+        order = event.buy_tickets(user, {ticket_type.pk: 3})
         self.assertEqual(27, event.purchasable_tickets_no)
 
         # Test that the purchase date is recorded
@@ -56,7 +56,7 @@ class TestTickets(TestCase):
         user = mommy.make(settings.AUTH_USER_MODEL)
 
         with self.assertRaises(EventFinishedError):
-            past_event.buy_ticket(user, {ticket_type.pk: 1})
+            past_event.buy_tickets(user, {ticket_type.pk: 1})
 
         self.assertEqual(30, ticket_type.remaining_tickets)
 
@@ -69,12 +69,12 @@ class TestTickets(TestCase):
         user = mommy.make(settings.AUTH_USER_MODEL)
 
         # This should be the last ticket
-        event.buy_ticket(user, {ticket_type.pk: 1})
+        event.buy_tickets(user, {ticket_type.pk: 1})
 
         self.assertEqual(0, ticket_type.remaining_tickets)
 
         with self.assertRaises(NoTicketsError):
-            event.buy_ticket(user, {ticket_type.pk: 1})
+            event.buy_tickets(user, {ticket_type.pk: 1})
 
         self.assertEqual(0, ticket_type.remaining_tickets)
 
@@ -86,7 +86,7 @@ class TestTickets(TestCase):
                                  visible=True)
         user = mommy.make(settings.AUTH_USER_MODEL)
 
-        order = event.buy_ticket(user, {ticket_type.pk: 5})
+        order = event.buy_tickets(user, {ticket_type.pk: 5})
 
         self.assertEqual(25, ticket_type.remaining_tickets)
 
@@ -101,7 +101,7 @@ class TestTickets(TestCase):
         self.assertIsNotNone(order.tickets.first().cancelled_datetime)
 
         # Test that we can't cancel tickets passed the deadline
-        order = event.buy_ticket(user, {ticket_type.pk: 5})
+        order = event.buy_tickets(user, {ticket_type.pk: 5})
         event.start = datetime.now(pytz.utc) - timedelta(days=20)
         event.save()
 

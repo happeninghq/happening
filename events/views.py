@@ -1,10 +1,13 @@
 """Event views."""
+from payments.decorators import payment_successful, payment_failed
 from django.shortcuts import render, get_object_or_404, redirect
 from models import Event, TicketOrder
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from forms import TicketForm
 from django.utils import timezone
+from payments.models import Payment
+from django.contrib import messages
 
 
 def view(request, pk):
@@ -41,11 +44,51 @@ def purchase_tickets(request, pk):
         if form.is_valid():
             tickets = {p[8:]: int(n) for p, n in form.cleaned_data.items() if
                        p.startswith("tickets_")}
-            order = event.buy_ticket(request.user,
-                                     tickets)
+
+            payment_required = event.total_ticket_cost(tickets)
+
+            # If payment is required
+            if payment_required > 0:
+                # Now we need to put some tickets on hold -
+                # and then pass to payment
+                held_tickets = event.hold_tickets(request.user, tickets)
+
+                # Create a payment
+                payment = Payment(
+                    user=request.user,
+                    description="Tickets for %s" % str(event),
+                    amount=payment_required,
+                    extra={"event_pk": event.pk,
+                           "held_tickets_pk": held_tickets.pk},
+                    success_url_name="ticket_payment_success",
+                    failure_url_name="ticket_payment_failure"
+                )
+                payment.save()
+                return redirect("make_payment", payment.pk)
+
+            order = event.buy_tickets(request.user,
+                                      tickets)
             return redirect("tickets_purchased", order.pk)
     return render(request, "events/purchase_tickets.html",
                   {"event": event, "form": form})
+
+
+@login_required
+@payment_successful
+def ticket_payment_success(request, payment):
+    """Ticket payment successful."""
+    order = get_object_or_404(TicketOrder, pk=payment.extra["held_tickets_pk"])
+    order.mark_complete()
+
+    return redirect("tickets_purchased", order.pk)
+
+
+@login_required
+@payment_failed
+def ticket_payment_failure(request, payment):
+    """Ticket payment failed."""
+    messages.error(request, payment.error)
+    return redirect("view_event", payment.extra["event_pk"])
 
 
 @login_required
@@ -55,6 +98,20 @@ def tickets_purchased(request, pk):
 
     if not order.user == request.user:
         raise Http404
+
+    if not order.complete:
+        if not order.event.is_future:
+            return redirect("view_event", order.event.pk)
+
+        payment = Payment.objects.filter(
+            _complete=False,
+            extra__at_held_tickets_pk=order.pk
+        ).first()
+
+        if not payment:
+            return redirect("view_event", order.event.pk)
+
+        return redirect("make_payment", payment.pk)
 
     return render(request, "events/tickets_purchased.html", {
         "order": order, "event": order.tickets.first().event})

@@ -1,5 +1,5 @@
 {% if order %}
-    <tr class="{% if order.cancelled %}low-opacity{% endif %}">
+    <tr class="{% if order.cancelled or not order.complete %}low-opacity{% endif %}">
         <th>Order #{{order.pk}}</th>
         <td colspan="5">{{order.purchased_datetime}}</td>
     </tr>
@@ -9,9 +9,14 @@
     {% endfor %}
 {% endif %}
 {% for order in orders %}
-    <tr class="{% if order.cancelled %}low-opacity{% endif %}">
+    <tr class="{% if order.cancelled or not order.complete %}low-opacity{% endif %}">
         <th>Order #{{order.pk}}</th>
-        <td colspan="5">{{order.purchased_datetime}}</td>
+        <td colspan="2">{{order.purchased_datetime}}</td>
+        {% if not order.complete %}
+            <td><a class="btn" href="{% url "tickets_purchased" order.pk %}">Complete Payment</a></td>
+        {% else %}
+            <td></td>
+        {% endif %}
     </tr>
 
     {% for ticket in order.tickets.all %}

@@ -91,10 +91,20 @@ class Event(db.Model):
                 '-' + self.end.strftime("%b. %d, %Y, %H:%M")
         return self.start.strftime("%b. %d, %Y, %H:%M")
 
-    def buy_ticket(self, user, tickets):
+    def buy_tickets(self, user, tickets):
         """Buy the tickets for the given user.
 
         tickets should be a dict mapping ticket types to amounts.
+        """
+        order = self.hold_tickets(user, tickets)
+        order.mark_complete()
+
+        return order
+
+    def hold_tickets(self, user, tickets):
+        """Hold the tickets for the given user.
+
+        These tickets will expire after 5 minutes.
         """
         if not self.is_future:
             raise EventFinishedError()
@@ -109,9 +119,6 @@ class Event(db.Model):
                 # ERROR
                 raise NoTicketsError()
 
-        # TODO: WRITE TESTS
-        # ALSO MAKE SURE THE EMAIL SHOWS THE TICKET TYPES
-
         # Then create the order
         order = TicketOrder(user=user, event=self)
         order.save()
@@ -123,22 +130,25 @@ class Event(db.Model):
                                 type=type)
                 ticket.save()
 
-        kwargs = {"order": order,
-                  "tickets_count": order.tickets.count(),
-                  "event": self,
-                  "event_name": str(self)}
-
-        n = PurchasedTicketNotification(
-            user,
-            **kwargs)
-        n.send()
-
         return order
+
+    def total_ticket_cost(self, tickets):
+        """Sum up total ticket cost."""
+        tickets = {TicketType.objects.get(pk=pk): number for pk, number
+                   in tickets.items()}
+        cost = 0
+        for ticket, number in tickets.items():
+            if not ticket.event == self:
+                raise Exception("Incorrect event")
+            cost += ticket.price * number
+
+        return cost
 
     @property
     def total_sold_tickets(self):
         """Get total number of sold tickets."""
-        return self.tickets.filter(cancelled=False).count()
+        return self.tickets.filter(cancelled=False,
+                                   order__complete=True).count()
 
     @property
     def total_available_tickets(self):
@@ -154,7 +164,8 @@ class Event(db.Model):
 
     def attending_users(self):
         """Get a list of attending users."""
-        return set([t.user for t in self.tickets.all() if not t.cancelled])
+        return set([t.user for t in self.tickets.all() if
+                    (not t.order or not t.order.complete) and not t.cancelled])
 
     def __unicode__(self):
         """Return the title of this event."""
@@ -183,6 +194,7 @@ class TicketType(db.Model):
     event = models.ForeignKey(Event, related_name="ticket_types")
     name = models.CharField(max_length=255)
     number = models.IntegerField()
+    price = models.IntegerField()
     visible = models.BooleanField(default=False)
 
     @property
@@ -197,12 +209,28 @@ class TicketOrder(db.Model):
 
     event = models.ForeignKey(Event, related_name="orders")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="orders")
+    complete = models.BooleanField(default=False)
     purchased_datetime = models.DateTimeField(auto_now_add=True)
 
     @property
     def cancelled(self):
         """Have all tickets in this order been cancelled."""
         return all([t.cancelled for t in self.tickets.all()])
+
+    def mark_complete(self):
+        """Complete the purchase of a ticket."""
+        kwargs = {"order": self,
+                  "tickets_count": self.tickets.count(),
+                  "event": self.event,
+                  "event_name": str(self.event)}
+
+        n = PurchasedTicketNotification(
+            self.user,
+            **kwargs)
+        n.send()
+
+        self.complete = True
+        self.save()
 
 
 class Ticket(db.Model):

@@ -28,7 +28,7 @@ class TestTicketPurchase(TestCase):
         ticket_type = mommy.make("TicketType", event=event, number=30,
                                  visible=True)
         with self.assertRaises(NoTicketsError):
-            event.buy_ticket(self.user, {ticket_type.pk: 31})
+            event.buy_tickets(self.user, {ticket_type.pk: 31})
 
     def test_purchase_requires_login(self):
         """Test you need to be logged in to purchase tickets."""
@@ -57,7 +57,7 @@ class TestTicketPurchase(TestCase):
                                  visible=True)
 
         self.client.login(username=self.user.username, password="password")
-        event.buy_ticket(self.user, {ticket_type.pk: 30})
+        event.buy_tickets(self.user, {ticket_type.pk: 30})
 
         response = self.client.get("/events/%s/purchase_tickets" % event.pk,
                                    follow=True)
@@ -69,7 +69,7 @@ class TestTicketPurchase(TestCase):
         """Test that a purchase creates a ticket and redirects."""
         event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=20))
-        ticket_type = mommy.make("TicketType", event=event, number=30,
+        ticket_type = mommy.make("TicketType", event=event, number=30, price=0,
                                  visible=True)
         self.client.login(username=self.user.username, password="password")
         response = self.client.post(
@@ -93,7 +93,7 @@ class TestTicketPurchase(TestCase):
         user2.set_password("password")
         user2.save()
 
-        ticket = event.buy_ticket(self.user, {ticket_type.pk: 5})
+        ticket = event.buy_tickets(self.user, {ticket_type.pk: 5})
 
         self.client.login(username=self.user.username, password="password")
 
@@ -110,7 +110,7 @@ class TestTicketPurchase(TestCase):
         event = mommy.make("Event", start=datetime.now(pytz.utc) +
                            timedelta(days=20))
         ticket_type = mommy.make("TicketType", event=event, number=30,
-                                 visible=True)
+                                 visible=True, price=0)
         self.client.login(username=self.user.username, password="password")
         response = self.client.post(
             "/events/%s/purchase_tickets" % event.pk,

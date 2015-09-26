@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load widget_tweaks %}
+{% load currency %}
 
 {% block secondary_navigation %}{% endblock %}
 
@@ -11,6 +12,19 @@
                 <header class="block__header">
                     <h2 class="block__header-text">Payment</h2>
                 </header>
+
+                <table>
+                    <tr>
+                        <th>Amount</th>
+                        <td>&pound;{{payment.amount|format_currency}}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{payment.description}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="block-list__item block">
 
                 <form method="POST" id="payment-form" action="{% url "make_payment" payment.pk %}" style="display: none">
                     {% csrf_token %}
