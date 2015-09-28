@@ -78,7 +78,7 @@ class Notification(db.Model):
         n = n[0]
 
         d = self.data2
-        d["site"] = Site.objects.first().happening_site
+        d["happening_site"] = Site.objects.first().happening_site
 
         data = render_to_string("notifications/notifications/" +
                                 n.category.lower() + "/" +
