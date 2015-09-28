@@ -165,7 +165,7 @@ class Event(db.Model):
     def attending_users(self):
         """Get a list of attending users."""
         return set([t.user for t in self.tickets.all() if
-                    (not t.order or not t.order.complete) and not t.cancelled])
+                    (not t.order or t.order.complete) and not t.cancelled])
 
     def __unicode__(self):
         """Return the title of this event."""
