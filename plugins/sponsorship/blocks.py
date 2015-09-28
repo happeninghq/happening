@@ -4,18 +4,14 @@ from django.template.loader import render_to_string
 from models import CommunitySponsorship
 
 
-@plugin_block("events.event_long")
-def event_long(request, event):
-    """Add sponsorship information to long event information."""
-    return render_to_string("sponsorship/blocks/events/event_long.html",
-                            {"event": event})
-
-
-@plugin_block("events.event_short")
-def event_short(request, event):
-    """Add sponsorship information to short event information."""
-    # Same as long
-    return event_long(request, event)
+@plugin_block("events.event.secondary_content")
+def event_secondary_content(request, event):
+    """Add sponsorship information to event page."""
+    if not event.sponsor():
+        return ""
+    return render_to_string(
+        "sponsorship/blocks/events/event/secondary_content.html",
+        {"event": event})
 
 
 @plugin_block("staff.event")
@@ -27,7 +23,7 @@ def staff_event(request, event):
 
 @plugin_block("index.secondary_content")
 def community_sponsors(request):
-    """Add community sponsor links to footer."""
+    """Add community sponsor links to sidebar."""
     from models import SponsorTier
 
     if CommunitySponsorship.objects.count() == 0:
