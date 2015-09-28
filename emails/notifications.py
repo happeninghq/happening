@@ -9,4 +9,3 @@ class EmailNotification(Notification):
     required_data = ["subject", "content"]
 
     send_notification = False
-    can_edit_send_email = False
