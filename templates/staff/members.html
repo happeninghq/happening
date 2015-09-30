@@ -18,6 +18,7 @@
                             <th>Staff</th>
                             <th>Active</th>
                             <th>Paid</th>
+                            <th>Attendance</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -44,6 +45,9 @@
                                     {% else %}
                                         True
                                     {% endif %}
+                                </td>
+                                <td>
+                                    {{member.attended_tickets}}/{{member.uncancelled_tickets}}
                                 </td>
                                 <td>
                                     <a href="{% url "edit_profile" member.pk %}">Edit Profile</a>

@@ -15,6 +15,7 @@ from happening.plugins import trigger_action
 import json
 from happening.db import AddressField
 from happening.storage import media_path
+from django.contrib.auth.models import User
 
 
 class Event(db.Model):
@@ -272,6 +273,20 @@ class Ticket(db.Model):
     def __unicode__(self):
         """Return the name."""
         return "%s's ticket to %s" % (self.order.user, self.event)
+
+
+def member_uncancelled_tickets(member):
+    """List the number of tickets not cancelled."""
+    return member.tickets.filter(cancelled=False).count()
+
+User.uncancelled_tickets = member_uncancelled_tickets
+
+
+def member_attended_tickets(member):
+    """List the number of attended events."""
+    return member.tickets.filter(cancelled=False, checked_in=True).count()
+
+User.attended_tickets = member_attended_tickets
 
 
 class EventPreset(db.Model):
