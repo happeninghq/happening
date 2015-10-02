@@ -85,3 +85,33 @@ class Profile(db.Model):
         """Return a list of the user's stackexchange URLs."""
         return [x.get_profile_url() for x in
                 self.user.socialaccount_set.filter(provider="stackexchange")]
+
+
+def close_account(user):
+    """Close a user's account."""
+    # Clear the profile
+    p = user.profile
+    p.bio = ""
+    p.photo.delete()
+    p._data = {}
+    p.save()
+
+    # Clear the user
+    user.is_active = False
+    closed_account_number = 1
+    username = "Closed Account %s" % closed_account_number
+    while len(User.objects.filter(username=username)) > 0:
+        closed_account_number += 1
+        username = "Closed Account %s" % closed_account_number
+    user.username = username
+    user.first_name = ""
+    user.last_name = ""
+
+    # Remove email addresses
+    [e.delete() for e in user.emailaddress_set.all()]
+
+    # Remove social accounts
+    [e.delete() for e in user.socialaccount_set.all()]
+
+    user.save()
+User.close_account = close_account

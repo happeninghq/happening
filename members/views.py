@@ -13,6 +13,8 @@ from happening.configuration import save_variables
 from members.user_profile import CustomProperties
 from members.configuration import ProfileProperties
 from decorators import require_editing_own_profile
+from django.contrib import messages
+from django.contrib.auth import logout
 
 
 def index(request):
@@ -118,13 +120,6 @@ def edit_profile(request, pk):
 
             member.profile.photo = form.cleaned_data['profile_image']
 
-            # if form.cleaned_data['profile_image'] == "DELETE":
-            #     member.profile.photo.delete(False)
-            # elif form.cleaned_data['profile_image']:
-            #     member.profile.photo.save(
-            #         form.cleaned_data['profile_image'][0],
-            #         form.cleaned_data['profile_image'][1], False)
-
             member.profile.save()
             member.save()
             save_variables(form, variables)
@@ -165,3 +160,18 @@ def edit_username(request, pk):
     return render(request, "members/edit_username.html",
                   {"member": member,
                    "form": form})
+
+
+@require_editing_own_profile
+def close_account(request, pk):
+    """Close account."""
+    member = get_object_or_404(get_user_model(), pk=pk)
+
+    if request.method == "POST":
+        member.close_account()
+        messages.success(request,
+                         "Your account has now been closed.")
+        logout(request)
+        return redirect("index")
+
+    return render(request, "members/close_account.html", {"member": member})

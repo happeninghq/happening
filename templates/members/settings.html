@@ -40,10 +40,18 @@
                     {% plugin_block "members.settings" member %}
                     <tr>
                         <th>Notifications</th>
-                        <th colspan="2"><a href="{% url "notifications_settings" %}">Notification Settings</a></th>
+                        <td colspan="2"><a href="{% url "notifications_settings" %}">Notification Settings</a></td>
+                    </tr>
+                    <tr>
+                        <th>Account</th>
+                        <td colspan="2">
+                            <a class="btn btn--warning" href="{% url "close_account" request.user.pk %}">Close Account</a>
+                        </td>
                     </tr>
                 </table>
             </div>
+        </div>
+        <div class="l-secondary-content block-list">
         </div>
     </div>
 {% endblock %}

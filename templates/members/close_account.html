@@ -1,0 +1,31 @@
+{% load xextends %}
+
+{% xextends "members/base.html" with secondary_nav="my_settings" %}
+
+{% load staticfiles %}
+
+{% block content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header valign-together">
+                    <h2 class="block__header-text">Close Account</h2>
+                </header>
+
+                <p>Are you sure to wish to close the account <strong>{{member}}</strong>?</p>
+
+                <p>This will reset the profile of <strong>{{member}}</strong>, removing the profile photo, linked social accounts, and emails. The account will be set as inactive and is not recoverable.</p>
+
+                <p>This will not remove content you have contributed (including private messages, comments, etc.).</p>
+
+                <p>This action cannot be reversed.</p>
+
+                <form method="POST" action="{% url "close_account" member.pk %}">
+                    <button class="btn btn--warning" type="submit">Continue</button>
+                    <a class="btn" href="{% url "my_settings" %}">Cancel</a>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}
