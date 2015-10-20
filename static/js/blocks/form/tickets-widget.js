@@ -1,12 +1,13 @@
 $(function() {
     $('.tickets-widget').each(function() {
-        function ticket(name, number, price, visible, pk) {
+        function ticket(name, number, price, visible, waiting_list_enabled, pk) {
             return {
                 pk: ko.observable(pk),
                 name: ko.observable(name),
                 number: ko.observable(number),
                 price: ko.observable(price),
                 visible: ko.observable(visible),
+                waiting_list_enabled: ko.observable(waiting_list_enabled),
                 deleteTicket: function() {
                     viewModel.tickets.remove(this);
                 }
@@ -33,7 +34,7 @@ $(function() {
             if (value) {
                 value = JSON.parse(value);
                 for (var i in value) {
-                    viewModel.tickets.push(ticket(value[i].name, value[i].number, value[i].price, value[i].visible, value[i].pk));
+                    viewModel.tickets.push(ticket(value[i].name, value[i].number, value[i].price, value[i].visible, value[i].waiting_list_enabled, value[i].pk));
                 }
             }
         });

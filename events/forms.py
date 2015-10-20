@@ -64,6 +64,7 @@ class TicketsWidget(forms.Widget):
                       "name": t.name,
                       "number": t.number,
                       "price": float(t.price) / 100.0,
+                      "waiting_list_enabled": t.waiting_list_enabled,
                       "visible": t.visible} for t in self.initial]
         else:
             value = []
@@ -142,6 +143,7 @@ class EventForm(ModelForm):
             ticket_type.number = ticket['number']
             ticket_type.price = float(ticket['price']) * 100
             ticket_type.visible = ticket['visible']
+            ticket_type.waiting_list_enabled = ticket['waiting_list_enabled']
 
             ticket_type.save()
 

@@ -9,6 +9,7 @@
                     <th>Price (£)</th>
                 {% endif %}
                 <th>Visible</th>
+                <th>Waiting List</th>
                 <th></th>
             </tr>
         </thead>
@@ -19,7 +20,9 @@
                 {% if payment_enabled %}
                     <td><input type="number" data-bind="value: price" step="0.01"></td>
                 {% endif %}
-                <td><input type="checkbox" data-bind="checked: visible"></td>
+                <td><input type="checkbox" data-bind="checked: 
+                visible"></td>
+                <td><input type="checkbox" data-bind="checked: waiting_list_enabled"></td>
                 <td><a href="#" data-bind="click: deleteTicket">X</a></td>
             </tr>
         </tbody>

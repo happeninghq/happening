@@ -197,6 +197,7 @@ class TicketType(db.Model):
     number = models.IntegerField()
     price = models.IntegerField()
     visible = models.BooleanField(default=False)
+    waiting_list_enabled = models.BooleanField(default=False)
 
     @property
     def remaining_tickets(self):
