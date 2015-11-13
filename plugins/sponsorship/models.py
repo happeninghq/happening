@@ -6,7 +6,6 @@ from happening.storage import media_path
 
 
 class Sponsor(db.Model):
-
     """A Sponsor."""
 
     name = models.CharField(max_length=200)
@@ -21,7 +20,6 @@ class Sponsor(db.Model):
 
 
 class EventSponsor(db.Model):
-
     """A sponsor for an individual event."""
 
     sponsor = models.ForeignKey(Sponsor, related_name="event_sponsors")
@@ -29,7 +27,6 @@ class EventSponsor(db.Model):
 
 
 class SponsorTier(db.Model):
-
     """A tier for a sponsor to sponsor the entire community."""
 
     name = models.CharField(max_length=200)
@@ -40,7 +37,6 @@ class SponsorTier(db.Model):
 
 
 class CommunitySponsorship(db.Model):
-
     """An instance of a sponsor sponsoring the community."""
 
     sponsor = models.ForeignKey(Sponsor, related_name="community_sponsorships")

@@ -5,7 +5,6 @@ from happening import appearance
 
 
 class TestAppearance(TestCase):
-
     """Test appearance."""
 
     def test_parse_categories(self):

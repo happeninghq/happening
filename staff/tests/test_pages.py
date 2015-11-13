@@ -7,7 +7,6 @@ from pages.models import Page
 
 
 class TestPages(TestCase):
-
     """Test managing pages."""
 
     def setUp(self):

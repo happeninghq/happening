@@ -18,7 +18,6 @@ Site.happening_site = property(
 
 
 class HappeningSite(db.Model):
-
     """Add site configuration."""
 
     site = models.ForeignKey(Site)
@@ -29,7 +28,6 @@ class HappeningSite(db.Model):
 
 
 class Follow(db.Model):
-
     """A user following a topic."""
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,

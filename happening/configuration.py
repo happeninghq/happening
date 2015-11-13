@@ -55,7 +55,6 @@ def save_variables(form, variables):
 
 
 class Renderer(object):
-
     """Convert a variable value into a given data type."""
 
     def render(self, value):
@@ -68,7 +67,6 @@ class Renderer(object):
 
 
 class StringRenderer(Renderer):
-
     """Convert a variable into a string."""
 
     def render(self, value):
@@ -77,7 +75,6 @@ class StringRenderer(Renderer):
 
 
 class IntRenderer(Renderer):
-
     """Convert a variable into a int."""
 
     def render(self, value):
@@ -86,7 +83,6 @@ class IntRenderer(Renderer):
 
 
 class JSONRenderer(Renderer):
-
     """Convert a variable from JSON into a dict."""
 
     def render(self, value):
@@ -106,7 +102,6 @@ class JSONRenderer(Renderer):
 
 
 class MarkdownRenderer(Renderer):
-
     """Render the markdown in a string."""
 
     def render(self, value):
@@ -115,7 +110,6 @@ class MarkdownRenderer(Renderer):
 
 
 class ConfigurationVariable(object):
-
     """A configuration variable.
 
     Either for the overall system or for a model.
@@ -177,21 +171,18 @@ class ConfigurationVariable(object):
 
 
 class CharField(ConfigurationVariable):
-
     """A text field."""
 
     pass
 
 
 class EmailField(CharField):
-
     """A validated email address field."""
 
     field = forms.EmailField
 
 
 class IntegerField(CharField):
-
     """An integer field."""
 
     renderer = IntRenderer()
@@ -199,14 +190,12 @@ class IntegerField(CharField):
 
 
 class URLField(CharField):
-
     """A url field."""
 
     field = forms.URLField
 
 
 class BooleanField(ConfigurationVariable):
-
     """A boolean field."""
 
     field = forms.BooleanField
@@ -215,7 +204,6 @@ class BooleanField(ConfigurationVariable):
 
 
 class ChoiceField(ConfigurationVariable):
-
     """A multiple choice field."""
 
     field = forms.ChoiceField
@@ -227,7 +215,6 @@ class ChoiceField(ConfigurationVariable):
 
 
 class PropertiesField(ConfigurationVariable):
-
     """A field to configure custom properties and types."""
 
     renderer = JSONRenderer()
@@ -239,7 +226,6 @@ class PropertiesField(ConfigurationVariable):
 
 
 class EmailsField(ConfigurationVariable):
-
     """A field to configure emails."""
 
     renderer = JSONRenderer()
@@ -294,7 +280,6 @@ class EmailsField(ConfigurationVariable):
 
 
 class CustomProperties(ConfigurationVariable):
-
     """A field to hold the values for custom properties."""
 
     renderer = JSONRenderer()

@@ -3,7 +3,6 @@ from happening import configuration
 
 
 class CustomProperties(configuration.CustomProperties):
-
     """The custom properties added on event creation."""
 
     configuration_variable =\

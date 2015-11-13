@@ -4,7 +4,6 @@ from django_pgjson.fields import JsonField
 
 
 class Model(models.Model):
-
     """All happening Models should subclass this."""
 
     _data = JsonField(default={})
@@ -14,7 +13,6 @@ class Model(models.Model):
 
 
 class AddressField(JsonField):
-
     """Field for storing address information."""
 
     def formfield(self, **kwargs):

@@ -3,7 +3,6 @@ from happening import configuration
 
 
 class ProfileProperties(configuration.PropertiesField):
-
     """The properties custom added to member profiles."""
 
     default = [

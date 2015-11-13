@@ -22,7 +22,6 @@ User.name = get_user_name
 
 
 class Profile(db.Model):
-
     """Member Profile."""
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL,

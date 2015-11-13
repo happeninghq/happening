@@ -7,7 +7,6 @@ from django.conf import settings
 
 
 class TestSettings(TestCase):
-
     """Test viewing and editing settings."""
 
     def setUp(self):

@@ -7,7 +7,6 @@ from django.utils import timezone
 
 
 class Payment(db.Model):
-
     """Represents a payment which may or may not be paid yet."""
 
     # Payments must be made by a user
@@ -73,7 +72,6 @@ class Payment(db.Model):
 
 
 class PaymentManager(models.Manager):
-
     """Custom PaymentHandler Manager, to get active handler."""
 
     def active(self):
@@ -82,7 +80,6 @@ class PaymentManager(models.Manager):
 
 
 class PaymentHandler(db.Model):
-
     """Represent a Stripe instance configured to accept payment.
 
     We currently only accept Stripe but will accept more in future.

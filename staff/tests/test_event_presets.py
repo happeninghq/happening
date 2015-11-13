@@ -8,7 +8,6 @@ import json
 
 
 class TestEventPresets(TestCase):
-
     """Test administrating event presets."""
 
     def setUp(self):

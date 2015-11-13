@@ -11,7 +11,6 @@ from payments.models import PaymentHandler
 
 
 class TicketForm(forms.Form):
-
     """Form for purchasing/editing tickets."""
 
     def __init__(self, *args, **kwargs):
@@ -46,7 +45,6 @@ class TicketForm(forms.Form):
 
 
 class TicketsWidget(forms.Widget):
-
     """A widget that allows for configuring tickets."""
 
     def __init__(self, *args, **kwargs):
@@ -84,7 +82,6 @@ class TicketsWidget(forms.Widget):
 
 
 class TicketsField(forms.CharField):
-
     """A field that allows for configuring tickets."""
 
     widget = TicketsWidget
@@ -101,7 +98,6 @@ class TicketsField(forms.CharField):
 
 
 class EventForm(ModelForm):
-
     """Form for creating/editing events."""
 
     start = forms.DateTimeField(widget=DateTimeWidget())

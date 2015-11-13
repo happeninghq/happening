@@ -8,7 +8,6 @@ from events.models import Event
 
 
 class Comment(db.Model):
-
     """A comment."""
 
     parent_content_type = models.ForeignKey(ContentType)

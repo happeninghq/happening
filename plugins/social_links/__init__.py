@@ -2,7 +2,6 @@
 
 
 class Plugin(object):
-
     """Add social links to footer."""
 
     name = "Socal Links"

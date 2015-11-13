@@ -13,7 +13,6 @@ register = template.Library()
 
 
 class XExtendsNode(template.Node):
-
     """Allow parameters when extending."""
 
     def __init__(self, node, kwargs):

@@ -6,7 +6,6 @@ from happening.forms import MarkdownWidget
 
 
 class SponsorForm(forms.ModelForm):
-
     """Form for creating/editing sponsors."""
 
     class Meta:
@@ -17,7 +16,6 @@ class SponsorForm(forms.ModelForm):
 
 
 class SponsorTierForm(forms.ModelForm):
-
     """Form for creating/editing sponsorship tiers."""
 
     class Meta:
@@ -26,7 +24,6 @@ class SponsorTierForm(forms.ModelForm):
 
 
 class EventSponsorForm(forms.Form):
-
     """Edit the sponsor for an event."""
 
     sponsor = forms.ModelChoiceField(queryset=Sponsor.objects.all(),
@@ -34,7 +31,6 @@ class EventSponsorForm(forms.Form):
 
 
 class CommunitySponsorshipForm(forms.Form):
-
     """Add a community sponsorship to a sponsor."""
 
     tier = forms.ModelChoiceField(queryset=SponsorTier.objects.all())

@@ -5,7 +5,6 @@ from django import forms
 
 
 class PaymentForm(forms.Form):
-
     """Form for paying for a new membership."""
 
     amount = forms.ChoiceField(choices=(

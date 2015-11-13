@@ -18,7 +18,6 @@ from django.contrib.auth.models import User
 
 
 class Event(db.Model):
-
     """An event."""
 
     start = models.DateTimeField()
@@ -167,7 +166,6 @@ class Event(db.Model):
 
 
 class TicketTypeManager(models.Manager):
-
     """Custom TicketType manager."""
 
     def active(self):
@@ -185,7 +183,6 @@ class TicketTypeManager(models.Manager):
 
 
 class TicketType(db.Model):
-
     """A type of ticket which can be purchased."""
 
     objects = TicketTypeManager()
@@ -229,7 +226,6 @@ class TicketType(db.Model):
 
 
 class TicketOrder(db.Model):
-
     """A ticket order."""
 
     event = models.ForeignKey(Event, related_name="orders")
@@ -259,7 +255,6 @@ class TicketOrder(db.Model):
 
 
 class Ticket(db.Model):
-
     """A claim by a user on a place at an event."""
 
     event = models.ForeignKey(Event, related_name="tickets")
@@ -314,7 +309,6 @@ User.attended_tickets = member_attended_tickets
 
 
 class EventPreset(db.Model):
-
     """Common settings to be loaded when creating a new event."""
 
     name = models.CharField(max_length=255)
@@ -330,7 +324,6 @@ class EventPreset(db.Model):
 
 
 class WaitingListSubscription(db.Model):
-
     """A user's subscription to a waiting list."""
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,

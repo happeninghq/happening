@@ -5,7 +5,6 @@ from happening.forms import MarkdownField
 
 
 class CommentForm(forms.ModelForm):
-
     """Form for creating comments."""
 
     content = MarkdownField(label="Post Comment")

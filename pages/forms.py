@@ -6,7 +6,6 @@ from models import Page
 
 
 class PageForm(ModelForm):
-
     """Form for creating/editing pages."""
 
     content = MarkdownField()

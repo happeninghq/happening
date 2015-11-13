@@ -5,7 +5,6 @@ from happening.models import Follow
 
 
 class Notification(object):
-
     """A notification that can be sent to a user."""
 
     required_data = []

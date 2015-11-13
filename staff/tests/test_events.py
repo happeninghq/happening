@@ -12,7 +12,6 @@ from django.utils import timezone
 
 
 class TestEvents(TestCase):
-
     """Test administrating events."""
 
     def setUp(self):

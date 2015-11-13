@@ -7,7 +7,6 @@ from members.models import Profile
 
 
 class Membership(db.Model):
-
     """A payment made to upgrade membership."""
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,

@@ -7,7 +7,6 @@ from emails.models import Email
 
 
 class EmailForm(forms.ModelForm):
-
     """Form for sending emails."""
 
     class Meta:

@@ -2,7 +2,6 @@
 
 
 class Plugin(object):
-
     """Add comments."""
 
     name = "Comments"

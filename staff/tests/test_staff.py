@@ -6,7 +6,6 @@ from django.conf import settings
 
 
 class TestStaff(TestCase):
-
     """Test staff views."""
 
     def setUp(self):

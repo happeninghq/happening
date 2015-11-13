@@ -8,7 +8,6 @@ from django.contrib.auth import get_user_model
 
 
 class ProfileForm(forms.Form):
-
     """Form for editing profile."""
 
     first_name = forms.CharField()
@@ -30,7 +29,6 @@ class ProfileForm(forms.Form):
 
 
 class UsernameForm(forms.Form):
-
     """Form for changing username."""
 
     username = forms.CharField()

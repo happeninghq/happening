@@ -8,7 +8,6 @@ from django.test.runner import DiscoverRunner
 
 
 class TempMediaMixin(object):
-
     """Mixin to create MEDIA_ROOT in temp and tear down when complete."""
 
     def setup_test_environment(self):
@@ -32,5 +31,6 @@ class TempMediaMixin(object):
 
 
 class CustomTestSuiteRunner(TempMediaMixin, DiscoverRunner):
-
     """Local test suite runner."""
+
+    pass

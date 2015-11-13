@@ -5,7 +5,6 @@ from event_configuration import Description
 
 
 class AllEventsFeed(ICalFeed):
-
     """Feed of all events."""
 
     product_id = '-//happening.com//Example//EN'

@@ -8,7 +8,6 @@ from django.conf import settings
 
 
 class TestPostEventUpdating(TestCase):
-
     """Test updating details after an event."""
 
     def setUp(self):

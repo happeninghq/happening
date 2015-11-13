@@ -10,7 +10,6 @@ from datetime import timedelta
 
 
 class TestEmail(TestCase):
-
     """Test sending emails."""
 
     def setUp(self):

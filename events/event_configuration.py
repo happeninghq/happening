@@ -4,7 +4,6 @@ from happening import forms
 
 
 class Description(configuration.CharField):
-
     """Event Description."""
 
     field = forms.MarkdownField

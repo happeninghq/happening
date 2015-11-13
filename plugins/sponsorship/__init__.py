@@ -2,7 +2,6 @@
 
 
 class Plugin(object):
-
     """Allow event-level and time based sponsorship."""
 
     name = "Sponsorship"

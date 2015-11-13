@@ -5,7 +5,6 @@ from plugins.groups import generate_groups
 
 
 class TestGroupGeneration(TestCase):
-
     """Test group generation algorithm."""
 
     def test_sets_up_single_groups(self):

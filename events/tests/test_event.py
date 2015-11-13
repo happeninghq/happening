@@ -9,7 +9,6 @@ from happening.utils import custom_strftime
 
 
 class TestEvent(TestCase):
-
     """Test event model."""
 
     def setUp(self):

@@ -10,7 +10,6 @@ from emails import render_email
 
 
 class Email(db.Model):
-
     """An instruction to send a templated email."""
 
     # Optionally link the email to an event
@@ -71,7 +70,6 @@ class Email(db.Model):
 
 
 class SentEmail(db.Model):
-
     """An Email sent to a User."""
 
     email = models.ForeignKey(Email, related_name="sent_emails")

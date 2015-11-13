@@ -54,7 +54,6 @@ def convert_to_camelcase(value):
 
 
 class DjangoJSONEncoder(JSONEncoder):
-
     """Dump JSON, using model_to_dict for django models."""
 
     def default(self, obj):

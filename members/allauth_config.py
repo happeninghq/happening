@@ -4,7 +4,6 @@ from allauth.account.adapter import DefaultAccountAdapter
 
 
 class AccountAdapter(DefaultAccountAdapter):
-
     """Account Adapter which has a special case for first login."""
 
     def get_login_redirect_url(self, request):

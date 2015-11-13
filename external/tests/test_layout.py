@@ -6,7 +6,6 @@ from django.conf import settings
 
 
 class TestLayout(TestCase):
-
     """Test basic layout."""
 
     def test_shows_login_link(self):
