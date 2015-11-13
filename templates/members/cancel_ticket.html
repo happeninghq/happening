@@ -11,11 +11,11 @@
                     <h2 class="block__header-text">Cancel {{ticket.event}} Tickets</h2>
                 </header>
 
-                <form action="{% url "cancel_ticket" ticket.id %}{% if request.GET.redirect_to %}?redirect_to={{request.GET.redirect_to}}{% endif %}" method="POST">
+                <form action="{% url "cancel_ticket" ticket.id %}{% if request.GET.next %}?next={{request.GET.next}}{% endif %}" method="POST">
                     <p>Are you sure you wish to cancel your ticket to {{ticket.event}}?</p>
                     {% csrf_token %}
                     <button class="warning" type="submit">Confirm</button>
-                    <a class="button" href="{% if request.GET.redirect_to %}{{request.GET.redirect_to}}{% else %}{% url "my_tickets" %}{% endif %}">Cancel</a>
+                    <a class="button" href="{% if request.GET.next %}{{request.GET.next}}{% else %}{% url "my_tickets" %}{% endif %}">Cancel</a>
                 </form>
             </div>
         </div>

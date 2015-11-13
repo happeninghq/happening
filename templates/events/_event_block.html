@@ -29,10 +29,15 @@
                         Get Tickets
                     </a>
                 {% else %}
-                    <!-- TODO: Waiting list -->
-                    <a href="#" class="btn btn--full-width btn--disabled">
-                        No Tickets Available
-                    </a>
+                    {% if event.waiting_list_is_available %}
+                        <a href="{% url "view_event" event.pk %}" class="btn btn--full-width">
+                            Waiting List Available
+                        </a>
+                    {% else %}
+                        <a href="#" class="btn btn--full-width btn--disabled">
+                            No Tickets Available
+                        </a>
+                    {% endif %}
                 {% endif %}
             {% else %}
                 <span class="ticket-information__available"><strong>0</strong> Tickets available</span>

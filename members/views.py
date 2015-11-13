@@ -41,11 +41,11 @@ def cancel_ticket(request, pk):
         raise Http404
 
     if not ticket.event.is_future:
-        return redirect(request.GET.get("redirect_to", "my_tickets"))
+        return redirect(request.GET.get("next", "my_tickets"))
 
     if request.method == "POST":
         ticket.cancel()
-        return redirect(request.GET.get("redirect_to", "my_tickets"))
+        return redirect(request.GET.get("next", "my_tickets"))
 
     return render(request, "members/cancel_ticket.html", {"ticket": ticket})
 

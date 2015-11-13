@@ -6,7 +6,6 @@ from exceptions import EventFinishedError, NoTicketsError
 from datetime import datetime, timedelta
 import pytz
 from happening.utils import custom_strftime
-import random
 from django.core.urlresolvers import reverse
 from notifications import CancelledTicketNotification
 from notifications import PurchasedTicketNotification
@@ -64,17 +63,6 @@ class Event(db.Model):
         """Return the event immediately prior to this one."""
         return Event.objects.all().filter(
             start__lt=self.start).order_by("-start").first()
-
-    @property
-    def recommended_languages(self):
-        """Return all languages suggested so far."""
-        all_votes = [t.default_votes for t in self.tickets.all()
-                     if t.default_votes is not None]
-        # Flatten the list
-        all_votes = list(set([item for sublist in all_votes
-                              for item in sublist]))
-        random.shuffle(all_votes)
-        return all_votes
 
     @property
     def is_future(self):
@@ -158,6 +146,11 @@ class Event(db.Model):
                    self.ticket_types.purchasable())
 
     @property
+    def waiting_list_is_available(self):
+        """At least one waiting list is available."""
+        return len(self.ticket_types.waiting_list_available()) > 0
+
+    @property
     def purchasable_tickets_no(self):
         """Get number of purchasable tickets."""
         return sum(t.remaining_tickets for t in
@@ -185,6 +178,11 @@ class TicketTypeManager(models.Manager):
         """Get purchasable ticket types."""
         return [t for t in self.active() if t.remaining_tickets > 0]
 
+    def waiting_list_available(self):
+        """Get ticket types not purchasable but with waiting list."""
+        return [t for t in self.active() if t.remaining_tickets == 0
+                and t.waiting_list_enabled]
+
 
 class TicketType(db.Model):
 
@@ -200,9 +198,34 @@ class TicketType(db.Model):
     waiting_list_enabled = models.BooleanField(default=False)
 
     @property
+    def sold_tickets(self):
+        """List of sold tickets."""
+        return self.tickets.filter(cancelled=False)
+
+    @property
     def remaining_tickets(self):
         """How many tickets of this time are unsold."""
-        return self.number - self.tickets.filter(cancelled=False).count()
+        return self.number - self.sold_tickets.count()
+
+    def waiting_list_contains(self, user):
+        """True if the waiting list contains the given user."""
+        if not user.is_authenticated():
+            return False
+        if not self.waiting_list_enabled:
+            return False
+        return self.waiting_list_subscriptions.filter(user=user).count() > 0
+
+    def join_waiting_list(self, user):
+        """Add a user to the waiting list."""
+        if not self.waiting_list_contains(user):
+            WaitingListSubscription(user=user, ticket_type=self).save()
+
+    def leave_waiting_list(self, user):
+        """Remove a user from the waiting list."""
+        if self.waiting_list_contains(user):
+            for subscription in self.waiting_list_subscriptions.filter(
+                    user=user):
+                subscription.delete()
 
 
 class TicketOrder(db.Model):
@@ -304,3 +327,13 @@ class EventPreset(db.Model):
     def value_as_dict(self):
         """Get the preset value as a dict."""
         return json.loads(self.value)
+
+
+class WaitingListSubscription(db.Model):
+
+    """A user's subscription to a waiting list."""
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             related_name="waiting_lists")
+    ticket_type = models.ForeignKey(TicketType,
+                                    related_name="waiting_list_subscriptions")

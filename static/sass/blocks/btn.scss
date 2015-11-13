@@ -62,3 +62,16 @@ button, .btn {
 .btn--warning {
     background: $ERROR-MESSAGE-BACKGROUND-COLOR;
 }
+
+.btn--plain {
+    // Clear button styling
+    background: inherit;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    text-decoration: underline;   
+
+    &:active {
+        top: 0px;
+    }
+}

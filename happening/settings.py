@@ -71,7 +71,6 @@ INSTALLED_APPS = (
     'members',
     'notifications',
     'pages',
-    'voting',
     'staff',
     'admin',
     'payments',

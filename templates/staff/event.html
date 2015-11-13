@@ -3,6 +3,7 @@
 {% xextends "staff/base.html" with secondary_nav="staff_events" %}
 {% load plugins %}
 {% load staticfiles %}
+{% load currency %}
 
 {% block staff_content %}
     <div class="l-container">
@@ -11,14 +12,57 @@
                 <header class="block__header">
                     <h2 class="block__header-text">Tickets</h2>
                 </header>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Tickets Sold</th>
+                            <th>Price</th>
+                            <th>Waiting List</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket_type in event.ticket_types.all %}
+                            <tr {% if not ticket_type.visible %} class="low-opacity" title="Not available for purchase" {% endif %}>
+                                <td>{{ticket_type.name}}</td>
+                                <td>
+                                    {{ticket_type.sold_tickets.count}}/
+                                    {{ticket_type.remaining_tickets}}
+                                </td>
+                                <td>
+                                    {% if ticket_type.price == 0 %}
+                                        Free
+                                    {% else %}
+                                        &pound;{{ticket_type.price|format_currency}}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if not ticket_type.waiting_list_enabled %}
+                                        Disabled
+                                    {% else %}
+                                        {{ticket_type.waiting_list_subscriptions.count}} waiting <a href="{% url "manage_waiting_list" ticket_type.pk %}">(manage)</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Attendees</h2>
+                </header>
                 
-                <table class="members tickets data-table" id="tickets-list">
+                <table class="members tickets data-table" id="attendees-list">
                     <thead>
                         <tr>
                             <th></th>
                             <th>Username</th>
                             <th>Name</th>
-                            <th>Tickets</th>
+                            <th></th>
                             <th>Checked In</th>
                             {% plugin_block "staff.event.tickets.headers" event ticket %}
                             <th></th>
@@ -39,8 +83,7 @@
                                     {{ticket.user.first_name}} {{ticket.user.last_name}}
                                 </td>
                                 <td>
-                                    {{ticket.number}}
-                                    {% if ticket.cancelled %}(cancelled){% endif %}
+                                    {% if ticket.cancelled %}cancelled{% endif %}
                                 </td>
                                 <td>
                                     {% if ticket.checked_in %}
@@ -55,12 +98,12 @@
                                     <ul class="button-list">
                                         {% if not ticket.cancelled %}
                                             {% if event.is_future %}
-                                                <li><a href="{% url "cancel_ticket" ticket.id %}?redirect_to={% url "staff_event" event.id %}" class="btn">Cancel</a></li>
+                                                <li><a href="{% url "cancel_ticket" ticket.id %}?next={% url "staff_event" event.id %}" class="btn">Cancel</a></li>
                                             {% endif %}
                                             {% if ticket.checked_in %}
-                                                <li><a href="{% url "cancel_check_in" ticket.id %}?redirect_to={% url "staff_event" event.id %}" class="btn">Cancel Check In</a></li>
+                                                <li><a href="{% url "cancel_check_in" ticket.id %}?next={% url "staff_event" event.id %}" class="btn">Cancel Check In</a></li>
                                             {% else %}
-                                                <li><a href="{% url "check_in" ticket.id %}?redirect_to={% url "staff_event" event.id %}" class="btn">Check In</a></li>
+                                                <li><a href="{% url "check_in" ticket.id %}?next={% url "staff_event" event.id %}" class="btn">Check In</a></li>
                                             {% endif %}
                                         {% endif %}
                                         {% plugin_block "staff.event.tickets.options" event ticket %}

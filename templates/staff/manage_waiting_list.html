@@ -1,0 +1,57 @@
+{% load xextends %}
+
+{% xextends "staff/base.html" with secondary_nav="staff_events" %}
+{% load plugins %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">{{ticket_type.event}} - {{ticket_type.name}} waiting list</h2>
+                </header>
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subscription in ticket_type.waiting_list_subscriptions.all %}
+                            <tr>
+                                <td>
+                                    <a title="{{subscription.user.profile}}" href="{% url "view_profile" subscription.user.pk %}">
+                                        <img class="members-list__image" src="{{subscription.user.profile.photo_url}}">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a title="{{subscription.user.profile}}" href="{% url "view_profile" subscription.user.pk %}">{{subscription.user}}</a>
+                                </td>
+                                <td>
+                                    {{subscription.user.first_name}} {{subscription.user.last_name}}
+                                </td>
+                                <td>
+                                    <form method="POST" action="{% url "remove_from_waiting_list" ticket_type.pk subscription.user.pk %}">
+                                        <button type="submit">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Add user</h2>
+                </header>
+            </div>
+        </div>
+        <div class="l-secondary-content block-list">
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% csrf_token %}
+{% load currency %}
+{% load waiting_lists %}
+
+<table>
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ticket_type in event.ticket_types.waiting_list_available %}
+            <tr data-price="{{ticket_type.price}}">
+                <td>{{ticket_type.name}}</td>
+                <td>
+                    {% if ticket_type.price == 0 %}
+                        Free
+                    {% else %}
+                        &pound;{{ticket_type.price|format_currency}}
+                    {% endif %}
+                </td>
+                <td>
+                    {{ticket_type.waiting_list_subscriptions.count}} waiting
+                </td>
+                <td>
+                    {% if ticket_type|waiting_list_contains:request.user %}
+                        <form method="POST" action="{% url "leave_waiting_list" ticket_type.pk %}?next={{request.path}}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn--plain">Leave Waiting List</button>
+                        </form>
+                    {% else %}
+                        <form method="POST" action="{% url "join_waiting_list" ticket_type.pk %}?next={{request.path}}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn--plain">Join Waiting List</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

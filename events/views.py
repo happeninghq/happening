@@ -1,9 +1,10 @@
 """Event views."""
 from payments.decorators import payment_successful, payment_failed
 from django.shortcuts import render, get_object_or_404, redirect
-from models import Event, TicketOrder
+from models import Event, TicketOrder, TicketType
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from forms import TicketForm
 from django.utils import timezone
 from payments.models import Payment
@@ -115,6 +116,28 @@ def tickets_purchased(request, pk):
 
     return render(request, "events/tickets_purchased.html", {
         "order": order, "event": order.tickets.first().event})
+
+
+@require_POST
+@login_required
+def join_waiting_list(request, pk):
+    """Join a waiting list."""
+    ticket_type = get_object_or_404(TicketType, pk=pk,
+                                    waiting_list_enabled=True)
+    ticket_type.join_waiting_list(request.user)
+    messages.success(request, "You have joined the waiting list")
+    return redirect(request.GET.get("next", "index"))
+
+
+@require_POST
+@login_required
+def leave_waiting_list(request, pk):
+    """Leave a waiting list."""
+    ticket_type = get_object_or_404(TicketType, pk=pk,
+                                    waiting_list_enabled=True)
+    ticket_type.leave_waiting_list(request.user)
+    messages.success(request, "You have left the waiting list")
+    return redirect(request.GET.get("next", "index"))
 
 
 def upcoming_events(request):

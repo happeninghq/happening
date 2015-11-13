@@ -2,13 +2,11 @@
 from happening.utils import staff_member_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model
-from events.models import Event, Ticket, EventPreset
+from events.models import Event, Ticket, EventPreset, TicketType
 from events.forms import EventForm
 from pages.models import Page
 from pages.forms import PageForm
 from forms import EmailForm
-from django.http import HttpResponse
-import json
 from django.contrib import messages
 from django.utils import timezone
 from happening.configuration import get_configuration_variables, attach_to_form
@@ -166,7 +164,7 @@ def check_in(request, pk):
         ticket.checked_in_datetime = timezone.now()
         ticket.save()
         messages.success(request, ticket.user.name() + " has been checked in.")
-    return redirect(request.GET.get("redirect_to"))
+    return redirect(request.GET.get("next"))
 
 
 @staff_member_required
@@ -179,7 +177,7 @@ def cancel_check_in(request, pk):
         ticket.save()
         messages.success(request, ticket.user.name() +
                          " is no longer checked in.")
-    return redirect(request.GET.get("redirect_to"))
+    return redirect(request.GET.get("next"))
 
 
 @staff_member_required
@@ -238,6 +236,27 @@ def create_event(request):
 
 
 @staff_member_required
+def manage_waiting_list(request, pk):
+    """Manage waiting list."""
+    ticket_type = get_object_or_404(TicketType, pk=pk)
+    return render(request, "staff/manage_waiting_list.html",
+                  {"ticket_type": ticket_type})
+
+
+@staff_member_required
+def remove_from_waiting_list(request, pk, user_pk):
+    """Remove a user from a waiting list."""
+    ticket_type = get_object_or_404(TicketType, pk=pk)
+    user = get_object_or_404(get_user_model(), pk=user_pk)
+    ticket_type.leave_waiting_list(user)
+
+    messages.success(request,
+                     "%s has been removed from the waiting list." % user)
+
+    return redirect("manage_waiting_list", pk)
+
+
+@staff_member_required
 def preview_email(request):
     """Render an email as it would be sent."""
     if request.GET.get('event'):
@@ -278,14 +297,6 @@ def email_event(request, pk):
             return redirect("staff_emails")
     return render(request, "staff/email_event.html",
                   {"event": event, "form": form})
-
-
-@staff_member_required
-def get_vote_winner(request, pk):
-    """Get an AJAX response of the winning language for an event."""
-    event = get_object_or_404(Event, pk=pk)
-    return HttpResponse(json.dumps({"value": event.winning_language}),
-                        content_type="application/json")
 
 
 @staff_member_required

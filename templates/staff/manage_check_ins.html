@@ -11,7 +11,7 @@
                 <header class="block__header">
                     <h2 class="block__header-text">{{event}}</h2>
                 </header>
-                <table class="data-table" id="tickets-list">
+                <table class="data-table" id="attendees-list">
                     <thead>
                         <tr>
                             <th></th>
@@ -51,9 +51,9 @@
                                     <td>
                                         <ul class="button-list">
                                             {% if ticket.checked_in %}
-                                                <li><a href="{% url "cancel_check_in" ticket.id %}?redirect_to={% url "manage_check_ins" event.id %}" class="btn">Cancel Check In</a></li>
+                                                <li><a href="{% url "cancel_check_in" ticket.id %}?next={% url "manage_check_ins" event.id %}" class="btn">Cancel Check In</a></li>
                                             {% else %}
-                                                <li><a href="{% url "check_in" ticket.id %}?redirect_to={% url "manage_check_ins" event.id %}" class="btn">Check In</a></li>
+                                                <li><a href="{% url "check_in" ticket.id %}?next={% url "manage_check_ins" event.id %}" class="btn">Check In</a></li>
                                             {% endif %}
                                         </ul>
                                     </td>
