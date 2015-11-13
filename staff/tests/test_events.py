@@ -90,7 +90,8 @@ class TestEvents(TestCase):
 
         # Check it lists the ticket
         response = self.client.get("/staff/events/%s" % self.event.id)
-        self.assertEquals(2, len(response.soup.find("table").findAll("tr")))
+        self.assertEquals(2, len(response.soup.find(
+            "table", id="attendees-list").findAll("tr")))
 
     def test_edit_event(self):
         """Test editing events."""
@@ -159,7 +160,8 @@ class TestEvents(TestCase):
         self.assertTrue("/staff/events/%s" % self.event.id in
                         response.redirect_chain[0][0])
 
-        self.assertEquals(2, len(response.soup.find("table").findAll("tr")))
+        self.assertEquals(2, len(response.soup.find("table",
+                          id="attendees-list").findAll("tr")))
 
         response = self.client.post(
             "/staff/events/%s/add_attendee" % self.event.id,
@@ -170,7 +172,8 @@ class TestEvents(TestCase):
         self.assertTrue("/staff/events/%s" % self.event.id in
                         response.redirect_chain[0][0])
 
-        self.assertEquals(3, len(response.soup.find("table").findAll("tr")))
+        self.assertEquals(3, len(response.soup.find("table",
+                          id="attendees-list").findAll("tr")))
 
     def test_check_in(self):
         """Test checking in."""
@@ -180,7 +183,7 @@ class TestEvents(TestCase):
 
         # Check it lists the ticket
         response = self.client.get("/staff/events/%s" % self.event.id)
-        trs = response.soup.find("table").findAll("tr")
+        trs = response.soup.find("table", id="attendees-list").findAll("tr")
         self.assertEquals(2, len(trs))
 
         check_in_button = trs[1].find("a", text="Check In")
@@ -192,7 +195,8 @@ class TestEvents(TestCase):
         response = self.client.get(check_in_button['href'], follow=True)
         # This should check them in then redirect back
 
-        trs = response.soup.find("table").findAll("tr")
+        trs = response.soup.find("table",
+                                 id="attendees-list").findAll("tr")
         self.assertEquals(2, len(trs))
 
         check_in_button = trs[1].find("a", text="Check In")
@@ -204,7 +208,7 @@ class TestEvents(TestCase):
         response = self.client.get(check_out_button['href'], follow=True)
         # This will check them out then redirect back
 
-        trs = response.soup.find("table").findAll("tr")
+        trs = response.soup.find("table", id="attendees-list").findAll("tr")
         self.assertEquals(2, len(trs))
 
         check_in_button = trs[1].find("a", text="Check In")

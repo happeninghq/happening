@@ -5,7 +5,7 @@ pillow==2.6.1 # For image uploading
 django-gravatar2==1.1.4 # For gravatar
 django-cleanup==0.3.0 # Remove images when replacing them
 django-templated-email==0.4.9 # For sending emails
-git+https://github.com/boecklic/django-periodically.git # Periodic tasks
+git+https://github.com/jscott1989/django-periodically.git # Periodic tasks
 django-ganalytics==0.3 # Include analytics from settings
 django-widget-tweaks==1.3 # For editing form attributes in templates
 django-markdown-deux==1.0.5 # For rendering markdown
