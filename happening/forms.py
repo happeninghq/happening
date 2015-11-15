@@ -159,6 +159,8 @@ class ImageWidget(forms.TextInput):
             except OSError:
                 # The file does not exist
                 value = None
+            except AttributeError:
+                value = None
 
         return render_to_string("forms/widgets/image_widget.html", {
             "name": name,
