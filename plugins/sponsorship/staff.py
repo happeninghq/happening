@@ -14,8 +14,12 @@ urlpatterns = patterns('plugins.sponsorship.views',
                        url(r'^sponsors/(?P<pk>\d+)/edit/community$',
                            'add_community_sponsorship_to_sponsor',
                            name='add_community_sponsorship_to_sponsor'),
-                       url(r'^sponsors/event/(?P<pk>\d+)$', 'edit_on_event',
-                           name='sponsor_edit_on_event'),
+                       url(r'^sponsors/event/(?P<pk>\d+)$',
+                           'add_sponsor_to_event',
+                           name='add_sponsor_to_event'),
+                       url(r'^sponsors/event/(?P<pk>\d+)/remove$',
+                           'remove_sponsor_from_event',
+                           name='remove_sponsor_from_event'),
                        )
 
 staff_links = (

@@ -3,6 +3,8 @@
         <h2 class="block__header-text block__header-text--small">Event Sponsors</h2>
     </header>
     <ul class="plain-list sponsors">
-        <li class="sponsors__sponsor"><a href="{% url "view_sponsor" event.sponsor.pk %}"><img class = "sponsors__sponsor-image" src="{{event.sponsor.logo.url}}"></a></li>
+        {% for sponsor in event.event_sponsors.all %}
+            <li class="sponsors__sponsor"><a href="{% url "view_sponsor" sponsor.sponsor.pk %}"><img class = "sponsors__sponsor-image" src="{{sponsor.sponsor.logo.url}}"></a></li>
+        {% endfor %}
     </ul>
 </div>

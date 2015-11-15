@@ -1,12 +1,29 @@
+{% load forms %}
 <div class="block block-list__item">
     <header class="block__header">
         <h2 class="block__header-text">Sponsors</h2>
     </header>
-    {% if event.sponsor %}
-        <p>{{event}} is sponsored by <a href="{% url "view_sponsor" event.sponsor.pk %}">{{event.sponsor}}</a></p>
-        <a class="btn" href="{% url "sponsor_edit_on_event" event.pk %}">Edit Sponsor</a>
+    {% if event.event_sponsors.count > 0 %}
+        <table>
+            {% for sponsor in event.event_sponsors.all %}
+                <tr>
+                    <td><a href="{% url "view_sponsor" sponsor.sponsor.pk %}">{{sponsor.sponsor}}</a></td>
+                    <td>
+                        <form method="POST" action="{% url "remove_sponsor_from_event" sponsor.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn--plain">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
     {% else %}
         <p>This event is not currently sponsored.</p>
-        <a class="btn" href="{% url "sponsor_edit_on_event" event.pk %}">Add Sponsor</a>
     {% endif %}
+    <h3>Add Sponsor</h3>
+    <form method="POST" action="{% url "add_sponsor_to_event" event.pk %}">
+        {% csrf_token %}
+        {{event_sponsor_form|render}}
+        <button type="submit">Add Sponsor</button>
+    </form>
 </div>

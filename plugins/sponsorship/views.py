@@ -5,6 +5,8 @@ from happening.utils import staff_member_required, admin_required
 from forms import SponsorForm, EventSponsorForm, SponsorTierForm
 from forms import CommunitySponsorshipForm
 from events.models import Event
+from django.contrib import messages
+from django.views.decorators.http import require_POST
 
 
 def view_sponsor(request, pk):
@@ -112,23 +114,25 @@ def create_sponsorship_tier(request):
 
 
 @staff_member_required
-def edit_on_event(request, pk):
+@require_POST
+def add_sponsor_to_event(request, pk):
     """Edit the sponsor for an event."""
     event = get_object_or_404(Event, pk=pk)
-    form = EventSponsorForm(initial={"sponsor": event.sponsor})
-    if request.method == "POST":
-        form = EventSponsorForm(request.POST)
-        if form.is_valid():
-            # First delete any existing event sponsor
-            for e in event.event_sponsors.all():
-                e.delete()
+    form = EventSponsorForm(request.POST, event=event)
+    if form.is_valid():
+        e = EventSponsor(
+            sponsor=form.cleaned_data['sponsor'], event=event)
+        e.save()
+        messages.success(request, "The sponsor has been added")
+    return redirect("staff_event", event.pk)
 
-            # Then add the new one
-            if form.cleaned_data['sponsor'] is not None:
-                e = EventSponsor(
-                    sponsor=form.cleaned_data['sponsor'], event=event)
-                e.save()
 
-            return redirect("staff_event", event.pk)
-    return render(request, "sponsorship/staff/edit_on_event.html",
-                  {"form": form, "event": event})
+@staff_member_required
+@require_POST
+def remove_sponsor_from_event(request, pk):
+    """Remove a sponsor from the event."""
+    eventsponsor = get_object_or_404(EventSponsor, pk=pk)
+    event = eventsponsor.event
+    eventsponsor.delete()
+    messages.success(request, "The sponsor has been removed")
+    return redirect("staff_event", event.pk)

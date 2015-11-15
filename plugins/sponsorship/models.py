@@ -42,12 +42,3 @@ class CommunitySponsorship(db.Model):
     sponsor = models.ForeignKey(Sponsor, related_name="community_sponsorships")
     tier = models.ForeignKey(SponsorTier,
                              related_name="community_sponsorships")
-
-
-def get_event_sponsor(event):
-    """Get a single sponsor for an event."""
-    if event.event_sponsors.count() == 0:
-        return None
-    return event.event_sponsors.all()[0].sponsor
-
-Event.sponsor = get_event_sponsor

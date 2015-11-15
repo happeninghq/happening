@@ -2,12 +2,13 @@
 from happening.plugins import plugin_block
 from django.template.loader import render_to_string
 from models import CommunitySponsorship
+from forms import EventSponsorForm
 
 
 @plugin_block("events.event.secondary_content")
 def event_secondary_content(request, event):
     """Add sponsorship information to event page."""
-    if not event.sponsor():
+    if event.event_sponsors.count() == 0:
         return ""
     return render_to_string(
         "sponsorship/blocks/events/event/secondary_content.html",
@@ -17,8 +18,10 @@ def event_secondary_content(request, event):
 @plugin_block("staff.event")
 def staff_event(request, event):
     """Add sponsorship links to staff event."""
-    return render_to_string("sponsorship/blocks/staff/event.html",
-                            {"event": event})
+    return render_to_string(
+        "sponsorship/blocks/staff/event.html",
+        {"event": event,
+         "event_sponsor_form": EventSponsorForm(event=event)})
 
 
 @plugin_block("index.secondary_content")

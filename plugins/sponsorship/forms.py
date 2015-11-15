@@ -26,8 +26,16 @@ class SponsorTierForm(forms.ModelForm):
 class EventSponsorForm(forms.Form):
     """Edit the sponsor for an event."""
 
-    sponsor = forms.ModelChoiceField(queryset=Sponsor.objects.all(),
-                                     required=False)
+    sponsor = forms.ModelChoiceField(queryset=Sponsor.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        """Initialise the EventSponsorForm with an event."""
+        event = kwargs.pop("event")
+        super(EventSponsorForm, self).__init__(*args, **kwargs)
+
+        self.fields['sponsor'] = forms.ModelChoiceField(
+            queryset=Sponsor.objects.all().exclude(id__in=[
+                s.sponsor.pk for s in event.event_sponsors.all()]))
 
 
 class CommunitySponsorshipForm(forms.Form):
