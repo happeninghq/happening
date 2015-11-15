@@ -153,11 +153,12 @@ class ImageWidget(forms.TextInput):
         """Render the widget."""
         # At this point we check if the file exists - if not we clear
         # the file
-        try:
-            value.size
-        except OSError:
-            # The file does not exist
-            value = None
+        if value:
+            try:
+                value.size
+            except OSError:
+                # The file does not exist
+                value = None
 
         return render_to_string("forms/widgets/image_widget.html", {
             "name": name,
