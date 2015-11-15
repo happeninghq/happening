@@ -151,6 +151,14 @@ class ImageWidget(forms.TextInput):
 
     def render(self, name, value, attrs):
         """Render the widget."""
+        # At this point we check if the file exists - if not we clear
+        # the file
+        try:
+            value.size
+        except OSError:
+            # The file does not exist
+            value = None
+
         return render_to_string("forms/widgets/image_widget.html", {
             "name": name,
             "value": value
