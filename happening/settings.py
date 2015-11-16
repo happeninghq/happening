@@ -25,7 +25,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', '')) or \
     'HAPPENING_TESTING' in os.environ
-
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["*"]
