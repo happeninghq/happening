@@ -23,10 +23,10 @@ SECRET_KEY = os.environ.get(
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', '')) or \
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', 'False') == "True") or \
     'HAPPENING_TESTING' in os.environ
 TEMPLATE_DEBUG = DEBUG
-USE_LIVE_DATA = bool(os.environ.get('USE_LIVE_DATA', not DEBUG))
+USE_LIVE_DATA = bool(os.environ.get('USE_LIVE_DATA', str(not DEBUG)) == "True")
 
 ALLOWED_HOSTS = ["*"]
 
