@@ -139,7 +139,8 @@ class EventForm(ModelForm):
             ticket_type.number = ticket['number']
             ticket_type.price = float(ticket['price']) * 100
             ticket_type.visible = ticket['visible']
-            ticket_type.waiting_list_enabled = ticket['waiting_list_enabled']
+            ticket_type.waiting_list_enabled = ticket.get(
+                'waiting_list_enabled', False)
 
             ticket_type.save()
 

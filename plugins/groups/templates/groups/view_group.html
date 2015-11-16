@@ -33,6 +33,11 @@
                     {{group_properties|properties_as_table:custom_properties}}
                 </table>
             </div>
+
+            {% plugin_block "groups.group.primary_content" group %}
+        </div>
+        <div class="l-secondary-content block-list">
+            {% plugin_block "groups.group.secondary_content" group %}
         </div>
     </div>
 {% endblock %}
