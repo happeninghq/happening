@@ -26,6 +26,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', '')) or \
     'HAPPENING_TESTING' in os.environ
 TEMPLATE_DEBUG = DEBUG
+USE_LIVE_DATA = bool(os.environ.get('USE_LIVE_DATA', not DEBUG))
 
 ALLOWED_HOSTS = ["*"]
 
@@ -205,7 +206,7 @@ TEST_RUNNER = 'happening.runner.CustomTestSuiteRunner'
 ACCOUNT_ADAPTER = 'members.allauth_config.AccountAdapter'
 ACCOUNT_EMAIL_REQUIRED = True
 
-if DEBUG:
+if not USE_LIVE_DATA:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     # Using SENDGRID
@@ -216,7 +217,7 @@ else:
     EMAIL_USE_TLS = True
 
 # AWS
-if not DEBUG:
+if USE_LIVE_DATA:
     AWS_QUERYSTRING_AUTH = False
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
@@ -226,7 +227,7 @@ if not DEBUG:
 
 
 # Sentry error tracking
-if not DEBUG:
+if USE_LIVE_DATA:
     # Set your DSN value
     RAVEN_CONFIG = {
         'dsn': os.environ['SENTRY_DSN'],
