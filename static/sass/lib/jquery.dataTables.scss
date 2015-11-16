@@ -1,5 +1,10 @@
 // Apply normal button styles to dataTables
 
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background: $MENU-HIGHLIGHT-BACKGROUND-COLOR;
+  color: #FFF;
+}
+
 .paginate_button.next, .paginate_button.previous {
   @extend .btn;
 
