@@ -76,3 +76,17 @@ def plugin_enabled(plugin_id):
         for plugin in PluginSetting.objects.all():
             enabled_plugins_cache[plugin.plugin_name] = plugin.enabled
     return enabled_plugins_cache.get(plugin_id, False)
+
+
+def every(*o_args, **o_kwargs):
+    """Ensure that periodic tasks are only executed for enabled plugins."""
+    def every_inner(f):
+        from periodically.decorators import every as periodically_every
+
+        def every_inner_inner(*args, **kwargs):
+            # First check if this plugin is enabled, if not return
+            # TODO: Pull the plugin ID (as above) from the stacktrace
+            # Then, we call the original method
+            return f(*args, **kwargs)
+        return periodically_every(*o_args, **o_kwargs)(every_inner_inner)
+    return every_inner
