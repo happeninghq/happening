@@ -1,5 +1,6 @@
 """Pages configuration."""
 from happening import configuration
+from events.models import Event
 
 
 class NameOfEvents(configuration.CharField):
@@ -24,3 +25,15 @@ class ForceSSL(configuration.BooleanField):
     """Should SSL be forced."""
 
     default = False
+
+
+class PrimaryEvent(configuration.ChoiceField):
+    """If one is selected, the primary event will replace index."""
+
+    default = "-1"
+
+    def __init__(self, *args, **kwargs):
+        """Setup choices."""
+        super(PrimaryEvent, self).__init__(*args, **kwargs)
+        self.choices = [("-1", "None")] + [
+            (str(e.pk), e.title) for e in Event.objects.all()]
