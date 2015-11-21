@@ -17,7 +17,8 @@ A basic button
 */
 button, .btn {
     display: inline-block;
-    background: $HEADER-COLOR;
+    background: $BUTTON-BACKGROUND-COLOR;
+    color: $BUTTON-COLOR;
     text-align: center;
     margin: 1em;
     padding: 1em;
@@ -26,8 +27,7 @@ button, .btn {
     box-shadow: none;
     border-radius: 0;
     border: none;
-
-    color: #FFF;
+    
     text-decoration: none;
 
     position: relative;

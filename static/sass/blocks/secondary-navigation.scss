@@ -21,7 +21,7 @@ Secondary, category-specific navigation.
 ```
 */
 .secondary-navigation {
-    background: $SECONDARY-COLOR;
+    background: $SECONDARY-NAV-BACKGROUND-COLOR;
     padding-top: 0.6em;
     padding-bottom: 0.6em;
 }
@@ -32,11 +32,12 @@ Secondary, category-specific navigation.
 .secondary-navigation__link {
     text-transform: uppercase;
     text-decoration: none;
+    color: $SECONDARY-NAV-COLOR;
 }
 
 /**
  * The currently selected, or hovered, link
  */
 .secondary-navigation__link--active, .secondary-navigation__link:hover {
-    border-bottom: 2px solid $FONT-COLOR;
+    border-bottom: 2px solid $SECONDARY-NAV-COLOR;;
 }
