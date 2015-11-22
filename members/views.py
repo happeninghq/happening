@@ -107,17 +107,17 @@ def edit_profile(request, pk):
             member.last_name = form.cleaned_data['last_name']
             member.profile.bio = form.cleaned_data['bio']
             member.profile.show_facebook_urls = \
-                form.cleaned_data['show_facebook_urls']
+                form.cleaned_data.get('show_facebook_urls', False)
             member.profile.show_github_urls = \
-                form.cleaned_data['show_github_urls']
+                form.cleaned_data.get('show_github_urls', False)
             member.profile.show_linkedin_urls = \
-                form.cleaned_data['show_linkedin_urls']
+                form.cleaned_data.get('show_linkedin_urls', False)
             member.profile.show_twitter_urls = \
-                form.cleaned_data['show_twitter_urls']
+                form.cleaned_data.get('show_twitter_urls', False)
             member.profile.show_google_urls = \
-                form.cleaned_data['show_google_urls']
+                form.cleaned_data.get('show_google_urls', False)
             member.profile.show_stackexchange_urls = \
-                form.cleaned_data['show_stackexchange_urls']
+                form.cleaned_data.get('show_stackexchange_urls', False)
 
             member.profile.photo = form.cleaned_data['profile_image']
 
