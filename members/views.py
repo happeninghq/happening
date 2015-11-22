@@ -85,6 +85,7 @@ def edit_profile(request, pk):
         secondary_nav = "my_profile"
 
     form = ProfileForm(
+        profile=member.profile,
         initial={
             "first_name": member.first_name,
             "last_name": member.last_name,
@@ -99,7 +100,7 @@ def edit_profile(request, pk):
         })
     attach_to_form(form, variables)
     if request.method == "POST":
-        form = ProfileForm(request.POST)
+        form = ProfileForm(request.POST, profile=member.profile)
         attach_to_form(form, variables)
         if form.is_valid():
             member.first_name = form.cleaned_data['first_name']

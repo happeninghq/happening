@@ -27,6 +27,18 @@ class ProfileForm(forms.Form):
     show_stackexchange_urls = happening_forms.BooleanField(
         label="Show StackExchange Profiles", required=False)
 
+    def __init__(self, *args, **kwargs):
+        """Ensure we only show appropriate inputs."""
+        profile = kwargs.pop("profile")
+        super(ProfileForm, self).__init__(*args, **kwargs)
+
+        for provider in [
+                "facebook", "github", "linkedin", "twitter", "google",
+                "stackexchange"]:
+            if not profile.user.socialaccount_set.filter(
+                    provider=provider).count() > 0:
+                del self.fields['show_%s_urls' % provider]
+
 
 class UsernameForm(forms.Form):
     """Form for changing username."""
