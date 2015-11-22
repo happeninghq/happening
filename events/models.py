@@ -142,7 +142,7 @@ class Event(db.Model):
     def total_available_tickets(self):
         """Get number of purchasable tickets."""
         return sum(t.number for t in
-                   self.ticket_types.purchasable())
+                   self.ticket_types.active())
 
     @property
     def waiting_list_is_available(self):
