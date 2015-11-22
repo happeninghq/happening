@@ -1,6 +1,6 @@
 """Sponsorship template blocks."""
 from happening.plugins import plugin_block
-from django.template.loader import render_to_string
+from happening.utils import render_block
 from models import CommunitySponsorship
 from forms import EventSponsorForm
 
@@ -10,7 +10,8 @@ def event_secondary_content(request, event):
     """Add sponsorship information to event page."""
     if event.event_sponsors.count() == 0:
         return ""
-    return render_to_string(
+    return render_block(
+        request,
         "sponsorship/blocks/events/event/secondary_content.html",
         {"event": event})
 
@@ -18,7 +19,8 @@ def event_secondary_content(request, event):
 @plugin_block("staff.event")
 def staff_event(request, event):
     """Add sponsorship links to staff event."""
-    return render_to_string(
+    return render_block(
+        request,
         "sponsorship/blocks/staff/event.html",
         {"event": event,
          "event_sponsor_form": EventSponsorForm(event=event)})
@@ -33,6 +35,7 @@ def community_sponsors(request):
         # No sponsors, don't show it
         return ""
 
-    return render_to_string(
+    return render_block(
+        request,
         "sponsorship/blocks/index/secondary_content.html",
         {"sponsor_tiers": SponsorTier.objects.all()})
