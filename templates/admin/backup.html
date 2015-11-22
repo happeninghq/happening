@@ -1,0 +1,39 @@
+{% load xextends %}
+
+{% xextends "admin/base.html" with secondary_nav="plugins" %}
+{% load staticfiles %}
+
+{% block admin_content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Dump</h2>
+                </header>
+                <form method="POST" action="{% url "dump_backup" %}">
+                    {% csrf_token %}
+                    <button type="submit">Dump</button>
+                </form>
+            </div>
+
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Restore</h2>
+                </header>
+                <form method="POST" action="{% url "restore_backup" %}" type="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" name="file">
+                    <button type="submit">Restore</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Backup</h2>
+                </header>
+            </div>
+        </div>
+    </div>
+{% endblock %}

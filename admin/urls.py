@@ -9,6 +9,9 @@ from admin import views
 
 urlpatterns = [
     url(r'^$', views.index, name='admin'),
+    url(r'^backup$', views.backup, name='backup'),
+    url(r'^backup/dump$', views.dump_backup, name='dump_backup'),
+    url(r'^backup/restore$', views.restore_backup, name='restore_backup'),
     url(r'^plugins$', views.plugins, name='plugins'),
     url(r'^configuration$', views.configuration, name='configuration'),
     url(r'^appearance$', views.appearance, name='appearance'),

@@ -9,6 +9,7 @@ cached_admin_urls = [
     (None, "Authentication", "authentication"),
     (None, "Payment", "payment_handlers"),
     (None, "Appearance", "appearance"),
+    (None, "Backup", "backup"),
 ]
 
 if hasattr(settings, "PLUGINS"):

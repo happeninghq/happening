@@ -11,6 +11,8 @@ from django.contrib.auth.decorators import user_passes_test
 from math import log
 from django.template.loader import render_to_string
 from django.template import RequestContext
+from cStringIO import StringIO
+import sys
 
 
 def render_block(request, template, kwargs):
@@ -121,3 +123,18 @@ def format_bytes(num, suffix='B'):
         return '0 bytes'
     if num == 1:
         return '1 byte'
+
+
+class capturing(list):
+    """Capture stdout to variable."""
+
+    def __enter__(self):
+        """Capture stdout to variable."""
+        self._stdout = sys.stdout
+        sys.stdout = self._stringio = StringIO()
+        return self
+
+    def __exit__(self, *args):
+        """Capture stdout to variable."""
+        self.extend(self._stringio.getvalue().splitlines())
+        sys.stdout = self._stdout

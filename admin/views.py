@@ -1,6 +1,6 @@
 """Admin views."""
 from django.shortcuts import render, redirect, get_object_or_404
-from happening.utils import admin_required
+from happening.utils import admin_required, capturing
 from django.conf import settings
 import importlib
 from django.contrib import messages
@@ -24,6 +24,10 @@ from happening.storage import storage
 from django import forms
 from html5.forms import widgets as html5_widgets
 from allauth.socialaccount.models import SocialApp
+from django.core.management.commands import dumpdata
+from django.db import DEFAULT_DB_ALIAS
+import zipfile
+import StringIO
 
 
 @admin_required
@@ -281,3 +285,47 @@ def edit_authentication(request, pk):
             return redirect("authentication")
     return render(request, "admin/authentication/edit.html",
                   {"form": form, "social_app": social_app})
+
+
+@admin_required
+def backup(request):
+    """Allow dumping/restoring data."""
+    return render(request, "admin/backup.html")
+
+
+@admin_required
+@require_POST
+def dump_backup(request):
+    """Dump zip of data and media."""
+    with capturing() as output:
+        dumpdata.Command().handle(
+            format='json',
+            database=DEFAULT_DB_ALIAS,
+            use_natural_foreign_keys=True,
+            exclude=[])
+    s = StringIO.StringIO()
+    zf = zipfile.ZipFile(s, "w")
+    zf.writestr("backup/data.json", str(output))
+
+    def write_to_zip(base_path, directory):
+        directories, files = storage.listdir(directory)
+        for d in directories:
+            write_to_zip(base_path + d + "/", directory + d + "/")
+        for f in files:
+            ff = storage.open(directory + f)
+            zf.writestr(base_path + f, ff.read())
+
+    write_to_zip("backup/media/", "")
+
+    zf.close()
+    resp = HttpResponse(s.getvalue(),
+                        content_type="application/x-zip-compressed")
+    resp['Content-Disposition'] = 'attachment; filename=backup.zip'
+    return resp
+
+
+@admin_required
+@require_POST
+def restore_backup(request):
+    """Restore zip to database."""
+    pass
