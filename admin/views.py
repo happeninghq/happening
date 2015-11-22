@@ -312,8 +312,10 @@ def dump_backup(request):
         for d in directories:
             write_to_zip(base_path + d + "/", directory + d + "/")
         for f in files:
-            ff = storage.open(directory + f)
-            zf.writestr(base_path + f, ff.read())
+            if f != '':
+                # For some reason we sometimes get a blank filename
+                ff = storage.open(directory + f)
+                zf.writestr(base_path + f, ff.read())
 
     write_to_zip("backup/media/", "")
 
