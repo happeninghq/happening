@@ -85,8 +85,9 @@ def every(*o_args, **o_kwargs):
 
         def every_inner_inner(*args, **kwargs):
             # First check if this plugin is enabled, if not return
-            # TODO: Pull the plugin ID (as above) from the stacktrace
-            # Then, we call the original method
+            plugin_id = inspect.getmodule(f).__name__[:-len(".periodictasks")]
+            if not plugin_enabled(plugin_id):
+                return False
             return f(*args, **kwargs)
         return periodically_every(*o_args, **o_kwargs)(every_inner_inner)
     return every_inner
