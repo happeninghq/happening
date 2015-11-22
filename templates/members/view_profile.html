@@ -31,16 +31,10 @@
             </div>
             <div class="block block-list__item">
                 <table>
-                    {% if member.first_name %}
+                    {% if member.first_name or member.last_name %}
                         <tr>
-                            <th>First Name</th>
-                            <td>{{member.first_name}}</td>
-                        </tr>
-                    {% endif %}
-                    {% if member.last_name %}
-                        <tr>
-                            <th>Last Name</th>
-                            <td>{{member.last_name}}</td>
+                            <th>Name</th>
+                            <td>{{member.first_name}} {{member.last_name}}</td>
                         </tr>
                     {% endif %}
                     {% if member.profile.show_github_urls %}
