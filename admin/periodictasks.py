@@ -11,6 +11,8 @@ from happening.storage import storage
 from django.core.files import File
 from datetime import datetime
 import sys
+import os
+import shutil
 
 
 @every(seconds=10)
@@ -76,7 +78,7 @@ def restore():
             load_initial_data=True
         )
 
-        # Delete all media - except for backups
+        # Delete all media
         def delete_dir(directory):
             directories, files = storage.listdir(directory)
             for d in directories:
@@ -92,6 +94,14 @@ def restore():
             ignore=True
         )
         # Restore media
+        for dirname, dirnames, filenames in os.walk("backup/media"):
+            for filename in filenames:
+                f = os.path.join(dirname, filename)[len("backup/media/"):]
+                with open(os.path.join(dirname, filename)) as ff:
+                    storage.save(f, ff)
+
+        # Remove the backup directory
+        shutil.rmtree('backup')
 
         # We need to quit as we have removed the task and the backup
         sys.exit(0)
