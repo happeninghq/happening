@@ -34,7 +34,7 @@ def admin_required(view_func, **kwargs):
     """Require a superuser."""
     if 'login_url' not in kwargs:
         kwargs['login_url'] = 'account_login'
-    return user_passes_test(lambda u: u.is_superuser, kwargs)(view_func)
+    return user_passes_test(lambda u: u.is_superuser, **kwargs)(view_func)
 
 
 def custom_strftime(format, t):
