@@ -1,6 +1,7 @@
 """Admin models."""
 from django.db import models
 from happening import db
+from happening.storage import media_path
 
 
 class PluginSetting(db.Model):
@@ -8,3 +9,13 @@ class PluginSetting(db.Model):
 
     plugin_name = models.CharField(max_length=255, primary_key=True)
     enabled = models.BooleanField(default=False)
+
+
+class Backup(db.Model):
+    """A backup which needs to be generated."""
+
+    started = models.BooleanField(default=False)
+    complete = models.BooleanField(default=False)
+    complete_time = models.DateTimeField(null=True)
+    zip_file = models.FileField(null=True,
+                                upload_to=media_path("backups"))

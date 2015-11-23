@@ -10,7 +10,11 @@ from admin import views
 urlpatterns = [
     url(r'^$', views.index, name='admin'),
     url(r'^backup$', views.backup, name='backup'),
-    url(r'^backup/dump$', views.dump_backup, name='dump_backup'),
+    url(r'^backup/(?P<pk>\d+)/cancel$', views.cancel_backup,
+        name='cancel_backup'),
+    url(r'^backup/(?P<pk>\d+)/delete$', views.delete_backup,
+        name='delete_backup'),
+    url(r'^backup/schedule$', views.schedule_backup, name='schedule_backup'),
     url(r'^backup/restore$', views.restore_backup, name='restore_backup'),
     url(r'^plugins$', views.plugins, name='plugins'),
     url(r'^configuration$', views.configuration, name='configuration'),

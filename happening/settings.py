@@ -322,6 +322,3 @@ if 'HAPPENING_TESTING' in os.environ:
         ('text/x-scss', 'echo'),
         ('text/ecmascript-6', 'echo'),
     )
-
-
-VERSION = 0.5

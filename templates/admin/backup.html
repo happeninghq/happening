@@ -8,12 +8,50 @@
         <div class="l-primary-content block-list">
             <div class="block block-list__item">
                 <header class="block__header">
-                    <h2 class="block__header-text">Dump</h2>
+                    <h2 class="block__header-text">Backups</h2>
                 </header>
-                <form method="POST" action="{% url "dump_backup" %}">
-                    {% csrf_token %}
-                    <button type="submit">Dump</button>
-                </form>
+                {% if backups.count > 0 %}
+                    <table>
+                        {% for backup in backups %}
+                            <tr>
+                                <th>#{{backup.pk}}</th>
+                                <td>
+                                    {% if backup.complete %}
+                                        {{backup.complete_time}}
+                                    {% else %}
+                                        {% if backup.started %}
+                                            Started
+                                        {% else %}
+                                            Pending
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if backup.complete %}
+                                        <a href="{{backup.zip_file.url}}" class="btn">Download</a>
+                                        <form method="POST" action="{% url "delete_backup" backup.pk %}">
+                                                <button type="submit">Delete</button>
+                                            </form>
+                                    {% else %}
+                                        {% if not backup.started %}
+                                            <form method="POST" action="{% url "cancel_backup" backup.pk %}">
+                                                <button type="submit">Cancel</button>
+                                            </form>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p>You don't have any backups currently.</p>
+                {% endif %}
+                {% if not backup_scheduled %}
+                    <form method="POST" action="{% url "schedule_backup" %}">
+                        {% csrf_token %}
+                        <button type="submit">Backup</button>
+                    </form>
+                {% endif %}
             </div>
 
             <div class="block block-list__item">
