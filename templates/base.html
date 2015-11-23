@@ -78,7 +78,9 @@
 
                     {% endif %}
                     {% if request.user.is_staff %}
-                        {% include "_primary_navigation_item.html" with link="admin" text="Admin" icon="cogs" %}
+                        {% if request.user.is_superuser %}
+                            {% include "_primary_navigation_item.html" with link="admin" text="Admin" icon="cogs" %}
+                        {% endif %}
                         {% include "_primary_navigation_item.html" with link="staff" text="Staff" icon="cogs" %}
                     {% endif %}
                     {% if request.user.is_authenticated %}
