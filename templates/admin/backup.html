@@ -30,11 +30,13 @@
                                     {% if backup.complete %}
                                         <a href="{{backup.zip_file.url}}" class="btn">Download</a>
                                         <form method="POST" action="{% url "delete_backup" backup.pk %}">
+                                                {% csrf_token %}
                                                 <button type="submit">Delete</button>
                                             </form>
                                     {% else %}
                                         {% if not backup.started %}
                                             <form method="POST" action="{% url "cancel_backup" backup.pk %}">
+                                                {% csrf_token %}
                                                 <button type="submit">Cancel</button>
                                             </form>
                                         {% endif %}

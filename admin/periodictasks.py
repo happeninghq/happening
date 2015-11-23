@@ -2,7 +2,7 @@
 
 from periodically.decorators import every
 from models import Backup
-from django.core.management.commands import dumpdata
+from django.core.management.commands import dumpdata, flush, loaddata
 from django.db import DEFAULT_DB_ALIAS
 import zipfile
 import StringIO
@@ -10,6 +10,7 @@ from happening.utils import capturing
 from happening.storage import storage
 from django.core.files import File
 from datetime import datetime
+import sys
 
 
 @every(seconds=10)
@@ -24,7 +25,11 @@ def backup():
                 format='json',
                 database=DEFAULT_DB_ALIAS,
                 use_natural_foreign_keys=True,
-                exclude=['admin.backup'])
+                exclude=['admin.backup',
+                         'contenttypes.contenttype',
+                         'sessions.session',
+                         'periodically.executionrecord',
+                         'auth.permission'])
         s = StringIO.StringIO()
         zf = zipfile.ZipFile(s, "w")
         zf.writestr("backup/data.json", output[0])
@@ -56,11 +61,37 @@ def restore():
     """Complete any scheduled restore."""
     for backup in Backup.objects.all().filter(
             restore=True):
-        pass
+
+        zf = zipfile.ZipFile(backup.zip_file.path, 'r')
+        zf.extractall(members=[x for x in zf.namelist()
+                               if x.startswith("backup/")])
+        zf.close()
+
         # First flush the database
-        # ./manage flush
-        # Delete all media
+        flush.Command().handle(
+            noinput=True,
+            database=DEFAULT_DB_ALIAS,
+            # We can do set this to false and add
+            # the content types etc if there are any problems:
+            load_initial_data=True
+        )
+
+        # Delete all media - except for backups
+        def delete_dir(directory):
+            directories, files = storage.listdir(directory)
+            for d in directories:
+                delete_dir(directory + d + "/")
+            for f in files:
+                storage.delete(directory + f)
+        delete_dir("")
+
         # ./manage loaddata
+        loaddata.Command().handle(
+            'backup/data.json',
+            database=DEFAULT_DB_ALIAS,
+            ignore=True
+        )
         # Restore media
 
-        # backup.delete()
+        # We need to quit as we have removed the task and the backup
+        sys.exit(0)
