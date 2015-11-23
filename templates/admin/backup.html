@@ -63,6 +63,7 @@
                 {% if restore_scheduled %}
                     We are currently restoring from your backup. This should be completed within 20 minutes.
                 {% else %}
+                    <p>Restoring a backup will remove all data from the database. This is not reversable. To continue, upload the .zip generated from a Happening backup.</p>
                     <form method="POST" action="{% url "restore_backup" %}" enctype="multipart/form-data">
                         {% csrf_token %}
                         <input type="file" name="zip_file">
