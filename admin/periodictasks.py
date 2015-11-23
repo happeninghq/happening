@@ -12,11 +12,11 @@ from django.core.files import File
 from datetime import datetime
 
 
-@every(minutes=10)
+@every(seconds=10)
 def backup():
     """Complete any scheduled backups."""
     for backup in Backup.objects.all().filter(
-            complete=False):
+            restore=False, complete=False):
         backup.started = True
         backup.save()
         with capturing() as output:
@@ -27,7 +27,7 @@ def backup():
                 exclude=['admin.backup'])
         s = StringIO.StringIO()
         zf = zipfile.ZipFile(s, "w")
-        zf.writestr("backup/data.json", str(output))
+        zf.writestr("backup/data.json", output[0])
 
         def write_to_zip(base_path, directory):
             directories, files = storage.listdir(directory)
@@ -49,3 +49,18 @@ def backup():
         backup.complete = True
         backup.complete_time = datetime.now()
         backup.save()
+
+
+@every(seconds=10)
+def restore():
+    """Complete any scheduled restore."""
+    for backup in Backup.objects.all().filter(
+            restore=True):
+        pass
+        # First flush the database
+        # ./manage flush
+        # Delete all media
+        # ./manage loaddata
+        # Restore media
+
+        # backup.delete()

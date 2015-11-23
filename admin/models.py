@@ -12,8 +12,10 @@ class PluginSetting(db.Model):
 
 
 class Backup(db.Model):
-    """A backup which needs to be generated."""
+    """A backup which needs to be generated/restored."""
 
+    # If this is true then we're restoring rather than generating
+    restore = models.BooleanField(default=False)
     started = models.BooleanField(default=False)
     complete = models.BooleanField(default=False)
     complete_time = models.DateTimeField(null=True)

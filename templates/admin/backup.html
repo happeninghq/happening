@@ -58,11 +58,15 @@
                 <header class="block__header">
                     <h2 class="block__header-text">Restore</h2>
                 </header>
-                <form method="POST" action="{% url "restore_backup" %}" type="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="file" name="file">
-                    <button type="submit">Restore</button>
-                </form>
+                {% if restore_scheduled %}
+                    We are currently restoring from your backup. This should be completed within 20 minutes.
+                {% else %}
+                    <form method="POST" action="{% url "restore_backup" %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="zip_file">
+                        <button type="submit">Restore</button>
+                    </form>
+                {% endif %}
             </div>
         </div>
 

@@ -289,9 +289,11 @@ def backup(request):
     return render(
         request,
         "admin/backup.html",
-        {"backups": Backup.objects.all(),
-         "backup_scheduled": Backup.objects.filter(complete=False).count()
-         > 0})
+        {"backups": Backup.objects.filter(restore=False),
+         "backup_scheduled": Backup.objects.filter(
+            restore=False, complete=False).count() > 0,
+         "restore_scheduled": Backup.objects.filter(
+            restore=True).count() > 0})
 
 
 @admin_required
@@ -308,11 +310,10 @@ def schedule_backup(request):
 @require_POST
 def restore_backup(request):
     """Restore zip to database."""
-    # ./manage flush
-    # Delete all media
-    # ./manage loaddata
-    # Restore media
-    pass
+    Backup(zip_file=request.FILES['zip_file'], restore=True).save()
+    messages.success(request, "Restore has been scheduled. It will be " +
+                     "complete within 20 minutes.")
+    return redirect("backup")
 
 
 @admin_required
