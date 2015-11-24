@@ -14,12 +14,14 @@
                     {% if request.user.is_authenticated %}
                         {% if user_is_following %}
                             <form action="{% url "unfollow" %}?next={{request.path}}" method="POST" class="block__header-extra-link block__header-extra-link--large">
+                                {% csrf_token %}
                                 <input type="hidden" name="object" value="{{follow_code}}">
                                 <input type="hidden" name="message" value="You are no longer following {{event.name}} discussion">
                                 <button class="btn btn--small" type="submit"><i class="fa fa-star"></i> Unfollow</button>
                             </form>
                         {% else %}
                             <form action="{% url "follow" %}?next={{request.path}}" method="POST" class="block__header-extra-link block__header-extra-link--large">
+                                {% csrf_token %}
                                 <input type="hidden" name="object" value="{{follow_code}}">
                                 <input type="hidden" name="message" value="You are now following {{event.name}} discussion">
                                 <button class="btn btn--small" type="submit"><i class="fa fa-star-o"></i> Follow</button>
