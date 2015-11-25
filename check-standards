@@ -1,7 +1,7 @@
 if [ -a ve/bin/flake8 ]; then
-    ve/bin/flake8 --max-complexity 10 --exclude='ve,migrations,lib,docs' . || EXIT_STATUS=$?
+    ve/bin/flake8 . || EXIT_STATUS=$?
 else
-    flake8 --max-complexity 10 --exclude='ve,migrations,lib,docs' . || EXIT_STATUS=$?
+    flake8 . || EXIT_STATUS=$?
 fi
 
 exit $EXIT_STATUS
