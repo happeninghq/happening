@@ -7,7 +7,7 @@ from cached_property import threaded_cached_property
 from bs4 import BeautifulSoup
 from django.utils import timezone
 from markdown_deux import markdown
-from happening.utils import convert_to_camelcase
+from happening.utils import convert_to_camelcase, externalise_urls
 from django.core.mail import send_mail
 from django.conf import settings
 from happening import notifications
@@ -112,7 +112,7 @@ class Notification(db.Model):
         content = self._rendered_notification.split("<notification_email>")[1]\
                       .split("</notification_email>")[0]
         if content:
-            return content
+            return externalise_urls(content)
 
         # If there is no content, for now just send the notification title
         return "You have a " + self.template + " notification."
@@ -125,7 +125,7 @@ class Notification(db.Model):
         content = self._rendered_notification.split("<notification_email>")[1]\
                       .split("</notification_email>")[0]
         if content:
-            return markdown(content)
+            return markdown(externalise_urls(content))
         else:
             return self.full
 

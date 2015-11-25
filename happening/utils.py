@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 from django.template import RequestContext
 from cStringIO import StringIO
 import sys
+from django.contrib.sites.models import Site
 
 
 def render_block(request, template, kwargs):
@@ -138,3 +139,29 @@ class capturing(list):
         """Capture stdout to variable."""
         self.extend(self._stringio.getvalue().splitlines())
         sys.stdout = self._stdout
+
+
+def externalise_urls(text):
+    """Convert all URLs in a piece of text from internal to external."""
+    return re.sub('\]\((?P<pk>.+?)\)',
+                  lambda m: "](%s)" % externalise_url(m.group(1)), text)
+
+
+def externalise_url(url):
+    """Convert a single URL from internal to external."""
+    from pages.configuration import ForceSSL
+    if url.startswith("http"):
+        # Already absolute
+        return url
+
+    # We only ever use the first site
+    site = Site.objects.get(pk=1)
+
+    prefix = "http://"
+    if ForceSSL().get():
+        prefix = "https://"
+
+    if not url.startswith("/"):
+        url = "/" + url
+
+    return prefix + site.domain + url
