@@ -1,64 +1,58 @@
 {% load loops %}
 {% load currency %}
-<form action="{% url "purchase_tickets" event.pk %}" method="POST" class="purchase-tickets-widget">
-    {% csrf_token %}
+{% load plugins %}
+{% load tickets %}
 
-    {% for errors in form.errors.values %}
-        {% for error in errors %}
-            <div class="message-box message-box--error">
-                {{error}}
-            </div>
-        {% endfor %}
-    {% endfor %}
+{% with "events.event_configuration.MaxTicketsPerPerson"|get_configuration:event as max_tickets %}
+    {% with request.user|tickets:event as user_tickets %}
+        <form action="{% url "purchase_tickets" event.pk %}" method="POST" class="purchase-tickets-widget" data-purchasable-tickets="{{event|purchasable_tickets_json}}" data-max-tickets="{{max_tickets}}" data-already-purchased="{{user_tickets.count}}">
 
-    <table class="tickets">
-        <thead>
-            <tr>
-                <th>Type</th>
-                <th>Remaining</th>
-                <th></th>
-                <th>Quantity</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ticket_type in event.ticket_types.purchasable %}
-                <tr data-price="{{ticket_type.price}}">
-                    <td>{{ticket_type.name}}</td>
-                    <td>
-                        {% if ticket_type.remaining_tickets < 1 %}
-                            Sold Out
-                        {% else %}
-                            {{ticket_type.remaining_tickets}} Ticket{{ticket_type.remaining_tickets|pluralize:",s"}}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if ticket_type.price == 0 %}
-                            Free
-                        {% else %}
-                            &pound;{{ticket_type.price|format_currency}}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if ticket_type.remaining_tickets > 0 %}
-                            <select name="tickets_{{ticket_type.pk}}">
-                                {% for n in ticket_type.remaining_tickets|times0 %}
-                                    <option value="{{n}}">{{n}} ticket{{n|pluralize}}</option>
-                                {% endfor %}
-                            </select>
-                        {% endif %}
-                    </td>
-                </tr>
+            {% csrf_token %}
+
+            {% if max_tickets > 0 %}
+                Maximum {{max_tickets}} ticket{{max_tickets|pluralize}} per person
+            {% endif %}
+
+            {% for errors in form.errors.values %}
+                {% for error in errors %}
+                    <div class="message-box message-box--error">
+                        {{error}}
+                    </div>
+                {% endfor %}
             {% endfor %}
-            <tr class="tickets__totals">
-                <td></td>
-                <td></td>
-                <td class="tickets__totals__total">£0.00 Total</td>
-                <td>
-                    {% if event.purchasable_tickets_no > 0 %}
-                        <button class="btn" type="submit">Continue</button>
-                    {% endif %}
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</form>
+
+            <table class="tickets">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Remaining</th>
+                        <th></th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- ko foreach: purchasable_tickets -->
+                        <tr>
+                            <td data-bind="text: name"></td>
+                            <td data-bind="text: remaining_tickets_formatted()"></td>
+                            <td data-bind="text: price_formatted()"></td>
+                            <td>
+                                <!-- ko if: purchasable_tickets() > 0 -->
+                                    <select data-bind="options: purchasable_ticket_options, value: purchasing_tickets, attr: {name: 'tickets_' + pk()}"></select>
+                                <!-- /ko -->
+                            </td>
+                        </tr>
+                    <!-- /ko -->
+                    <tr class="tickets__totals">
+                        <td></td>
+                        <td></td>
+                        <td data-bind="text: total_cost_formatted"></td>
+                        <td>
+                            <button class="btn" type="submit" data-bind="attr: {disabled: purchasing_tickets() == 0}">Continue</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    {% endwith %}
+{% endwith %}

@@ -9,6 +9,7 @@ from forms import TicketForm
 from django.utils import timezone
 from payments.models import Payment
 from django.contrib import messages
+from events.event_configuration import MaxTicketsPerPerson
 
 
 def view(request, pk):
@@ -39,9 +40,24 @@ def purchase_tickets(request, pk):
     if event.purchasable_tickets_no == 0:
         return redirect("view_event", event.pk)
 
-    form = TicketForm(event=event)
+    max_tickets = MaxTicketsPerPerson().get()
+    use_max_tickets = max_tickets > 0
+
+    if use_max_tickets > 0:
+        max_tickets -= event.tickets.filter(
+            user=request.user, cancelled=False).count()
+
+    if use_max_tickets:
+        form = TicketForm(event=event, max_tickets=max_tickets)
+    else:
+        form = TicketForm(event=event)
+
     if request.method == "POST":
-        form = TicketForm(request.POST, event=event)
+        if use_max_tickets:
+            form = TicketForm(request.POST, event=event,
+                              max_tickets=max_tickets)
+        else:
+            form = TicketForm(request.POST, event=event)
         if form.is_valid():
             tickets = {p[8:]: int(n) for p, n in form.cleaned_data.items() if
                        p.startswith("tickets_")}

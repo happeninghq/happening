@@ -16,31 +16,44 @@ class TicketForm(forms.Form):
     def __init__(self, *args, **kwargs):
         """Initialise the PurchaseForm with an event."""
         event = kwargs.pop("event")
-        max_tickets = None
+        self.max_tickets = None
         if 'max_tickets' in kwargs:
-            max_tickets = kwargs.pop("max_tickets")
+            self.max_tickets = kwargs.pop("max_tickets")
         super(TicketForm, self).__init__(*args, **kwargs)
 
         for ticket_type in event.ticket_types.active():
             m = ticket_type.remaining_tickets
-            if max_tickets:
-                m = min((max_tickets, m))
+            if self.max_tickets:
+                m = min((self.max_tickets, m))
             choices = [
                 (str(x), str(x)) for x in range(0, m + 1)]
             self.fields['tickets_' + str(ticket_type.pk)] = forms.ChoiceField(
-                label=ticket_type.name, choices=choices)
+                label=ticket_type.name, choices=choices, required=False)
 
     def clean(self):
         """Ensure that at least one ticket is chosen."""
         cleaned_data = super(TicketForm, self).clean()
 
-        print cleaned_data
-
         ticket_keys = [k for k in cleaned_data.keys()
                        if k.startswith("tickets_")]
 
-        if sum([int(cleaned_data[t]) for t in ticket_keys]) == 0:
+        def get_default_zero(t):
+            if cleaned_data.get(t, "") == "":
+                return 0
+            return int(cleaned_data[t])
+
+        for t in ticket_keys:
+            cleaned_data[t] = get_default_zero(t)
+
+        num_tickets_ordered = sum([cleaned_data[t] for t in ticket_keys])
+
+        if num_tickets_ordered == 0:
             raise forms.ValidationError("You must order at least one ticket")
+
+        # Now make sure that the user hasn't ordered more than the maximum
+        if self.max_tickets and num_tickets_ordered > self.max_tickets:
+            raise forms.ValidationError("You have ordered too many tickets")
+
         return cleaned_data
 
 

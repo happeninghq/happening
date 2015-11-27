@@ -2,7 +2,7 @@
 from django import template
 from plugins.groups.event_configuration import GroupCreation, GroupEditing
 from plugins.groups.event_configuration import GroupMovement
-from events.templatetags.tickets import user_has_tickets
+from events.templatetags.tickets import has_tickets
 
 register = template.Library()
 
@@ -37,7 +37,7 @@ def group(user, event):
 @register.filter
 def can_create_group(user, event):
     """Can the user create a group for the given event."""
-    if not user_has_tickets(user, event):
+    if not has_tickets(user, event):
         return False
     if has_group(user, event):
         return False  # Can't be in two groups
@@ -60,7 +60,7 @@ def can_create_group(user, event):
 @register.filter
 def can_edit_groups(user, event):
     """Can the user edit groups for the given event."""
-    if not user_has_tickets(user, event):
+    if not has_tickets(user, event):
         return False
     g = GroupEditing(event).get()
     if g == "0":
@@ -81,7 +81,7 @@ def can_edit_groups(user, event):
 @register.filter
 def can_move_groups(user, event):
     """Can the user move groups for the given event."""
-    if not user_has_tickets(user, event):
+    if not has_tickets(user, event):
         return False
     g = GroupMovement(event).get()
     if g == "0":
