@@ -4,6 +4,7 @@ from happening import plugins
 
 
 class CommentOnGroups(configuration.BooleanField):
+
     """Can members comment on groups."""
 
     @property

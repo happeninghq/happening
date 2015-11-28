@@ -7,6 +7,7 @@ from pages.configuration import ForceSSL
 
 
 class VaryByHostMiddleware(object):
+
     """Different cache per hostname."""
 
     def process_response(self, request, response):
@@ -16,6 +17,7 @@ class VaryByHostMiddleware(object):
 
 
 class SSLifyMiddleware(object):
+
     """Force all requests to use HTTPs.
 
     If we get an HTTP request, we'll just force a redirect to HTTPs.

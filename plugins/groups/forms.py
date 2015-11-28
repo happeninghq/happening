@@ -7,6 +7,7 @@ from happening.forms import MarkdownWidget
 
 
 class GroupGenerationForm(forms.Form):
+
     """Generate groups for an event."""
 
     clear_existing_groups = forms.BooleanField(required=False)
@@ -15,6 +16,7 @@ class GroupGenerationForm(forms.Form):
 
 
 class GroupForm(ModelForm):
+
     """Form for creating/editing events."""
 
     team_name = forms.CharField(required=False)
@@ -26,6 +28,7 @@ class GroupForm(ModelForm):
 
 
 class ChangeGroupForm(forms.Form):
+
     """Change an attendee's group."""
 
     def __init__(self, *args, **kwargs):

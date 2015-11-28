@@ -6,6 +6,7 @@ from django.conf import settings
 
 
 class TestStaffMembers(TestCase):
+
     """Test managing members."""
 
     def setUp(self):

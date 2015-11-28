@@ -4,6 +4,7 @@ from happening import db
 
 
 class Page(db.Model):
+
     """A static page."""
 
     url = models.CharField(unique=True, max_length=255)

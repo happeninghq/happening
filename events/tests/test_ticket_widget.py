@@ -7,6 +7,7 @@ from happening.tests import TestCase
 
 
 class TestTicketWidget(TestCase):
+
     """Test ticket purchasing widget."""
 
     def test_remaining_tickets(self):

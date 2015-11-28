@@ -5,6 +5,7 @@ from happening.storage import media_path
 
 
 class PluginSetting(db.Model):
+
     """Setting if a plugin is enabled or disabled for the current site."""
 
     plugin_name = models.CharField(max_length=255, primary_key=True)
@@ -12,6 +13,7 @@ class PluginSetting(db.Model):
 
 
 class Backup(db.Model):
+
     """A backup which needs to be generated/restored."""
 
     # If this is true then we're restoring rather than generating

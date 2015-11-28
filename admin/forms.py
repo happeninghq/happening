@@ -6,12 +6,14 @@ from allauth.socialaccount.models import SocialApp
 
 
 class ConfigurationForm(forms.Form):
+
     """A form to attach custom configuration variables to."""
 
     pass
 
 
 class PaymentHandlerForm(forms.ModelForm):
+
     """Form for creating/modifying payment handlers."""
 
     class Meta:
@@ -20,12 +22,14 @@ class PaymentHandlerForm(forms.ModelForm):
 
 
 class ThemeForm(forms.Form):
+
     """Form for changing theme options."""
 
     logo = happening_forms.ImageField()
 
 
 class SocialAppForm(forms.ModelForm):
+
     """Form for creating/modifying social apps."""
 
     class Meta:

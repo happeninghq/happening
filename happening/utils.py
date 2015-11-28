@@ -67,6 +67,7 @@ def convert_to_camelcase(value):
 
 
 class DjangoJSONEncoder(JSONEncoder):
+
     """Dump JSON, using model_to_dict for django models."""
 
     def default(self, obj):
@@ -127,6 +128,7 @@ def format_bytes(num, suffix='B'):
 
 
 class capturing(list):
+
     """Capture stdout to variable."""
 
     def __enter__(self):

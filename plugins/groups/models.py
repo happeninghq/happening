@@ -8,6 +8,7 @@ from notifications import GroupJoinedNotification
 
 
 class Group(db.Model):
+
     """A group at an event."""
 
     event = models.ForeignKey(Event, related_name="raw_groups")
@@ -81,6 +82,7 @@ class Group(db.Model):
 
 
 class TicketInGroup(db.Model):
+
     """A ticket in a group."""
 
     group = models.ForeignKey(Group, related_name="tickets")

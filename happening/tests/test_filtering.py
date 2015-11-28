@@ -7,6 +7,7 @@ from happening import filtering
 
 
 class TestFiltering(TestCase):
+
     """Test filtering."""
 
     def test_simple_filter(self):

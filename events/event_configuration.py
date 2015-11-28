@@ -4,6 +4,7 @@ from happening import forms
 
 
 class Description(configuration.CharField):
+
     """Event Description."""
 
     field = forms.MarkdownField
@@ -11,6 +12,7 @@ class Description(configuration.CharField):
 
 
 class MaxTicketsPerPerson(configuration.IntegerField):
+
     """Should the total number of tickets per person be limited."""
 
     can_be_disabled = True

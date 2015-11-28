@@ -6,6 +6,7 @@ from django.core.files import File
 
 
 class Command(BaseCommand):
+
     """Generate CSS according to settings."""
 
     help = 'Generate CSS according to settings.'

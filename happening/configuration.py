@@ -60,6 +60,7 @@ def save_variables(form, variables):
 
 
 class Renderer(object):
+
     """Convert a variable value into a given data type."""
 
     def render(self, value):
@@ -72,6 +73,7 @@ class Renderer(object):
 
 
 class StringRenderer(Renderer):
+
     """Convert a variable into a string."""
 
     def render(self, value):
@@ -80,6 +82,7 @@ class StringRenderer(Renderer):
 
 
 class IntRenderer(Renderer):
+
     """Convert a variable into a int."""
 
     def render(self, value):
@@ -88,6 +91,7 @@ class IntRenderer(Renderer):
 
 
 class JSONRenderer(Renderer):
+
     """Convert a variable from JSON into a dict."""
 
     def render(self, value):
@@ -107,6 +111,7 @@ class JSONRenderer(Renderer):
 
 
 class MarkdownRenderer(Renderer):
+
     """Render the markdown in a string."""
 
     def render(self, value):
@@ -115,6 +120,7 @@ class MarkdownRenderer(Renderer):
 
 
 class ConfigurationVariable(object):
+
     """A configuration variable.
 
     Either for the overall system or for a model.
@@ -230,18 +236,21 @@ class ConfigurationVariable(object):
 
 
 class CharField(ConfigurationVariable):
+
     """A text field."""
 
     pass
 
 
 class EmailField(CharField):
+
     """A validated email address field."""
 
     field = forms.EmailField
 
 
 class IntegerField(CharField):
+
     """An integer field."""
 
     renderer = IntRenderer()
@@ -249,12 +258,14 @@ class IntegerField(CharField):
 
 
 class URLField(CharField):
+
     """A url field."""
 
     field = forms.URLField
 
 
 class BooleanField(ConfigurationVariable):
+
     """A boolean field."""
 
     field = BooleanField
@@ -263,6 +274,7 @@ class BooleanField(ConfigurationVariable):
 
 
 class ChoiceField(ConfigurationVariable):
+
     """A multiple choice field."""
 
     field = forms.ChoiceField
@@ -273,6 +285,7 @@ class ChoiceField(ConfigurationVariable):
 
 
 class PropertiesField(ConfigurationVariable):
+
     """A field to configure custom properties and types."""
 
     renderer = JSONRenderer()
@@ -280,6 +293,7 @@ class PropertiesField(ConfigurationVariable):
 
 
 class EmailsField(ConfigurationVariable):
+
     """A field to configure emails."""
 
     renderer = JSONRenderer()
@@ -292,44 +306,49 @@ class EmailsField(ConfigurationVariable):
         # Schedule emails
         if value:
             for email in value:
-                def get_time(event, time):
-                    if time['start'] == 'after event creation':
-                        start_date = timezone.now()
-                    elif time['start'] == 'after event':
-                        start_date = event.end
-                        if not start_date:
-                            start_date = event.start
-                    else:
-                        # Must be "before event"
-                        start_date = event.start
+                self.schedule_email(email)
 
-                    # Now manipulate start_date appropriately
-                    if time['type'] == 'hours':
-                        offset = timedelta(hours=int(time['number']))
-                    elif email['start_sending']['type'] == 'days':
-                        offset = timedelta(days=int(time['number']))
-                    else:
-                        # Must be weeks
-                        offset = timedelta(weeks=int(time['number']))
+    def schedule_email(self, email):
+        """Schedule sending this email to a given address."""
+        def get_time(event, time):
+            if time['start'] == 'after event creation':
+                start_date = timezone.now()
+            elif time['start'] == 'after event':
+                start_date = event.end
+                if not start_date:
+                    start_date = event.start
+            else:
+                # Must be "before event"
+                start_date = event.start
 
-                    if time['start'].startswith("after"):
-                        return start_date + offset
-                    return start_date - offset
+            # Now manipulate start_date appropriately
+            if time['type'] == 'hours':
+                offset = timedelta(hours=int(time['number']))
+            elif email['start_sending']['type'] == 'days':
+                offset = timedelta(days=int(time['number']))
+            else:
+                # Must be weeks
+                offset = timedelta(weeks=int(time['number']))
 
-                event = self.fresh_object
+            if time['start'].startswith("after"):
+                return start_date + offset
+            return start_date - offset
 
-                start_sending = get_time(event, email['start_sending'])
-                stop_sending = get_time(event, email['stop_sending'])
+        event = self.fresh_object
 
-                Email(event=event,
-                      to=email['to'],
-                      subject=email['subject'],
-                      content=email['content'],
-                      start_sending=start_sending,
-                      stop_sending=stop_sending).save()
+        start_sending = get_time(event, email['start_sending'])
+        stop_sending = get_time(event, email['stop_sending'])
+
+        Email(event=event,
+              to=email['to'],
+              subject=email['subject'],
+              content=email['content'],
+              start_sending=start_sending,
+              stop_sending=stop_sending).save()
 
 
 class CustomProperties(ConfigurationVariable):
+
     """A field to hold the values for custom properties."""
 
     renderer = JSONRenderer()

@@ -7,6 +7,7 @@ from happening.tests import TestCase
 
 
 class TestEventView(TestCase):
+
     """Test Event View."""
 
     def test_nonexisting_event(self):

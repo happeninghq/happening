@@ -7,6 +7,7 @@ from django.db import models
 
 
 class PresetJSONEncoder(JSONEncoder):
+
     """Dump JSON, with specific features for event presets."""
 
     def default(self, obj):

@@ -9,6 +9,7 @@ from events.models import Event
 
 
 class PropertiesWidget(forms.Widget):
+
     """A widget that allows for configuring a list of property types."""
 
     def __init__(self, *args, **kwargs):
@@ -40,6 +41,7 @@ class PropertiesWidget(forms.Widget):
 
 
 class PropertiesField(forms.CharField):
+
     """A field that allows for configuring a list of property types."""
 
     widget = PropertiesWidget
@@ -50,6 +52,7 @@ class PropertiesField(forms.CharField):
 
 
 class CustomPropertiesWidget(forms.Widget):
+
     """A widget that allows for inputting a list of properties."""
 
     hide_label = True
@@ -87,6 +90,7 @@ class CustomPropertiesWidget(forms.Widget):
 
 
 class CustomPropertiesField(forms.CharField):
+
     """A field that allows for inputting multiple custom properties."""
 
     widget = CustomPropertiesWidget
@@ -103,6 +107,7 @@ class CustomPropertiesField(forms.CharField):
 
 
 class MarkdownWidget(forms.Textarea):
+
     """A widget that uses EpicEditor."""
 
     def render(self, name, value, attrs):
@@ -112,12 +117,14 @@ class MarkdownWidget(forms.Textarea):
 
 
 class MarkdownField(forms.CharField):
+
     """A field that uses an EpicEditor markdown editor."""
 
     widget = MarkdownWidget
 
 
 class DateTimeWidget(forms.TextInput):
+
     """A widget that adds a DateTime Picker."""
 
     def render(self, name, value, attrs):
@@ -128,6 +135,7 @@ class DateTimeWidget(forms.TextInput):
 
 
 class DateWidget(forms.TextInput):
+
     """A widget that adds a Date Picker."""
 
     def render(self, name, value, attrs):
@@ -138,6 +146,7 @@ class DateWidget(forms.TextInput):
 
 
 class TimeWidget(forms.TextInput):
+
     """A widget that adds a time Picker."""
 
     def render(self, name, value, attrs):
@@ -148,6 +157,7 @@ class TimeWidget(forms.TextInput):
 
 
 class ImageWidget(forms.TextInput):
+
     """A widget that adds an ajax image uploader."""
 
     def render(self, name, value, attrs):
@@ -170,6 +180,7 @@ class ImageWidget(forms.TextInput):
 
 
 class ImageField(forms.ImageField):
+
     """An input for an image file."""
 
     widget = ImageWidget
@@ -200,6 +211,7 @@ class ImageField(forms.ImageField):
 
 
 class EmailsWidget(forms.Widget):
+
     """A widget that allows for configuring emails."""
 
     def __init__(self, *args, **kwargs):
@@ -226,6 +238,7 @@ class EmailsWidget(forms.Widget):
 
 
 class EmailsField(forms.CharField):
+
     """A field that allows for configuring emails."""
 
     widget = EmailsWidget
@@ -239,6 +252,7 @@ class EmailsField(forms.CharField):
 
 
 class CheckboxInput(forms.widgets.CheckboxInput):
+
     """A checkbox which wraps the label."""
 
     hide_label = True
@@ -260,6 +274,7 @@ class CheckboxInput(forms.widgets.CheckboxInput):
 
 
 class BooleanField(forms.BooleanField):
+
     """BooleanField with correct widget for Happening."""
 
     widget = CheckboxInput
@@ -272,6 +287,7 @@ class BooleanField(forms.BooleanField):
 
 
 class AddressWidget(forms.Widget):
+
     """A widget that allows for inputting an address."""
 
     def __init__(self, *args, **kwargs):
@@ -315,6 +331,7 @@ class AddressWidget(forms.Widget):
 
 
 class EmptyWidget(forms.Widget):
+
     """A widget which does not render to the page."""
 
     hide_label = True
@@ -325,6 +342,7 @@ class EmptyWidget(forms.Widget):
 
 
 class AddressField(forms.CharField):
+
     """A field for inputting an address."""
 
     widget = AddressWidget
@@ -336,6 +354,7 @@ class AddressField(forms.CharField):
 
 
 class EnabledDisabledWidget(forms.Widget):
+
     """A field which wrapping a field allowing it to be disabled entirely."""
 
     hide_label = True
@@ -367,6 +386,7 @@ class EnabledDisabledWidget(forms.Widget):
 
 
 class EnabledDisabledField(forms.BooleanField):
+
     """A field that wraps another field and allows it to be disabled."""
 
     widget = EnabledDisabledWidget

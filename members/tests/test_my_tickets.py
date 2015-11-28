@@ -9,6 +9,7 @@ from django.conf import settings
 
 
 class TestMyTickets(TestCase):
+
     """Test my tickets."""
 
     def setUp(self):

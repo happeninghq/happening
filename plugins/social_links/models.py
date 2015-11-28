@@ -4,6 +4,7 @@ from happening import db
 
 
 class SocialLink(db.Model):
+
     """A Social Link."""
 
     provider = models.CharField(max_length=200)

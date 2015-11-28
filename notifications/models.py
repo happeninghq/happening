@@ -18,6 +18,7 @@ from django.template import Context, Template
 
 
 class NotificationManager(models.Manager):
+
     """Custom Notification manager for unread."""
 
     def unread(self):
@@ -37,6 +38,7 @@ class NotificationManager(models.Manager):
 
 
 class Notification(db.Model):
+
     """A notification sent to a user."""
 
     objects = NotificationManager()
@@ -171,6 +173,7 @@ class Notification(db.Model):
 
 
 class NotificationPreferenceManager(models.Manager):
+
     """Custom Notification manager for unread."""
 
     def get_with_default(self, notification):
@@ -196,6 +199,7 @@ class NotificationPreferenceManager(models.Manager):
 
 
 class NotificationPreference(db.Model):
+
     """A user's notification preference."""
 
     objects = NotificationPreferenceManager()

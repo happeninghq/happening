@@ -10,6 +10,7 @@ from django.conf import settings
 
 
 class TestTicketPurchase(TestCase):
+
     """Test ticket purchasing."""
 
     def setUp(self):

@@ -7,6 +7,7 @@ import pytz
 
 
 class TestEvents(TestCase):
+
     """Test previous events page."""
 
     def test_previous_events(self):

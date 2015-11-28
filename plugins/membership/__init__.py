@@ -2,6 +2,7 @@
 
 
 class Plugin(object):
+
     """Allow different levels of membership. Accept payment for some levels."""
 
     name = "Membership"

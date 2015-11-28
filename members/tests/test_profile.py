@@ -7,6 +7,7 @@ from django.conf import settings
 
 
 class TestProfile(TestCase):
+
     """Test viewing and editing profile."""
 
     def setUp(self):

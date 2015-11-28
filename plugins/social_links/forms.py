@@ -5,6 +5,7 @@ from models import SocialLink
 
 
 class SocialLinkForm(forms.ModelForm):
+
     """Form for creating/editing sponsors."""
 
     class Meta:

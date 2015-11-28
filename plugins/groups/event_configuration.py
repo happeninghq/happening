@@ -3,6 +3,7 @@ from happening import configuration
 
 
 class GroupCreation(configuration.ChoiceField):
+
     """Who is able to create groups."""
 
     default = 0
@@ -16,6 +17,7 @@ class GroupCreation(configuration.ChoiceField):
 
 
 class GroupMovement(configuration.ChoiceField):
+
     """When are people able to move between groups."""
 
     default = 0
@@ -29,6 +31,7 @@ class GroupMovement(configuration.ChoiceField):
 
 
 class GroupEditing(configuration.ChoiceField):
+
     """When are people able to edit groups."""
 
     default = 0
@@ -42,6 +45,7 @@ class GroupEditing(configuration.ChoiceField):
 
 
 class GroupProperties(configuration.PropertiesField):
+
     """What properties should be provided for groups."""
 
     pass
