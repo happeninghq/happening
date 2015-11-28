@@ -157,8 +157,21 @@ class ConfigurationVariable(object):
 
     def django_field(self):
         """Get a form field representing this variable."""
-        return self.field(initial=self._raw_value(), required=self.required,
-                          label=self.label)
+        return self._construct_field()
+
+    def _construct_field(self, *args, **kwargs):
+        """Create the form field representing this variable."""
+        k = {
+            "initial": self._raw_value(),
+            "required": self.required,
+            "label": self.label}
+        k.update(kwargs)
+        f = self.field(*args, **k)
+
+        # This isn't a nice way of assigning the tooltip, but as we don't
+        # control all field types - it'll do for now
+        f.tooltip = self.__doc__
+        return f
 
     @property
     def key(self):
@@ -256,8 +269,7 @@ class ChoiceField(ConfigurationVariable):
 
     def django_field(self):
         """Get a form field representing this variable."""
-        return self.field(choices=self.choices, initial=self.get(),
-                          required=self.required, label=self.label)
+        return self._construct_field(choices=self.choices)
 
 
 class PropertiesField(ConfigurationVariable):
@@ -266,20 +278,12 @@ class PropertiesField(ConfigurationVariable):
     renderer = JSONRenderer()
     field = PropertiesFormField
 
-    def django_field(self):
-        """Get a form field representing this variable."""
-        return self.field(initial=self.get(), label=self.label)
-
 
 class EmailsField(ConfigurationVariable):
     """A field to configure emails."""
 
     renderer = JSONRenderer()
     field = EmailsFormField
-
-    def django_field(self):
-        """Get a form field representing this variable."""
-        return self.field(initial=self.get(), label=self.label)
 
     def set(self, value):
         """Save this variable and then schedule the emails."""
@@ -343,4 +347,4 @@ class CustomProperties(ConfigurationVariable):
                     "%s not found" % self.configuration_variable_instance)
         else:
             t = get_configuration(self.configuration_variable)
-        return self.field(initial=self.get(), fields=t, label=self.label)
+        return self._construct_field(fields=t)

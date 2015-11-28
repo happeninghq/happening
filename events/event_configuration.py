@@ -11,7 +11,7 @@ class Description(configuration.CharField):
 
 
 class MaxTicketsPerPerson(configuration.IntegerField):
-    """Do we limit the total number of tickets per person."""
+    """Should the total number of tickets per person be limited."""
 
     can_be_disabled = True
     default_enabled = False

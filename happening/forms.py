@@ -246,13 +246,17 @@ class CheckboxInput(forms.widgets.CheckboxInput):
     def __init__(self, *args, **kwargs):
         """Create a CheckboxInput."""
         self.label = kwargs.pop('label')
+        self.field = kwargs.pop('field')
         super(CheckboxInput, self).__init__(*args, **kwargs)
 
     def render(self, name, value, attrs=None):
         """Render the CheckboxInput."""
-        return "<label>%s %s</label>" % (
-            super(CheckboxInput, self).render(name, value, attrs),
-            self.label)
+        return render_to_string("forms/widgets/checkbox_input.html", {
+            "label": self.label,
+            "field": self.field,
+            "rendered_checkbox": super(CheckboxInput, self).render(
+                name, value, attrs)
+        })
 
 
 class BooleanField(forms.BooleanField):
@@ -262,7 +266,8 @@ class BooleanField(forms.BooleanField):
 
     def __init__(self, *args, **kwargs):
         """Create the Boolean Field."""
-        kwargs['widget'] = self.widget(label=kwargs.get('label', ''))
+        kwargs['widget'] = self.widget(label=kwargs.get('label', ''),
+                                       field=self)
         super(BooleanField, self).__init__(*args, **kwargs)
 
 

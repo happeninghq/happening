@@ -11,9 +11,7 @@
 
     label {
         text-transform:uppercase;
-        display: block;
         opacity: 0.7;
-        margin-bottom: 0.3em;
     }
 
     input, textarea {
@@ -37,6 +35,10 @@
         @include appearance(none);
         padding-left: 0.4em;
     }
+}
+
+.form__field__label {
+    margin-bottom: 0.3em;
 }
 
 .form__field--disabled {

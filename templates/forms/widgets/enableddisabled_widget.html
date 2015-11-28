@@ -1,7 +1,12 @@
 {% load forms %}
 
 <div class="enableddisabled-widget">
-    <label><input class="enableddisable-widget__enabled" type="checkbox"{% if is_enabled %} checked{% endif %} name="{{name}}" data-bind="checked: enabled"> {{field.label}}</label>
+    <div class="form__field__label">
+        <label><input class="enableddisable-widget__enabled" type="checkbox"{% if is_enabled %} checked{% endif %} name="{{name}}" data-bind="checked: enabled"> {{field.label}}</label>
+        {% if field.tooltip %}
+            <span class="tooltip" title="{{field.tooltip}}"><i class="fa fa-question-circle form__field__info"></i></span>
+        {% endif %}
+    </div>
     <div class="form__field" data-bind="css: {'form__field--disabled': enabled() == false}">
         {% render_field field field_name field_value %}
     </div>
