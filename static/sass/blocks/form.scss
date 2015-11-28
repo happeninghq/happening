@@ -23,6 +23,11 @@
         width: 100%;
     }
 
+    input[type="checkbox"] {
+        // This allows us to put the checkbox alongside the label
+        width: inherit;
+    }
+
     select {
         width: 100%;
         border: none;
@@ -32,4 +37,8 @@
         @include appearance(none);
         padding-left: 0.4em;
     }
+}
+
+.form__field--disabled {
+    opacity: 0.5;
 }

@@ -13,3 +13,9 @@ def render(form):
     rendered = render_to_string("forms/_form.html", {"form": form})
     form.label_suffix = o_label_suffix
     return rendered
+
+
+@register.simple_tag
+def render_field(field, name, value):
+    """Render a field."""
+    return field.widget.render(name, value, {})

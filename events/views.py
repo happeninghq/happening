@@ -40,14 +40,11 @@ def purchase_tickets(request, pk):
     if event.purchasable_tickets_no == 0:
         return redirect("view_event", event.pk)
 
-    max_tickets = MaxTicketsPerPerson().get()
-    use_max_tickets = max_tickets > 0
-
-    if use_max_tickets > 0:
-        max_tickets -= event.tickets.filter(
-            user=request.user, cancelled=False).count()
+    use_max_tickets = MaxTicketsPerPerson(event).is_enabled()
 
     if use_max_tickets:
+        max_tickets = MaxTicketsPerPerson(event).get() -\
+            event.tickets.filter(user=request.user, cancelled=False).count()
         form = TicketForm(event=event, max_tickets=max_tickets)
     else:
         form = TicketForm(event=event)

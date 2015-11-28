@@ -52,6 +52,8 @@ class PropertiesField(forms.CharField):
 class CustomPropertiesWidget(forms.Widget):
     """A widget that allows for inputting a list of properties."""
 
+    hide_label = True
+
     def __init__(self, *args, **kwargs):
         """Create a properties widget."""
         self.fields = kwargs.pop("fields")
@@ -92,7 +94,6 @@ class CustomPropertiesField(forms.CharField):
     def __init__(self, *args, **kwargs):
         """Create the Custom Properties Field."""
         # Remove the overall label, as we want the inputs to look native
-        kwargs['label'] = ''
         kwargs['widget'] = self.widget(fields=kwargs.pop('fields'))
         super(CustomPropertiesField, self).__init__(*args, **kwargs)
 
@@ -240,6 +241,8 @@ class EmailsField(forms.CharField):
 class CheckboxInput(forms.widgets.CheckboxInput):
     """A checkbox which wraps the label."""
 
+    hide_label = True
+
     def __init__(self, *args, **kwargs):
         """Create a CheckboxInput."""
         self.label = kwargs.pop('label')
@@ -259,9 +262,7 @@ class BooleanField(forms.BooleanField):
 
     def __init__(self, *args, **kwargs):
         """Create the Boolean Field."""
-        # Remove the overall label, as we want the inputs to look native
         kwargs['widget'] = self.widget(label=kwargs.get('label', ''))
-        kwargs['label'] = ''
         super(BooleanField, self).__init__(*args, **kwargs)
 
 
@@ -308,6 +309,16 @@ class AddressWidget(forms.Widget):
         }
 
 
+class EmptyWidget(forms.Widget):
+    """A widget which does not render to the page."""
+
+    hide_label = True
+
+    def render(self, name, value, attrs):
+        """Render nothing."""
+        return ""
+
+
 class AddressField(forms.CharField):
     """A field for inputting an address."""
 
@@ -317,3 +328,53 @@ class AddressField(forms.CharField):
         """Get the address as dict."""
         # This just needs to return the value
         return value
+
+
+class EnabledDisabledWidget(forms.Widget):
+    """A field which wrapping a field allowing it to be disabled entirely."""
+
+    hide_label = True
+
+    def __init__(self, *args, **kwargs):
+        """Create an enableddisabled widget."""
+        self.field_name = kwargs.pop("field_name")
+        self.form = kwargs.pop("form")
+        self.field = kwargs.pop("field")
+        self.is_enabled = kwargs.pop("is_enabled")
+        super(EnabledDisabledWidget, self).__init__(*args, **kwargs)
+
+    def render(self, name, value, attrs):
+        """Render the widget."""
+        field_value = self.field.initial
+
+        if hasattr(self.form, "cleaned_data"):
+            field_value = self.form.cleaned_data.get(self.field_name,
+                                                     field_value)
+
+        return render_to_string("forms/widgets/enableddisabled_widget.html", {
+            "name": name,
+            "value": value,
+            "field": self.field,
+            "field_name": self.field_name,
+            "field_value": field_value,
+            "is_enabled": self.is_enabled
+        })
+
+
+class EnabledDisabledField(forms.BooleanField):
+    """A field that wraps another field and allows it to be disabled."""
+
+    widget = EnabledDisabledWidget
+
+    def __init__(self, *args, **kwargs):
+        """Create an EnabledDisabledField."""
+        self.field_name = kwargs.pop("field_name")
+        self.form = kwargs.pop("form")
+        self.field = kwargs.pop("field")
+        self.is_enabled = kwargs.pop("is_enabled")
+        self.widget = self.widget(form=self.form, field=self.field,
+                                  field_name=self.field_name,
+                                  is_enabled=self.is_enabled)
+
+        kwargs["required"] = False
+        super(EnabledDisabledField, self).__init__(*args, **kwargs)

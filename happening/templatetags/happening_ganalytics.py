@@ -12,6 +12,9 @@ register = template.Library()
 @register.simple_tag
 def ganalytics():
     """Render Google Analytics tracking code from configuration variable."""
+    if not GoogleAnalyticsCode().is_enabled():
+        return ""
+
     ga_code = GoogleAnalyticsCode().get()
     if not ga_code:
         return ""

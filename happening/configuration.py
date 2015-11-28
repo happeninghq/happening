@@ -5,6 +5,7 @@ from happening.plugins import plugin_enabled, load_file_in_plugins
 from happening.forms import PropertiesField as PropertiesFormField
 from happening.forms import EmailsField as EmailsFormField
 from happening.forms import CustomPropertiesField as CustomPropertiesFormField
+from happening.forms import BooleanField
 from happening.templatetags.plugins import get_configuration
 from markdown_deux import markdown
 from django.utils.html import mark_safe
@@ -14,6 +15,8 @@ import json
 from django.utils import timezone
 from datetime import timedelta
 from emails.models import Email
+from happening.forms import EnabledDisabledField, EmptyWidget
+from django.forms.forms import pretty_name
 
 
 def get_configuration_variables(filename, object=None, **kwargs):
@@ -42,8 +45,7 @@ def attach_to_form(form, variable, editing=False):
             attach_to_form(form, x, editing)
     else:
         if not editing or variable.editable:
-            form.fields[convert_to_underscore(
-                variable.__class__.__name__)] = variable.django_field()
+            variable.attach_to_form(form)
     return form
 
 
@@ -52,6 +54,9 @@ def save_variables(form, variables):
     for variable in variables:
         v = convert_to_underscore(variable.__class__.__name__)
         variable.set(form.cleaned_data.get(v))
+
+        if variable.can_be_disabled:
+            variable.set_enabled(form.cleaned_data.get(v + "__enabled"))
 
 
 class Renderer(object):
@@ -122,6 +127,10 @@ class ConfigurationVariable(object):
     renderer = StringRenderer()
     field = forms.CharField
     required = False
+    label = None
+
+    can_be_disabled = False
+    default_enabled = True
 
     # Will this field also appear on the EDIT page
     editable = True
@@ -132,6 +141,10 @@ class ConfigurationVariable(object):
             references = {}
         self.object = object
         self.references = references
+
+        if not self.label:
+            self.label = pretty_name(convert_to_underscore(
+                self.__class__.__name__))
 
     @property
     def fresh_object(self):
@@ -144,7 +157,8 @@ class ConfigurationVariable(object):
 
     def django_field(self):
         """Get a form field representing this variable."""
-        return self.field(initial=self._raw_value(), required=self.required)
+        return self.field(initial=self._raw_value(), required=self.required,
+                          label=self.label)
 
     @property
     def key(self):
@@ -154,6 +168,16 @@ class ConfigurationVariable(object):
     def get(self):
         """Get the value of this variable."""
         return self.renderer.render(self._raw_value())
+
+    def is_enabled(self):
+        """True if field is enabled."""
+        v = None
+        if self.can_be_disabled:
+            v = self.fresh_object._data.get(self.key + "__enabled")
+
+        if v is None:
+            return self.default_enabled
+        return v
 
     def _raw_value(self):
         """Get the raw value of this variable."""
@@ -168,6 +192,28 @@ class ConfigurationVariable(object):
         obj = self.fresh_object
         obj._data[self.key] = value
         obj.save()
+
+    def set_enabled(self, value):
+        """Set if this variable is enabled."""
+        obj = self.fresh_object
+        obj._data[self.key + "__enabled"] = value
+        obj.save()
+
+    def attach_to_form(self, form):
+        """Attach this field to a form."""
+        form.fields[convert_to_underscore(
+            self.__class__.__name__)] = self.django_field()
+        if self.can_be_disabled:
+            # We need to attach a blanked version of the field, and the
+            # actual field wrapped by an EnabledDisabledWidget
+            form.fields[convert_to_underscore(
+                self.__class__.__name__) + "__enabled"] = EnabledDisabledField(
+                field_name=convert_to_underscore(self.__class__.__name__),
+                form=form,
+                field=self.django_field(),
+                is_enabled=self.is_enabled())
+            form.fields[convert_to_underscore(
+                self.__class__.__name__)].widget = EmptyWidget()
 
 
 class CharField(ConfigurationVariable):
@@ -198,7 +244,7 @@ class URLField(CharField):
 class BooleanField(ConfigurationVariable):
     """A boolean field."""
 
-    field = forms.BooleanField
+    field = BooleanField
     renderer = Renderer()
     required = False
 
@@ -211,7 +257,7 @@ class ChoiceField(ConfigurationVariable):
     def django_field(self):
         """Get a form field representing this variable."""
         return self.field(choices=self.choices, initial=self.get(),
-                          required=self.required)
+                          required=self.required, label=self.label)
 
 
 class PropertiesField(ConfigurationVariable):
@@ -222,7 +268,7 @@ class PropertiesField(ConfigurationVariable):
 
     def django_field(self):
         """Get a form field representing this variable."""
-        return self.field(initial=self.get())
+        return self.field(initial=self.get(), label=self.label)
 
 
 class EmailsField(ConfigurationVariable):
@@ -233,7 +279,7 @@ class EmailsField(ConfigurationVariable):
 
     def django_field(self):
         """Get a form field representing this variable."""
-        return self.field(initial=self.get())
+        return self.field(initial=self.get(), label=self.label)
 
     def set(self, value):
         """Save this variable and then schedule the emails."""
@@ -297,4 +343,4 @@ class CustomProperties(ConfigurationVariable):
                     "%s not found" % self.configuration_variable_instance)
         else:
             t = get_configuration(self.configuration_variable)
-        return self.field(initial=self.get(), fields=t)
+        return self.field(initial=self.get(), fields=t, label=self.label)

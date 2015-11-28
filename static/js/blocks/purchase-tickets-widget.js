@@ -5,9 +5,15 @@ $(function() {
     $('.purchase-tickets-widget').each(function() {
         $this = $(this);
 
+        var max_tickets_enabled = $this.data('max-tickets-enabled');
         var ticket_types = $this.data('purchasable-tickets');
         var max_tickets = $this.data('max-tickets');
         var already_purchased = $this.data('already-purchased');
+
+        if (!max_tickets_enabled) {
+            max_tickets = 9999999;
+            already_purchased = 0;
+        }
 
         function create_ticket_type(data) {
             var ticket_type = {
@@ -82,35 +88,5 @@ $(function() {
         _.each(ticket_types, function(t) { viewModel.purchasable_tickets.push(create_ticket_type(t)); });
 
         ko.applyBindings(viewModel, this);
-
-        // var total_field = $this.find('.tickets__totals__total');
-
-        // var selects = $this.find('select');
-        // var btn = $this.find('button');
-
-
-        // function update_total() {
-        //     var total_tickets = 0;
-        //     var total_cost = 0;
-
-        //     selects.each(function() {
-        //         var number_of_tickets = $(this).val();
-        //         total_tickets += number_of_tickets;
-        //         total_cost += $(this).parents('tr').data('price') * number_of_tickets;
-        //     });
-            
-        //     total_field.text('£' + (total_cost / 100) + ' Total');
-            
-
-        //     if (total_tickets == 0) {
-        //         btn.attr('disabled', 'disabled');
-        //     } else {
-        //         btn.removeAttr('disabled');
-        //     }
-        // };
-
-        // selects.change(update_total);
-
-        // update_total();
     });
 });

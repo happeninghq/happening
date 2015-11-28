@@ -13,7 +13,10 @@
         {% if field.is_hidden %}
             {{ field }}
         {% else %}
-            {{ field.label_tag }} {{ field }}
+            {% if not field.field.widget.hide_label %}
+                {{ field.label_tag }}
+            {% endif %}
+            {{ field }}
         {% endif %}
     </div>
 {% endfor %}

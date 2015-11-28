@@ -158,7 +158,7 @@ def externalise_url(url):
     site = Site.objects.get(pk=1)
 
     prefix = "http://"
-    if ForceSSL().get():
+    if ForceSSL().is_enabled():
         prefix = "https://"
 
     if not url.startswith("/"):

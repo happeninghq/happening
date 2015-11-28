@@ -8,10 +8,11 @@ from pages.configuration import PrimaryEvent
 
 def index(request):
     """Homepage."""
-    primary_event = PrimaryEvent().get()
-    event = Event.objects.filter(pk=primary_event).first()
-    if event:
-        return redirect("view_event", event.pk)
+    primary_event = PrimaryEvent()
+    if primary_event.is_enabled():
+        event = Event.objects.filter(pk=primary_event.get()).first()
+        if event:
+            return redirect("view_event", event.pk)
 
     now = timezone.now()
     return render(request, "index.html",

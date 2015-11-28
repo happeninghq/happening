@@ -13,6 +13,8 @@ class GoogleAnalyticsCode(configuration.CharField):
     """If you use Google analytics. Put the code here."""
 
     default = ""
+    can_be_disabled = True
+    default_enabled = False
 
 
 class SiteTitle(configuration.CharField):
@@ -30,10 +32,11 @@ class ForceSSL(configuration.BooleanField):
 class PrimaryEvent(configuration.ChoiceField):
     """If one is selected, the primary event will replace index."""
 
-    default = "-1"
+    can_be_disabled = True
+    default_enabled = False
 
     def __init__(self, *args, **kwargs):
         """Setup choices."""
         super(PrimaryEvent, self).__init__(*args, **kwargs)
-        self.choices = [("-1", "None")] + [
+        self.choices = [
             (str(e.pk), e.title) for e in Event.objects.all()]

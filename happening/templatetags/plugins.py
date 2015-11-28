@@ -35,6 +35,23 @@ def get_configuration(configuration_path, object=None):
 
 
 @register.filter()
+def configuration_is_enabled(configuration_path, object=None):
+    """Check if configuration variable is enabled.
+
+    Configuration path should be e.g. groups.MaxNumberOfMembers.
+
+    If there is an object for the configuration, pass this as a
+    second variable
+    """
+    parts = configuration_path.rsplit(".", 1)
+    # The final part is the variable, everything before that is the module
+    p = importlib.import_module(parts[0])
+    return getattr(p, parts[1])(object).is_enabled()
+    raise Exception("Can not find configuration variable %s"
+                    % configuration_path)
+
+
+@register.filter()
 def properties_as_table(configuration, properties):
     """Format properties as a table."""
     ret = []
