@@ -82,6 +82,9 @@ SOCIALACCOUNT_PROVIDERS = {
     "stackexchange": {
         "SITE": "stackoverflow"
     },
+    "github": {
+        "SCOPE": ['user:email']
+    }
 }
 
 if DEBUG:
