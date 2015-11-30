@@ -3,7 +3,7 @@ django==1.8.2 # Django
 pyyaml==3.11 # Used for fixtures
 pillow # For image uploading
 django-gravatar2==1.1.4 # For gravatar
-django-cleanup==0.3.0 # Remove images when replacing them
+django-cleanup==0.4.0 # Remove images when replacing them
 django-templated-email==0.4.9 # For sending emails
 git+https://github.com/jscott1989/django-periodically.git # Periodic tasks
 django-ganalytics==0.3 # Include analytics from settings
