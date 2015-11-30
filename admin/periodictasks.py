@@ -64,7 +64,7 @@ def restore():
     for backup in Backup.objects.all().filter(
             restore=True):
 
-        zf = zipfile.ZipFile(backup.zip_file.path, 'r')
+        zf = zipfile.ZipFile(storage.open(backup.zip_file.name, 'r'), 'r')
         zf.extractall(members=[x for x in zf.namelist()
                                if x.startswith("backup/")])
         zf.close()
