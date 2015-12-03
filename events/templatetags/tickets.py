@@ -40,7 +40,7 @@ def other_tickets(user, event):
 
 
 @register.filter()
-def purchasable_tickets_json(event):
+def active_tickets_json(event):
     """Return json of available tickets for ticket widget."""
     def ticket_type_to_dict(ticket_type):
         return {
@@ -50,4 +50,4 @@ def purchasable_tickets_json(event):
             "pk": ticket_type.pk}
 
     return json.dumps([ticket_type_to_dict(t) for t in
-                       event.ticket_types.purchasable()])
+                       event.ticket_types.active()])

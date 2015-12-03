@@ -6,7 +6,7 @@ $(function() {
         $this = $(this);
 
         var max_tickets_enabled = $this.data('max-tickets-enabled');
-        var ticket_types = $this.data('purchasable-tickets');
+        var ticket_types = $this.data('active-tickets');
         var max_tickets = $this.data('max-tickets');
         var already_purchased = $this.data('already-purchased');
 
@@ -60,11 +60,11 @@ $(function() {
         }
 
         var viewModel = {
-            purchasable_tickets: ko.observableArray(),
+            active_tickets: ko.observableArray(),
         };
 
         viewModel.purchasing_tickets = ko.computed(function() {
-            return _.reduce(_.map(viewModel.purchasable_tickets(), function (t) {
+            return _.reduce(_.map(viewModel.active_tickets(), function (t) {
                 return t.purchasing_tickets();
             }), function(sum, el) {
               return sum + el
@@ -72,7 +72,7 @@ $(function() {
         });
 
         viewModel.total_cost = ko.computed(function() {
-            return _.reduce(_.map(viewModel.purchasable_tickets(), function (t) {
+            return _.reduce(_.map(viewModel.active_tickets(), function (t) {
                 return t.purchasing_tickets() * t.price();
             }), function(sum, el) {
               return sum + el
@@ -85,7 +85,7 @@ $(function() {
             return "£" + pennies + " Total";
         });
 
-        _.each(ticket_types, function(t) { viewModel.purchasable_tickets.push(create_ticket_type(t)); });
+        _.each(ticket_types, function(t) { viewModel.active_tickets.push(create_ticket_type(t)); });
 
         ko.applyBindings(viewModel, this);
     });
