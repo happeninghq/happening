@@ -60,8 +60,8 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Username</th>
                             <th>Name</th>
+                            <th>Ticket Type</th>
                             <th></th>
                             <th>Checked In</th>
                             {% plugin_block "staff.event.tickets.headers" event ticket %}
@@ -77,10 +77,11 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a title="{{ticket.user.profile}}" href="{% url "view_profile" ticket.user.pk %}">{{ticket.user}}</a>
+                                    <a title="{{ticket.user.profile}}" href="{% url "view_profile" ticket.user.pk %}">{{ticket.user}}</a><br />
+                                    {{ticket.user.first_name}} {{ticket.user.last_name}}
                                 </td>
                                 <td>
-                                    {{ticket.user.first_name}} {{ticket.user.last_name}}
+                                    {{ticket.type.name}}
                                 </td>
                                 <td>
                                     {% if ticket.cancelled %}cancelled{% endif %}
