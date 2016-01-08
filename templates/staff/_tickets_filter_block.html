@@ -10,6 +10,14 @@
                 <label for="search">Search</label>
                 <input class="filter-form__search-filter" name="search" type="search">
             </div>
+            {% if event.ticket_types.count > 1 %}
+                <span class="input-grid__header">Ticket Type</span>
+                <div class="input-grid__container">
+                    {% for ticket_type in event.ticket_types.all %}
+                        <label class="input-grid__container__item radio"><input name="ticket-type" type="checkbox" class="checkbox filter-form__option-filter" value="{{ticket_type.name}}">{{ticket_type.name}}</label>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
     </form>
 </div>
