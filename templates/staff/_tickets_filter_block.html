@@ -18,6 +18,15 @@
                     {% endfor %}
                 </div>
             {% endif %}
+            {% if not hide_cancelled %}
+                {% if event.cancelled_tickets.count > 0 %}
+                    <span class="input-grid__header">Cancelled</span>
+                    <div class="input-grid__container">
+                            <label class="input-grid__container__item radio"><input name="cancelled" type="checkbox" class="checkbox filter-form__option-filter" value="true">Cancelled</label>
+                            <label class="input-grid__container__item radio"><input name="cancelled" type="checkbox" class="checkbox filter-form__option-filter" value="false">Not Cancelled</label>
+                    </div>
+                {% endif %}
+            {% endif %}
         </div>
     </form>
 </div>

@@ -134,6 +134,11 @@ class Event(db.Model):
         return cost
 
     @property
+    def cancelled_tickets(self):
+        """List cancelled tickets."""
+        return self.tickets.filter(cancelled=True)
+
+    @property
     def total_sold_tickets(self):
         """Get total number of sold tickets."""
         return self.tickets.filter(cancelled=False,
