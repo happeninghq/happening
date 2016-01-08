@@ -210,7 +210,7 @@ class TicketType(db.Model):
     @property
     def remaining_tickets(self):
         """How many tickets of this time are unsold."""
-        return self.number - self.sold_tickets.count()
+        return max(0, self.number - self.sold_tickets.count())
 
     def waiting_list_contains(self, user):
         """True if the waiting list contains the given user."""
