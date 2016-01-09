@@ -117,5 +117,6 @@ class ResolvePluginMiddlewareMiddleware(object):
         for plugin in registered_middlewares.keys():
             if plugin_enabled(plugin):
                 for r in registered_middlewares[plugin]:
-                    request = r(request)
-        return request
+                    response = r(request)
+                    if response:
+                        return response
