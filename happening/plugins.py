@@ -91,3 +91,31 @@ def every(*o_args, **o_kwargs):
             return f(*args, **kwargs)
         return periodically_every(*o_args, **o_kwargs)(every_inner_inner)
     return every_inner
+
+registered_middlewares = {}
+
+
+def process_request(func):
+    """Register a process_request middleware."""
+    parent_file_path = inspect.getouterframes(inspect.currentframe())[1][1]
+    # Remove the last part(the file)
+    parent_file_path = ".".join(parent_file_path.rsplit("/")[:-1])
+    plugin_id = 'plugins.%s' % parent_file_path.split(".plugins.")[1]
+
+    if plugin_id not in registered_middlewares:
+        registered_middlewares[plugin_id] = []
+
+    registered_middlewares[plugin_id].append(func)
+
+
+class ResolvePluginMiddlewareMiddleware(object):
+
+    """Resolve plugin middleware."""
+
+    def process_request(self, request):
+        """Resolve plugin middleware."""
+        for plugin in registered_middlewares.keys():
+            if plugin_enabled(plugin):
+                for r in registered_middlewares[plugin]:
+                    request = r(request)
+        return request

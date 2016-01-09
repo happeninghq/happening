@@ -100,6 +100,7 @@ if 'HAPPENING_TESTING' not in os.environ:
                        'allauth.socialaccount.providers.twitter',
                        'allauth.socialaccount.providers.google',)
 
+
 MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
@@ -116,6 +117,7 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.cache.FetchFromCacheMiddleware',
+    'happening.plugins.ResolvePluginMiddlewareMiddleware',
 )
 
 
@@ -298,7 +300,8 @@ CACHE_MIDDLEWARE_KEY_PREFIX = ""
 
 plugin_files = ['blocks',
                 'actions',
-                'notifications']
+                'notifications',
+                'middleware']
 
 for app in INSTALLED_APPS:
     f = app.replace(".", "/")
