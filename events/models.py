@@ -67,6 +67,8 @@ class Event(db.Model):
     @property
     def is_future(self):
         """Return True if this event is in the future. False otherwise."""
+        if self.end:
+            return self.end > timezone.now()
         return self.start > timezone.now()
 
     @property

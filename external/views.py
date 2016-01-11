@@ -2,7 +2,6 @@
 
 from django.shortcuts import render, redirect
 from events.models import Event
-from django.utils import timezone
 from pages.configuration import PrimaryEvent
 
 
@@ -14,9 +13,14 @@ def index(request):
         if event:
             return redirect("view_event", event.pk)
 
-    now = timezone.now()
+    events = Event.objects.order_by('-start')
+    # TODO: Partition function or something?
+    future_events = [e for e in events if e.is_future]
+    past_events = [e for e in events if not e.is_future]
+
+    print future_events
+    print past_events
+
     return render(request, "index.html",
-                  {"future_events": Event.objects.filter(start__gt=now)
-                   .order_by('start'),
-                   "past_events": Event.objects.filter(start__lt=now)
-                   .order_by('-start')})
+                  {"future_events": future_events,
+                   "past_events": past_events})

@@ -7,23 +7,23 @@
 {% block content %}
     <div class="l-container">
         <div class="l-primary-content block-list">
-            {% for event in future_events.all|slice:":2" %}
+            {% for event in future_events|slice:":2" %}
                 <div class="block block-list__item event-block">
                     {% include "events/_event_block.html" %}
                 </div>
             {% endfor %}
 
-            {% if future_events.count > 0 %}
+            {% if future_events|length > 0 %}
                 <a href="{% url "events" %}" class="block-list__link block-list__item">View all upcoming events</a>
             {% endif %}
 
-            {% for event in past_events.all|slice:":1" %}
+            {% for event in past_events|slice:":1" %}
                 <div class="block block-list__item event-block low-opacity full-opacity-on-hover">
                     {% include "events/_event_block.html" %}
                 </div>
             {% endfor %}
 
-            {% if past_events.count > 0 %}
+            {% if past_events|length > 0 %}
                 <a href="{% url "past_events" %}" class="block-list__link block-list__item">View all past events</a>
             {% endif %}
         </div>
