@@ -13,5 +13,4 @@ def delete_old_temporary_media():
         modified_time = storage.modified_time("tmp/%s" % f)
         if modified_time < one_day_old:
             # At least 24 hours old
-            print "Deleting", f
             storage.delete("tmp/%s" % f)

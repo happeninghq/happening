@@ -145,8 +145,15 @@ class capturing(list):
 
 def externalise_urls(text):
     """Convert all URLs in a piece of text from internal to external."""
-    return re.sub('\]\((?P<pk>.+?)\)',
-                  lambda m: "](%s)" % externalise_url(m.group(1)), text)
+    p = re.sub('\]\((?P<pk>.+?)\)',
+               lambda m: "](%s)" % externalise_url(m.group(1)), text)
+    # Ideally we'd do everything as markdown - but until that is changed
+    # we need to parse <a> tags too
+    return re.sub('<a(?P<pk1>.*?)href="(?P<pk>.+?)"(?P<pk2>.*?)>',
+                  lambda m: "<a%shref=\"%s\"%s>" % (m.group(1),
+                                                    externalise_url(
+                                                        m.group(2)),
+                                                    m.group(3)), p)
 
 
 def externalise_url(url):

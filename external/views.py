@@ -18,9 +18,6 @@ def index(request):
     future_events = [e for e in events if e.is_future]
     past_events = [e for e in events if not e.is_future]
 
-    print future_events
-    print past_events
-
     return render(request, "index.html",
                   {"future_events": future_events,
                    "past_events": past_events})
