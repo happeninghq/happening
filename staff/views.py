@@ -17,6 +17,7 @@ from django.views.decorators.http import require_POST
 from emails import render_email
 from markdown_deux import markdown
 from django.http import JsonResponse
+from django.utils import formats
 
 
 @staff_member_required
@@ -163,7 +164,14 @@ def check_in(request, pk):
         ticket.checked_in = True
         ticket.checked_in_datetime = timezone.now()
         ticket.save()
-        messages.success(request, ticket.user.name() + " has been checked in.")
+        if not request.is_ajax:
+            messages.success(request, ticket.user.name() +
+                             " has been checked in.")
+    if request.is_ajax:
+        return JsonResponse({"checked-in": "True<br /> " +
+                            formats.date_format(
+                                ticket.checked_in_datetime,
+                                "DATETIME_FORMAT")})
     return redirect(request.GET.get("next"))
 
 
@@ -175,8 +183,12 @@ def cancel_check_in(request, pk):
         ticket.checked_in = False
         ticket.checked_in_datetime = timezone.now()
         ticket.save()
-        messages.success(request, ticket.user.name() +
-                         " is no longer checked in.")
+        if not request.is_ajax:
+            messages.success(request, ticket.user.name() +
+                             " is no longer checked in.")
+
+    if request.is_ajax:
+        return JsonResponse({"checked-in": "False"})
     return redirect(request.GET.get("next"))
 
 

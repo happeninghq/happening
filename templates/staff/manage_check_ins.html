@@ -17,7 +17,6 @@
                             <th></th>
                             <th>Name</th>
                             <th data-name="ticket-type">Ticket Type</th>
-                            <th>Tickets</th>
                             <th>Checked In</th>
                             <th></th>
                         </tr>
@@ -38,10 +37,7 @@
                                     <td>
                                         {{ticket.type.name}}
                                     </td>
-                                    <td>
-                                        {{ticket.number}}
-                                    </td>
-                                    <td>
+                                    <td class="checked-in">
                                         {% if ticket.checked_in %}
                                             True<br />
                                             {{ticket.checked_in_datetime}}
@@ -52,9 +48,9 @@
                                     <td>
                                         <ul class="button-list">
                                             {% if ticket.checked_in %}
-                                                <li><a href="{% url "cancel_check_in" ticket.id %}?next={% url "manage_check_ins" event.id %}" class="btn">Cancel Check In</a></li>
+                                                <li><a data-check-in-url="{% url "check_in" ticket.id %}" data-cancel-check-in-url="{% url "cancel_check_in" ticket.id %}" href="{% url "cancel_check_in" ticket.id %}?next={% url "manage_check_ins" event.id %}" class="btn check-in">Cancel Check In</a></li>
                                             {% else %}
-                                                <li><a href="{% url "check_in" ticket.id %}?next={% url "manage_check_ins" event.id %}" class="btn">Check In</a></li>
+                                                <li><a data-check-in-url="{% url "check_in" ticket.id %}" data-cancel-check-in-url="{% url "cancel_check_in" ticket.id %}" href="{% url "check_in" ticket.id %}?next={% url "manage_check_ins" event.id %}" class="btn check-in">Check In</a></li>
                                             {% endif %}
                                         </ul>
                                     </td>
@@ -69,4 +65,8 @@
             {% include "staff/_tickets_filter_block.html" with hide_cancelled=True %}
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static "js/admin/manage_check_ins.js" %}"></script>
 {% endblock %}
