@@ -1,45 +1,56 @@
-{% extends "staff/base.html" %}
+{% load xextends %}
+
+{% xextends "staff/base.html" with secondary_nav="staff_events" %}
 {% load staticfiles %}
 
 {% block staff_content %}
-    <h1>Add attendee to {{event}}</h1>
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Add attendee to {{event}}</h2>
+                </header>
 
-    <p>If the attendee does not have an account, they must create one before being added.</p>
-
-    {% if members %}
-        <div>
-            <input type="search" id="filter_text" />
+                {% if members %}
+                    <table class="data-table" id="members-list">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Attendance</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for member in members %}
+                                <tr>
+                                    <td><a href="{% url "view_profile" member.pk %}">{{member.profile}}</a></td>
+                                    <td>{{member.email}}</td>
+                                    <td>
+                                        {{member.attended_tickets}}/{{member.uncancelled_tickets}}
+                                    </td>
+                                    <td>
+                                        <ul class="stack button-group">
+                                            <form method="POST" action="{% url "add_attendee" event.pk %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="member_pk" value="{{member.pk}}">
+                                                <button type="submit">Add</button>
+                                            </form>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div data-alert="" class="alert-box alert">
+                        There are no members of this happening who do not have tickets for this event.
+                    </div>
+                {% endif %}
+            </div>
         </div>
-        <table class="members searchable" data-search-input="#filter_text">
-            <tr>
-                <th>Member</th>
-                <th></th>
-            </tr>
-            {% for member in members %}
-                <tr data-searchable="{{member}} {{member}} {{member}}">
-                    <td>
-                        <a title="{{member.profile}}" href="{% url "view_profile" member.pk %}">
-                            {% include "members/_member_image.html" %}
-                        </a>
-                        <div><a title="{{member.profile}}" href="{% url "view_profile" member.pk %}">{{member}}</a></div>
-                        <div><a title="{{member.profile}}" href="{% url "view_profile" member.pk %}">{{member.first_name}} {{member.last_name}}</a></div>
-                    </td>
-                    <td>
-                        <ul class="stack button-group">
-                            <form method="POST" action="{% url "add_attendee" event.pk %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="member_pk" value="{{member.pk}}">
-                                <button type="submit">Add</button>
-                            </form>
-                        </ul>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <div data-alert="" class="alert-box alert">
-            There are no members of this group who do not have tickets for this event.
+        <div class="l-secondary-content block-list">
+            {% include "members/_filter_block.html" %}
         </div>
     </div>
-    {% endif %}
 {% endblock %}
