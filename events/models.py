@@ -187,8 +187,8 @@ class TicketTypeManager(models.Manager):
 
     def waiting_list_available(self):
         """Get ticket types not purchasable but with waiting list."""
-        return [t for t in self.active() if t.remaining_tickets == 0
-                and t.waiting_list_enabled]
+        return [t for t in self.active() if
+                t.remaining_tickets == 0 and t.waiting_list_enabled]
 
 
 class TicketType(db.Model):
