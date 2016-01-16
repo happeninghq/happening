@@ -164,10 +164,10 @@ def check_in(request, pk):
         ticket.checked_in = True
         ticket.checked_in_datetime = timezone.now()
         ticket.save()
-        if not request.is_ajax:
+        if not request.is_ajax():
             messages.success(request, ticket.user.name() +
                              " has been checked in.")
-    if request.is_ajax:
+    if request.is_ajax():
         return JsonResponse({"checked-in": "True<br /> " +
                             formats.date_format(
                                 ticket.checked_in_datetime,
@@ -183,11 +183,11 @@ def cancel_check_in(request, pk):
         ticket.checked_in = False
         ticket.checked_in_datetime = timezone.now()
         ticket.save()
-        if not request.is_ajax:
+        if not request.is_ajax():
             messages.success(request, ticket.user.name() +
                              " is no longer checked in.")
 
-    if request.is_ajax:
+    if request.is_ajax():
         return JsonResponse({"checked-in": "False"})
     return redirect(request.GET.get("next"))
 
