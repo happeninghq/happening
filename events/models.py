@@ -224,7 +224,7 @@ class TicketType(db.Model):
 
     def join_waiting_list(self, user):
         """Add a user to the waiting list."""
-        if not self.waiting_list_contains(user):
+        if self.waiting_list_enabled and not self.waiting_list_contains(user):
             WaitingListSubscription(user=user, ticket_type=self).save()
 
     def leave_waiting_list(self, user):

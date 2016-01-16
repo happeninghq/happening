@@ -23,7 +23,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    {{ticket_type.waiting_list_subscriptions.count}} waiting
+                    <span class="waiting">{{ticket_type.waiting_list_subscriptions.count}}</span> waiting
                 </td>
                 <td>
                     {% if ticket_type|waiting_list_contains:request.user %}
