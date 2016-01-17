@@ -19,6 +19,8 @@ class TestWaitingList(TestCase):
         self.user = mommy.make(settings.AUTH_USER_MODEL,
                                email="test@example.com")
         self.user.set_password("password")
+        self.user.is_staff = True
+        self.user.is_superuser = True
         self.user.save()
 
         self.event = mommy.make("Event", start=datetime.now(pytz.utc) +
@@ -97,6 +99,9 @@ class TestWaitingList(TestCase):
 
         self.assertEquals(tickets[0]["remaining_tickets"], 0)
 
+        # Check they can't purchase
+        # TODO
+
         # Check others can't see the ticket
         client2 = Client()
         client2.get("/events/%s" % self.event.id)
@@ -107,9 +112,49 @@ class TestWaitingList(TestCase):
 
         self.assertEquals(tickets[0]["remaining_tickets"], 0)
 
+    def test_cancelled_ticket_is_held(self):
+        """Test that a cancelled ticket is not available for purchase."""
+        pass
+
     def test_manually_offer_ticket(self):
         """Test that admins can manually offer a ticket for sale."""
-        pass
+        self.client.login(username=self.user.username, password="password")
+
+        self.ticket_type.number = 0
+        self.ticket_type.save()
+
+        # Join the waiting list
+        self.client.post("/events/%s/wait" % self.event.id)
+
+        # Create a ticket
+        self.ticket_type.number = 1
+        self.ticket_type.save()
+
+        # Release the ticket to the waiting user
+        self.client.post("/staff/events/waiting-lists/%s/release/%s" % (
+            self.event.id, self.user.id))
+
+        # Check that a person on the waiting list can see the ticket
+        response = self.client.get("/events/%s" % self.event.id)
+
+        tickets = json.loads(response.soup.find("form",
+                             class_="purchase-tickets-widget")[
+                             "data-active-tickets"])
+
+        self.assertEquals(tickets[0]["remaining_tickets"], 1)
+
+        # Check they can purchase the ticket
+        # TODO
+
+        # Check that a person not on the waiting list can't
+        client2 = Client()
+        response = client2.get("/events/%s" % self.event.id)
+
+        tickets = json.loads(response.soup.find("form",
+                             class_="purchase-tickets-widget")[
+                             "data-active-tickets"])
+
+        self.assertEquals(tickets[0]["remaining_tickets"], 0)
 
     def test_automatically_offer_ticket(self):
         """Test that tickets are automatically offered for sale."""

@@ -188,7 +188,8 @@ class TicketTypeManager(models.Manager):
     def waiting_list_available(self):
         """Get ticket types not purchasable but with waiting list."""
         return [t for t in self.active() if
-                t.remaining_tickets == 0 and t.waiting_list_enabled]
+                t.waiting_list_enabled and (t.remaining_tickets == 0 or
+                t.waiting_list_subscriptions.count() > 0)]
 
 
 class TicketType(db.Model):
@@ -203,6 +204,7 @@ class TicketType(db.Model):
     price = models.IntegerField()
     visible = models.BooleanField(default=False)
     waiting_list_enabled = models.BooleanField(default=False)
+    waiting_list_timeout = models.DurationField()
 
     @property
     def sold_tickets(self):
@@ -234,6 +236,18 @@ class TicketType(db.Model):
                     user=user):
                 subscription.delete()
 
+    def purchasable_by(self, user):
+        """Check that a user is allowed to purchase this ticket."""
+        # This will return false if there is a waiting list for example
+        if self.waiting_list_enabled and\
+                self.waiting_list_subscriptions.count() > 0:
+            if not user.is_authenticated():
+                return False
+            waiting_list_subscription = self.waiting_list_subscriptions.filter(
+                user=user, can_purchase=True).first()
+            return waiting_list_subscription is not None
+        return True
+
 
 class TicketOrder(db.Model):
 
@@ -263,6 +277,16 @@ class TicketOrder(db.Model):
 
         self.complete = True
         self.save()
+
+        # If this was purchased by someone on a waiting list - remove
+        # them from the waiting list
+
+        for t in self.tickets.all():
+            subscription = t.type.waiting_list_subscriptions.filter(
+                user=self.user).first()
+            if subscription:
+                subscription.delete()
+                # TODO: Maybe record as completed rather than deleting?
 
 
 class Ticket(db.Model):
@@ -344,3 +368,6 @@ class WaitingListSubscription(db.Model):
                              related_name="waiting_lists")
     ticket_type = models.ForeignKey(TicketType,
                                     related_name="waiting_list_subscriptions")
+
+    can_purchase = models.BooleanField(default=False)
+    can_purchase_expiry = models.DateTimeField(null=True)

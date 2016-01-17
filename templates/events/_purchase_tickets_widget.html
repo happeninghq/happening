@@ -5,7 +5,7 @@
 
 {% with "events.event_configuration.MaxTicketsPerPerson"|get_configuration:event as max_tickets %}
     {% with request.user|tickets:event as user_tickets %}
-        <form action="{% url "purchase_tickets" event.pk %}" method="POST" class="purchase-tickets-widget" data-active-tickets="{{event|active_tickets_json}}" data-max-tickets="{{max_tickets}}" data-already-purchased="{{user_tickets.count}}"{% if "events.event_configuration.MaxTicketsPerPerson"|configuration_is_enabled:event %} data-max-tickets-enabled="true"{% endif %}>
+        <form action="{% url "purchase_tickets" event.pk %}" method="POST" class="purchase-tickets-widget" data-active-tickets="{{event|active_tickets_json:request.user}}" data-max-tickets="{{max_tickets}}" data-already-purchased="{{user_tickets.count}}"{% if "events.event_configuration.MaxTicketsPerPerson"|configuration_is_enabled:event %} data-max-tickets-enabled="true"{% endif %}>
 
             {% csrf_token %}
 

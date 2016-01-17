@@ -45,16 +45,17 @@ def purchase_tickets(request, pk):
     if use_max_tickets:
         max_tickets = MaxTicketsPerPerson(event).get() -\
             event.tickets.filter(user=request.user, cancelled=False).count()
-        form = TicketForm(event=event, max_tickets=max_tickets)
+        form = TicketForm(event=event, max_tickets=max_tickets,
+                          user=request.user)
     else:
-        form = TicketForm(event=event)
+        form = TicketForm(event=event, user=request.user)
 
     if request.method == "POST":
         if use_max_tickets:
             form = TicketForm(request.POST, event=event,
-                              max_tickets=max_tickets)
+                              max_tickets=max_tickets, user=request.user)
         else:
-            form = TicketForm(request.POST, event=event)
+            form = TicketForm(request.POST, event=event, user=request.user)
         if form.is_valid():
             tickets = {p[8:]: int(n) for p, n in form.cleaned_data.items() if
                        p.startswith("tickets_")}

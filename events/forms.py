@@ -20,9 +20,13 @@ class TicketForm(forms.Form):
         self.max_tickets = None
         if 'max_tickets' in kwargs:
             self.max_tickets = kwargs.pop("max_tickets")
+        self.user = kwargs.pop("user")
         super(TicketForm, self).__init__(*args, **kwargs)
 
         for ticket_type in event.ticket_types.active():
+            if not ticket_type.purchasable_by(self.user):
+                # Don't allow any tickets not purchasable
+                continue
             m = ticket_type.remaining_tickets
             if self.max_tickets:
                 m = min((self.max_tickets, m))
