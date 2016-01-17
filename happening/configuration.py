@@ -110,7 +110,10 @@ class JSONStorageMapper(StorageMapper):
 
     def to_python(self, value):
         """Load json."""
-        return json.loads(value)
+        try:
+            return json.loads(value)
+        except:
+            return []
 
 
 class DurationStorageMapper(StorageMapper):

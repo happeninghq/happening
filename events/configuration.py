@@ -14,4 +14,4 @@ class WaitingListTimeout(configuration.DurationField):
 
     """How long do people have to purchase from a waiting list."""
 
-    default = timedelta(days=1, hours=2, minutes=3, seconds=4)
+    default = timedelta(days=1)
