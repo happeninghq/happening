@@ -5,6 +5,7 @@ from models import TicketOrder, WaitingListSubscription, TicketType
 from payments.models import Payment
 from datetime import datetime
 from configuration import TicketTimeout
+from events.notifications import WaitingListExpiredNotification
 
 
 @every(seconds=30)
@@ -38,6 +39,11 @@ def timeout_waiting_list():
     for subscription in WaitingListSubscription.objects.filter(
             can_purchase=True,
             can_purchase_expiry__lt=datetime.now()):
+
+        n = WaitingListExpiredNotification(
+            subscription.user, event=subscription.ticket_type.event,
+            event_name=str(subscription.ticket_type.event))
+        n.send()
 
         subscription.delete()
 
