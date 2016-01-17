@@ -1,0 +1,11 @@
+{% extends "notifications/notifications/events/base.html" %}
+
+{% block text %}
+    <p>You can now purchase tickets for <a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a>. You must complete the transaction in {{timeout}}.</p>
+{% endblock %}
+
+{% block subject %}Your can now purchase tickets for {{event_name}}{% endblock %}
+
+{% block email_content %}
+You can now purchase tickets for [{{event_name}}]({% url "view_event" event.id %}). You must complete the transaction in {{timeout}}.
+{% endblock %}

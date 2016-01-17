@@ -5,10 +5,11 @@ from django.utils import timezone
 from exceptions import EventFinishedError, NoTicketsError
 from datetime import datetime, timedelta
 import pytz
-from happening.utils import custom_strftime
+from happening.utils import custom_strftime, human_delta
 from django.core.urlresolvers import reverse
 from notifications import CancelledTicketNotification
 from notifications import PurchasedTicketNotification
+from notifications import CanPurchaseFromWaitingListNotification
 from django.conf import settings
 from happening.plugins import trigger_action
 import json
@@ -204,6 +205,7 @@ class TicketType(db.Model):
     price = models.IntegerField()
     visible = models.BooleanField(default=False)
     waiting_list_enabled = models.BooleanField(default=False)
+    waiting_list_automatic = models.BooleanField(default=False)
 
     @property
     def sold_tickets(self):
@@ -370,3 +372,17 @@ class WaitingListSubscription(db.Model):
 
     can_purchase = models.BooleanField(default=False)
     can_purchase_expiry = models.DateTimeField(null=True)
+
+    def set_can_purchase(self):
+        """Mark that this person can purchase a ticket."""
+        from events.configuration import WaitingListTimeout
+        self.can_purchase = True
+        self.can_purchase_expiry = timezone.now() + WaitingListTimeout().get()
+
+        n = CanPurchaseFromWaitingListNotification(
+            self.user, event=self.ticket_type.event,
+            event_name=str(self.ticket_type.event),
+            timeout=human_delta(WaitingListTimeout().get()))
+        n.send()
+
+        self.save()

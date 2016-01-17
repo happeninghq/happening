@@ -6,7 +6,7 @@ from events.models import Event, Ticket, EventPreset, TicketType
 from events.forms import EventForm
 from pages.models import Page
 from pages.forms import PageForm
-from forms import EmailForm
+from forms import EmailForm, WaitingListForm
 from django.contrib import messages
 from django.utils import timezone
 from happening.configuration import get_configuration_variables, attach_to_form
@@ -18,6 +18,7 @@ from emails import render_email
 from markdown_deux import markdown
 from django.http import JsonResponse
 from django.utils import formats
+from django.views.decorators.csrf import csrf_protect
 
 
 @staff_member_required
@@ -247,12 +248,30 @@ def create_event(request):
                    "event_presets": EventPreset.objects.all()})
 
 
+# We had to add csrf_protect below because of django not generating a token
+# TODO: Figure out why this is an remove it. It should be automatic
 @staff_member_required
+@csrf_protect
 def manage_waiting_list(request, pk):
     """Manage waiting list."""
     ticket_type = get_object_or_404(TicketType, pk=pk)
+    form = WaitingListForm(initial={"automatic":
+                                    ticket_type.waiting_list_automatic})
     return render(request, "staff/manage_waiting_list.html",
-                  {"ticket_type": ticket_type})
+                  {"ticket_type": ticket_type, "form": form})
+
+
+@staff_member_required
+@require_POST
+def waiting_list_settings(request, pk):
+    """Manage waiting list settings."""
+    ticket_type = get_object_or_404(TicketType, pk=pk)
+    form = WaitingListForm(request.POST)
+    if form.is_valid():
+        ticket_type.waiting_list_automatic =\
+            form.cleaned_data['automatic']
+        ticket_type.save()
+        return redirect("manage_waiting_list", pk)
 
 
 @staff_member_required
@@ -279,7 +298,7 @@ def release_to_waiting_list(request, pk, user_pk):
     if not waiting_list:
         return redirect("manage_waiting_list", pk)
 
-    waiting_list.can_purchase = True
+    waiting_list.set_can_purchase()
     waiting_list.save()
 
     messages.success(request,

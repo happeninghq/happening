@@ -1,0 +1,11 @@
+{% extends "notifications/notifications/events/base.html" %}
+
+{% block text %}
+    <p>Your position in the waiting list for <a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a> has expired. If you wish to purchase tickets you may re-join the waiting list.</p>
+{% endblock %}
+
+{% block subject %}Your position in the waiting list for {{event_name}} has expired{% endblock %}
+
+{% block email_content %}
+Your position in the waiting list for [{{event_name}}]({% url "view_event" event.id %}") has expired. If you wish to purchase tickets you may re-join the waiting list.
+{% endblock %}

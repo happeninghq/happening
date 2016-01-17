@@ -1,7 +1,7 @@
 """Period tasks related to events."""
 
 from periodically.decorators import every
-from models import TicketOrder
+from models import TicketOrder, WaitingListSubscription, TicketType
 from payments.models import Payment
 from datetime import datetime
 from configuration import TicketTimeout
@@ -30,3 +30,40 @@ def timeout_held_tickets():
 
         # Delete order
         order.delete()
+
+
+@every(minutes=5)
+def timeout_waiting_list():
+    """Ensure that waiting list subscriptions are removed."""
+    for subscription in WaitingListSubscription.objects.filter(
+            can_purchase=True,
+            can_purchase_expiry__lt=datetime.now()):
+
+        subscription.delete()
+
+
+@every(minutes=10)
+def manage_waiting_list():
+    """Ensure that tickets are distributed to waiting lists."""
+    def manage_waiting_list_for(ticket_type):
+        allowed_to_purchase = ticket_type.waiting_list_subscriptions.filter(
+            can_purchase=True).count()
+
+        while ticket_type.remaining_tickets > allowed_to_purchase:
+            # Release it to the next person in the queue
+            next_person = ticket_type.waiting_list_subscriptions.filter(
+                can_purchase=False).first()
+            if not next_person:
+                # Cannot release any more, continue to next ticket_type
+                return
+            next_person.set_can_purchase()
+            next_person.save()
+
+            allowed_to_purchase += 1
+
+    # TODO: Make this query more specific so we don't waste time
+    for ticket_type in TicketType.objects.filter(
+            waiting_list_enabled=True,
+            waiting_list_automatic=True,
+            ):
+        manage_waiting_list_for(ticket_type)

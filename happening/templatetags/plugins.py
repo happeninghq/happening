@@ -29,7 +29,7 @@ def get_configuration(configuration_path, object=None):
     parts = configuration_path.rsplit(".", 1)
     # The final part is the variable, everything before that is the module
     p = importlib.import_module(parts[0])
-    return getattr(p, parts[1])(object).get()
+    return getattr(p, parts[1])(object).render()
     raise Exception("Can not find configuration variable %s"
                     % configuration_path)
 

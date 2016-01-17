@@ -4,6 +4,7 @@
 {% load plugins %}
 {% load staticfiles %}
 {% load tickets %}
+{% load forms %}
 
 {% block content %}
     <div class="l-container">
@@ -66,12 +67,11 @@
             <div class="block block-list__item">
                 <header class="block__header">
                     <h2 class="block__header-text">Settings</h2>
-                </header>
-            </div>
-
-            <div class="block block-list__item">
-                <header class="block__header">
-                    <h2 class="block__header-text">Add User</h2>
+                    <form method="POST" action="{% url "waiting_list_settings" ticket_type.pk %}">
+                        {% csrf_token %}
+                        {{form|render}}
+                        <button type="submit">Save</button>
+                    </form>
                 </header>
             </div>
         </div>

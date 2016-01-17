@@ -28,7 +28,9 @@ $(function() {
             viewModel.properties.removeAll();
             var value = $this.find('[type="hidden"]').val();
             if (value) {
+                console.log(value);
                 value = JSON.parse(value);
+                console.log(value);
                 for (var i in value) {
                     viewModel.properties.push(property(value[i].name, value[i].type));
                 }
