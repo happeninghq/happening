@@ -289,6 +289,15 @@ class TicketOrder(db.Model):
                 subscription.delete()
                 # TODO: Maybe record as completed rather than deleting?
 
+            # If there are no tickets left but still people on the waiting list
+            # remove their right to buy (so they don't get removed completely)
+            if t.type.remaining_tickets == 0:
+                for subscription in t.type.waiting_list_subscriptions.filter(
+                        can_purchase=True):
+                    subscription.can_purchase = False
+                    subscription.can_purchase_expiry = None
+                    subscription.save()
+
 
 class Ticket(db.Model):
 

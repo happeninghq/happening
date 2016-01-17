@@ -160,3 +160,45 @@ class TestWaitingList(TestCase):
     def test_automatically_offer_ticket(self):
         """Test that tickets are automatically offered for sale."""
         pass
+
+    def test_waiting_list_is_retracted_when_sold_out(self):
+        """Test that offers are retracted when sold out."""
+        user2 = mommy.make(settings.AUTH_USER_MODEL,
+                           email="test2@example.com")
+        user2.set_password("password")
+        user2.save()
+
+        client2 = Client()
+
+        self.client.login(username=self.user.username, password="password")
+        client2.login(username=user2.username, password="password")
+
+        # Both clients logged in - now get both of them on the waiting list
+
+        self.ticket_type.number = 0
+        self.ticket_type.save()
+
+        self.client.post("/events/%s/wait" % self.ticket_type.id)
+        client2.post("/events/%s/wait" % self.ticket_type.id)
+
+        # Release tickets to both
+        self.ticket_type.number = 1
+        self.ticket_type.save()
+
+        self.client.post("/staff/events/waiting-lists/%s/release/%s" % (
+            self.ticket_type.id, self.user.id))
+        self.client.post("/staff/events/waiting-lists/%s/release/%s" % (
+            self.ticket_type.id, user2.id))
+
+        subscription = self.ticket_type.waiting_list_subscriptions.filter(
+            user=user2).first()
+
+        self.assertTrue(subscription.can_purchase)
+
+        # Now user 1 buys the ticket, so user 2 should have their access
+        # revoked
+
+        self.event.buy_tickets(self.user, {self.ticket_type.pk: 1})
+        subscription = self.ticket_type.waiting_list_subscriptions.filter(
+            user=user2).first()
+        self.assertFalse(subscription.can_purchase)
