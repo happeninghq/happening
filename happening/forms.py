@@ -6,6 +6,7 @@ import json
 from django.core.files import File
 from happening.storage import storage
 from events.models import Event
+from datetime import timedelta
 
 
 class PropertiesWidget(forms.Widget):
@@ -403,3 +404,30 @@ class EnabledDisabledField(forms.BooleanField):
 
         kwargs["required"] = False
         super(EnabledDisabledField, self).__init__(*args, **kwargs)
+
+
+class DurationWidget(forms.Widget):
+
+    """A widget that allows for inputting a duration."""
+
+    def render(self, name, value, attrs):
+        """Render the widget."""
+        if not value:
+            value = 0
+        if isinstance(value, timedelta):
+            value = value.total_seconds()
+        return render_to_string("forms/widgets/duration_widget.html", {
+            "name": name,
+            "value": value
+        })
+
+
+class DurationField(forms.CharField):
+
+    """A field for inputting a duration (timedelta)."""
+
+    widget = DurationWidget
+
+    def to_python(self, value):
+        """Get the duration as timedelta."""
+        return timedelta(seconds=float(value))

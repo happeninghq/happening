@@ -23,7 +23,7 @@ class AllEventsFeed(ICalFeed):
     def item_description(self, item):
         """Pull the item description from configuration."""
         # We use raw as markdown will look better than html here
-        return Description(item)._raw_value()
+        return Description(item).get()
 
     def item_start_datetime(self, item):
         """Get the item start time."""

@@ -6,6 +6,7 @@ from happening.forms import PropertiesField as PropertiesFormField
 from happening.forms import EmailsField as EmailsFormField
 from happening.forms import CustomPropertiesField as CustomPropertiesFormField
 from happening.forms import BooleanField
+from happening.forms import DurationField
 from happening.templatetags.plugins import get_configuration
 from markdown_deux import markdown
 from django.utils.html import mark_safe
@@ -67,48 +68,6 @@ class Renderer(object):
         """Convert a variable value into a given data type."""
         return value
 
-    def to_string(self, value):
-        """Convert a value into a string for storage."""
-        return value
-
-
-class StringRenderer(Renderer):
-
-    """Convert a variable into a string."""
-
-    def render(self, value):
-        """Convert a variable into a string."""
-        return str(value)
-
-
-class IntRenderer(Renderer):
-
-    """Convert a variable into a int."""
-
-    def render(self, value):
-        """Convert a variable into a int."""
-        return int(value)
-
-
-class JSONRenderer(Renderer):
-
-    """Convert a variable from JSON into a dict."""
-
-    def render(self, value):
-        """Convert a variable from JSON into a dict."""
-        if isinstance(value, basestring):
-            try:
-                return json.loads(value)
-            except ValueError:
-                return value
-        return value
-
-    def to_string(self, value):
-        """Convert a value into a string for storage."""
-        if isinstance(value, basestring):
-            return value
-        return json.dumps(value)
-
 
 class MarkdownRenderer(Renderer):
 
@@ -117,6 +76,54 @@ class MarkdownRenderer(Renderer):
     def render(self, value):
         """Render the markdown in a string."""
         return mark_safe(markdown(value))
+
+
+class StorageMapper(object):
+
+    """Prepare a datatype for storage."""
+
+    def to_json(self, value):
+        """Don't change value."""
+        return value
+
+    def to_python(self, value):
+        """Don't change value."""
+        return value
+
+
+class IntStorageMapper(StorageMapper):
+
+    """Store an int."""
+
+    def to_python(self, value):
+        """Parse to int."""
+        return int(value)
+
+
+class JSONStorageMapper(StorageMapper):
+
+    """Store a dict as json."""
+
+    def to_json(self, value):
+        """Dump to json."""
+        return json.dumps(value)
+
+    def to_python(self, value):
+        """Load json."""
+        return json.loads(value)
+
+
+class DurationStorageMapper(StorageMapper):
+
+    """Store a timedelta as json."""
+
+    def to_json(self, value):
+        """Dump to json."""
+        return value.total_seconds()
+
+    def to_python(self, value):
+        """Load into timedelta."""
+        return timedelta(seconds=float(value))
 
 
 class ConfigurationVariable(object):
@@ -130,9 +137,10 @@ class ConfigurationVariable(object):
     default = ""
     object = None
     references = {}
-    renderer = StringRenderer()
     field = forms.CharField
     required = False
+    renderer = Renderer()
+    storage_mapper = StorageMapper()
     label = None
 
     can_be_disabled = False
@@ -168,7 +176,7 @@ class ConfigurationVariable(object):
     def _construct_field(self, *args, **kwargs):
         """Create the form field representing this variable."""
         k = {
-            "initial": self._raw_value(),
+            "initial": self.get(),
             "required": self.required,
             "label": self.label}
         k.update(kwargs)
@@ -186,7 +194,15 @@ class ConfigurationVariable(object):
 
     def get(self):
         """Get the value of this variable."""
-        return self.renderer.render(self._raw_value())
+        v = self.fresh_object._data.get(self.key)
+
+        if v is None:
+            return self.default
+        return self.storage_mapper.to_python(v)
+
+    def render(self):
+        """Get the value of this variable, prepared for output in HTML."""
+        return self.renderer.render(self.get())
 
     def is_enabled(self):
         """True if field is enabled."""
@@ -198,18 +214,10 @@ class ConfigurationVariable(object):
             return self.default_enabled
         return v
 
-    def _raw_value(self):
-        """Get the raw value of this variable."""
-        v = self.fresh_object._data.get(self.key)
-
-        if v is None:
-            return self.default
-        return v
-
     def set(self, value):
         """Set the value of this variable."""
         obj = self.fresh_object
-        obj._data[self.key] = value
+        obj._data[self.key] = self.storage_mapper.to_json(value)
         obj.save()
 
     def set_enabled(self, value):
@@ -242,6 +250,14 @@ class CharField(ConfigurationVariable):
     pass
 
 
+class DurationField(CharField):
+
+    """A duration field."""
+
+    field = DurationField
+    storage_mapper = DurationStorageMapper()
+
+
 class EmailField(CharField):
 
     """A validated email address field."""
@@ -253,8 +269,8 @@ class IntegerField(CharField):
 
     """An integer field."""
 
-    renderer = IntRenderer()
     field = forms.IntegerField
+    storage_mapper = IntStorageMapper()
 
 
 class URLField(CharField):
@@ -269,7 +285,6 @@ class BooleanField(ConfigurationVariable):
     """A boolean field."""
 
     field = BooleanField
-    renderer = Renderer()
     required = False
 
 
@@ -288,16 +303,16 @@ class PropertiesField(ConfigurationVariable):
 
     """A field to configure custom properties and types."""
 
-    renderer = JSONRenderer()
     field = PropertiesFormField
+    storage_mapper = JSONStorageMapper()
 
 
 class EmailsField(ConfigurationVariable):
 
     """A field to configure emails."""
 
-    renderer = JSONRenderer()
     field = EmailsFormField
+    storage_mapper = JSONStorageMapper()
 
     def set(self, value):
         """Save this variable and then schedule the emails."""
@@ -351,8 +366,8 @@ class CustomProperties(ConfigurationVariable):
 
     """A field to hold the values for custom properties."""
 
-    renderer = JSONRenderer()
     field = CustomPropertiesFormField
+    storage_mapper = JSONStorageMapper()
 
     def django_field(self):
         """Get multiple form fields representing the custom properties."""

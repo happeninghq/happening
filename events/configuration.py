@@ -1,9 +1,17 @@
 """Event Configuration."""
 from happening import configuration
+from datetime import timedelta
 
 
-class TicketTimeout(configuration.IntegerField):
+class TicketTimeout(configuration.DurationField):
 
-    """How long (seconds) do people have to pay during purchase."""
+    """How long do people have to pay during purchase."""
 
-    default = 600
+    default = timedelta(minutes=10)
+
+
+class WaitingListTimeout(configuration.DurationField):
+
+    """How long do people have to purchase from a waiting list."""
+
+    default = timedelta(days=1, hours=2, minutes=3, seconds=4)

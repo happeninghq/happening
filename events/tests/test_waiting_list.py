@@ -47,14 +47,15 @@ class TestWaitingList(TestCase):
                          "0")
 
         # Join the waiting list
-        response = self.client.post("/events/%s/wait" % self.event.id)
+        response = self.client.post("/events/%s/wait" % self.ticket_type.id)
 
         response = self.client.get("/events/%s" % self.event.id)
         self.assertEqual(response.soup.find("span", class_="waiting").text,
                          "1")
 
         # Leave the waiting list
-        response = self.client.post("/events/%s/wait/leave" % self.event.id)
+        response = self.client.post("/events/%s/wait/leave" %
+                                    self.ticket_type.id)
 
         response = self.client.get("/events/%s" % self.event.id)
         self.assertEqual(response.soup.find("span", class_="waiting").text,
@@ -84,7 +85,7 @@ class TestWaitingList(TestCase):
         self.ticket_type.save()
 
         # Join the waiting list
-        self.client.post("/events/%s/wait" % self.event.id)
+        self.client.post("/events/%s/wait" % self.ticket_type.id)
 
         # Create a ticket
         self.ticket_type.number = 1
@@ -124,7 +125,7 @@ class TestWaitingList(TestCase):
         self.ticket_type.save()
 
         # Join the waiting list
-        self.client.post("/events/%s/wait" % self.event.id)
+        self.client.post("/events/%s/wait" % self.ticket_type.id)
 
         # Create a ticket
         self.ticket_type.number = 1
@@ -132,7 +133,7 @@ class TestWaitingList(TestCase):
 
         # Release the ticket to the waiting user
         self.client.post("/staff/events/waiting-lists/%s/release/%s" % (
-            self.event.id, self.user.id))
+            self.ticket_type.id, self.user.id))
 
         # Check that a person on the waiting list can see the ticket
         response = self.client.get("/events/%s" % self.event.id)

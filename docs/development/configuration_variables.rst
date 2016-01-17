@@ -155,27 +155,6 @@ This could also be achieved without the ``ConfigurationVariable`` subclass. Howe
 
 In this case, we simply override the field for the Description variable.
 
-**Custom Variable Renderers**
-
-With the previous example of the MarkdownField, we allow the users to create markdown. However the output will need to be formatted as markdown each time it is used. To avoid this, we can create a subclass of the ``happening.configuration.Renderer`` class::
-    
-    class MarkdownRenderer(Renderer):
-
-        """Render the markdown in a string."""
-
-        def render(self, value):
-            """Render the markdown in a string."""
-            return mark_safe(markdown(value))
-
-and then reference this in our variable/variable type::
-
-    class MarkdownField(ConfigurationVariable):
-
-        field = forms.MarkdownField
-        renderer = MarkdownRenderer()
-
-This will ensure that when using the default functionality for getting variables, it will get the rendered HTML rather than the raw markdown. This can also be used to format data in the correct type (boolean, int, etc.).
-
 **Custom "Custom Properties" Types**
 
 Currently Custom Properties can only have variables of type CharField, EmailField, IntegerField, URLField, and BooleanField. We hope to allow for custom types in future.

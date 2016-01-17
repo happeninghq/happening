@@ -204,7 +204,6 @@ class TicketType(db.Model):
     price = models.IntegerField()
     visible = models.BooleanField(default=False)
     waiting_list_enabled = models.BooleanField(default=False)
-    waiting_list_timeout = models.DurationField()
 
     @property
     def sold_tickets(self):
