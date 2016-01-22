@@ -12,9 +12,9 @@ register = template.Library()
 def plugin_block(context, key, *params):
     """Make a space for plugins to place content in a template."""
     from happening import plugins
-    return " ".join([p(context['request'], *params) for plugin_id, p in
-                    plugins.plugin_blocks.get(key, [])
-                    if plugins.plugin_enabled(plugin_id)])
+    return mark_safe(" ".join([p(context['request'], *params) for plugin_id,
+                     p in plugins.plugin_blocks.get(key, [])
+                     if plugins.plugin_enabled(plugin_id)]))
 
 
 @register.filter()

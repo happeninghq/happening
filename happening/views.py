@@ -9,7 +9,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.core.signing import Signer
 from django.http import HttpResponseForbidden
-from django.db.models import get_model
+from happening.utils import get_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import os

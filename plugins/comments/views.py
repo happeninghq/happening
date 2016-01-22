@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseForbidden
-from django.db.models import get_model
+from happening.utils import get_model
 from notifications import CommentNotification
 from happening.notifications import notify_following
 

@@ -40,7 +40,7 @@ for f in os.listdir("plugins"):
         PLUGINS.append("plugins.%s" % f)
         importlib.import_module("plugins.%s" % f)
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -76,7 +76,7 @@ INSTALLED_APPS = (
     'payments',
 
     'django_cleanup',
-) + tuple(PLUGINS)
+] + PLUGINS
 
 SOCIALACCOUNT_PROVIDERS = {
     "stackexchange": {
@@ -88,20 +88,20 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 if DEBUG:
-    INSTALLED_APPS += ('template_profiler_panel',)
-    INSTALLED_APPS += ('debug_toolbar',)
+    INSTALLED_APPS += ['template_profiler_panel']
+    INSTALLED_APPS += ['debug_toolbar']
 
 if 'HAPPENING_TESTING' not in os.environ:
     # Only if we're not running tests should we enable social auth providers
-    INSTALLED_APPS += ('allauth.socialaccount.providers.facebook',
+    INSTALLED_APPS += ['allauth.socialaccount.providers.facebook',
                        'allauth.socialaccount.providers.github',
                        'allauth.socialaccount.providers.linkedin',
                        'allauth.socialaccount.providers.stackexchange',
                        'allauth.socialaccount.providers.twitter',
-                       'allauth.socialaccount.providers.google',)
+                       'allauth.socialaccount.providers.google']
 
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
     'happening.middleware.SSLifyMiddleware',
@@ -118,7 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.cache.FetchFromCacheMiddleware',
     'happening.plugins.ResolvePluginMiddlewareMiddleware',
-)
+]
 
 
 ROOT_URLCONF = 'happening.urls'
@@ -154,37 +154,37 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-TEMPLATE_DIRS = (
+TEMPLATE_DIRS = [
     os.path.join(BASE_DIR, 'templates'),
-)
+]
 
-STATICFILES_DIRS = (
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'bower_components'),
-)
+]
 
-COMPRESS_PRECOMPILERS = (
+COMPRESS_PRECOMPILERS = [
     ('text/x-scss', 'django_libsass.SassCompiler'),
     ('text/ecmascript-6', 'babel {infile}'),
-)
+]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'compiled_static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATICFILES_FINDERS = (
+STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
-)
+]
 
 COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = not DEBUG
 
-FIXTURE_DIRS = (
+FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'fixtures'),
-)
+]
 
-TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + [
     "django.core.context_processors.request",
 
     "admin.context_processors.admin_urls",
@@ -192,15 +192,15 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     "events.context_processors.events",
     "pages.context_processors.pages",
     "happening.context_processors.site",
-)
+]
 
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
     # "django.contrib.auth.backends.ModelBackend",
 
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
-)
+]
 
 SITE_ID = 1
 
@@ -239,10 +239,10 @@ if USE_LIVE_DATA:
     }
 
     # Add raven to the list of installed apps
-    INSTALLED_APPS = INSTALLED_APPS + (
+    INSTALLED_APPS = INSTALLED_APPS + [
         # ...
         'raven.contrib.django.raven_compat',
-    )
+    ]
 
 # For SSL redirect on Heroku
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -298,23 +298,12 @@ CACHE_MIDDLEWARE_ALIAS = "default"
 CACHE_MIDDLEWARE_SECONDS = 300
 CACHE_MIDDLEWARE_KEY_PREFIX = ""
 
-plugin_files = ['blocks',
-                'actions',
-                'notifications',
-                'middleware']
-
-for app in INSTALLED_APPS:
-    f = app.replace(".", "/")
-    for p in plugin_files:
-        if os.path.isfile("%s/%s.py" % (f, p)):
-            importlib.import_module("%s.%s" % (app, p))
-
 
 if 'HAPPENING_TESTING' in os.environ:
     # Special settings in here to speed up tests
-    PASSWORD_HASHERS = (
+    PASSWORD_HASHERS = [
         'django.contrib.auth.hashers.MD5PasswordHasher',
-    )
+    ]
 
     COMPRESS_ENABLED = False
     COMPRESS_OFFLINE = False
@@ -324,7 +313,7 @@ if 'HAPPENING_TESTING' in os.environ:
     logging.disable(logging.CRITICAL)
 
     # TODO: Write replacement templatetags that do nothing.
-    COMPRESS_PRECOMPILERS = (
+    COMPRESS_PRECOMPILERS = [
         ('text/x-scss', 'echo'),
         ('text/ecmascript-6', 'echo'),
-    )
+    ]

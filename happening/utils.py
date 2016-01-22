@@ -14,6 +14,8 @@ from django.template import RequestContext
 from cStringIO import StringIO
 import sys
 from django.contrib.sites.models import Site
+from django.apps import apps
+get_model = apps.get_model
 
 
 def render_block(request, template, kwargs):

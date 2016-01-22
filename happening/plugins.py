@@ -12,6 +12,24 @@ loaded_files = []
 enabled_plugins_cache = None
 
 
+def init():
+    """Ensure that all plugin decorators are called."""
+    from django.conf import settings
+    import os
+    import importlib
+
+    plugin_files = ['blocks',
+                    'actions',
+                    'notifications',
+                    'middleware']
+
+    for app in settings.INSTALLED_APPS:
+        f = app.replace(".", "/")
+        for p in plugin_files:
+            if os.path.isfile("%s/%s.py" % (f, p)):
+                importlib.import_module("%s.%s" % (app, p))
+
+
 def load_file_in_plugins(filename):
     """Ensure that the given file is imported from all plugins."""
     if filename in loaded_files:
