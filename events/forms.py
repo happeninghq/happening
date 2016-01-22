@@ -74,16 +74,14 @@ class TicketsWidget(forms.Widget):
     def render(self, name, value, attrs):
         """Render the widget."""
         # Convert the value into JSON
-        # Because this isn't mapping to a single field the value will never be
-        # passed. instead we use self.initial.
-        if self.initial:
+        if not value and self.initial:
             value = [{"pk": t.pk,
                       "name": t.name,
                       "number": t.number,
                       "price": float(t.price) / 100.0,
                       "waiting_list_enabled": t.waiting_list_enabled,
                       "visible": t.visible} for t in self.initial]
-        else:
+        elif not value:
             value = []
 
         # payment is enabled if there is an active payment provider
@@ -164,6 +162,8 @@ class EventForm(ModelForm):
                 'waiting_list_enabled', False)
 
             ticket_type.save()
+
+        return instance
 
     class Meta:
         model = Event

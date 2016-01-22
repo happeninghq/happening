@@ -10,15 +10,20 @@ $(function() {
                     v = JSON.stringify(v)
                 }
 
-                $('[name="' + k + '"]').val(v);
-
-                $('.widget').each(function() {
-                    if ($(this).data('reload')) {
-                        $(this).data('reload')();
+                $('[name="' + k + '"],[data-name="' + k + '"]').each(function() {
+                    if ($(this).data('val')) {
+                        $(this).data('val')(v);
+                    } else {
+                        $(this).val(v);
                     }
                 });
-                false
             }
         }
+
+        $('.widget').each(function() {
+            if ($(this).data('reload')) {
+                $(this).data('reload')();
+            }
+        });
     })
 })

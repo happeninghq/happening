@@ -26,11 +26,12 @@ $(function() {
             return JSON.stringify(ko.toJS(viewModel).tickets);
         });
 
-        $this = $(this);
+        var $this = $(this);
 
         $this.data('reload', function() {
-            viewModel.tickets.removeAll();
             var value = $this.find('[type="hidden"]').val();
+
+            viewModel.tickets.removeAll();
             if (value) {
                 value = JSON.parse(value);
                 for (var i in value) {

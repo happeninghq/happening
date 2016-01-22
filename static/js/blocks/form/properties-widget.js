@@ -22,15 +22,13 @@ $(function() {
             return JSON.stringify(ko.toJS(viewModel).properties);
         });
 
-        $this = $(this);
+        var $this = $(this);
 
         $this.data('reload', function() {
-            viewModel.properties.removeAll();
             var value = $this.find('[type="hidden"]').val();
+            viewModel.properties.removeAll();
             if (value) {
-                console.log(value);
                 value = JSON.parse(value);
-                console.log(value);
                 for (var i in value) {
                     viewModel.properties.push(property(value[i].name, value[i].type));
                 }

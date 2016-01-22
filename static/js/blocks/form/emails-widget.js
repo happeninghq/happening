@@ -123,12 +123,12 @@ $(function() {
         });
 
         $this.data('reload', function() {
-            viewModel.emails.removeAll();
             value = $this.find('[type="hidden"]').val();
+            viewModel.emails.removeAll();
             if (value) {
                 value = JSON.parse(value)
                 for (i in value) {
-                    viewModel.emails.push(email(i.to, i.subject, i.content, i.start_sending, i.stop_sending))
+                    viewModel.emails.push(email(value[i].to, value[i].subject, value[i].content, value[i].start_sending, value[i].stop_sending))
                 }
             }
         });
