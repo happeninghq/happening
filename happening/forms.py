@@ -431,3 +431,14 @@ class DurationField(forms.CharField):
     def to_python(self, value):
         """Get the duration as timedelta."""
         return timedelta(seconds=float(value))
+
+
+class CurrencyWidget(forms.TextInput):
+
+    """A widget for inputing currency."""
+
+    def render(self, name, value, attrs):
+        """Render the widget."""
+        attrs['type'] = 'number'
+        attrs['step'] = '0.01'
+        return super(CurrencyWidget, self).render(name, value, attrs)
