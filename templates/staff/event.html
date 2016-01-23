@@ -136,6 +136,7 @@
                     <li><a class="btn" href="{% url "edit_event" event.pk %}">Edit</a></li>
                     <li><a class="btn" href="{% url "email_event" event.pk %}">Send Email</a></li>
                     <li><a class="btn" href="{% url "manage_check_ins" event.pk %}">Manage Check Ins</a></li>
+                    <li><a class="btn" href="{% url "export_tickets_to_csv" event.pk %}">Export Tickets to CSV</a></li>
                     {% plugin_block "staff.event.buttons" event %}
                 </ul>
             </div>

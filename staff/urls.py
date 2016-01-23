@@ -10,6 +10,8 @@ from staff import views
 urlpatterns = [
     url(r'^$', views.index, name='staff'),
     url(r'^members$', views.members, name='staff_members'),
+    url(r'^members/export$', views.export_members_to_csv,
+        name='export_members_to_csv'),
     url(r'^members/(?P<pk>\d+)/staff$', views.make_staff, name='make_staff'),
     url(r'^members/(?P<pk>\d+)/not-staff$', views.make_not_staff,
         name='make_not_staff'),
@@ -23,6 +25,8 @@ urlpatterns = [
         name='delete_event_preset'),
     url(r'^events/create$', views.create_event, name='create_event'),
     url(r'^events/(?P<pk>\d+)$', views.event, name='staff_event'),
+    url(r'^events/(?P<pk>\d+)/export$', views.export_tickets_to_csv,
+        name='export_tickets_to_csv'),
     url(r'^events/(?P<pk>\d+)/edit$', views.edit_event, name='edit_event'),
     url(r'^events/(?P<pk>\d+)/email$', views.email_event, name='email_event'),
     url(r'^events/waiting-lists/(?P<pk>\d+)$', views.manage_waiting_list,

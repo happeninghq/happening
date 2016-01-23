@@ -61,6 +61,16 @@
 
         <div class="l-secondary-content block-list">
             {% include "members/_filter_block.html" %}
+
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Members</h2>
+                </header>
+
+                <ul class="button-list">
+                    <li><a class="btn" href="{% url "export_members_to_csv" %}">Export to CSV</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 {% endblock %}

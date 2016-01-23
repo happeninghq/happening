@@ -57,7 +57,7 @@
                                 <li>
                                     <div class="icon-text">
                                         <i class="fa fa-calendar icon-text__icon"></i>
-                                        <span class="icon-text__text"><strong>{{future_events.count}}</strong> <a href="{% url "events" %}">upcoming events</a></span>
+                                        <span class="icon-text__text"><strong>{{future_events|length}}</strong> <a href="{% url "events" %}">upcoming events</a></span>
                                     </div>
                                 </li>
                             </ul>

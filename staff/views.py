@@ -19,6 +19,7 @@ from markdown_deux import markdown
 from django.http import JsonResponse
 from django.utils import formats
 from django.views.decorators.csrf import csrf_protect
+from djqscsv import render_to_csv_response
 
 
 @staff_member_required
@@ -32,6 +33,15 @@ def members(request):
     """Administrate members."""
     members = get_user_model().objects.all()
     return render(request, "staff/members.html", {"members": members})
+
+
+@staff_member_required
+def export_members_to_csv(request):
+    """Export members to CSV."""
+    members = get_user_model().objects.all().values("username", "email",
+                                                    "is_staff",
+                                                    "is_active")
+    return render_to_csv_response(members)
 
 
 @staff_member_required
@@ -61,6 +71,16 @@ def events(request):
     """Administrate events."""
     events = Event.objects.all().order_by('-start')
     return render(request, "staff/events.html", {"events": events})
+
+
+@staff_member_required
+def export_tickets_to_csv(request, pk):
+    """Export tickets to csv."""
+    event = get_object_or_404(Event, pk=pk)
+    tickets = event.tickets.all().values("user__username", "user__email",
+                                         "cancelled", "type__name",
+                                         "checked_in", "checked_in_datetime")
+    return render_to_csv_response(tickets)
 
 
 @staff_member_required
