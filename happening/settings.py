@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
 import dj_database_url
-import django.conf.global_settings as DEFAULT_SETTINGS
 import importlib
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -25,10 +24,39 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', 'False') == "True") or \
     'HAPPENING_TESTING' in os.environ
-TEMPLATE_DEBUG = DEBUG
 USE_LIVE_DATA = bool(os.environ.get('USE_LIVE_DATA', str(not DEBUG)) == "True")
 
 ALLOWED_HOSTS = ["*"]
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                # Default
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                # End default
+                "django.template.context_processors.request",
+
+                "admin.context_processors.admin_urls",
+                "staff.context_processors.staff_urls",
+                "events.context_processors.events",
+                "pages.context_processors.pages",
+                "happening.context_processors.site",
+            ]
+        }
+    }
+]
 
 
 # Application definition
@@ -154,10 +182,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-TEMPLATE_DIRS = [
-    os.path.join(BASE_DIR, 'templates'),
-]
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'bower_components'),
@@ -182,16 +206,6 @@ COMPRESS_OFFLINE = not DEBUG
 
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'fixtures'),
-]
-
-TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + [
-    "django.core.context_processors.request",
-
-    "admin.context_processors.admin_urls",
-    "staff.context_processors.staff_urls",
-    "events.context_processors.events",
-    "pages.context_processors.pages",
-    "happening.context_processors.site",
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -308,7 +322,6 @@ if 'HAPPENING_TESTING' in os.environ:
     COMPRESS_ENABLED = False
     COMPRESS_OFFLINE = False
     DEBUG = False
-    TEMPLATE_DEBUG = False
     import logging
     logging.disable(logging.CRITICAL)
 

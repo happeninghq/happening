@@ -9,10 +9,9 @@ from django.shortcuts import redirect
 from django.contrib.admin.views.decorators import staff_member_required as smr
 from django.contrib.auth.decorators import user_passes_test
 from math import log
-from django.template.loader import render_to_string
-from django.template import RequestContext
 from cStringIO import StringIO
 import sys
+from django.template.loader import get_template
 from django.contrib.sites.models import Site
 from django.apps import apps
 get_model = apps.get_model
@@ -20,10 +19,7 @@ get_model = apps.get_model
 
 def render_block(request, template, kwargs):
     """Render a block template to string."""
-    return render_to_string(
-        template,
-        kwargs,
-        context_instance=RequestContext(request))
+    return get_template(template).render(kwargs, request)
 
 
 def staff_member_required(view_func, **kwargs):
