@@ -34,7 +34,7 @@
                                     {% if ticket_type.price == 0 %}
                                         Free
                                     {% else %}
-                                        &pound;{{ticket_type.price|format_currency}}
+                                        {{ticket_type.price|format_currency}}
                                     {% endif %}
                                 </td>
                                 <td>

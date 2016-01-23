@@ -1,0 +1,7 @@
+{% load xextends %}
+
+{% xextends "base.html" with primary_nav="staff" %}
+
+{% block secondary_navigation %}
+    {% include "finances/staff/_secondary_navigation.html" %}
+{% endblock %}
