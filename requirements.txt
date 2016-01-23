@@ -27,8 +27,8 @@ boto==2.34.0 # Media storage on AWS
 
 # Static files
 
-django_compressor==1.5 # This allows us to use babel and SCSS
-django-libsass==0.3 # Plugin for compressor to use SCSS
+django_compressor==2.0 # This allows us to use babel and SCSS
+django-libsass==0.6 # Plugin for compressor to use SCSS
 
 # Authentication
 
