@@ -25,12 +25,12 @@
                         {% for transaction in transactions %}
                             <tr>
                                 <td>{{transaction.account.name}}</td>
-                                <td data-sort="{{event.start|epoch}}">{{transaction.date}}</td>
+                                <td data-sort="{{transaction.date|epoch}}">{{transaction.date}}</td>
                                 <td>{{transaction.category.name}}</td>
                                 <td>{{transaction.payee.name}}</td>
                                 <td>{{transaction.memo}}</td>
-                                <td>{{transaction.outflow}}</td>
-                                <td>{{transaction.inflow}}</td>
+                                <td data-sort="{{transaction.amount}}">{{transaction.outflow}}</td>
+                                <td data-sort="{{transaction.amount}}">{{transaction.inflow}}</td>
                                 <td></td>
                             </tr>
                         {% endfor %}
