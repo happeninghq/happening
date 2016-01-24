@@ -30,8 +30,8 @@ def create_account(request):
     if request.method == "POST":
         form = AccountForm(request.POST)
         if form.is_valid():
-            account = form.save()
-            return redirect("finances", account.pk)
+            form.save()
+            return redirect("finances")
     return render(request, "finances/staff/create_account.html",
                   {"form": form})
 
@@ -53,7 +53,7 @@ def create_transaction(request):
             transaction.save()
 
             if not v_next:
-                return redirect("finances", transaction.account.pk)
+                return redirect("finances")
             return redirect(v_next)
     return render(request, "finances/staff/create_transaction.html",
                   {"form": form, "next": v_next if v_next else reverse(
