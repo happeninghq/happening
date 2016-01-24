@@ -36,14 +36,14 @@
                                     <td>{{email.status}}</td>
                                     <td>{{email.sent_emails.count}}</td>
                                     <td>
-                                        <a href="{% url "edit_email" email.pk %}">Edit</a>
+                                        <a href="{% url "edit_email" email.pk %}"><i class="fa fa-pencil" title="Edit"></i></a>
                                         {% if email.sent_emails.count == 0 %}
-                                            <a href="{% url "delete_email" email.pk %}" class="confirm" data-confirm="Are you sure you want to delete this email?">Delete</a>
+                                            <a href="{% url "delete_email" email.pk %}" class="confirm" data-confirm="Are you sure you want to delete this email?"><i class="fa fa-trash" title="Delete"></i></a>
                                         {% endif %}
                                         {% if email.disabled %}
-                                            <a href="{% url "enable_email" email.pk %}">Enable</a>
+                                            <a href="{% url "enable_email" email.pk %}"><i class="fa fa-play" title="Enable"></i></a>
                                         {% else %}
-                                            <a href="{% url "disable_email" email.pk %}">Disable</a>
+                                            <a href="{% url "disable_email" email.pk %}"><i class="fa fa-pause" title="Disable"></i></a>
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -63,7 +63,7 @@
                 </header>
 
                 <ul class="button-list">
-                    <li><a class="btn" href="{% url "create_email" %}">New Email</a></li>
+                    <li><a class="btn" href="{% url "create_email" %}"><i class="fa fa-plus"></i> New Email</a></li>
                 </ul>
             </div>
         </div>

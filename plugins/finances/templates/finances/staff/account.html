@@ -31,13 +31,16 @@
                                 <td>{{transaction.memo}}</td>
                                 <td data-sort="{{transaction.amount}}">{{transaction.outflow}}</td>
                                 <td data-sort="{{transaction.amount}}">{{transaction.inflow}}</td>
-                                <td></td>
+                                <td>
+                                    <a href="{% url "edit_transaction" transaction.pk %}"><i class="fa fa-pencil" title="Edit"></i></a>
+                                    <a href="{% url "delete_transaction" transaction.pk %}" class="confirm" data-confirm="Are you sure you want to delete this transaction?"><i class="fa fa-trash" title="Delete"></i></a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
 
-                <a class="btn" href="{% url "finances_create_transaction" %}?next={{request.path}}">New Transaction</a>
+                <a class="btn" href="{% url "finances_create_transaction" %}?next={{request.path}}"><i class="fa fa-plus"></i> New Transaction</a>
             </div>
         </div>
 
@@ -79,7 +82,7 @@
 
             <div class="block block-list__item">
                 <ul class="button-list">
-                    <li><a class="btn" href="{% url "finances_create_account" %}">New Account</a></li>
+                    <li><a class="btn" href="{% url "finances_create_account" %}"><i class="fa fa-plus"></i> New Account</a></li>
                 </ul>
             </div>
         </div>

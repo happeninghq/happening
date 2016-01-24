@@ -146,6 +146,46 @@ class DateWidget(forms.TextInput):
         return super(DateWidget, self).render(name, value, attrs)
 
 
+class TitleWidget(forms.TextInput):
+
+    """A text widget that renders a property of the instance."""
+
+    def __init__(self, *args, **kwargs):
+        """Create a TitleWidget."""
+        self.model = kwargs.pop("model")
+        self.field = kwargs.pop("field")
+        super(TitleWidget, self).__init__(*args, **kwargs)
+
+    def render(self, name, value, attrs):
+        """Render the widget."""
+        if value:
+            try:
+                value = self.model.objects.get(pk=value)
+                value = getattr(value, self.field)
+            except:
+                # If it's a form resubmission - just use the value as is
+                pass
+        return super(TitleWidget, self).render(name, value, attrs)
+
+
+class TitleField(forms.CharField):
+
+    """An input for an image file."""
+
+    widget = TitleWidget
+
+    def __init__(self, *args, **kwargs):
+        """Create a TitleField."""
+        self.model = kwargs.pop("model")
+        self.field = kwargs.pop("field")
+        self.widget = TitleWidget(model=self.model, field=self.field)
+        super(TitleField, self).__init__(*args, **kwargs)
+
+    def to_python(self, value):
+        """Return the value as an object of type model."""
+        return self.model.objects.get_or_create(**{self.field: value})[0]
+
+
 class TimeWidget(forms.TextInput):
 
     """A widget that adds a time Picker."""

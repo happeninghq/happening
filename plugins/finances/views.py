@@ -2,8 +2,10 @@
 from django.shortcuts import render, redirect
 from forms import AccountForm, TransactionForm
 from models import Account, Transaction
-from django.core.urlresolvers import reverse
 from django.db.models import Sum
+from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404
+from django.contrib import messages
 
 
 def account(request):
@@ -31,6 +33,7 @@ def create_account(request):
         form = AccountForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "The account has been created.")
             return redirect("finances")
     return render(request, "finances/staff/create_account.html",
                   {"form": form})
@@ -40,21 +43,38 @@ def create_transaction(request):
     """Create a transaction."""
     form = TransactionForm()
 
-    v_next = request.GET.get("next")
-
     if request.method == "POST":
         form = TransactionForm(request.POST)
         if form.is_valid():
-            transaction = form.save(commit=False)
-            if form.cleaned_data.get("inflow"):
-                transaction.amount = form.cleaned_data['inflow']
-            else:
-                transaction.amount = 0 - form.cleaned_data['outflow']
-            transaction.save()
+            form.save()
+            messages.success(request, "The transaction has been added.")
 
-            if not v_next:
-                return redirect("finances")
-            return redirect(v_next)
+            return redirect("finances")
     return render(request, "finances/staff/create_transaction.html",
-                  {"form": form, "next": v_next if v_next else reverse(
-                   "finances", 0)})
+                  {"form": form})
+
+
+def edit_transaction(request, pk):
+    """Edit a transaction."""
+    transaction = get_object_or_404(Transaction, pk=pk)
+    form = TransactionForm(instance=transaction)
+
+    if request.method == "POST":
+        form = TransactionForm(request.POST, instance=transaction)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Transaction updated.")
+
+            return redirect("finances")
+    return render(request, "finances/staff/edit_transaction.html",
+                  {"transaction": transaction, "form": form})
+
+
+@require_POST
+def delete_transaction(request, pk):
+    """Delete a transaction."""
+    transaction = get_object_or_404(Transaction, pk=pk)
+    transaction.delete()
+    messages.success(request, "The transaction has been deleted.")
+
+    return redirect("finances")

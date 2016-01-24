@@ -17,19 +17,6 @@ $(function() {
                 $this.find('input[type="hidden"]').val(data.result.value)
             }
         });
-            // # progressall: (e, data) ->
-            // #     progress = parseInt(data.loaded / data.total * 100, 10)
-            // #     progress_meter.css 'width', progress + '%'
-            // # add: (e, data) ->
-            // #     progress_meter.css 'width', '0%'
-            // #     progress.show
-            // #     # $this.find('.file-name').text('')
-            // #     # $this.find('.file-size').text('')
-            // #     # $this.find('.dimensions').text('')
-            // #     data.submit();
-            // # done: (e, data) ->
-            // #     console.log "DONE"
-            // #     progress.hide
 
         $this.find('.image-widget__reset').click(function() {
             $this.find('.image-widget__image').attr('src', $this.data('initial-src'));

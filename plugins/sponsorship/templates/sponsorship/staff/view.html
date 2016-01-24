@@ -8,8 +8,9 @@
     <div class="l-container">
         <div class="l-primary-content block-list">
             <div class="block block-list__item">
-                <header class="block__header">
+                <header class="block__header valign-together">
                     <h2 class="block__header-text">{{sponsor}}</h2>
+                    <a class="block__header-extra-link" href="{% url "edit_sponsor" sponsor.pk %}"><i class="fa fa-pencil"></i></a>
                 </header>
 
                 <blockquote>
@@ -25,7 +26,6 @@
                 <header class="block__header">
                     <h2 class="block__header-text block__header-text--small">{{sponsor}}</h2>
                 </header>
-                <a class="btn" href="{% url "edit_sponsor" sponsor.pk %}">Edit Sponsor</a>
             </div>
 
             <div class="block block-list__item">
@@ -48,7 +48,7 @@
                         </tbody>
                     </table>
                 {% endif %}
-                <a class="btn" href="{% url "add_community_sponsorship_to_sponsor" sponsor.pk %}">Add Tier</a>
+                <a class="btn" href="{% url "add_community_sponsorship_to_sponsor" sponsor.pk %}"><i class="fa fa-plus"></i> Add Tier</a>
             </div>
         </div>
     </div>

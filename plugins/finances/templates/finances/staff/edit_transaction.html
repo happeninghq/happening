@@ -8,11 +8,11 @@
         <div class="l-primary-content block-list">
             <div class="block block-list__item">
                 <header class="block__header valign-together">
-                    <h2 class="block__header-text">New Transaction</h2>
+                    <h2 class="block__header-text">Edit {{transaction|safe}}</h2>
                 </header>
 
                     
-                <form method="POST" action="{% url "finances_create_transaction" %}">
+                <form method="POST" action="{% url "edit_transaction" transaction.pk %}">
                     {% csrf_token %}
                     {{form|render}}
                     <button type="submit">Save</button>

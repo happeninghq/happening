@@ -18,24 +18,24 @@
                     <tr>
                         <th>Username</th>
                         <td>{{member.username}}</td>
-                        <td><a href="{% url "edit_username" member.pk %}">Edit</a></td>
+                        <td><a href="{% url "edit_username" member.pk %}"><i class="fa fa-pencil" title="Edit"></i></a></td>
                     </tr>
                     <tr>
                         <th>Email Addresses</th>
                         <td>{{member.emailaddress_set.count}} address{{member.emailaddress_set.count|pluralize:",es"}}</td>
-                        <td><a href="{% url "account_email" %}">Edit</a></td>
+                        <td><a href="{% url "account_email" %}"><i class="fa fa-pencil" title="Edit"></i></a></td>
                     </tr>
                     {% if ""|providers_enabled %}
                         <tr>
                             <th>Social Accounts</th>
                             <td>{{member.socialaccount_set.count}} account{{member.socialaccount_set.count|pluralize:",s"}}</td>
-                            <td><a href="{% url "socialaccount_connections" %}">Edit</a></td>
+                            <td><a href="{% url "socialaccount_connections" %}"><i class="fa fa-pencil" title="Edit"></i></a></td>
                         </tr>
                     {% endif %}
                     <tr>
                         <th>Password</th>
                         <td>**********</td>
-                        <td><a href="{% url "account_set_password" %}">Edit</a></td>
+                        <td><a href="{% url "account_set_password" %}"><i class="fa fa-pencil" title="Edit"></i></a></td>
                     </tr>
                     {% plugin_block "members.settings" member %}
                     <tr>

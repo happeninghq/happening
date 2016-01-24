@@ -63,3 +63,9 @@ class Transaction(db.Model):
         if self.amount < 0:
             return format_currency(0 - self.amount)
         return ""
+
+    def __unicode__(self):
+        """Describe the transaction."""
+        if self.amount < 0:
+            return self.outflow + " to " + self.payee.name
+        return self.inflow + " from " + self.payee.name

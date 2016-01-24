@@ -16,7 +16,6 @@
                             <th>Description</th>
                             <th>Active</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,8 +30,10 @@
                                         <a href="{% url "make_active_payment_handler" payment_handler.pk %}">False</a>
                                     {% endif %}
                                 </td>
-                                <td><a href="{% url "edit_payment_handler" payment_handler.pk %}">Edit</a></td>
-                                <td><a class="confirm" data-confirm="Are you sure you want to delete this payment handler?" href="{% url "delete_payment_handler" payment_handler.pk %}">Delete</a></td>
+                                <td>
+                                    <a href="{% url "edit_payment_handler" payment_handler.pk %}"><i class="fa fa-pencil" title="Edit"></i></a>
+                                    <a class="confirm" data-confirm="Are you sure you want to delete this payment handler?" href="{% url "delete_payment_handler" payment_handler.pk %}"><i class="fa fa-trash" title="Delete"></i></a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -44,7 +45,7 @@
                 <header class="block__header">
                     <h2 class="block__header-text block__header-text--small">Payment Handlers</h2>
                 </header>
-                <a class="btn" href="{% url "add_payment_handler" %}">Add Payment Handler</a>
+                <a class="btn" href="{% url "add_payment_handler" %}"><i class="fa fa-plus"></i> Add Payment Handler</a>
             </div>
         </div>
     </div>

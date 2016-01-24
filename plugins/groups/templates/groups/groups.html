@@ -26,7 +26,7 @@
                             <th>
                                 <a href="{% url "view_group" event.pk group.team_number %}">{{group.name}}</a>
                                 {% if user|can_edit_group:group %}
-                                    <a href="{% url "edit_group" event.pk group.team_number %}">(edit)</a>
+                                    <a href="{% url "edit_group" event.pk group.team_number %}"><i class="fa fa-pencil" title="Edit"></i></a>
                                 {% endif %}
                             </th>
                             {% if group.description %}

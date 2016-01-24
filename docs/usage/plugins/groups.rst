@@ -44,7 +44,7 @@ If you are a member of a group, and have permission to move groups, visiting the
 
 **Staff Moving Groups**
 
-Staff can move attendees around groups by visiting the event page in the Staff panel, and clicking ``(edit)`` alongside an attendee's name.
+Staff can move attendees around groups by visiting the event page in the Staff panel, and clicking the edit icon (a pencil) alongside an attendee's name.
 
 **Generating Groups**
 

@@ -23,8 +23,7 @@ function bindFilterToDataTable(form, datatable) {
                 option_filters[$(this).attr('name')].push($(this).attr("value"));
             }
         });
-
-        console.log(option_filters);
+        
         for (var name in option_filters) {
             datatable.column(name + ":name").search(option_filters[name].join("|"), true, false);
         }

@@ -22,7 +22,7 @@
                             <tr>
                                 <td>{{sponsorship_tier.name}}</td>
                                 <td>{{sponsorship_tier.community_sponsorships.count}} sponsor{{sponsorship_tier.community_sponsorships.count|pluralize}}</td>
-                                <td><a href="{% url "edit_sponsorship_tier" sponsorship_tier.pk %}">Edit</a></td>
+                                <td><a href="{% url "edit_sponsorship_tier" sponsorship_tier.pk %}"><i class="fa fa-pencil" title="Edit"></i></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -34,7 +34,7 @@
                 <header class="block__header">
                     <h2 class="block__header-text block__header-text--small">Sponsorship Tiers</h2>
                 </header>
-                <a class="btn" href="{% url "create_sponsorship_tier" %}">New Sponsorship Tier</a>
+                <a class="btn" href="{% url "create_sponsorship_tier" %}"><i class="fa fa-plus"></i> New Sponsorship Tier</a>
             </div>
         </div>
     </div>

@@ -24,6 +24,6 @@
     <form method="POST" action="{% url "add_sponsor_to_event" event.pk %}">
         {% csrf_token %}
         {{event_sponsor_form|render}}
-        <button type="submit">Add Sponsor</button>
+        <button type="submit"><i class="fa fa-plus"></i> Add Sponsor</button>
     </form>
 </div>

@@ -20,8 +20,8 @@
                                 <tr>
                                     <th>{{preset.name}}</th>
                                     <td>
-                                        <a class="button" href="{% url "edit_event_preset" preset.pk %}">Edit</a>
-                                        <a class="button warning confirm" data-confirm="Are you sure you want to delete this preset?" href="{% url "delete_event_preset" preset.pk %}">Delete</a>
+                                        <a class="button" href="{% url "edit_event_preset" preset.pk %}"><i class="fa fa-pencil" title="Edit"></i></a>
+                                        <a class="button warning confirm" data-confirm="Are you sure you want to delete this preset?" href="{% url "delete_event_preset" preset.pk %}"><i class="fa fa-trash" title="Delete"></i></a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -47,7 +47,7 @@
                 </header>
 
                 <ul class="button-list">
-                    <li><a class="btn" href="{% url "create_event_preset" %}">New Preset</a></li>
+                    <li><a class="btn" href="{% url "create_event_preset" %}"><i class="fa fa-plus"></i> New Preset</a></li>
                 </ul>
             </div>
         </div>

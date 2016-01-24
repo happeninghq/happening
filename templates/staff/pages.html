@@ -26,8 +26,8 @@
                                     <td><a href="{% url "view_page" page.url %}">{{page.title}}</a></td>
                                     <td>{{page.url}}</td>
                                     <td>{% if page.path %}{{page.path}}{% endif %}</td>
-                                    <td><a class="edit_page" href="{% url "edit_page" page.pk %}">Edit</a></td>
-                                    <td><a class="delete_page" href="{% url "delete_page" page.pk %}">Delete</a></td>
+                                    <td><a class="edit_page" href="{% url "edit_page" page.pk %}"><i class="fa fa-pencil" title="Edit"></i></a></td>
+                                    <td><a class="delete_page" href="{% url "delete_page" page.pk %}"><i class="fa fa-trash" title="Delete"></i></a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -45,7 +45,7 @@
                 </header>
 
                 <ul class="button-list">
-                    <li><a class="btn" href="{% url "create_page" %}">New Page</a></li>
+                    <li><a class="btn" href="{% url "create_page" %}"><i class="fa fa-plus"></i> New Page</a></li>
                 </ul>
             </div>
         </div>

@@ -8,8 +8,11 @@
     <div class="l-container">
         <div class="l-primary-content block-list">
             <div class="block-list__item block">
-                <header class="block__header">
+                <header class="block__header valign-together">
                     <h2 class="block__header-text">{{group.name}}</h2>
+                    {% if user|can_edit_group:group %}
+                        <a href="{% url "edit_group" group.event.pk group.team_number %}"><i class="block__header-extra-link fa fa-pencil" title="Edit"></i></a>
+                    {% endif %}
                 </header>
                 {% if not user|has_group:group.event %}
                     {% if user|can_move_groups:group.event %}
@@ -20,9 +23,6 @@
                     {% if user|can_move_groups:group.event %}
                         <a class="btn" href="{% url "leave_group" group.event.pk group.team_number %}">Leave Group</a>
                     {% endif %}
-                {% endif %}
-                {% if user|can_edit_group:group %}
-                    <a class="btn" href="{% url "edit_group" group.event.pk group.team_number %}">Edit</a>
                 {% endif %}
 
                 {{group.description|markdown}}
