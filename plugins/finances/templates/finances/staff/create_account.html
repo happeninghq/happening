@@ -1,11 +1,7 @@
 {% load xextends %}
 {% load forms %}
 
-{% xextends "base.html" with primary_nav="staff" %}
-
-{% block secondary_navigation %}
-    {% include "finances/staff/_secondary_navigation.html" with secondary_nav="finances" %}
-{% endblock %}
+{% xextends "finances/staff/base.html" %}
 
 {% block content %}
     <div class="l-container">

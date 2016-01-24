@@ -1,5 +1,6 @@
 {% load xextends %}
 {% load currency %}
+{% load datetime %}
 
 {% xextends "finances/staff/base.html" with secondary_nav="finances" %}
 
@@ -7,7 +8,7 @@
     <div class="l-container">
         <div class="l-primary-content block_list">
             <div class="block block-list__item">
-                <table class="data-table" id="transactions-list">
+                <table class="data-table" data-order='[[ 1, "desc" ]]' id="transactions-list">
                     <thead>
                         <tr>
                             <th data-name="account">Account</th>
@@ -24,7 +25,7 @@
                         {% for transaction in transactions %}
                             <tr>
                                 <td>{{transaction.account.name}}</td>
-                                <td>{{transaction.date}}</td>
+                                <td data-sort="{{event.start|epoch}}">{{transaction.date}}</td>
                                 <td>{{transaction.category.name}}</td>
                                 <td>{{transaction.payee.name}}</td>
                                 <td>{{transaction.memo}}</td>
