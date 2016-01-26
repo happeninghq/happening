@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load plugins %}
 <notification_image>{% block image %}{% if happening_site.logo %}<img src="{{happening_site.logo.url}}" />
 {% endif %}{% endblock %}</notification_image>
 
@@ -6,4 +7,4 @@
 
 <notification_email>{% block email %}{% endblock %}</notification_email>
 
-<notification_subject>{% block subject %}Southampton Code Dojo Notification{% endblock %}</notification_subject>
+<notification_subject>{% block subject %}{{"pages.configuration.SiteTitle"|get_configuration}} Notification{% endblock %}</notification_subject>
