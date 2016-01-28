@@ -115,3 +115,17 @@ def close_account(user):
 
     user.save()
 User.close_account = close_account
+
+
+class Tag(db.Model):
+
+    """A Tag which can be applied to a user."""
+
+    tag = models.CharField(max_length=100, unique=True)
+    users = models.ManyToManyField(User, related_name="tags")
+
+
+def member_can_add_tag(member):
+    """Can a member add new tags."""
+    return member.tags.count() < Tag.objects.all().count()
+User.can_add_tag = member_can_add_tag

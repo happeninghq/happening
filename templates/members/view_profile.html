@@ -5,6 +5,7 @@
 {% load plugins %}
 {% load staticfiles %}
 {% load markdown_deux_tags %}
+{% load forms %}
 
 {% block members_content %}
     <div class="l-container">
@@ -100,6 +101,29 @@
                     {{profile_properties|properties_as_table:custom_properties}}
                 </table>
             </div>
+            {% if request.user.is_staff %}
+                <div class="block block-list__item">
+                    <header class="block__header">
+                        <h2 class="block__header-text block__header-text--small">Tags (Staff only)</h2>
+                    </header>
+                        <table>
+                            {% for tag in member.tags.all %}
+                                <tr>
+                                    <td>{{tag.tag}}</td>
+                                    <td><a href="{% url "remove_tag" member.pk tag.pk %}" class="confirm" data-confirm="Are you sure you want to remove this tag?"><i class="fa fa-trash" title="Remove"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+
+                        {% if member.can_add_tag %}
+                            <strong>Add Tag</strong>
+                            <form method="POST" action="{% url "add_tag" member.pk %}">
+                                {{tag_form|render}}
+                                <button type="submit">Add</button>
+                            </form>
+                        {% endif %}
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

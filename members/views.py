@@ -15,6 +15,7 @@ from members.configuration import ProfileProperties
 from decorators import require_editing_own_profile
 from django.contrib import messages
 from django.contrib.auth import logout
+from members.forms import AddTagForm
 
 
 def index(request):
@@ -71,7 +72,8 @@ def view_profile(request, pk):
                   {"member": member,
                    "profile_properties": profile_properties,
                    "custom_properties": custom_properties,
-                   "secondary_nav": secondary_nav})
+                   "secondary_nav": secondary_nav,
+                   "tag_form": AddTagForm(member=member)})
 
 
 @require_editing_own_profile

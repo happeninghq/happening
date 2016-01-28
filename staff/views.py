@@ -20,6 +20,9 @@ from django.http import JsonResponse
 from django.utils import formats
 from django.views.decorators.csrf import csrf_protect
 from djqscsv import render_to_csv_response
+from members.forms import TagForm, AddTagForm
+from members.models import Tag
+from django.contrib.auth.models import User
 
 
 @staff_member_required
@@ -490,3 +493,68 @@ def delete_email(request, pk):
         email.delete()
         messages.success(request, "The email has been deleted")
     return redirect(request.GET.get("redirect", "staff_emails"))
+
+
+@staff_member_required
+def tags(request):
+    """List tags."""
+    tags = Tag.objects.all()
+    return render(request, "staff/tags/index.html",
+                  {"tags": tags})
+
+
+@staff_member_required
+def create_tag(request):
+    """Add a tag."""
+    form = TagForm()
+    if request.method == "POST":
+        form = TagForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "The tag has been created.")
+            return redirect("tags")
+    return render(request, "staff/tags/create.html", {"form": form})
+
+
+@staff_member_required
+@require_POST
+def delete_tag(request, pk):
+    """Delete a tag."""
+    tag = get_object_or_404(Tag, pk=pk)
+    if tag.users.count() > 0:
+        messages.error(request, "The tag cannot be deleted as it is in use")
+        return redirect("tags")
+    tag.delete()
+    messages.success(request, "The tag has been deleted.")
+    return redirect("tags")
+
+
+@staff_member_required
+def view_tag(request, pk):
+    """View a promocode."""
+    tag = get_object_or_404(Tag, pk=pk)
+    return render(request, "staff/tags/view.html", {"tag": tag})
+
+
+@staff_member_required
+@require_POST
+def add_tag(request, member_pk):
+    """Add a tag."""
+    member = get_object_or_404(User, pk=member_pk)
+    form = AddTagForm(request.POST, member=member)
+    form = AddTagForm(request.POST, member=member)
+    if form.is_valid():
+        member.tags.add(form.cleaned_data['tag'])
+        messages.success(request, "The tag has been added.")
+    return redirect("view_profile", member_pk)
+
+
+@staff_member_required
+@require_POST
+def remove_tag(request, member_pk, tag_pk):
+    """Remove a tag."""
+    member = get_object_or_404(User, pk=member_pk)
+    tag = get_object_or_404(Tag, pk=tag_pk)
+    member.tags.remove(tag)
+    messages.success(request, "The tag has been removed.")
+    return redirect("view_profile", member_pk)

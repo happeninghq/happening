@@ -63,6 +63,14 @@ urlpatterns = [
     url(r'^emails/(?P<pk>\d+)/delete$', views.delete_email,
         name='delete_email'),
     url(r'^create_email$', views.create_email, name='create_email'),
+    url(r'^tags$', views.tags, name='tags'),
+    url(r'^tags/create$', views.create_tag, name='create_tag'),
+    url(r'^tags/(?P<pk>\d+)$', views.view_tag, name='view_tag'),
+    # url(r'^tags/(?P<pk>\d+)/edit$', views.edit_tag, name='edit_tag'),
+    url(r'^tags/(?P<pk>\d+)/delete$', views.delete_tag, name='delete_tag'),
+    url(r'^tags/(?P<member_pk>\d+)/(?P<tag_pk>\d+)/remove$', views.remove_tag,
+        name='remove_tag'),
+    url(r'^tags/(?P<member_pk>\d+)/add$', views.add_tag, name='add_tag'),
 ]
 
 if hasattr(settings, "PLUGINS"):

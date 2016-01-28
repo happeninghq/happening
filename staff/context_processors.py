@@ -7,7 +7,8 @@ cached_staff_urls = [
     (None, "Members", "staff_members"),
     (None, "Events", "staff_events"),
     (None, "Pages", "staff_pages"),
-    (None, "Emails", "staff_emails")
+    (None, "Emails", "staff_emails"),
+    (None, "Tags", "tags")
 ]
 
 

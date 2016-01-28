@@ -42,7 +42,7 @@ def query(str, data_type=User):
                 # and evaluate that
 
                 # This only works if the "has" is on the "many" side of the
-                # relationship. TODO: If needed, as one for the "one" side.
+                # relationship. TODO: If needed, add one for the "one" side.
                 related_model = data_type._meta.get_field_by_name(
                     key_parts[0])[0].field.model
                 results = query(value[1:-1], related_model)

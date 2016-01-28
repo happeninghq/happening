@@ -5,6 +5,7 @@ from django import forms
 from happening import forms as happening_forms
 from happening.forms import MarkdownWidget
 from django.contrib.auth import get_user_model
+from models import Tag
 
 
 class ProfileForm(forms.Form):
@@ -54,3 +55,29 @@ class UsernameForm(forms.Form):
             # Not unique
             raise forms.ValidationError("Your username must be unique")
         return data
+
+
+class TagForm(forms.ModelForm):
+
+    """Created/edit a Tag."""
+
+    class Meta:
+        model = Tag
+        fields = ['tag']
+
+
+class AddTagForm(forms.Form):
+
+    """Add a tag to a member."""
+
+    def __init__(self, *args, **kwargs):
+        """Base the available tags on the member."""
+        member = kwargs.pop("member")
+
+        super(AddTagForm, self).__init__(*args, **kwargs)
+
+        choices = [(tag.pk, tag.tag) for tag in Tag.objects.all() if not
+                   member.tags.filter(pk=tag.pk).first()]
+
+        self.fields['tag'] = forms.ChoiceField(
+            label='Tag', choices=choices, required=True)
