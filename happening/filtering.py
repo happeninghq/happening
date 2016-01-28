@@ -1,6 +1,8 @@
 """Filtering."""
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.db.models import Count
+from happening.utils import get_request
+import re
 
 
 def split_attributes(str):
@@ -60,3 +62,16 @@ def query(str, data_type=User):
         q = q.filter(**{key: value})
 
     return q
+
+
+def matches(obj, query_str):
+    """A query matches a given object."""
+    if obj.__class__ == AnonymousUser:
+        # This is a special case - where we'll fake the filtering
+        # for now we'll only allow filtering by tag
+        result = re.match("tags__has:\(tag:(.*)\)", query_str)
+        if result:
+            tag = result.groups()[0]
+            return tag in get_request().session.get('tags', [])
+        return False
+    return obj in query(query_str, obj.__class__)

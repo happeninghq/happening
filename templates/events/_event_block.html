@@ -1,4 +1,5 @@
 {% load plugins %}
+{% load tickets %}
 
 <div class="l-container">
     <div class="l-primary-content">
@@ -23,22 +24,24 @@
 
         <div class="ticket-information event-block__sidebar-spacing">
             {% if event.is_future %}
-                <span class="ticket-information__available"><strong>{{event.purchasable_tickets_no}}</strong> Ticket{{event.purchasable_tickets_no|pluralize}} available</span>
-                {% if event.purchasable_tickets_no > 0 %}
-                    <a href="{% url "view_event" event.pk %}" class="btn btn--full-width">
-                        Get Tickets
-                    </a>
-                {% else %}
-                    {% if event.waiting_list_is_available %}
+                {% with event|purchasable_tickets_no:request.user as purchasable_tickets_no %}
+                    <span class="ticket-information__available"><strong>{{purchasable_tickets_no}}</strong> Ticket{{purchasable_tickets_no|pluralize}} available</span>
+                    {% if purchasable_tickets_no > 0 %}
                         <a href="{% url "view_event" event.pk %}" class="btn btn--full-width">
-                            Waiting List Available
+                            Get Tickets
                         </a>
                     {% else %}
-                        <a href="#" class="btn btn--full-width btn--disabled">
-                            No Tickets Available
-                        </a>
+                        {% if event|waiting_list_available:request.user %}
+                            <a href="{% url "view_event" event.pk %}" class="btn btn--full-width">
+                                Waiting List Available
+                            </a>
+                        {% else %}
+                            <a href="#" class="btn btn--full-width btn--disabled">
+                                No Tickets Available
+                            </a>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
+                {% endwith %}
             {% else %}
                 <span class="ticket-information__available"><strong>0</strong> Tickets available</span>
                 <a href="#" class="btn btn--full-width btn--disabled">

@@ -14,6 +14,7 @@ import sys
 from django.template.loader import get_template
 from django.contrib.sites.models import Site
 from django.apps import apps
+import inspect
 get_model = apps.get_model
 
 
@@ -202,3 +203,18 @@ def human_delta(tdelta):
     else:
         fmt = '{days} day(s) {hrs} hr(s) {min} min {sec} sec'
     return fmt.format(**d)
+
+
+def get_request():
+    """Walk up the stack, return the nearest first argument named "request"."""
+    # From http://nedbatchelder.com/blog/201008/global_django_requests.html
+    # This is ugly! very temporary...
+    frame = None
+    try:
+        for f in inspect.stack()[1:]:
+            frame = f[0]
+            code = frame.f_code
+            if code.co_varnames and code.co_varnames[0] == "request":
+                return frame.f_locals['request']
+    finally:
+        del frame

@@ -23,7 +23,7 @@ class TicketForm(forms.Form):
         self.user = kwargs.pop("user")
         super(TicketForm, self).__init__(*args, **kwargs)
 
-        for ticket_type in event.ticket_types.active():
+        for ticket_type in event.ticket_types.visible_to(self.user):
             if not ticket_type.purchasable_by(self.user):
                 # Don't allow any tickets not purchasable
                 continue
@@ -79,6 +79,8 @@ class TicketsWidget(forms.Widget):
                       "name": t.name,
                       "number": t.number,
                       "price": float(t.price) / 100.0,
+                      "restriction_enabled": t.restriction_enabled,
+                      "restriction_filter": t.restriction_filter,
                       "waiting_list_enabled": t.waiting_list_enabled,
                       "visible": t.visible} for t in self.initial]
         elif not value:
@@ -160,6 +162,9 @@ class EventForm(ModelForm):
             ticket_type.visible = ticket['visible']
             ticket_type.waiting_list_enabled = ticket.get(
                 'waiting_list_enabled', False)
+            ticket_type.restriction_enabled = ticket.get(
+                'restriction_enabled', False)
+            ticket_type.restriction_filter = ticket['restriction_filter']
 
             ticket_type.save()
 

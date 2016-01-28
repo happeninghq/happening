@@ -37,9 +37,6 @@ def purchase_tickets(request, pk):
     if not event.is_future:
         return redirect("view_event", event.pk)
 
-    if event.purchasable_tickets_no == 0:
-        return redirect("view_event", event.pk)
-
     use_max_tickets = MaxTicketsPerPerson(event).is_enabled()
 
     if use_max_tickets:

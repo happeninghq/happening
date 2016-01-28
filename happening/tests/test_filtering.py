@@ -75,3 +75,28 @@ class TestFiltering(TestCase):
         results = filtering.query("tickets__has:(event__id:%s) " % event1.id +
                                   "tickets__has:(event__id:%s)" % event2.id)
         self.assertEqual(len(results), 1)
+
+    def test_filter_tags(self):
+        """Test that we can filter members by tags."""
+        user1 = mommy.make(settings.AUTH_USER_MODEL)
+        mommy.make(settings.AUTH_USER_MODEL)
+
+        results = filtering.query("tags__has:(tag:test)")
+        self.assertEqual(len(results), 0)
+
+        tag = mommy.make("Tag", tag="test")
+        tag.users.add(user1)
+
+        results = filtering.query("tags__has:(tag:test)")
+        self.assertEqual(len(results), 1)
+
+    def test_filter_individual_match(self):
+        """Test we can check if a user matches a filter."""
+        user1 = mommy.make(settings.AUTH_USER_MODEL)
+
+        self.assertFalse(filtering.matches(user1, "tags__has:(tag:test)"))
+
+        tag = mommy.make("Tag", tag="test")
+        tag.users.add(user1)
+
+        self.assertTrue(filtering.matches(user1, "tags__has:(tag:test)"))

@@ -38,11 +38,11 @@ class TestTickets(TestCase):
         ticket_type = mommy.make("TicketType", event=event, number=30,
                                  visible=True)
         user = mommy.make(settings.AUTH_USER_MODEL)
-        self.assertEqual(30, event.purchasable_tickets_no)
+        self.assertEqual(30, ticket_type.remaining_tickets)
 
         # Should buy 3 tickets
         order = event.buy_tickets(user, {ticket_type.pk: 3})
-        self.assertEqual(27, event.purchasable_tickets_no)
+        self.assertEqual(27, ticket_type.remaining_tickets)
 
         # Test that the purchase date is recorded
         self.assertIsNotNone(order.purchased_datetime)

@@ -46,7 +46,7 @@
                     </div>
                 {% endif %}
 
-                {% if event.ticket_types.waiting_list_available|length > 0 %}
+                {% if event|waiting_list_available:request.user %}
                     <div class="block-list__item block">
                         <header class="block__header">
                             <h2 class="block__header-text">Waiting Lists</h2>

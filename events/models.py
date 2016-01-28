@@ -16,6 +16,7 @@ import json
 from happening.db import AddressField
 from happening.storage import media_path
 from django.contrib.auth.models import User
+from happening import filtering
 
 
 class Event(db.Model):
@@ -153,17 +154,6 @@ class Event(db.Model):
         return sum(t.number for t in
                    self.ticket_types.active())
 
-    @property
-    def waiting_list_is_available(self):
-        """At least one waiting list is available."""
-        return len(self.ticket_types.waiting_list_available()) > 0
-
-    @property
-    def purchasable_tickets_no(self):
-        """Get number of purchasable tickets."""
-        return sum(t.remaining_tickets for t in
-                   self.ticket_types.purchasable())
-
     def attending_users(self):
         """Get a list of attending users."""
         return set([t.user for t in self.tickets.all() if
@@ -181,6 +171,14 @@ class TicketTypeManager(models.Manager):
     def active(self):
         """Get active ticket types."""
         return self.filter(visible=True)
+
+    def visible_to(self, user):
+        """Get active ticket types."""
+        return [t for t in self.active() if t.visible_to(user)]
+
+    def purchasable_by(self, user):
+        """Get purchasable tickets."""
+        return [t for t in self.active() if t.purchasable_by(user)]
 
     def purchasable(self):
         """Get purchasable ticket types."""
@@ -206,6 +204,8 @@ class TicketType(db.Model):
     visible = models.BooleanField(default=False)
     waiting_list_enabled = models.BooleanField(default=False)
     waiting_list_automatic = models.BooleanField(default=False)
+    restriction_enabled = models.BooleanField(default=False)
+    restriction_filter = models.TextField(null=True)
 
     @property
     def sold_tickets(self):
@@ -227,7 +227,8 @@ class TicketType(db.Model):
 
     def join_waiting_list(self, user):
         """Add a user to the waiting list."""
-        if self.waiting_list_enabled and not self.waiting_list_contains(user):
+        if self.waiting_list_enabled and not self.waiting_list_contains(user)\
+                and self.visible_to(user):
             WaitingListSubscription(user=user, ticket_type=self).save()
 
     def leave_waiting_list(self, user):
@@ -240,6 +241,8 @@ class TicketType(db.Model):
     def purchasable_by(self, user):
         """Check that a user is allowed to purchase this ticket."""
         # This will return false if there is a waiting list for example
+        if not self.visible_to(user):
+            return False
         if self.waiting_list_enabled and\
                 self.waiting_list_subscriptions.count() > 0:
             if not user.is_authenticated():
@@ -248,6 +251,14 @@ class TicketType(db.Model):
                 user=user, can_purchase=True).first()
             return waiting_list_subscription is not None
         return True
+
+    def visible_to(self, user):
+        """Check that a user is allowed to see this ticket."""
+        if not self.visible:
+            return False
+        if not self.restriction_enabled:
+            return True
+        return filtering.matches(user, self.restriction_filter)
 
 
 class TicketOrder(db.Model):

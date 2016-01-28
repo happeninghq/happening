@@ -40,7 +40,7 @@ def other_tickets(user, event):
 
 
 @register.filter()
-def active_tickets_json(event, user=None):
+def visible_tickets_json(event, user):
     """Return json of available tickets for ticket widget."""
     def ticket_type_to_dict(ticket_type, purchasable):
         ret = {
@@ -53,10 +53,24 @@ def active_tickets_json(event, user=None):
         return ret
 
     return json.dumps([ticket_type_to_dict(t, t.purchasable_by(user)) for t in
-                       event.ticket_types.active()])
+                       event.ticket_types.visible_to(user)])
 
 
 @register.filter()
 def purchasable_by(ticket_type, user):
     """The ticket is/not purchasable by the user."""
     return ticket_type.purchasable_by(user)
+
+
+@register.filter()
+def purchasable_tickets_no(event, user):
+    """Return the number of tickets purchasable by a user for an event."""
+    return sum([t.remaining_tickets for t in
+                event.ticket_types.purchasable_by(user)])
+
+
+@register.filter()
+def waiting_list_available(event, user):
+    """Return if waiting lists are available for this user."""
+    return len([t for t in event.ticket_types.waiting_list_available()
+                if t.visible_to(user)]) > 0

@@ -19,6 +19,7 @@
                             <th>Type</th>
                             <th>Tickets Sold</th>
                             <th>Price</th>
+                            <th>Restricted</th>
                             <th>Waiting List</th>
                         </tr>
                     </thead>
@@ -35,6 +36,13 @@
                                         Free
                                     {% else %}
                                         {{ticket_type.price|format_currency}}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if ticket_type.restriction_enabled %}
+                                        {{ticket_type.restriction_filter}}
+                                    {% else %}
+                                        No
                                     {% endif %}
                                 </td>
                                 <td>
