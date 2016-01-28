@@ -146,6 +146,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.cache.FetchFromCacheMiddleware',
     'happening.plugins.ResolvePluginMiddlewareMiddleware',
+    'members.middleware.TrackingLinkMiddleware',
 ]
 
 

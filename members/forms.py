@@ -5,7 +5,7 @@ from django import forms
 from happening import forms as happening_forms
 from happening.forms import MarkdownWidget
 from django.contrib.auth import get_user_model
-from models import Tag
+from models import Tag, TrackingLink
 
 
 class ProfileForm(forms.Form):
@@ -64,6 +64,15 @@ class TagForm(forms.ModelForm):
     class Meta:
         model = Tag
         fields = ['tag']
+
+
+class TrackingLinkForm(forms.ModelForm):
+
+    """Created/edit a TrackingLink."""
+
+    class Meta:
+        model = TrackingLink
+        fields = ['code', 'tags']
 
 
 class AddTagForm(forms.Form):

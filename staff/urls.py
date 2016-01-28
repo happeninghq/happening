@@ -71,6 +71,12 @@ urlpatterns = [
     url(r'^tags/(?P<member_pk>\d+)/(?P<tag_pk>\d+)/remove$', views.remove_tag,
         name='remove_tag'),
     url(r'^tags/(?P<member_pk>\d+)/add$', views.add_tag, name='add_tag'),
+
+    url(r'^tracking-links$', views.tracking_links, name='tracking_links'),
+    url(r'^tracking-links/create$', views.create_tracking_link,
+        name='create_tracking_link'),
+    url(r'^tracking-links/(?P<pk>\d+)/delete$', views.delete_tracking_link,
+        name='delete_tracking_link'),
 ]
 
 if hasattr(settings, "PLUGINS"):

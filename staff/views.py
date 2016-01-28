@@ -20,8 +20,8 @@ from django.http import JsonResponse
 from django.utils import formats
 from django.views.decorators.csrf import csrf_protect
 from djqscsv import render_to_csv_response
-from members.forms import TagForm, AddTagForm
-from members.models import Tag
+from members.forms import TagForm, AddTagForm, TrackingLinkForm
+from members.models import Tag, TrackingLink
 from django.contrib.auth.models import User
 
 
@@ -558,3 +558,34 @@ def remove_tag(request, member_pk, tag_pk):
     member.tags.remove(tag)
     messages.success(request, "The tag has been removed.")
     return redirect("view_profile", member_pk)
+
+
+@staff_member_required
+def tracking_links(request):
+    """List tracking links."""
+    tracking_links = TrackingLink.objects.all()
+    return render(request, "staff/tracking_links/index.html",
+                  {"tracking_links": tracking_links})
+
+
+@staff_member_required
+def create_tracking_link(request):
+    """Add a tracking link."""
+    form = TrackingLinkForm()
+    if request.method == "POST":
+        form = TrackingLinkForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "The tracking link has been created.")
+            return redirect("tracking_links")
+    return render(request, "staff/tracking_links/create.html", {"form": form})
+
+
+@staff_member_required
+@require_POST
+def delete_tracking_link(request, pk):
+    """Delete a tracking link."""
+    tracking_link = get_object_or_404(TrackingLink, pk=pk)
+    tracking_link.delete()
+    messages.success(request, "The tracking link has been deleted.")
+    return redirect("tracking_links")

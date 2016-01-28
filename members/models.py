@@ -125,6 +125,10 @@ class Tag(db.Model):
     tag = models.CharField(max_length=100, unique=True)
     users = models.ManyToManyField(User, related_name="tags")
 
+    def __unicode__(self):
+        """Return tag."""
+        return self.tag
+
 
 def member_can_add_tag(member):
     """Can a member add new tags."""
@@ -142,3 +146,11 @@ def apply_session_tags(sender, user, request, **kwargs):
         request.session["tags"] = []
 
 user_logged_in.connect(apply_session_tags)
+
+
+class TrackingLink(db.Model):
+
+    """A tracking link which can apply tags to a user."""
+
+    code = models.CharField(max_length=100, unique=True)
+    tags = models.ManyToManyField(Tag, related_name="tracking_links")
