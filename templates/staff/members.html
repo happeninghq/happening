@@ -19,6 +19,7 @@
                             <th>Active</th>
                             <th>Paid</th>
                             <th>Attendance</th>
+                            <th>Tags</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -54,6 +55,11 @@
                                 </td>
                                 <td>
                                     {{member.attended_tickets}}/{{member.uncancelled_tickets}}
+                                </td>
+                                <td>
+                                    {% for tag in member.tags.all %}
+                                        {{tag.tag}} 
+                                    {% endfor %}
                                 </td>
                                 <td>
                                     <a href="{% url "edit_profile" member.pk %}"><i class="fa fa-pencil" title="Edit Profile"></i></a>
