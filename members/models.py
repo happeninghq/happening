@@ -7,6 +7,7 @@ from cached_property import threaded_cached_property
 from django_gravatar.helpers import get_gravatar_url, has_gravatar
 from django.contrib.auth.models import User
 from happening.storage import media_path
+from django.contrib.auth.signals import user_logged_in
 
 # Ensure that every user has an associated profile
 User.profile = threaded_cached_property(
@@ -129,3 +130,15 @@ def member_can_add_tag(member):
     """Can a member add new tags."""
     return member.tags.count() < Tag.objects.all().count()
 User.can_add_tag = member_can_add_tag
+
+
+def apply_session_tags(sender, user, request, **kwargs):
+    """When a user logs in, apply any temporary tags."""
+    if len(request.session.get("tags", [])) > 0:
+        for tag in request.session.get("tags", []):
+            t = Tag.objects.filter(tag=tag).first()
+            if t:
+                user.tags.add(t)
+        request.session["tags"] = []
+
+user_logged_in.connect(apply_session_tags)
