@@ -164,7 +164,8 @@ class EventForm(ModelForm):
                 'waiting_list_enabled', False)
             ticket_type.restriction_enabled = ticket.get(
                 'restriction_enabled', False)
-            ticket_type.restriction_filter = ticket['restriction_filter']
+            ticket_type.restriction_filter = ticket.get('restriction_filter',
+                                                        '')
 
             ticket_type.save()
 
