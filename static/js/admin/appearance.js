@@ -1,14 +1,18 @@
-$(function() {
-    $('input[type="color"]').change($.throttle(1000, function(value) {
-        var parameters = [];
+import $ from 'jquery';
 
-        $('input[type="color"]').each(function() {
-            var $this = $(this);
-            parameters.push($this.attr('name') + "=" + $this.val().substr(1));
-        });
+// This is temporary - replace with a proper widget
 
-        parameters = parameters.join('&');
-
-        $('body').append('<link rel="stylesheet" href="/admin/appearance/css?' + parameters + '" type="text/css"></link>')
-    }));
-});
+export const init = () => {
+  $('.appearance').each(function () {
+    const $this = $(this);
+    const customCss = $this.find('#customCSS');
+    $this.find('input[type="color"]').keyup(() => {
+      customCss.html(':root {');
+      $('input[type="color"]').each(function () {
+        const $$this = $(this);
+        customCss.append(`--${$$this.attr('name')}: ${$$this.val()};`);
+      });
+      customCss.append('}');
+    });
+  });
+};

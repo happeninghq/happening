@@ -19,17 +19,9 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{happening_site.logo.url}}" />
     {% endif %}
 
-    {% if debug %}
-        <link rel="stylesheet" type="text/x-scss" href="{% static "sass/dev.scss" %}" />
-    {% else %}
-        <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/generated.css" />
-    {% endif %}
-
         {% block style %}
 
         {% endblock style %}
-
-        <link rel="stylesheet" type="text/x-scss" href="{% static "sass/icons.scss" %}" />
         <link rel="stylesheet" type="text/x-scss" href="{% static "sass/lib/jquery.dataTables.static.scss" %}" />
 
         <!-- used for date-widget, time-widget, and datetime-widget -->

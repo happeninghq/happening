@@ -1,5 +1,5 @@
 const path = require('path');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 // const BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
@@ -8,6 +8,7 @@ module.exports = {
   output: {
     path: path.resolve('./static/bundles/'),
     filename: '[name].js',
+    publicPath: '/static/bundles/',
   },
 
   module: {
@@ -20,6 +21,14 @@ module.exports = {
       {
         test: /\.scss$/,
         loaders: ['style', 'css', 'sass'],
+      },
+      {
+        test: /\.((woff2?|svg)(\?v=[0-9]\.[0-9]\.[0-9]))|(woff2?|svg|jpe?g|png|gif|ico)$/,
+        loader: 'url?limit=10000',
+      },
+      {
+        test: /\.((ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9]))|(ttf|eot)$/,
+        loader: 'file',
       },
     ],
   },
