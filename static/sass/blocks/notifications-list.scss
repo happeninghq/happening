@@ -12,11 +12,11 @@
 }
 
 .notifications-list__notification:hover {
-    background: $MENU-HIGHLIGHT-BACKGROUND-COLOR;
+    background: var(--MENU-HIGHLIGHT-BACKGROUND-COLOR);
 }
 
 .notifications-list__notification--unread {
-    background: $BLOCK-COLOR;
+    background: var(--BLOCK-COLOR);
 }
 
 .notifications-list__more {

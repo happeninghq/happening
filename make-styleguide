@@ -5,6 +5,5 @@ if [ ! -d "ve" ]; then
 fi
 
 rm -R styleguide
-./manage generate_css
 hologram hologram_config.yml
 open styleguide/index.html

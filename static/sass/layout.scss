@@ -51,7 +51,7 @@ Restrict the width of the content, and prepare for use of the grid
     @include span-columns(4);
 }
 
-@include media($mobile) {
+@include media($MOBILE) {
     .l-primary-content {
         @include span-columns(12);
     }

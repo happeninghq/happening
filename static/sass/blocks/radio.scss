@@ -25,7 +25,7 @@ Format a radio button neatly
     @include appearance(none);
 
 
-    background: $RADIO-BACKGROUND-COLOR;
+    background: var(--RADIO-BACKGROUND-COLOR);
     width: 1em;
     height: 1em;
     border-radius: 3px;
@@ -34,7 +34,7 @@ Format a radio button neatly
         &:after {
             font-family: FontAwesome;
             content: "\f00c";
-            color: $RADIO-COLOR;
+            color: var(--RADIO-COLOR);
             position: relative;
             top: -3px;
             left: 1px;

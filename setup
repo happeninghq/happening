@@ -18,5 +18,3 @@ bower install;
 python manage.py migrate;
 
 python manage.py loaddata fixtures/common fixtures/users;
-
-python manage.py generate_css

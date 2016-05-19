@@ -17,8 +17,8 @@ A basic button
 */
 button, .btn {
     display: inline-block;
-    background: $BUTTON-BACKGROUND-COLOR;
-    color: $BUTTON-COLOR;
+    background: var(--BUTTON-BACKGROUND-COLOR);
+    color: var(--BUTTON-COLOR);
     text-align: center;
     margin: 1em;
     padding: 1em;
@@ -60,7 +60,7 @@ button, .btn {
 }
 
 .btn--warning {
-    background: $ERROR-MESSAGE-BACKGROUND-COLOR;
+    background: var(--ERROR-MESSAGE-BACKGROUND-COLOR);
 }
 
 .btn--plain {

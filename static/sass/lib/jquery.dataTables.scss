@@ -1,7 +1,7 @@
 // Apply normal button styles to dataTables
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-  background: $MENU-HIGHLIGHT-BACKGROUND-COLOR;
+  background: var(--MENU-HIGHLIGHT-BACKGROUND-COLOR);
   color: #FFF;
 }
 

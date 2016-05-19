@@ -9,8 +9,8 @@
     bottom: 2em;
     border-radius: 12px;
     padding: 0.2em;
-    background: $UNREAD-NOTIFICATION-BACKGROUND-COLOR;
-    color: $UNREAD-NOTIFICATION-COLOR;
+    background: var(--UNREAD-NOTIFICATION-BACKGROUND-COLOR);
+    color: var(--UNREAD-NOTIFICATION-COLOR);
     text-decoration: none;
     min-width: 1.5em;
     text-align: center;

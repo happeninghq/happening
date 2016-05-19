@@ -1,5 +1,5 @@
 $(function() {
-    var csrftoken = $.cookie('csrftoken');
+    var csrftoken = Cookies.get('csrftoken');
     function csrfSafeMethod(method) {
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method))
     };

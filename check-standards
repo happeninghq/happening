@@ -4,4 +4,6 @@ else
     flake8 . || EXIT_STATUS=$?
 fi
 
+# node_modules/eslint/bin/eslint.js static/js/** || EXIT_STATUS=$?
+
 exit $EXIT_STATUS

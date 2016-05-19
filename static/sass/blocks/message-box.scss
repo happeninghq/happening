@@ -23,7 +23,7 @@ A basic button
 ```
 */
 .message-box {
-    background: $MESSAGE-BACKGROUND-COLOR;
+    background: var(--MESSAGE-BACKGROUND-COLOR);
 
     padding: 1em;
     padding-top: 0.1em;
@@ -33,9 +33,9 @@ A basic button
 }
 
 .message-box--error {
-    background: $ERROR-MESSAGE-BACKGROUND-COLOR;
+    background: var(--ERROR-MESSAGE-BACKGROUND-COLOR);
 }
 
 .message-box--success {
-    background: $SUCCESS-MESSAGE-BACKGROUND-COLOR;
+    background: var(--SUCCESS-MESSAGE-BACKGROUND-COLOR);
 }

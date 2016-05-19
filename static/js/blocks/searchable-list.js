@@ -1,68 +1,70 @@
 // Allow lists to be searched and filtered
-$(function() {
-    $('.searchable-list').each(function() {
 
-        var searches = [];
-        var option_filters = {};
+import $ from 'jquery';
 
+export const init = () => {
+  $(() => {
+    $('.searchable-list').each(function () {
+      let searches = [];
+      let optionFilters = {};
 
-        function isVisible(item) {
+      const isVisible = (item) => {
+        let searchString = '';
 
-            if (searches.length > 0) {
-                // We loop through all data attributes starting with "searchable-" and
-                // build a single string
+        if (searches.length > 0) {
+          // We loop through all data attributes starting with "searchable-" and
+          // build a single string
+          const itemData = item.data();
 
-                var searchString = "";
-                var item_data = item.data();
-
-                for (var attr in item_data) {
-                    searchString += item_data[attr] + " ";
-                }
-            }
-
-            for (s in searches) {
-                var search = searches[s];
-                if (search != "" && searchString.search(new RegExp(search, "i")) == -1) {
-                    // If this doesn't match, we return false
-                    return false;
-                }
-            }
-
-            for (option_filter in option_filters) {
-                var d = item.data("searchable-" + option_filter);
-                if (!d || d.search(new RegExp(option_filters[option_filter].join("|"), "i")) == -1) {
-                    return false;
-                }
-            }
-
-            return true;
+          for (const attr in itemData) {
+            searchString += `${itemData[attr]} `;
+          }
         }
 
-        var $this = $(this);
-        $this.data('searchable-list', {
-            "clearFilters": function() {
-                searches = [];
-                option_filters = {};
-            },
+        for (const s in searches) {
+          var search = searches[s];
+          if (search !== '' && searchString.search(new RegExp(search, "i")) == -1) {
+            // If this doesn't match, we return false
+            return false;
+          }
+        }
 
-            "search": function(content) {
-                searches.push(content);
-            },
+        for (const optionFilter in optionFilters) {
+          const d = item.data(`searchable-${optionFilter}`);
+          if (!d || d.search(new RegExp(optionFilters[optionFilter].join("|"), "i")) == -1) {
+            return false;
+          }
+        }
 
-            "option_filter": function(field, options) {
-                option_filters[field] = options;
-            },
+        return true;
+      };
 
-            "draw": function() {
-                $this.find('.searchable-list__item').each(function() {
-                    $$this = $(this);
-                    if (isVisible($$this)) {
-                        $$this.removeClass('searchable-list__item--filtered');
-                    } else {
-                        $$this.addClass('searchable-list__item--filtered');
-                    }
-                });
+      const $this = $(this);
+      $this.data('searchable-list', {
+        clearFilters: () => {
+          searches = [];
+          optionFilters = {};
+        },
+
+        search: (content) => {
+          searches.push(content);
+        },
+
+        optionFilter: (field, options) => {
+          optionFilters[field] = options;
+        },
+
+        draw: () => {
+          $this.find('.searchable-list__item').each(function () {
+            const $$this = $(this);
+            if (isVisible($$this)) {
+              $$this.removeClass('searchable-list__item--filtered');
+            } else {
+              $$this.addClass('searchable-list__item--filtered');
             }
-        });
+          });
+        },
+      });
     });
-});
+  });
+};

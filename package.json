@@ -1,0 +1,60 @@
+{
+  "name": "happening",
+  "version": "0.1.0",
+  "description": "Open Source Event/Community management",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "./run-tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jscott1989/happening.git"
+  },
+  "author": "Jonathan Scott <jonathan@jscott.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jscott1989/happening/issues"
+  },
+  "homepage": "https://github.com/jscott1989/happening#readme",
+  "dependencies": {
+    "@claviska/jquery-dropdown": "^2.0.3",
+    "blueimp-file-upload": "^9.12.1",
+    "bourbon": "^4.2.7",
+    "bourbon-neat": "^1.7.4",
+    "datatables": "^1.10.11",
+    "epiceditor": "^0.2.0",
+    "font-awesome": "^4.6.1",
+    "hologram-github-theme": "^0.1.4",
+    "jquery": "^2.2.3",
+    "jquery-datetimepicker": "^2.5.3",
+    "js-cookie": "^2.1.1",
+    "knockout": "^3.4.0",
+    "neat": "^1.2.2",
+    "timeago": "^1.5.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-core": "^6.9.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "css-loader": "^0.23.1",
+    "eslint": "^2.10.2",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.8.0",
+    "eslint-plugin-jsx-a11y": "^1.2.0",
+    "eslint-plugin-react": "^5.1.1",
+    "node-sass": "^3.7.0",
+    "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.0",
+    "webpack-bundle-tracker": "0.0.93"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  }
+}

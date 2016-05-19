@@ -45,7 +45,7 @@ If you're going to use a block\_\_header-extra-link, the block__header must use 
 
 */
 .block {
-    background: $BLOCK-COLOR;
+    background: var(--BLOCK-COLOR);
     padding: 1em;
 }
 
@@ -59,7 +59,7 @@ If you're going to use a block\_\_header-extra-link, the block__header must use 
  * is floated.
  */
 .block__header {
-    border-bottom: 2px solid $FONT-COLOR;
+    border-bottom: 2px solid var(--FONT-COLOR);
     
     margin-bottom: 0.5em;
     padding-bottom: 0.5em;

@@ -7,7 +7,7 @@
         display: block;
         text-align: center;
         font-size: 1.5em;
-        color: $MENU-COLOR;
+        color: var(--MENU-COLOR);
         padding-left: 0.5em;
         padding-right: 0.5em;
     }
@@ -15,7 +15,7 @@
     .menu__item__text {
         display: block;
         text-align: center;
-        color: $MENU-COLOR;
+        color: var(--MENU-COLOR);
         padding-left: 0.5em;
         padding-right: 0.5em;
     }
@@ -30,10 +30,10 @@
 }
 
 .menu__item--active, .menu__item:hover {
-    background: $MENU-HIGHLIGHT-BACKGROUND-COLOR;
-    color: $MENU-HIGHLIGHT-COLOR;
+    background: var(--MENU-HIGHLIGHT-BACKGROUND-COLOR);
+    color: var(--MENU-HIGHLIGHT-COLOR);
 
     .menu__item__icon, .menu__item__text {
-        color: $MENU-HIGHLIGHT-COLOR;
+        color: var(--MENU-HIGHLIGHT-COLOR);
     }
 }

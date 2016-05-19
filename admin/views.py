@@ -14,13 +14,7 @@ from payments.models import PaymentHandler
 from django.db import transaction
 from forms import PaymentHandlerForm
 from django.views.decorators.http import require_POST
-from django.http import HttpResponse
-import re
-from django.http import HttpResponseForbidden
 from django.contrib.sites.models import Site
-from happening.appearance import generate_css as happening_generate_css
-from happening.appearance import parse_settings
-from happening.storage import storage
 from django import forms
 from html5.forms import widgets as html5_widgets
 from allauth.socialaccount.models import SocialApp
@@ -177,23 +171,14 @@ def appearance(request):
     """Allow configuring logo and css."""
     site = Site.objects.first().happening_site
 
-    variables = []
-    with open("static/sass/settings.scss") as f:
-        settings = parse_settings(f.read())
-
     initial_data = {"logo": site.logo}
 
     def setup_form(form):
-        for category, items in settings.items():
-            for item, value in items.items():
-                form.fields[item] = forms.CharField(
-                    widget=html5_widgets.ColorInput,
-                    label=item.replace("-", " ").title())
-                if item in site.theme_settings:
-                    initial_data[item] = site.theme_settings[item]
-                else:
-                    initial_data[item] = value
-                variables.append(item)
+        for item, value in site.get_theme_settings().items():
+            form.fields[item] = forms.CharField(
+                widget=html5_widgets.ColorInput,
+                label=item.replace("-", " ").title())
+            initial_data[item] = value
 
     form = ThemeForm(initial=initial_data)
     setup_form(form)
@@ -203,37 +188,14 @@ def appearance(request):
         setup_form(form)
         if form.is_valid():
             site.theme_settings = {}
-            for variable in variables:
+            for variable in site.get_theme_settings().keys():
                 site.theme_settings[variable] = form.cleaned_data[variable]
             site.logo = form.cleaned_data['logo']
             site.save()
 
-            # Regenerate CSS
-            with storage.open("css/generated.css", "w+") as o:
-                # This next line is S3 specific
-                if hasattr(o, "_storage"):
-                    o._storage.headers['Content-Type'] = 'text/css'
-                d = happening_generate_css()
-                o.write(d.encode('utf8'))
-
             return redirect("appearance")
     return render(request, "admin/appearance.html",
                   {"theme_form": form})
-
-
-@admin_required
-def generate_css(request):
-    """Generate temporary css for use on the admin appearance panel."""
-    hex_regex = re.compile("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
-    variables = {}
-    for k, v in request.GET.items():
-        variables[k] = "#" + v
-
-        if not hex_regex.match(variables[k]):
-            return HttpResponseForbidden()
-
-    compiled = happening_generate_css(variables)
-    return HttpResponse(compiled, content_type="text/css")
 
 
 @admin_required

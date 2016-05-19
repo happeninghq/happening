@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load compress %}
 {% load happening_ganalytics %}
 {% load plugins %}
 
@@ -7,6 +6,10 @@
 <html>
 <head>
     <title>{{"pages.configuration.SiteTitle"|get_configuration}}</title>
+
+    <script src="{% static "bundles/main.js" %}"></script>
+
+    {{ happening_site|theme_settings }}
     
     <!-- Web Fonts -->
     <link href='//fonts.googleapis.com/css?family=Cabin:400,700' rel='stylesheet' type='text/css'>
@@ -17,14 +20,11 @@
     {% endif %}
 
     {% if debug %}
-        {% compress css %}
-            <link rel="stylesheet" type="text/x-scss" href="{% static "sass/dev.scss" %}" />
-        {% endcompress %}
+        <link rel="stylesheet" type="text/x-scss" href="{% static "sass/dev.scss" %}" />
     {% else %}
         <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/generated.css" />
     {% endif %}
 
-    {% compress css %}
         {% block style %}
 
         {% endblock style %}
@@ -33,9 +33,8 @@
         <link rel="stylesheet" type="text/x-scss" href="{% static "sass/lib/jquery.dataTables.static.scss" %}" />
 
         <!-- used for date-widget, time-widget, and datetime-widget -->
-        <link rel="stylesheet" type="text/css" href="{% static "datetimepicker/jquery.datetimepicker.css" %}" />
+        <link rel="stylesheet" type="text/css" href="{% static "jquery-datetimepicker/jquery.datetimepicker.css" %}" />
 
-    {% endcompress %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% ganalytics %}
 </head>
@@ -139,95 +138,10 @@
     {% block content %}
     {% endblock %}
 
-    {% compress js %}
-        <!-- Needed for Django Debug Toolbar, used in a number of other scripts -->
-        <script src="{% static "jquery/dist/jquery.js" %}"></script>
+    <!-- Needed for Django Debug Toolbar, used in a number of other scripts
+    <script src="{% static "jquery/dist/jquery.js" %}"></script> -->
 
-        <!-- Utility functions -->
-        <script src="{% static "underscore/underscore.js" %}"></script>
-        <script src="{% static "js/utils.js" %}"></script>
 
-        <!-- ensure that jquery ajax works with csrftoken -->
-        <script src="{% static "js/ajax.js" %}"></script>
-
-        <!-- used to provide sortable tables on every table with the class "data-table" -->
-        <script src="{% static "datatables/media/js/jquery.dataTables.js" %}"></script>
-        <script src="{% static "js/blocks/data-table.js" %}"></script>
-
-        <!-- used to provide sorting/filtering to every list with class searchable-list -->
-        <script src="{% static "js/blocks/searchable-list.js" %}"></script>
-
-        <!-- used for filtering/searching datatables and searchable-lists CLASS: filter-form -->
-        <script src="{% static "js/blocks/form/filter-form.js" %}"></script>
-
-        <!-- used for editing markdown CLASS: markdown-widget -->
-        <script src="{% static "epiceditor/epiceditor/js/epiceditor.js" %}"></script>
-        <script src="{% static "js/blocks/form/markdown-widget.js" %}"></script>
-
-        <!-- used for inputting date/times CLASS: datetime-widget -->
-        <script src="{% static "datetimepicker/jquery.datetimepicker.js" %}"></script>
-        <script src="{% static "js/blocks/form/date-widget.js" %}"></script>
-        <script src="{% static "js/blocks/form/time-widget.js" %}"></script>
-        <script src="{% static "js/blocks/form/datetime-widget.js" %}"></script>
-
-        <!-- used for inputting durations CLASS: duration-widget -->
-        <script src="{% static "js/blocks/form/duration-widget.js" %}"></script>
-
-        <!-- used for inputting emails CLASS: emails-widget -->
-        <script src="{% static "knockout/dist/knockout.js" %}"></script>
-        <script src="{% static "js/blocks/form/emails-widget.js" %}"></script>
-
-        <!-- used for inputting addresses CLASS: address-widget -->
-        <script src="{% static "js/blocks/form/address-widget.js" %}"></script>
-
-        <!-- used for inputting properties CLASS: properties-widget -->
-        <script src="{% static "js/blocks/form/properties-widget.js" %}"></script>
-
-        <!-- used for inputting tickets CLASS: tickets-widget -->
-        <script src="{% static "js/blocks/form/tickets-widget.js" %}"></script>
-
-        <!-- used for enabled/disabled widgets CLASS: enableddisabled-widget -->
-        <script src="{% static "js/blocks/form/enableddisabled-widget.js" %}"></script>
-
-        <!-- used for time block CLASS: time -->
-        <script src="{% static "jquery-timeago/jquery.timeago.js" %}"></script>
-        <script src="{% static "js/blocks/time.js" %}"></script>
-
-        <!-- used to relate navigation blocks and radio buttons -->
-        <script src="{% static "js/blocks/navigation-block.js" %}"></script>
-
-        <!-- used for confirmation dialogs CLASS: confirm -->
-        <script src="{% static "jquery-cookie/jquery.cookie.js" %}"></script>
-        <script src="{% static "js/confirm.js" %}"></script>
-
-        <!-- used for uploading images CLASS: image-widget -->
-        <script src="{% static "jquery-file-upload/js/vendor/jquery.ui.widget.js" %}"></script>
-        <script src="{% static "jquery-file-upload/js/jquery.iframe-transport.js" %}"></script>
-        <script src="{% static "jquery-file-upload/js/jquery.fileupload.js" %}"></script>
-        <script src="{% static "js/blocks/form/image-widget.js" %}"></script>
-
-        <!-- used for dropdown menus CLASS: jq-dropdown -->
-        <script src="{% static "jquery-dropdown/jquery.dropdown.js" %}"></script>
-
-        <!-- used for loading event presets on create even CLASS: event-preset -->
-        <script src="{% static "js/staff/event-presets.js" %}"></script>
-
-        <!--- used for managing notifications CLASS: notifications -->
-        <script src="{% static "js/blocks/notifications-list.js" %}"></script>
-
-        <!--- used for purchase tickets widget CLASS: purchase-tickets-widget -->
-        <script src="{% static "js/blocks/purchase-tickets-widget.js" %}"></script>
-
-        <!-- Used for google maps class: google-map -->
-        <script src="{% static "google-maps/lib/Google.js" %}"></script>
-        <script src="{% static "js/blocks/google-map.js" %}"></script>
-
-        <!-- use for payment CLASS: stripe-form -->
-        <script src="{% static "js/stripe.js" %}"></script>
-
-        <!-- use for finances CLASS: inflow-outflow-widget -->
-        <script src="{% static "js/blocks/form/inflow-outflow-widget.js" %}"></script>
-    {% endcompress %}
     {% block script %}
 
     {% endblock %}

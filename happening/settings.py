@@ -79,7 +79,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'markdown_deux',
 
-    'compressor',
     'ganalytics',
 
     'storages',
@@ -185,12 +184,7 @@ MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'bower_components'),
-]
-
-COMPRESS_PRECOMPILERS = [
-    ('text/x-scss', 'django_libsass.SassCompiler'),
-    ('text/ecmascript-6', 'babel {infile}'),
+    os.path.join(BASE_DIR, 'node_modules'),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'compiled_static')
@@ -198,12 +192,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder'
 ]
-
-COMPRESS_ENABLED = True
-COMPRESS_OFFLINE = not DEBUG
 
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'fixtures'),
@@ -320,14 +310,6 @@ if 'HAPPENING_TESTING' in os.environ:
         'django.contrib.auth.hashers.MD5PasswordHasher',
     ]
 
-    COMPRESS_ENABLED = False
-    COMPRESS_OFFLINE = False
     DEBUG = False
     import logging
     logging.disable(logging.CRITICAL)
-
-    # TODO: Write replacement templatetags that do nothing.
-    COMPRESS_PRECOMPILERS = [
-        ('text/x-scss', 'echo'),
-        ('text/ecmascript-6', 'echo'),
-    ]

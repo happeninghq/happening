@@ -49,7 +49,7 @@ Table for listing available tickets
 */
 .tickets {
     tr {
-        border-bottom: 1px solid $FONT-COLOR;
+        border-bottom: 1px solid var(--FONT-COLOR);
         padding-bottom: 0.5em;
 
         &.tickets__totals {

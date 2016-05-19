@@ -64,3 +64,12 @@ def properties_as_table(configuration, properties):
             ret.append(
                 "<tr><th>%s</th><td>%s</td></tr>" % (p['name'], properties[k]))
     return mark_safe("".join(ret))
+
+
+@register.filter
+def theme_settings(site):
+    """Output template variables in a css block."""
+    styles = [
+        "--%s: %s;" % (k, v) for k, v in site.get_theme_settings().items()]
+    return mark_safe(
+        '<style type="text/css">:root {%s}</style>' % "".join(styles))

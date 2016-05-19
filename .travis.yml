@@ -11,8 +11,7 @@ script: ./.run-ci
 after_success: coveralls
 before_script:
   - psql -c 'create database happening_test;' -U postgres
-  - npm install -g bower
-  - bower install
+  - npm install
   - python manage.py migrate --noinput
 env:
   - HAPPENING_TESTING=true DATABASE_URL='postgres://postgres:@localhost:5432/happening_test'

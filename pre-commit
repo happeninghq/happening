@@ -1,6 +1,3 @@
 # Move this to .git/hooks to ensure you don't commit code which doesn't meet standards
-if [ ! -d "ve" ]; then
-    flake8 --max-complexity 10 --exclude='ve,migrations,lib,docs' . || EXIT_STATUS=$?
-fi
-ve/bin/flake8 --max-complexity 10 --exclude='ve,migrations,lib,docs' . || EXIT_STATUS=$?
+./check-standards || EXIT_STATUS=$?
 exit $EXIT_STATUS

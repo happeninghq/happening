@@ -15,18 +15,14 @@ if [ -f bin/install_nodejs ]; then
     bin/install_nodejs
  
     # PUT YOUR NPM INSTALL LINES HERE: (less and iced-coffee-script for example)
-    npm install -g bower
-    npm install -g coffee-script
+    npm install
 fi
  
 # PUT ANY POST-BUILD STUFF HERE (like database migrations)
 #python app/manage.py syncdb --noinput
 #python app/manage.py migrate --noinput
 
-bower install
-
 python manage.py migrate --noinput
-python manage.py generate_css
 python manage.py collectstatic --noinput
 python manage.py compress
 

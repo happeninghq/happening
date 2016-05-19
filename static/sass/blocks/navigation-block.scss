@@ -34,6 +34,6 @@ A block used for tertiary navigation
 }
 
 .navigation-block__link--active, .navigation-block__link:hover {
-    background: $MENU-HIGHLIGHT-BACKGROUND-COLOR;
-    color: $MENU-HIGHLIGHT-COLOR;
+    background: var(--MENU-HIGHLIGHT-BACKGROUND-COLOR);
+    color: var(--MENU-HIGHLIGHT-COLOR);
 }

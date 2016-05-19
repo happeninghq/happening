@@ -1,5 +1,5 @@
 $(function() {
-    var csrftoken = $.cookie('csrftoken');
+    var csrftoken = Cookies.get('csrftoken');
     $('body').on('click', '.confirm', function() {
         if (confirm($(this).data('confirm'))) {
             if ($(this).attr('href')) {

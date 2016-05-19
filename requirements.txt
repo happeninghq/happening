@@ -1,5 +1,5 @@
 # Django requirements
-django==1.9.1 # Django
+django==1.9.6 # Django
 pyyaml==3.11 # Used for fixtures
 pillow # For image uploading
 django-gravatar2==1.1.4 # For gravatar
@@ -24,11 +24,6 @@ dj-static==0.0.6 # Static files
 psycopg2==2.6.1 # Postgres driver
 django-storages==1.1.8 # Media storage on AWS
 boto==2.34.0 # Media storage on AWS
-
-# Static files
-
-django_compressor==2.0 # This allows us to use babel and SCSS
-django-libsass==0.6 # Plugin for compressor to use SCSS
 
 # Authentication
 

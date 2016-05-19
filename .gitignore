@@ -3,6 +3,7 @@ ve
 *.pyc
 compiled_static
 bower_components
+node_modules
 .DS_Store
 mock-img_*.jpeg
 mock-img.jpeg
@@ -26,3 +27,4 @@ styleguide
 media/events/*
 .env
 media
+static/bundles

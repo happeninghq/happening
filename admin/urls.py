@@ -19,7 +19,6 @@ urlpatterns = [
     url(r'^plugins$', views.plugins, name='plugins'),
     url(r'^configuration$', views.configuration, name='configuration'),
     url(r'^appearance$', views.appearance, name='appearance'),
-    url(r'^appearance/css$', views.generate_css, name='generate_css'),
     url(r'^payment_handlers$', views.payment_handlers,
         name='payment_handlers'),
     url(r'^payment_handlers/add$', views.add_payment_handler,

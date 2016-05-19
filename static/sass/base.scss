@@ -4,8 +4,8 @@
  * Set basic font and colours
  **********/
 body {
-    background: $BACKGROUND-COLOR;
-    color: $FONT-COLOR;
+    background: var(--BACKGROUND-COLOR);
+    color: var(--FONT-COLOR);
     font-family: 'Cabin', sans-serif;
 }
 
@@ -14,7 +14,7 @@ body {
  **********/
 a {
     text-decoration: underline;
-    color: $FONT-COLOR;
+    color: var(--FONT-COLOR);
 }
 
 /**********
