@@ -1,6 +1,8 @@
 import $ from 'jquery';
 
+import 'jquery-datetimepicker';
 require('jquery-datetimepicker/jquery.datetimepicker.css');
+
 
 export const init = () => {
   $('.date-widget').each(function initDateWidget() {
