@@ -1,40 +1,43 @@
-$(function() {
-    $('.duration-widget').each(function() {
+import $ from 'jquery';
+import ko from 'knockout';
 
-        var viewModel = {
-            days: ko.observable(0),
-            hours: ko.observable(0),
-            minutes: ko.observable(0),
-            seconds: ko.observable(0)
-        }
+export const init = () => {
+  $('.duration-widget').each(function initDurationWidget() {
+    const viewModel = {
+      days: ko.observable(0),
+      hours: ko.observable(0),
+      minutes: ko.observable(0),
+      seconds: ko.observable(0),
+    };
 
-        viewModel.value = ko.computed(function() {
-            // Convert viewModel.properties into int
-            return (parseInt(viewModel.days()) * 86400) + (parseInt(viewModel.hours()) * 3600) + (parseInt(viewModel.minutes()) * 60) + parseInt(viewModel.seconds());
-        });
+    viewModel.value = ko.computed(() =>
+      // Convert viewModel.properties into int
+      parseInt(viewModel.days(), 10) * 86400) +
+        (parseInt(viewModel.hours(), 10) * 3600) +
+          (parseInt(viewModel.minutes(), 10) * 60) +
+            parseInt(viewModel.seconds(), 10);
 
-        $this = $(this);
+    const $this = $(this);
 
-        $this.data('reload', function() {
-            var value = $this.find('[type="hidden"]').val();
+    $this.data('reload', () => {
+      let value = $this.find('[type="hidden"]').val();
+      const days = Math.floor(value / 86400);
+      value -= days * 86400;
 
-            var days = Math.floor(value / 86400);
-            value -= days * 86400;
+      const hours = Math.floor(value / 3600) % 24;
+      value -= hours * 3600;
 
-            var hours = Math.floor(value / 3600) % 24;
-            value -= hours * 3600;
+      const minutes = Math.floor(value / 60) % 60;
+      value -= minutes * 60;
 
-            var minutes = Math.floor(value / 60) % 60
-            value -= minutes * 60
-
-            viewModel.days(days);
-            viewModel.hours(hours);
-            viewModel.minutes(minutes);
-            viewModel.seconds(value);
-        });
-
-
-        $this.data('reload')();
-        ko.applyBindings(viewModel, this);
+      viewModel.days(days);
+      viewModel.hours(hours);
+      viewModel.minutes(minutes);
+      viewModel.seconds(value);
     });
-});
+
+
+    $this.data('reload')();
+    ko.applyBindings(viewModel, this);
+  });
+};

@@ -1,6 +1,9 @@
-$(function() {
-    $('.datetime-widget').each(function() {
-        var $this = $(this);
-        $this.datetimepicker({"format": $this.data('datetime-format')});
-    });
-});
+import $ from 'jquery';
+require('jquery-datetimepicker/jquery.datetimepicker.css');
+
+export const init = () => {
+  $('.datetime-widget').each(function initDatetimeWidget() {
+    const $this = $(this);
+    $this.datetimepicker({ format: $this.data('datetime-format') });
+  });
+};

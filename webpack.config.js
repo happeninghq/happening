@@ -1,6 +1,6 @@
 const path = require('path');
-// const webpack = require('webpack');
-// const BundleTracker = require('webpack-bundle-tracker');
+const webpack = require('webpack');
+const BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
   context: __dirname,
@@ -19,7 +19,7 @@ module.exports = {
         loader: 'babel',
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         loaders: ['style', 'css', 'sass'],
       },
       {
@@ -34,14 +34,13 @@ module.exports = {
   },
 
   plugins: [
-    // new BundleTracker({filename: './webpack-stats.json'}),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false,
-    //   },
-    //   output: {
-    //     comments: false,
-    //   },
-    // }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+      },
+      output: {
+        comments: false,
+      },
+    }),
   ],
 };

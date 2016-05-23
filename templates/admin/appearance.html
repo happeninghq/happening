@@ -5,30 +5,28 @@
 {% load staticfiles %}
 
 {% block admin_content %}
-    <div class="l-container">
-        <div class="l-primary-content block-list">
-            <div class="block block-list__item">
-                <header class="block__header">
-                    <h2 class="block__header-text">Appearance</h2>
-                </header>
-                <form method="POST" action="{% url "appearance" %}" class="form">
-                    {% csrf_token %}
-                    {{theme_form|render}}
-                    <button type="submit">Save</button>
-                </form>
+    <div class="appearance">
+        <style id="customCSS" type="text/css"></style>
+        <div class="l-container">
+            <div class="l-primary-content block-list">
+                <div class="block block-list__item">
+                    <header class="block__header">
+                        <h2 class="block__header-text">Appearance</h2>
+                    </header>
+                    <form method="POST" action="{% url "appearance" %}" class="form">
+                        {% csrf_token %}
+                        {{theme_form|render}}
+                        <button type="submit">Save</button>
+                    </form>
+                </div>
             </div>
-        </div>
-        <div class="l-secondary-content block-list">
-            <div class="block block-list__item">
-                <header class="block__header">
-                    <h2 class="block__header-text block__header-text--small">Appearance</h2>
-                </header>
+            <div class="l-secondary-content block-list">
+                <div class="block block-list__item">
+                    <header class="block__header">
+                        <h2 class="block__header-text block__header-text--small">Appearance</h2>
+                    </header>
+                </div>
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block script %}
-    <script src="{% static "lib/throttle.js" %}"></script>
-    <script src="{% static "js/admin/appearance.js" %}"></script>
 {% endblock %}

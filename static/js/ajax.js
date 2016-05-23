@@ -1,3 +1,4 @@
+// TODO: Do we need this?
 $(function() {
     var csrftoken = Cookies.get('csrftoken');
     function csrfSafeMethod(method) {

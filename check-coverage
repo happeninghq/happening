@@ -4,5 +4,6 @@ if [ ! -d "ve" ]; then
     exit
 fi
 
+source ve/bin/activate
 coverage run manage.py test
 coverage report --omit='ve/*.py'

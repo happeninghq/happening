@@ -4,7 +4,7 @@ import $ from 'jquery';
 
 export const init = () => {
   $(() => {
-    $('.searchable-list').each(function () {
+    $('.searchable-list').each(function searchableList() {
       let searches = [];
       let optionFilters = {};
 
@@ -55,7 +55,7 @@ export const init = () => {
         },
 
         draw: () => {
-          $this.find('.searchable-list__item').each(function () {
+          $this.find('.searchable-list__item').each(function searchableListItem() {
             const $$this = $(this);
             if (isVisible($$this)) {
               $$this.removeClass('searchable-list__item--filtered');

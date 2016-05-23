@@ -2,18 +2,18 @@
  * Enable data-tables on all tables with a class of "data-table"
  */
 
-import * as _ from 'datatables';
+import 'datatables';
 import $ from 'jquery';
+
+require('../../sass/lib/jquery.dataTables.scss');
 
 export const init = () => {
   $(() => {
-    $('.data-table').each(function () {
+    $('.data-table').each(function initDataTable() {
       const $this = $(this);
 
       $this.data('setup-datatable', () => {
-        $this.DataTable({
-          dom: 'rtip',
-        });
+        $this.dataTable();
       });
 
       $this.data('destroy-datatable', () => {

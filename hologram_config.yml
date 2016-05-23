@@ -28,15 +28,10 @@ code_example_renderers: ./styleguide_assets/code_example_renderers
 # folder. Typically this will include the css that you are trying to
 # document. May also include additional folders as needed.
 dependencies:
-  - ./media/css
+  - ./static/bundles
 
-css_include:
-  - 'css/generated.css'
-
-# Mark which category should be the index page
-# Alternatively, you may have an index.md in the documentation assets
-# folder instead of specifying this config.
-index: README
+js_include:
+  - 'bundles/main.js'
 
 # To additionally output navigation for top level sections, set the value to
 # 'section'. To output navigation for sub-sections,

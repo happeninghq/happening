@@ -1,27 +1,33 @@
-function setup_markdown_editor(elem) {
-    var elem = $(elem);
-    var new_elem = $("<div></div>");
+/* global EpicEditor:false */
+import $ from 'jquery';
 
-    new_elem.insertBefore(elem);
+/** Epic Editor doesn't support importing - so for now we will include it in the
+    page */
 
-    elem.hide();
+function setupMarkdownEditor(elem) {
+  const $elem = $(elem);
+  const newElem = $('<div></div>');
 
-    var editor = new EpicEditor({
-        container: new_elem[0],
-        clientSideStorage: false,
-        textarea: elem[0],
-        basePath: '/static/epiceditor/epiceditor',
-        theme: {
-            base: '../../../lib/epiceditor/themes/base/epiceditor.css',
-            editor: '../../../lib/epiceditor/themes/editor/epic-light.css',
-            preview: '../../../lib/epiceditor/themes/preview/github.css'
-        }
-    });
-    editor.load();
+  newElem.insertBefore($elem);
+
+  $elem.hide();
+
+  const editor = new EpicEditor({
+    container: newElem[0],
+    clientSideStorage: false,
+    textarea: elem[0],
+    basePath: '/static/epiceditor/epiceditor',
+    theme: {
+      base: '../../../lib/epiceditor/themes/base/epiceditor.css',
+      editor: '../../../lib/epiceditor/themes/editor/epic-light.css',
+      preview: '../../../lib/epiceditor/themes/preview/github.css',
+    },
+  });
+  editor.load();
 }
 
-$(function() {
-    $('.markdown-widget').each(function() {
-        setup_markdown_editor(this);
-    });
-});
+export const init = () => {
+  $('.markdown-widget').each(function initMarkdownEditor() {
+    setupMarkdownEditor(this);
+  });
+};

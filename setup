@@ -12,8 +12,8 @@ pip install -r dev-requirements.txt;
 echo "Installing ruby dependencies";
 gem install hologram
 
-echo "Installing bower dependencies";
-bower install;
+echo "Installing npm dependencies";
+npm install;
 
 python manage.py migrate;
 

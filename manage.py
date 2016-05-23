@@ -9,8 +9,8 @@ from dotenv import load_dotenv
 dotenv_path = join(dirname(abspath(__file__)), '.env')
 load_dotenv(dotenv_path)
 
-if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "happening.settings")
+if __name__ == '__main__':
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'happening.settings')
 
     from django.core.management import execute_from_command_line
 

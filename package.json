@@ -25,6 +25,7 @@
     "bourbon": "^4.2.7",
     "bourbon-neat": "^1.7.4",
     "datatables": "^1.10.11",
+    "document-register-element": "^0.5.4",
     "epiceditor": "^0.2.0",
     "font-awesome": "^4.6.1",
     "hologram-github-theme": "^0.1.4",
@@ -33,7 +34,9 @@
     "js-cookie": "^2.1.1",
     "knockout": "^3.4.0",
     "neat": "^1.2.2",
-    "polymer": "^0.5.0",
+    "react": "^15.0.2",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2",
     "timeago": "^1.5.2"
   },
   "devDependencies": {
@@ -48,12 +51,12 @@
     "eslint-plugin-jsx-a11y": "^1.2.0",
     "eslint-plugin-react": "^5.1.1",
     "file-loader": "^0.8.5",
+    "imports-loader": "^0.6.5",
     "node-sass": "^3.7.0",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.0",
-    "webpack-bundle-tracker": "0.0.93"
+    "webpack": "^1.13.0"
   },
   "babel": {
     "presets": [

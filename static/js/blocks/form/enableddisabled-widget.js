@@ -1,15 +1,18 @@
-$(function() {
-    $('.enableddisabled-widget').each(function() {
-        var $this = $(this);
-        
-        var viewModel = {
-            enabled: ko.observable($this.find('.enableddisable-widget__enabled').is(':checked'))
-        }
+import $ from 'jquery';
+import ko from 'knockout';
 
-        $this.find('.form__field').find('select, input, textarea').each(function() {
-            $(this).attr('data-bind', "attr: {disabled: enabled() == false}")
-        });
+export const init = () => {
+  $('.enableddisabled-widget').each(function initEnabledDisabledWidget() {
+    const $this = $(this);
 
-        ko.applyBindings(viewModel, this);
+    const viewModel = {
+      enabled: ko.observable($this.find('.enableddisable-widget__enabled').is(':checked')),
+    };
+
+    $this.find('.form__field').find('select, input, textarea').each(function initObservable() {
+      $(this).attr('data-bind', 'attr: {disabled: enabled() == false}');
     });
-});
+
+    ko.applyBindings(viewModel, this);
+  });
+};

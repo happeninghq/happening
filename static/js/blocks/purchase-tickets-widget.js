@@ -1,92 +1,91 @@
+import $ from 'jquery';
+import ko from 'knockout';
+import _ from 'underscore';
+
 /**
  * Used when purchasing tickets
  */
-$(function() {
-    $('.purchase-tickets-widget').each(function() {
-        $this = $(this);
+export const init = () => {
+  $('.purchase-tickets-widget').each(function initPurchaseTickets() {
+    const $this = $(this);
 
-        var max_tickets_enabled = $this.data('max-tickets-enabled');
-        var ticket_types = $this.data('active-tickets');
-        var max_tickets = $this.data('max-tickets');
-        var already_purchased = $this.data('already-purchased');
+    const maxTicketsEnabled = $this.data('max-tickets-enabled');
+    const ticketTypes = $this.data('active-tickets');
+    let maxTickets = $this.data('max-tickets');
+    let alreadyPurchased = $this.data('already-purchased');
 
-        if (!max_tickets_enabled) {
-            max_tickets = 9999999;
-            already_purchased = 0;
+    const viewModel = {
+      active_tickets: ko.observableArray(),
+    };
+
+    if (!maxTicketsEnabled) {
+      maxTickets = 9999999;
+      alreadyPurchased = 0;
+    }
+
+    function createTicketType(data) {
+      const ticketType = {
+        name: ko.observable(data.name),
+        remaining_tickets: ko.observable(data.remaining_tickets),
+        price: ko.observable(data.price),
+        pk: ko.observable(data.pk),
+        remaining_tickets_formatted() {
+          if (this.remaining_tickets() === 0) {
+            return 'Sold Out';
+          } else if (this.remaining_tickets() === 1) {
+            return '1 Ticket';
+          }
+          return `${this.remaining_tickets()} Tickets`;
+        },
+
+        // The number of tickets I want to purchase
+        purchasing_tickets: ko.observable(0),
+      };
+
+      ticketType.price_formatted = () => {
+        if (ticketType.price() === 0) {
+          return 'Free';
         }
+        let pennies = ticketType.price() / 100.0;
+        pennies = pennies.toFixed(2);
+        return `£${pennies}`;
+      };
 
-        function create_ticket_type(data) {
-            var ticket_type = {
-                name: ko.observable(data.name),
-                remaining_tickets: ko.observable(data.remaining_tickets),
-                price: ko.observable(data.price),
-                pk: ko.observable(data.pk),
-                remaining_tickets_formatted: function() {
-                    if (this.remaining_tickets() == 0) {
-                        return "Sold Out";
-                    } else if (this.remaining_tickets() == 1) {
-                        return "1 Ticket";
-                    } else {
-                        return this.remaining_tickets() + " Tickets";
-                    }
-                },
+      ticketType.purchasable_tickets = ko.computed(() => {
+        // This should return the number of tickets available to purchase
+        const purchasingOtherTickets = viewModel.purchasing_tickets() -
+          ticketType.purchasing_tickets();
+        const remainingMaxTickets = (maxTickets - alreadyPurchased) - purchasingOtherTickets;
 
-                // The number of tickets I want to purchase
-                purchasing_tickets: ko.observable(0),
-            }
+        return Math.min(ticketType.remaining_tickets(), remainingMaxTickets);
+      });
 
-            ticket_type.price_formatted = function() {
-                if (ticket_type.price() == 0) {
-                    return "Free";
-                }
-                pennies = ticket_type.price() / 100.0
-                pennies = pennies.toFixed(2);
-                return "£" + pennies;
-            };
+      ticketType.purchasable_ticket_options = ko.computed(() =>
+        _.range(ticketType.purchasable_tickets() + 1));
 
-            ticket_type.purchasable_tickets = ko.computed(function() {
-                // This should return the number of tickets available to purchase
-                var purchasing_other_tickets = viewModel.purchasing_tickets() - ticket_type.purchasing_tickets();
-                var remaining_max_tickets = (max_tickets - already_purchased) - purchasing_other_tickets;
+      return ticketType;
+    }
 
-                return Math.min(ticket_type.remaining_tickets(), remaining_max_tickets);
-            });
+    viewModel.purchasing_tickets = ko.computed(() =>
+      _.reduce(_.map(viewModel.active_tickets(), (t) =>
+        t.purchasing_tickets()
+      ), (sum, el) => sum + el, 0)
+    );
 
-            ticket_type.purchasable_ticket_options = ko.computed(function() {
-                return _.range(ticket_type.purchasable_tickets() + 1);
-            });
+    viewModel.total_cost = ko.computed(() =>
+      _.reduce(_.map(viewModel.active_tickets(), (t) =>
+        t.purchasing_tickets() * t.price()
+      ), (sum, el) => sum + el, 0)
+    );
 
-            return ticket_type;
-        }
-
-        var viewModel = {
-            active_tickets: ko.observableArray(),
-        };
-
-        viewModel.purchasing_tickets = ko.computed(function() {
-            return _.reduce(_.map(viewModel.active_tickets(), function (t) {
-                return t.purchasing_tickets();
-            }), function(sum, el) {
-              return sum + el
-            }, 0);
-        });
-
-        viewModel.total_cost = ko.computed(function() {
-            return _.reduce(_.map(viewModel.active_tickets(), function (t) {
-                return t.purchasing_tickets() * t.price();
-            }), function(sum, el) {
-              return sum + el
-            }, 0);
-        });
-
-        viewModel.total_cost_formatted = ko.computed(function() {
-            pennies = viewModel.total_cost() / 100.0
-            pennies = pennies.toFixed(2);
-            return "£" + pennies + " Total";
-        });
-
-        _.each(ticket_types, function(t) { viewModel.active_tickets.push(create_ticket_type(t)); });
-
-        ko.applyBindings(viewModel, this);
+    viewModel.total_cost_formatted = ko.computed(() => {
+      let pennies = viewModel.total_cost() / 100.0;
+      pennies = pennies.toFixed(2);
+      return `£${pennies} Total`;
     });
-});
+
+    _.each(ticketTypes, (t) => viewModel.active_tickets.push(createTicketType(t)));
+
+    ko.applyBindings(viewModel, this);
+  });
+};

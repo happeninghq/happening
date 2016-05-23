@@ -1,140 +1,151 @@
-$(function() {
-    $('.emails-widget').each(function() {
-        var $this = $(this)
-        function email(to, subject, content, start_sending, stop_sending) {
-            var r = {
-                to: ko.observable(to),
-                subject: ko.observable(subject),
-                content: ko.observable(content),
-                start_sending: ko.observable(start_sending),
-                stop_sending: ko.observable(stop_sending),
+import $ from 'jquery';
+import ko from 'knockout';
 
-                deleteEmail: function() {
-                  viewModel.emails.remove(this);
-                },
+export const init = () => {
+  $('.emails-widget').each(function initEmailsWidget() {
+    const $this = $(this);
 
-                viewPreview: function() {
-                    viewModel.activeEmail(this);
-                    viewModel.mode("PREVIEW");
-                    viewModel.refreshPreview();
-                },
+    const viewModel = {
+      emails: ko.observableArray(),
+      activeEmail: ko.observable(),
+      mode: ko.observable('NONE'), // NONE/EDITING/ADDING
 
-                editEmail: function() {
-                    viewModel.activeEmail(this);
-                    $('#add-email-to').val(this.to());
-                    $('#add-email-subject').val(this.subject());
-                    $('#add-email-content').val(this.content());
-                    $('#add-email-start-sending-number').val(this.start_sending().number);
-                    $('#add-email-start-sending-type').val(this.start_sending().type);
-                    $('#add-email-start-sending-start').val(this.start_sending().start);
-                    $('#add-email-stop-sending-number').val(this.stop_sending().number);
-                    $('#add-email-stop-sending-type').val(this.stop_sending().type);
-                    $('#add-email-stop-sending-start').val(this.stop_sending().start);
-                    viewModel.mode("EDITING");
-                }
-            }
+      previewEvent: ko.observable(),
+      previewSubject: ko.observable('LOADING'),
+      previewContent: ko.observable('LOADING'),
 
-            r.formatted_start_sending = ko.computed(function(){
-                if (r.start_sending()) {
-                    return r.start_sending().number + ' ' + r.start_sending().type + ' ' + r.start_sending().start;
-                }
-              return '';
-            });
+      addEmail() {
+        viewModel.mode('ADDING');
+        $('#add-email-to').val('');
+        $('#add-email-subject').val('');
+        $('#add-email-content').val('');
+        $('#add-email-start-sending-number').val('');
+        $('#add-email-stop-sending-number').val('');
+      },
 
-            r.formatted_stop_sending = ko.computed(function() {
-                if (r.stop_sending()) {
-                  return r.stop_sending().number + ' ' + r.stop_sending().type + ' ' + r.stop_sending().start;
-                }
-                return '';
-            });
+      cancelAdding() {
+        viewModel.mode('NONE');
+      },
 
-            return r;
+      confirmAdding() {
+        let e;
+        if (this.mode() === 'EDITING') {
+          e = this.activeEmail();
+        } else {
+          e = email();
+          viewModel.emails.push(e);
         }
+        e.to($('#add-email-to').val());
+        e.subject($('#add-email-subject').val());
+        e.content($('#add-email-content').val());
 
-        var viewModel = {
-            emails: ko.observableArray(),
-            activeEmail: ko.observable(),
-            mode: ko.observable("NONE"), // NONE/EDITING/ADDING
+        const startSending = {
+          number: $('#add-email-start-sending-number').val(),
+          type: $('#add-email-start-sending-type').val(),
+          start: $('#add-email-start-sending-start').val()
+        };
 
-            previewEvent: ko.observable(),
-            previewSubject: ko.observable("LOADING"),
-            previewContent: ko.observable("LOADING"),
+        const stopSending = {
+          number: $('#add-email-stop-sending-number').val(),
+          type: $('#add-email-stop-sending-type').val(),
+          start: $('#add-email-stop-sending-start').val()
+        };
 
-            addEmail: function() {
-                viewModel.mode("ADDING");
-                $('#add-email-to').val("");
-                $('#add-email-subject').val("");
-                $('#add-email-content').val("");
-                $('#add-email-start-sending-number').val("");
-                $('#add-email-stop-sending-number').val("");
-            },
+        e.start_sending(startSending);
+        e.stop_sending(stopSending);
 
-            cancelAdding: function() {
-                viewModel.mode("NONE");
-            },
+        viewModel.mode('NONE');
+      },
 
-            confirmAdding: function() {
-                var e;
-                if (this.mode() == "EDITING") {
-                    e = this.activeEmail();
-                } else {
-                    e = email();
-                    viewModel.emails.push(e);
-                }
-                e.to($('#add-email-to').val());
-                e.subject($('#add-email-subject').val());
-                e.content($('#add-email-content').val());
+      refreshPreview() {
+        const data = {
+          subject: viewModel.activeEmail().subject(),
+          content: viewModel.activeEmail().content(),
+          event: viewModel.previewEvent(),
+        };
 
-                var start_sending = {
-                    number: $('#add-email-start-sending-number').val(),
-                    type: $('#add-email-start-sending-type').val(),
-                    start: $('#add-email-start-sending-start').val()
-                };
+        $.getJSON('/staff/emails/preview', data, (response) => {
+          viewModel.previewSubject(response.subject);
+          viewModel.previewContent(response.content);
+        });
+      },
+    };
 
-                var stop_sending = {
-                    number: $('#add-email-stop-sending-number').val(),
-                    type: $('#add-email-stop-sending-type').val(),
-                    start: $('#add-email-stop-sending-start').val()
-                };
 
-                e.start_sending(start_sending);
-                e.stop_sending(stop_sending);
+    function email(to, subject, content, startSending, stopSending) {
+      const r = {
+        to: ko.observable(to),
+        subject: ko.observable(subject),
+        content: ko.observable(content),
+        start_sending: ko.observable(startSending),
+        stop_sending: ko.observable(stopSending),
 
-                viewModel.mode("NONE");
-            },
+        deleteEmail() {
+          viewModel.emails.remove(this);
+        },
 
-            refreshPreview: function() {
-                var data = {
-                    subject: viewModel.activeEmail().subject(),
-                    content: viewModel.activeEmail().content(),
-                    event: viewModel.previewEvent()
-                };
+        viewPreview() {
+          viewModel.activeEmail(this);
+          viewModel.mode('PREVIEW');
+          viewModel.refreshPreview();
+        },
 
-                $.getJSON("/staff/emails/preview", data, function(response) {
-                    viewModel.previewSubject(response.subject)
-                    viewModel.previewContent(response.content)
-                });
-            }
+        editEmail() {
+          viewModel.activeEmail(this);
+          $('#add-email-to').val(this.to());
+          $('#add-email-subject').val(this.subject());
+          $('#add-email-content').val(this.content());
+          $('#add-email-start-sending-number').val(this.start_sending().number);
+          $('#add-email-start-sending-type').val(this.start_sending().type);
+          $('#add-email-start-sending-start').val(this.start_sending().start);
+          $('#add-email-stop-sending-number').val(this.stop_sending().number);
+          $('#add-email-stop-sending-type').val(this.stop_sending().type);
+          $('#add-email-stop-sending-start').val(this.stop_sending().start);
+          viewModel.mode('EDITING');
         }
+      }
 
-        viewModel.value = ko.computed(function() {
-          // Convert viewModel.emails into json
-          return JSON.stringify(ko.toJS(viewModel).emails);
-        });
+      r.formatted_start_sending = ko.computed(() => {
+        if (r.start_sending()) {
+          return `${r.start_sending().number} ${r.start_sending().type} ${r.start_sending().start}`;
+        }
+        return '';
+      });
 
-        $this.data('reload', function() {
-            value = $this.find('[type="hidden"]').val();
-            viewModel.emails.removeAll();
-            if (value) {
-                value = JSON.parse(value)
-                for (i in value) {
-                    viewModel.emails.push(email(value[i].to, value[i].subject, value[i].content, value[i].start_sending, value[i].stop_sending))
-                }
-            }
-        });
+      r.formatted_stop_sending = ko.computed(() => {
+        if (r.stop_sending()) {
+          return `${r.stop_sending().number} ${r.stop_sending().type} ${r.stop_sending().start}`;
+        }
+        return '';
+      });
 
-        $this.data('reload')();
+      return r;
+    }
 
-        ko.applyBindings(viewModel, this);
+    viewModel.value = ko.computed(() =>
+      // Convert viewModel.emails into json
+      JSON.stringify(ko.toJS(viewModel).emails)
+    );
+
+    $this.data('reload', () => {
+      const value = $this.find('[type="hidden"]').val();
+      viewModel.emails.removeAll();
+      if (value) {
+        const decodedValue = JSON.parse(value);
+        for (const i in decodedValue) {
+          viewModel.emails.push(
+            email(
+              decodedValue[i].to,
+              decodedValue[i].subject,
+              decodedValue[i].content,
+              decodedValue[i].start_sending,
+              decodedValue[i].stop_sending));
+        }
+      }
     });
-});
+
+    $this.data('reload')();
+
+    ko.applyBindings(viewModel, this);
+  });
+};

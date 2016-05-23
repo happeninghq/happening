@@ -7,6 +7,8 @@
 <head>
     <title>{{"pages.configuration.SiteTitle"|get_configuration}}</title>
 
+    <!-- This is temp until epiceditor is updated -->
+    <script type="text/javascript" src="{% static "epiceditor/epiceditor/js/epiceditor.min.js" %}"></script>
     <script src="{% static "bundles/main.js" %}"></script>
 
     {{ happening_site|theme_settings }}
@@ -22,10 +24,6 @@
         {% block style %}
 
         {% endblock style %}
-        <link rel="stylesheet" type="text/x-scss" href="{% static "sass/lib/jquery.dataTables.static.scss" %}" />
-
-        <!-- used for date-widget, time-widget, and datetime-widget -->
-        <link rel="stylesheet" type="text/css" href="{% static "jquery-datetimepicker/jquery.datetimepicker.css" %}" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% ganalytics %}
@@ -129,10 +127,6 @@
     
     {% block content %}
     {% endblock %}
-
-    <!-- Needed for Django Debug Toolbar, used in a number of other scripts
-    <script src="{% static "jquery/dist/jquery.js" %}"></script> -->
-
 
     {% block script %}
 

@@ -22,21 +22,23 @@ SECRET_KEY = os.environ.get(
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', 'False') == "True") or \
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', 'False') == 'True') or \
     'HAPPENING_TESTING' in os.environ
-USE_LIVE_DATA = bool(os.environ.get('USE_LIVE_DATA', str(not DEBUG)) == "True")
+USE_DEBUG_TOOLBAR = DEBUG and (bool(os.environ.get('USE_DEBUG_TOOLBAR',
+                                    'False') == 'True'))
+USE_LIVE_DATA = bool(os.environ.get('USE_LIVE_DATA', str(not DEBUG)) == 'True')
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['*']
 
 TEMPLATES = [
     {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
         ],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "context_processors": [
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
                 # Default
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
@@ -46,13 +48,12 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 # End default
-                "django.template.context_processors.request",
-
-                "admin.context_processors.admin_urls",
-                "staff.context_processors.staff_urls",
-                "events.context_processors.events",
-                "pages.context_processors.pages",
-                "happening.context_processors.site",
+                'django.template.context_processors.request',
+                'admin.context_processors.admin_urls',
+                'staff.context_processors.staff_urls',
+                'events.context_processors.events',
+                'pages.context_processors.pages',
+                'happening.context_processors.site',
             ]
         }
     }
@@ -63,10 +64,10 @@ TEMPLATES = [
 
 # Load all plugins
 PLUGINS = []
-for f in os.listdir("plugins"):
-    if os.path.isdir("plugins/%s" % f):
-        PLUGINS.append("plugins.%s" % f)
-        importlib.import_module("plugins.%s" % f)
+for f in os.listdir('plugins'):
+    if os.path.isdir('plugins/%s' % f):
+        PLUGINS.append('plugins.%s' % f)
+        importlib.import_module('plugins.%s' % f)
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -106,15 +107,15 @@ INSTALLED_APPS = [
 ] + PLUGINS
 
 SOCIALACCOUNT_PROVIDERS = {
-    "stackexchange": {
-        "SITE": "stackoverflow"
+    'stackexchange': {
+        'SITE': 'stackoverflow'
     },
-    "github": {
-        "SCOPE": ['user:email']
+    'github': {
+        'SCOPE': ['user:email']
     }
 }
 
-if DEBUG:
+if USE_DEBUG_TOOLBAR:
     INSTALLED_APPS += ['template_profiler_panel']
     INSTALLED_APPS += ['debug_toolbar']
 
@@ -141,9 +142,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'happening.middleware.VaryByHostMiddleware',
-    # 'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.cache.FetchFromCacheMiddleware',
     'happening.plugins.ResolvePluginMiddlewareMiddleware',
     'members.middleware.TrackingLinkMiddleware',
 ]
@@ -262,7 +261,6 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.sql.SQLPanel',
     'debug_toolbar.panels.staticfiles.StaticFilesPanel',
     'debug_toolbar.panels.templates.TemplatesPanel',
-    # 'debug_toolbar.panels.cache.CachePanel',
     'debug_toolbar.panels.signals.SignalsPanel',
     'debug_toolbar.panels.logging.LoggingPanel',
     'debug_toolbar.panels.redirects.RedirectsPanel',
@@ -271,37 +269,17 @@ DEBUG_TOOLBAR_PANELS = [
 ]
 
 DEBUG_TOOLBAR_CONFIG = {
-    "JQUERY_URL": ""
+    'JQUERY_URL': ''
 }
 
 MARKDOWN_DEUX_STYLES = {
-    "default": {
-        "extras": {
-            "tables": None,
+    'default': {
+        'extras': {
+            'tables': None,
         },
-        "safe_mode": "escape",
+        'safe_mode': 'escape',
     },
 }
-
-if DEBUG:
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-        }
-    }
-else:
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            'LOCATION': os.environ.get('MEMCACHEDCLOUD_SERVERS'),
-            'USERNAME': os.environ.get('MEMCACHEDCLOUD_USERNAME'),
-            'PASSWORD': os.environ.get('MEMCACHEDCLOUD_PASSWORD')
-        }
-    }
-
-CACHE_MIDDLEWARE_ALIAS = "default"
-CACHE_MIDDLEWARE_SECONDS = 300
-CACHE_MIDDLEWARE_KEY_PREFIX = ""
 
 
 if 'HAPPENING_TESTING' in os.environ:
