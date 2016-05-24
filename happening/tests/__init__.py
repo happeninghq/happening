@@ -42,6 +42,7 @@ class TestCase(bsTestCase):
     __metaclass__ = VCRPyAllMeta
 
     def create_client(self):
+        """Create a test client."""
         return Client()
 
 if 'travis' in os.environ:
