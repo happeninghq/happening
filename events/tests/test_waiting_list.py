@@ -6,7 +6,6 @@ from django.conf import settings
 import pytz
 from datetime import datetime, timedelta
 import json
-from django_bs_test import Client
 
 
 class TestWaitingList(TestCase):
@@ -104,7 +103,7 @@ class TestWaitingList(TestCase):
         # TODO
 
         # Check others can't see the ticket
-        client2 = Client()
+        client2 = self.create_client()
         client2.get("/events/%s" % self.event.id)
 
         tickets = json.loads(response.soup.find("form",
@@ -148,7 +147,7 @@ class TestWaitingList(TestCase):
         # TODO
 
         # Check that a person not on the waiting list can't
-        client2 = Client()
+        client2 = self.create_client()
         response = client2.get("/events/%s" % self.event.id)
 
         tickets = json.loads(response.soup.find("form",
@@ -168,7 +167,7 @@ class TestWaitingList(TestCase):
         user2.set_password("password")
         user2.save()
 
-        client2 = Client()
+        client2 = self.create_client()
 
         self.client.login(username=self.user.username, password="password")
         client2.login(username=user2.username, password="password")

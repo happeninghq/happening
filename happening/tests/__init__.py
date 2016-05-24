@@ -1,5 +1,6 @@
 """Test helper functionality."""
 from django_bs_test import TestCase as bsTestCase
+from django_bs_test import Client
 import vcr
 import os
 from model_mommy import mommy
@@ -39,6 +40,9 @@ class TestCase(bsTestCase):
     """Test case which includes beautifulsoup and http mocking."""
 
     __metaclass__ = VCRPyAllMeta
+
+    def create_client(self):
+        return Client()
 
 if 'travis' in os.environ:
     # We don't use VCRPy on the CI server
