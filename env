@@ -1,0 +1,14 @@
+# Rename this file to .env and input the correct details
+
+DATABASE_URL=postgres://happeningdev:happeningdev@localhost:5432/happeningdev
+
+SENDGRID_USERNAME=""
+SENDGRID_PASSWORD=""
+
+AWS_ACCESS_KEY_ID=""
+AWS_SECRET_ACCESS_KEY=""
+S3_BUCKET_NAME=""
+
+SENTRY_DSN=""
+
+DJANGO_DEBUG="True"
