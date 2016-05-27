@@ -77,6 +77,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    'guardian',
+    'rest_framework',
+
     'widget_tweaks',
     'markdown_deux',
 
@@ -198,13 +201,11 @@ FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'fixtures'),
 ]
 
-AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
-    # "django.contrib.auth.backends.ModelBackend",
-
-    # `allauth` specific authentication methods, such as login by e-mail
-    "allauth.account.auth_backends.AuthenticationBackend",
-]
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+)
 
 SITE_ID = 1
 
@@ -291,3 +292,14 @@ if 'HAPPENING_TESTING' in os.environ:
     DEBUG = False
     import logging
     logging.disable(logging.CRITICAL)
+
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+
+    'PAGE_SIZE': 10,
+}

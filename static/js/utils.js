@@ -7,3 +7,15 @@ export const intcomma = value => {
   const newValue = origValue.replace(/^(-?\d+)(\d{3})/, '$1,$2');
   return (origValue === newValue) ? newValue : intcomma(newValue);
 };
+
+export const toCamelCase = value =>
+  value.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+
+
+let i = 0;
+export const idGenerator = elem => {
+  if (!elem.dataset.generatedId) {
+  	elem.dataset.generatedId = 'id_' + i++;
+  }
+  return elem.dataset.generatedId
+}

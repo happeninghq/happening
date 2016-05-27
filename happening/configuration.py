@@ -18,6 +18,7 @@ from datetime import timedelta
 from emails.models import Email
 from happening.forms import EnabledDisabledField, EmptyWidget
 from django.forms.forms import pretty_name
+from rest_framework import serializers
 
 
 def get_configuration_variables(filename, object=None, **kwargs):
@@ -37,6 +38,16 @@ def get_configuration_variables(filename, object=None, **kwargs):
                  c.__module__.endswith('.%s' % filename) and
                  enabled_if_plugin(c)]
     return variables
+
+
+def attach_to_serializer(serializer, variable):
+    """Attach configuration variables to a serializer."""
+    if hasattr(variable, "__getitem__"):
+        for x in variable:
+            attach_to_serializer(serializer, x)
+    else:
+        variable.attach_to_serializer(serializer)
+    return serializer
 
 
 def attach_to_form(form, variable, editing=False):
@@ -145,6 +156,7 @@ class ConfigurationVariable(object):
     object = None
     references = {}
     field = forms.CharField
+    api_field = serializers.CharField
     required = False
     renderer = Renderer()
     storage_mapper = StorageMapper()
@@ -180,6 +192,16 @@ class ConfigurationVariable(object):
         """Get a form field representing this variable."""
         return self._construct_field()
 
+    def rest_framework_field(self):
+        """Get a rest framework field representing this variable."""
+        f = self._construct_api_field()
+
+        def get_attribute(attrs):
+            return "LOL"
+            # return attrs._data.get(instance.field_name, None)
+        f.get_attribute = get_attribute
+        return f
+
     def _construct_field(self, *args, **kwargs):
         """Create the form field representing this variable."""
         k = {
@@ -193,6 +215,15 @@ class ConfigurationVariable(object):
         # control all field types - it'll do for now
         f.tooltip = self.__doc__
         return f
+
+    def _construct_api_field(self, *args, **kwargs):
+        """Create the api field representing this variable."""
+        k = {
+            "initial": self.get(),
+            "required": self.required,
+            "label": self.label}
+        k.update(kwargs)
+        return self.api_field(*args, **k)
 
     @property
     def key(self):
@@ -248,6 +279,22 @@ class ConfigurationVariable(object):
                 is_enabled=self.is_enabled())
             form.fields[convert_to_underscore(
                 self.__class__.__name__)].widget = EmptyWidget()
+
+    def attach_to_serializer(self, serializer):
+        """Attach this field to a serializer."""
+        serializer.fields[convert_to_underscore(
+            self.__class__.__name__)] = self.rest_framework_field()
+        if self.can_be_disabled:
+            # Attach the __enabled variable
+            enabled_disabled_field = serializers.BooleanField()
+
+            def get_attribute(attrs):
+                return "LOL"
+                # return attrs._data.get(instance.field_name, None)
+            enabled_disabled_field.get_attribute = get_attribute
+            serializer.fields[convert_to_underscore(
+                self.__class__.__name__) +
+                "__enabled"] = enabled_disabled_field
 
 
 class CharField(ConfigurationVariable):

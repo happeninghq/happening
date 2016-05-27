@@ -6,6 +6,7 @@ import * as notificationsList from './blocks/notifications-list';
 import * as purchaseTicketsWidget from './blocks/purchase-tickets-widget';
 import * as searchableList from './blocks/searchable-list';
 import * as time from './blocks/time';
+import * as dropdown from './blocks/dropdown';
 
 export const init = () => {
   blocksForm.init();
@@ -16,4 +17,5 @@ export const init = () => {
   purchaseTicketsWidget.init();
   searchableList.init();
   time.init();
+  dropdown.init();
 };

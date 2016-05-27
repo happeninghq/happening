@@ -15,7 +15,7 @@ import * as eventPresets from './staff/event-presets';
 
 import * as blocks from './blocks.js';
 
-jQuery(() => {
+document.addEventListener('DOMContentLoaded', () => {
   confirm.init();
   stripe.init();
 

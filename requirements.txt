@@ -16,6 +16,10 @@ python-memcached # Memcached bindings
 git+https://github.com/rhec/django-html5.git
 django-ical==1.3 # For ical feed generation
 django-queryset-csv==0.3.3
+djangorestframework
+markdown
+django-filter
+django-guardian
 
 # Heroku
 gunicorn==19.1.1 # For hosting on heroku

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/jscott1989/happening#readme",
   "dependencies": {
+    "@claviska/jquery-dropdown": "github:claviska/jquery-dropdown",
     "blueimp-file-upload": "^9.12.1",
     "bourbon": "^4.2.7",
     "bourbon-neat": "^1.7.4",
@@ -32,6 +33,7 @@
     "jquery-datetimepicker": "^2.5.3",
     "js-cookie": "^2.1.1",
     "knockout": "^3.4.0",
+    "lodash": "^4.13.1",
     "neat": "^1.2.2",
     "react": "^15.0.2",
     "react-redux": "^4.4.5",

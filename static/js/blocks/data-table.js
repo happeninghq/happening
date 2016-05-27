@@ -8,25 +8,23 @@ import $ from 'jquery';
 require('../../sass/lib/jquery.dataTables.scss');
 
 export const init = () => {
-  $(() => {
-    $('.data-table').each(function initDataTable() {
-      const $this = $(this);
+  $('.data-table').each(function initDataTable() {
+    const $this = $(this);
 
-      $this.data('setup-datatable', () => {
-        $this.dataTable();
-      });
+    $this.data('setup-datatable', () => {
+      $this.dataTable();
+    });
 
-      $this.data('destroy-datatable', () => {
-        $this.dataTable().fnDestroy();
-      });
+    $this.data('destroy-datatable', () => {
+      $this.dataTable().fnDestroy();
+    });
 
-      $this.data('refresh-datatable', () => {
-        $this.data('destroy-datatable')();
-        $this.data('setup-datatable')();
-      });
-
+    $this.data('refresh-datatable', () => {
+      $this.data('destroy-datatable')();
       $this.data('setup-datatable')();
     });
+
+    $this.data('setup-datatable')();
   });
 };
 
