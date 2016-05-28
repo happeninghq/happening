@@ -103,7 +103,7 @@ class Notification(db.Model):
 
     def link_url(self):
         """Return the URL this notification links to."""
-        soup = BeautifulSoup(self.full)
+        soup = BeautifulSoup(self.full, "html.parser")
         return soup.find(id="main-link")['href']
 
     @threaded_cached_property
@@ -158,7 +158,7 @@ class Notification(db.Model):
     @threaded_cached_property
     def short(self):
         """Return the short text for this notification."""
-        soup = BeautifulSoup(self.full)
+        soup = BeautifulSoup(self.full, "html.parser")
         for match in soup.findAll("a"):
             match.name = "strong"
             match.attrs = {}
