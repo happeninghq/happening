@@ -10,13 +10,10 @@ install:
   - pip install coveralls
   - npm install -g npm@2
 script:
-  - cd src
   - ./.run-ci
 after_success: 
-  - cd src
   - coveralls
 before_script:
-  - cd src
   - psql -c 'create database happening_test;' -U postgres
   - npm install
   - python manage.py migrate --noinput
