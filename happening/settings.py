@@ -77,8 +77,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    'guardian',
     'rest_framework',
+    'dry_rest_permissions',
 
     'widget_tweaks',
     'markdown_deux',

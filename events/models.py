@@ -261,14 +261,33 @@ class TicketType(db.Model):
         return filtering.matches(user, self.restriction_filter)
 
 
+class TicketOrderManager(db.Manager):
+
+    """Manager for ticket orders."""
+
+    def get_for_user(self, user):
+        """Get the ticket orders visible to the given user."""
+        return self.filter(user=user)
+
+
 class TicketOrder(db.Model):
 
     """A ticket order."""
 
+    objects = TicketOrderManager()
     event = models.ForeignKey(Event, related_name="orders")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="orders")
     complete = models.BooleanField(default=False)
     purchased_datetime = models.DateTimeField(auto_now_add=True)
+
+    @staticmethod
+    def has_read_permission(request):
+        """All users can read ticket orders."""
+        return True
+
+    def has_object_read_permission(self, request):
+        """User can only read their own ticket orders."""
+        return self.user == request.user
 
     @property
     def cancelled(self):
@@ -310,10 +329,20 @@ class TicketOrder(db.Model):
                     subscription.save()
 
 
+class TicketManager(db.Manager):
+
+    """Manager for tickets."""
+
+    def get_for_user(self, user):
+        """Get the users own tickets."""
+        return self.filter(user=user)
+
+
 class Ticket(db.Model):
 
     """A claim by a user on a place at an event."""
 
+    objects = TicketManager()
     event = models.ForeignKey(Event, related_name="tickets")
     # This is nullable until things have been migrated
     type = models.ForeignKey(TicketType, related_name="tickets", null=True)
@@ -325,6 +354,15 @@ class Ticket(db.Model):
 
     checked_in = models.BooleanField(default=False)
     checked_in_datetime = models.DateTimeField(blank=True, null=True)
+
+    @staticmethod
+    def has_read_permission(request):
+        """User can view tickets."""
+        return True
+
+    def has_object_read_permission(self, request):
+        """User can only view their own tickets."""
+        return self.user == request.user
 
     def cancel(self):
         """Cancel the ticket."""

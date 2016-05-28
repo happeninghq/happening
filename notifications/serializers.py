@@ -7,4 +7,5 @@ class NotificationSerializer(Serializer):
 
     class Meta:
         model = Notification
-        fields = ('url', 'user')
+        fields = ('url', 'user', 'link_url', 'sent_datetime', 'read',
+                  'read_datetime')

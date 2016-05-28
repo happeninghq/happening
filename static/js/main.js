@@ -5,6 +5,7 @@ require('../sass/main.scss');
 import jQuery from 'jquery';
 window.jQuery = jQuery;
 
+import * as ajax from './ajax';
 
 import * as confirm from './confirm';
 import * as stripe from './stripe.js';
@@ -16,6 +17,7 @@ import * as eventPresets from './staff/event-presets';
 import * as blocks from './blocks.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  ajax.init();
   confirm.init();
   stripe.init();
 

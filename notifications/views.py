@@ -1,11 +1,10 @@
 """Notification views."""
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from models import NotificationPreference, Notification
+from models import NotificationPreference
 from happening import notifications
 from django.contrib import messages
 from happening.plugins import plugin_enabled
-from django.http import JsonResponse
 
 
 @login_required()
@@ -14,12 +13,6 @@ def list(request):
     rendered = render(request, "notifications/list.html")
     request.user.notifications.mark_all_as_read()
     return rendered
-
-
-def mark_read(request):
-    """Mark all notifications as read."""
-    Notification.objects.mark_all_as_read()
-    return JsonResponse({})
 
 
 def save_settings(request, notification_types):

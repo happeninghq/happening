@@ -8,8 +8,10 @@ from happening.utils import plugin_enabled_decorator
 from lib.required import required
 from happening import views
 from rest_framework import routers
-from events import api as events_api
-from happening import api as happening_api
+from happening.api import Api
+import os
+import inspect
+# from ..notifications import api as notifications_api
 
 # Initialise the plugins
 from happening.plugins import init
@@ -20,15 +22,16 @@ from periodically import autodiscover
 init()
 autodiscover()
 
-# from notifications import api as notifications_api
-
 router = routers.DefaultRouter()
-router.register(r'users', happening_api.UserViewSet)
-router.register(r'events', events_api.EventViewSet)
-router.register(r'tickettypes', events_api.TicketTypeViewSet)
-router.register(r'tickets', events_api.TicketViewSet)
-router.register(r'ticketorders', events_api.TicketOrderViewSet)
-# router.register(r'notifications', notifications_api.NotificationViewSet)
+
+for app in settings.INSTALLED_APPS:
+    if os.path.isfile("%s/api.py" % app):
+        api = importlib.import_module('%s.api' % app)
+        for name, obj in inspect.getmembers(api):
+            if inspect.isclass(obj) and issubclass(obj, Api) and\
+                    not obj == Api:
+                apiname = obj.__name__[:-3].lower()
+                router.register(apiname, obj.as_viewset(), base_name=apiname)
 
 
 urlpatterns = [

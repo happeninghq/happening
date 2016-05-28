@@ -1,32 +1,32 @@
 from models import Event, TicketType, TicketOrder, Ticket
-from rest_framework import viewsets
 from serializers import EventSerializer, TicketTypeSerializer
 from serializers import TicketSerializer, TicketOrderSerializer
+from happening.api import Api
 
 
-class EventViewSet(viewsets.ModelViewSet):
+class EventApi(Api):
     """Event API."""
 
-    queryset = Event.objects.all().order_by('-start')
+    model = Event
     serializer_class = EventSerializer
 
 
-class TicketTypeViewSet(viewsets.ModelViewSet):
+class TicketTypeApi(Api):
     """Ticket Type API."""
 
-    queryset = TicketType.objects.all()
+    model = TicketType
     serializer_class = TicketTypeSerializer
 
 
-class TicketViewSet(viewsets.ModelViewSet):
+class TicketApi(Api):
     """Ticket API."""
 
-    queryset = Ticket.objects.all()
+    model = Ticket
     serializer_class = TicketSerializer
 
 
-class TicketOrderViewSet(viewsets.ModelViewSet):
+class TicketOrderApi(Api):
     """Ticket Order API."""
 
-    queryset = TicketOrder.objects.all()
+    model = TicketOrder
     serializer_class = TicketOrderSerializer

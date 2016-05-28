@@ -1,15 +1,16 @@
-// TODO: Do we need this?
-$(function() {
-    var csrftoken = Cookies.get('csrftoken');
-    function csrfSafeMethod(method) {
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method))
-    };
+import Cookies from 'js-cookie';
+import $ from 'jquery';
+
+export const init = () => {
+    const csrftoken = Cookies.get('csrftoken');
+
+    const csrfSafeMethod = (method) => (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method))
 
     $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
+        beforeSend: function beforeSend(xhr, settings) {
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             }
         }
     });
-});
+};

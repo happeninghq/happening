@@ -19,7 +19,8 @@ django-queryset-csv==0.3.3
 djangorestframework
 markdown
 django-filter
-django-guardian
+dry-rest-permissions
+
 
 # Heroku
 gunicorn==19.1.1 # For hosting on heroku

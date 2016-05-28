@@ -17,7 +17,7 @@ from configuration import EmailFooter, EmailHeader
 from django.template import Context, Template
 
 
-class NotificationManager(models.Manager):
+class NotificationManager(db.Manager):
 
     """Custom Notification manager for unread."""
 
@@ -25,16 +25,13 @@ class NotificationManager(models.Manager):
         """Get unread notifications."""
         return self.ordered().filter(read=False)
 
-    def mark_all_as_read(self):
-        """Mark all notifications as read."""
-        for n in self.unread():
-            n.read = True
-            n.read_datetime = timezone.now()
-            n.save()
-
     def ordered(self):
         """Return time-ordered notifications."""
         return self.all().order_by("-sent_datetime")
+
+    def get_for_user(self, user):
+        """Return filtered for the user."""
+        return self.filter(user=user)
 
 
 class Notification(db.Model):
@@ -50,6 +47,25 @@ class Notification(db.Model):
     sent_datetime = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
     read_datetime = models.DateTimeField(null=True)
+
+    @staticmethod
+    def has_write_permission(request):
+        """Nobody can write notifications."""
+        return False
+
+    @staticmethod
+    def has_read_permission(request):
+        """Everyone can read notifications."""
+        return True
+
+    @staticmethod
+    def has_mark_as_read_permission(request):
+        """Every can mark their notifications as read."""
+        return True
+
+    def has_object_read_permission(self, request):
+        """Can read their own notifications."""
+        return request.user == self.user
 
     def __unicode__(self):
         """Return the notification detail."""
@@ -85,7 +101,7 @@ class Notification(db.Model):
                                 self.template + ".html", d)
         return data
 
-    def url(self):
+    def link_url(self):
         """Return the URL this notification links to."""
         soup = BeautifulSoup(self.full)
         return soup.find(id="main-link")['href']
@@ -170,6 +186,13 @@ class Notification(db.Model):
                   NotificationsEmailAddress().get(),
                   [self.user.email],
                   html_message=html_content)
+
+    def mark_as_read(self):
+        """Mark as read."""
+        if not self.read:
+            self.read = True
+            self.read_datetime = timezone.now()
+            self.save()
 
 
 class NotificationPreferenceManager(models.Manager):
