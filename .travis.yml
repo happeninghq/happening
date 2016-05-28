@@ -4,16 +4,13 @@ services:
 python:
   - '3.5.1'
 install:
-  - pip install -r src/requirements.txt
-  - pip install -r src/dev-requirements.txt
+  - pip install -r requirements.txt
+  - pip install -r dev-requirements.txt
   - pip install coveralls
   - npm install -g npm@2
-script: ./src/.run-ci
-after_success: coveralls
-before_script:
-  - psql -c 'create database happening_test;' -U postgres
-  - npm install
-  - python manage.py migrate --noinput
+script: cd src && npm install && python manage.py migrate --noinput && ./.run-ci
+after_success: cd src  && coveralls
+before_script: psql -c 'create database happening_test;' -U postgres
 env:
   - HAPPENING_TESTING=true DATABASE_URL='postgres://postgres:@localhost:5432/happening_test'
 addons:
