@@ -1,7 +1,7 @@
 """Notification views."""
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from models import NotificationPreference
+from .models import NotificationPreference
 from happening import notifications
 from django.contrib import messages
 from happening.plugins import plugin_enabled
@@ -17,7 +17,7 @@ def list(request):
 
 def save_settings(request, notification_types):
     """Save the notification settings POSTed."""
-    for n in notification_types.keys():
+    for n in list(notification_types.keys()):
         name = n[:-12]
         preference, _ = NotificationPreference.objects.get_or_create(
             user=request.user,
@@ -37,7 +37,7 @@ def save_settings(request, notification_types):
 def format_notification_settings(user, notification_types):
     """Convert notification types into a user's formatted settings."""
     categories = {}
-    for n, o in notification_types.items():
+    for n, o in list(notification_types.items()):
         if not o.can_edit_send_notification and not o.can_edit_send_email:
             continue
 

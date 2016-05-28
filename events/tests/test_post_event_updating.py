@@ -26,7 +26,7 @@ class TestPostEventUpdating(TestCase):
         mommy.make("Ticket", event=future_event, user=self.user)
         self.client.login(username=self.user.username, password="password")
         response = self.client.get("/events/%s" % future_event.id)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         widget = response.soup.find("div", {"class": "update-group"})
         self.assertIsNone(widget)
         widget = response.soup.find("div", {"class": "set-group"})

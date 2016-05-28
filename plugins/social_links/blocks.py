@@ -1,7 +1,7 @@
 """Social links template blocks."""
 from happening.plugins import plugin_block
 from django.template.loader import render_to_string
-from models import SocialLink
+from .models import SocialLink
 
 
 @plugin_block("index.secondary_content")

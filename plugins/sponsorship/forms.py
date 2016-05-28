@@ -1,7 +1,7 @@
 """Sponsorship forms."""
 
 from django import forms
-from models import Sponsor, SponsorTier
+from .models import Sponsor, SponsorTier
 from happening.forms import MarkdownWidget
 
 

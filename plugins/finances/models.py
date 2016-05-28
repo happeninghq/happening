@@ -20,7 +20,7 @@ class Account(db.Model):
             return 0
         return s
 
-    def __unicode__(self):
+    def __str__(self):
         """Return the account name."""
         return self.name
 
@@ -64,7 +64,7 @@ class Transaction(db.Model):
             return format_currency(0 - self.amount)
         return ""
 
-    def __unicode__(self):
+    def __str__(self):
         """Describe the transaction."""
         if self.amount < 0:
             return self.outflow + " to " + self.payee.name

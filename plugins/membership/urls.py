@@ -1,7 +1,7 @@
 """Membership urls."""
 
 from django.conf.urls import url
-import views
+from . import views
 
 urlpatterns = [
     url(r'^membership$', views.my_membership, name='my_membership'),

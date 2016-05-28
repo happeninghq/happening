@@ -1,12 +1,12 @@
 """Membership views."""
 from payments.decorators import payment_successful, payment_failed
 from payments.models import Payment
-from forms import PaymentForm
+from .forms import PaymentForm
 from django.contrib import messages
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
-from models import Membership
-from notifications import MembershipPaymentSuccessfulNotification
+from .models import Membership
+from .notifications import MembershipPaymentSuccessfulNotification
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from members.decorators import require_editing_own_profile

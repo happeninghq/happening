@@ -6,7 +6,7 @@ from events.models import Event, Ticket, EventPreset, TicketType
 from events.forms import EventForm
 from pages.models import Page
 from pages.forms import PageForm
-from forms import EmailForm, WaitingListForm
+from .forms import EmailForm, WaitingListForm
 from django.contrib import messages
 from django.utils import timezone
 from happening.configuration import get_configuration_variables, attach_to_form

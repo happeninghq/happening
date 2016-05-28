@@ -1,7 +1,7 @@
 """Comment views."""
 from django.shortcuts import redirect, get_object_or_404, render
 from events.models import Event
-from forms import CommentForm
+from .forms import CommentForm
 from django.core.signing import Signer
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseForbidden
 from happening.utils import get_model
-from notifications import CommentNotification
+from .notifications import CommentNotification
 from happening.notifications import notify_following
 
 signer = Signer()

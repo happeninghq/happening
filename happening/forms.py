@@ -84,7 +84,7 @@ class CustomPropertiesWidget(forms.Widget):
     def value_from_datadict(self, data, files, name):
         """Get the value as a string."""
         store_data = {}
-        for k in data.keys():
+        for k in list(data.keys()):
             if k.startswith(name + "_"):
                 store_data[k[len(name) + 1:]] = data[k]
         return json.dumps(store_data)
@@ -263,7 +263,7 @@ class EmailsWidget(forms.Widget):
         """Render the widget."""
         if not value:
             value = []
-        if not isinstance(value, basestring):
+        if not isinstance(value, str):
             value = json.dumps(value)
         return render_to_string("forms/widgets/emails_widget.html", {
             "name": name,
@@ -339,7 +339,7 @@ class AddressWidget(forms.Widget):
         """Render the widget."""
         if not value:
             value = []
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             value = json.loads(value)
         return render_to_string("forms/widgets/address_widget.html", {
             "name": name,

@@ -1,11 +1,11 @@
 """Event views."""
 from payments.decorators import payment_successful, payment_failed
 from django.shortcuts import render, get_object_or_404, redirect
-from models import Event, TicketOrder, TicketType
+from .models import Event, TicketOrder, TicketType
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-from forms import TicketForm
+from .forms import TicketForm
 from django.utils import timezone
 from payments.models import Payment
 from django.contrib import messages
@@ -60,7 +60,8 @@ def purchase_tickets(request, pk):
         else:
             form = TicketForm(request.POST, event=event, user=request.user)
         if form.is_valid():
-            tickets = {p[8:]: int(n) for p, n in form.cleaned_data.items() if
+            tickets = {p[8:]: int(n) for p, n in
+                       list(form.cleaned_data.items()) if
                        p.startswith("tickets_")}
 
             payment_required = event.total_ticket_cost(tickets)

@@ -65,7 +65,7 @@ TEMPLATES = [
 # Load all plugins
 PLUGINS = []
 for f in os.listdir('plugins'):
-    if os.path.isdir('plugins/%s' % f):
+    if os.path.isdir('plugins/%s' % f) and not f == '__pycache__':
         PLUGINS.append('plugins.%s' % f)
         importlib.import_module('plugins.%s' % f)
 
@@ -203,7 +203,6 @@ FIXTURE_DIRS = [
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'guardian.backends.ObjectPermissionBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 )
 

@@ -1,6 +1,6 @@
 """Pages views."""
 from django.shortcuts import render, get_object_or_404
-from models import Page
+from .models import Page
 
 
 def view(request, pk):

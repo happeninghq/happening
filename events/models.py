@@ -2,14 +2,14 @@
 from django.db import models
 from happening import db
 from django.utils import timezone
-from exceptions import EventFinishedError, NoTicketsError
+from .exceptions import EventFinishedError, NoTicketsError
 from datetime import datetime, timedelta
 import pytz
 from happening.utils import custom_strftime, human_delta
 from django.core.urlresolvers import reverse
-from notifications import CancelledTicketNotification
-from notifications import PurchasedTicketNotification
-from notifications import CanPurchaseFromWaitingListNotification
+from .notifications import CancelledTicketNotification
+from .notifications import PurchasedTicketNotification
+from .notifications import CanPurchaseFromWaitingListNotification
 from django.conf import settings
 from happening.plugins import trigger_action
 import json
@@ -104,8 +104,8 @@ class Event(db.Model):
 
         # First verify we have enough tickets
         tickets = {TicketType.objects.get(pk=pk): number for pk, number
-                   in tickets.items()}
-        for ticket, number in tickets.items():
+                   in list(tickets.items())}
+        for ticket, number in list(tickets.items()):
             if not ticket.event == self:
                 raise Exception("Incorrect event")
             if number > ticket.remaining_tickets:
@@ -117,7 +117,7 @@ class Event(db.Model):
         order.save()
 
         # And add the tickets
-        for type, number in tickets.items():
+        for type, number in list(tickets.items()):
             for i in range(number):
                 ticket = Ticket(event=self, user=user, order=order,
                                 type=type)
@@ -128,9 +128,9 @@ class Event(db.Model):
     def total_ticket_cost(self, tickets):
         """Sum up total ticket cost."""
         tickets = {TicketType.objects.get(pk=pk): number for pk, number
-                   in tickets.items()}
+                   in list(tickets.items())}
         cost = 0
-        for ticket, number in tickets.items():
+        for ticket, number in list(tickets.items()):
             if not ticket.event == self:
                 raise Exception("Incorrect event")
             cost += ticket.price * number
@@ -159,7 +159,7 @@ class Event(db.Model):
         return set([t.user for t in self.tickets.all() if
                     (not t.order or t.order.complete) and not t.cancelled])
 
-    def __unicode__(self):
+    def __str__(self):
         """Return the title of this event."""
         return self.title
 
@@ -384,7 +384,7 @@ class Ticket(db.Model):
                 **kwargs)
             n.send()
 
-    def __unicode__(self):
+    def __str__(self):
         """Return the name."""
         return "%s's ticket to %s" % (self.order.user, self.event)
 
@@ -410,7 +410,7 @@ class EventPreset(db.Model):
     name = models.CharField(max_length=255)
     value = models.TextField()
 
-    def __unicode__(self):
+    def __str__(self):
         """Return the event preset name."""
         return self.name
 

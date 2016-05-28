@@ -5,6 +5,7 @@ import vcr
 import os
 from model_mommy import mommy
 from django.contrib.sites.models import Site
+import collections
 
 
 def add_site_to_all_models(*args, **kwargs):
@@ -29,17 +30,15 @@ class VCRPyAllMeta(type):
         """When an instance is created set up the decorator."""
         for attr in local:
             value = local[attr]
-            if callable(value):
+            if isinstance(value, collections.Callable):
                 local[attr] = vcr.use_cassette(
                     'vcr.yaml', record_mode='new_episodes')(value)
         return type.__new__(cls, name, bases, local)
 
 
-class TestCase(bsTestCase):
+class TestCase(bsTestCase, metaclass=VCRPyAllMeta):
 
     """Test case which includes beautifulsoup and http mocking."""
-
-    __metaclass__ = VCRPyAllMeta
 
     def create_client(self):
         """Create a test client."""

@@ -1,5 +1,5 @@
-from models import Notification
-from serializers import NotificationSerializer
+from .models import Notification
+from .serializers import NotificationSerializer
 from rest_framework.decorators import list_route
 from django.shortcuts import redirect
 from happening.api import Api

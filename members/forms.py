@@ -5,7 +5,7 @@ from django import forms
 from happening import forms as happening_forms
 from happening.forms import MarkdownWidget
 from django.contrib.auth import get_user_model
-from models import Tag, TrackingLink
+from .models import Tag, TrackingLink
 
 
 class ProfileForm(forms.Form):

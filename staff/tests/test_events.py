@@ -45,8 +45,8 @@ class TestEvents(TestCase):
             .strftime("%Y-%m-%d %H:%M:%S")
             })
 
-        self.assertEquals(1, len(mail.outbox))
-        self.assertEquals(test_subject, mail.outbox[0].subject)
+        self.assertEqual(1, len(mail.outbox))
+        self.assertEqual(test_subject, mail.outbox[0].subject)
         self.assertTrue(test_content in mail.outbox[0].body)
         mail.outbox = []
 
@@ -61,7 +61,7 @@ class TestEvents(TestCase):
             "stop_sending": (timezone.now() + timedelta(days=1))
             .strftime("%Y-%m-%d %H:%M:%S")
             })
-        self.assertEquals(2, len(mail.outbox))
+        self.assertEqual(2, len(mail.outbox))
 
     def test_events(self):
         """Test listing events."""
@@ -69,14 +69,14 @@ class TestEvents(TestCase):
 
         response = self.client.get("/staff/events")
         # We should have the title row and then 1 row for an event
-        self.assertEquals(2, len(response.soup.find("table").findAll("tr")))
+        self.assertEqual(2, len(response.soup.find("table").findAll("tr")))
         for i in range(10):
             mommy.make("Event", start=datetime.now(pytz.utc) +
                        timedelta(days=i))
 
         response = self.client.get("/staff/events")
         # We only show up to 10 per page
-        self.assertEquals(12, len(response.soup.find("table").findAll("tr")))
+        self.assertEqual(12, len(response.soup.find("table").findAll("tr")))
 
     def test_event(self):
         """Test viewing an event page."""
@@ -85,13 +85,13 @@ class TestEvents(TestCase):
         response = self.client.get("/staff/events/%s" % self.event.id)
 
         # Check that no tickets are listed
-        self.assertEquals(1, len(response.soup.find("table").findAll("tr")))
+        self.assertEqual(1, len(response.soup.find("table").findAll("tr")))
 
         mommy.make("Ticket", event=self.event, user=self.user)
 
         # Check it lists the ticket
         response = self.client.get("/staff/events/%s" % self.event.id)
-        self.assertEquals(2, len(response.soup.find(
+        self.assertEqual(2, len(response.soup.find(
             "table", id="attendees-list").findAll("tr")))
 
     def test_edit_event(self):
@@ -101,8 +101,8 @@ class TestEvents(TestCase):
         response = self.client.get("/staff/events/%s/edit" % self.event.id)
 
         # Check that information is being loaded into the form
-        self.assertEquals(self.event.title, response.soup.find("input",
-                          {"id": "id_title"})["value"])
+        self.assertEqual(self.event.title, response.soup.find("input",
+                         {"id": "id_title"})["value"])
 
         response = self.client.post("/staff/events/%s/edit" % self.event.id, {
             "title": "NEW TITLE",
@@ -113,7 +113,7 @@ class TestEvents(TestCase):
                         response.redirect_chain[0][0])
 
         self.event = Event.objects.get(pk=self.event.pk)
-        self.assertEquals(self.event.title, "NEW TITLE")
+        self.assertEqual(self.event.title, "NEW TITLE")
 
     def test_create_event(self):
         """Test creating events."""
@@ -148,7 +148,7 @@ class TestEvents(TestCase):
         trs = response.soup.find("table").findAll("tr")
 
         # This should list all users who haven't got tickets
-        self.assertEquals(3, len(trs))
+        self.assertEqual(3, len(trs))
 
         # (Header + staff + not staff)
 
@@ -161,8 +161,8 @@ class TestEvents(TestCase):
         self.assertTrue("/staff/events/%s" % self.event.id in
                         response.redirect_chain[0][0])
 
-        self.assertEquals(2, len(response.soup.find("table",
-                          id="attendees-list").findAll("tr")))
+        self.assertEqual(2, len(response.soup.find("table",
+                         id="attendees-list").findAll("tr")))
 
         response = self.client.post(
             "/staff/events/%s/add_attendee" % self.event.id,
@@ -173,8 +173,8 @@ class TestEvents(TestCase):
         self.assertTrue("/staff/events/%s" % self.event.id in
                         response.redirect_chain[0][0])
 
-        self.assertEquals(3, len(response.soup.find("table",
-                          id="attendees-list").findAll("tr")))
+        self.assertEqual(3, len(response.soup.find("table",
+                         id="attendees-list").findAll("tr")))
 
     def test_check_in(self):
         """Test checking in."""
@@ -185,7 +185,7 @@ class TestEvents(TestCase):
         # Check it lists the ticket
         response = self.client.get("/staff/events/%s" % self.event.id)
         trs = response.soup.find("table", id="attendees-list").findAll("tr")
-        self.assertEquals(2, len(trs))
+        self.assertEqual(2, len(trs))
 
         check_in_button = trs[1].find("a", text="Check In")
         check_out_button = trs[1].find("a", text="Check Out")
@@ -198,7 +198,7 @@ class TestEvents(TestCase):
 
         trs = response.soup.find("table",
                                  id="attendees-list").findAll("tr")
-        self.assertEquals(2, len(trs))
+        self.assertEqual(2, len(trs))
 
         check_in_button = trs[1].find("a", text="Check In")
         check_out_button = trs[1].find("a", text="Cancel Check In")
@@ -210,7 +210,7 @@ class TestEvents(TestCase):
         # This will check them out then redirect back
 
         trs = response.soup.find("table", id="attendees-list").findAll("tr")
-        self.assertEquals(2, len(trs))
+        self.assertEqual(2, len(trs))
 
         check_in_button = trs[1].find("a", text="Check In")
         check_out_button = trs[1].find("a", text="Cancel Check In")
@@ -228,7 +228,7 @@ class TestEvents(TestCase):
         response = self.client.get(
             "/staff/events/%s/manage_check_ins" % self.event.id)
         trs = response.soup.find("table").findAll("tr")
-        self.assertEquals(2, len(trs))
+        self.assertEqual(2, len(trs))
 
         check_in_button = trs[1].find("a", text="Check In")
         check_out_button = trs[1].find("a", text="Check Out")
@@ -240,7 +240,7 @@ class TestEvents(TestCase):
         # This should check them in then redirect back
 
         trs = response.soup.find("table").findAll("tr")
-        self.assertEquals(2, len(trs))
+        self.assertEqual(2, len(trs))
 
         check_in_button = trs[1].find("a", text="Check In")
         check_out_button = trs[1].find("a", text="Cancel Check In")
@@ -252,7 +252,7 @@ class TestEvents(TestCase):
         # This will check them out then redirect back
 
         trs = response.soup.find("table").findAll("tr")
-        self.assertEquals(2, len(trs))
+        self.assertEqual(2, len(trs))
 
         check_in_button = trs[1].find("a", text="Check In")
         check_out_button = trs[1].find("a", text="Cancel Check In")

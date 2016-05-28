@@ -3,14 +3,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from happening.utils import staff_member_required
 from events.models import Event, Ticket
 from django.contrib import messages
-from forms import GroupGenerationForm, GroupForm, ChangeGroupForm
-from models import Group, TicketInGroup
+from .forms import GroupGenerationForm, GroupForm, ChangeGroupForm
+from .models import Group, TicketInGroup
 from plugins.groups import generate_groups as generate_groups_func
 from django.core.exceptions import PermissionDenied
-from notifications import GroupEditedNotification
-from templatetags.group_permissions import can_create_group
-from templatetags.group_permissions import can_move_groups
-from templatetags.group_permissions import can_edit_groups
+from .notifications import GroupEditedNotification
+from .templatetags.group_permissions import can_create_group
+from .templatetags.group_permissions import can_move_groups
+from .templatetags.group_permissions import can_edit_groups
 from happening.configuration import get_configuration_variables
 from happening.configuration import attach_to_form
 from happening.configuration import save_variables

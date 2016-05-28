@@ -2,8 +2,8 @@
 
 from django.shortcuts import render, get_object_or_404, redirect
 from events.models import Ticket
-from forms import ProfileForm
-from forms import UsernameForm
+from .forms import ProfileForm
+from .forms import UsernameForm
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
@@ -12,7 +12,7 @@ from happening.configuration import attach_to_form
 from happening.configuration import save_variables
 from members.user_profile import CustomProperties
 from members.configuration import ProfileProperties
-from decorators import require_editing_own_profile
+from .decorators import require_editing_own_profile
 from django.contrib import messages
 from django.contrib.auth import logout
 from members.forms import AddTagForm

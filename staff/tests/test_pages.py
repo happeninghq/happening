@@ -29,14 +29,14 @@ class TestPages(TestCase):
 
         response = self.client.get("/staff/pages")
         self.assertIsNotNone(response.soup.find("table"))
-        self.assertEquals(2, len(response.soup.find("table").findAll("tr")))
+        self.assertEqual(2, len(response.soup.find("table").findAll("tr")))
 
     def test_create_page(self):
         """Test creating pages."""
         self.client.login(username=self.user.username, password="password")
 
         response = self.client.get("/staff/pages/create")
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         response = self.client.post("/staff/pages/create", {
 
@@ -52,13 +52,13 @@ class TestPages(TestCase):
 
         response = self.client.get(edit_url)
 
-        self.assertEquals(
+        self.assertEqual(
             response.soup.find("input", {"id": "id_url"})['value'].strip(),
             page.url)
-        self.assertEquals(
+        self.assertEqual(
             response.soup.find("input", {"id": "id_title"})['value'].strip(),
             page.title)
-        self.assertEquals(
+        self.assertEqual(
             response.soup.find("textarea", {"id": "id_content"}).text.strip(),
             page.content)
 
@@ -72,9 +72,9 @@ class TestPages(TestCase):
 
         page = Page.objects.get(pk=page.pk)
 
-        self.assertEquals(page.url, "test123")
-        self.assertEquals(page.title, "test title")
-        self.assertEquals(page.content, "test content")
+        self.assertEqual(page.url, "test123")
+        self.assertEqual(page.title, "test title")
+        self.assertEqual(page.content, "test content")
 
     def test_delete_page(self):
         """Test deleting pages."""

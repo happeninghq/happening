@@ -15,7 +15,7 @@ class Sponsor(db.Model):
 
     logo = models.ImageField(upload_to=media_path("sponsors"))
 
-    def __unicode__(self):
+    def __str__(self):
         """Return the sponsor's name."""
         return self.name
 
@@ -34,7 +34,7 @@ class SponsorTier(db.Model):
 
     name = models.CharField(max_length=200)
 
-    def __unicode__(self):
+    def __str__(self):
         """Return tier name."""
         return self.name
 

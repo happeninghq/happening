@@ -2,7 +2,7 @@
 
 from django.conf.urls import url
 from events import views
-from feeds import AllEventsFeed
+from .feeds import AllEventsFeed
 
 urlpatterns = [
     url(r'^(?P<pk>\d+)$', views.view, name='view_event'),

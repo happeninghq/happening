@@ -2,7 +2,7 @@
 
 from django import forms
 from django.forms import ModelForm
-from models import Group
+from .models import Group
 from happening.forms import MarkdownWidget
 
 

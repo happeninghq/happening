@@ -36,8 +36,8 @@ class TestEmail(TestCase):
             .strftime("%Y-%m-%d %H:%M:%S")
             })
 
-        self.assertEquals(1, len(mail.outbox))
-        self.assertEquals(test_subject, mail.outbox[0].subject)
+        self.assertEqual(1, len(mail.outbox))
+        self.assertEqual(test_subject, mail.outbox[0].subject)
         self.assertTrue(test_content in mail.outbox[0].body)
         mail.outbox = []
 
@@ -51,4 +51,4 @@ class TestEmail(TestCase):
             "stop_sending": (timezone.now() + timedelta(days=1))
             .strftime("%Y-%m-%d %H:%M:%S")
             })
-        self.assertEquals(2, len(mail.outbox))
+        self.assertEqual(2, len(mail.outbox))

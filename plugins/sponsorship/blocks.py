@@ -1,8 +1,8 @@
 """Sponsorship template blocks."""
 from happening.plugins import plugin_block
 from happening.utils import render_block
-from models import CommunitySponsorship
-from forms import EventSponsorForm
+from .models import CommunitySponsorship
+from .forms import EventSponsorForm
 
 
 @plugin_block("events.event.secondary_content")
@@ -29,7 +29,7 @@ def staff_event(request, event):
 @plugin_block("index.secondary_content")
 def community_sponsors(request):
     """Add community sponsor links to sidebar."""
-    from models import SponsorTier
+    from .models import SponsorTier
 
     if CommunitySponsorship.objects.count() == 0:
         # No sponsors, don't show it

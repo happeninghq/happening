@@ -3,8 +3,8 @@
 from django.db import models
 from happening import db
 from events.models import Event, Ticket
-from notifications import GroupLeftNotification
-from notifications import GroupJoinedNotification
+from .notifications import GroupLeftNotification
+from .notifications import GroupJoinedNotification
 
 
 class Group(db.Model):
@@ -22,7 +22,7 @@ class Group(db.Model):
         return self.team_name if self.team_name else \
             "Group %s" % self.team_number
 
-    def __unicode__(self):
+    def __str__(self):
         """Return the name of this group."""
         return self.name
 

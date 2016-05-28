@@ -7,7 +7,7 @@ from datetime import datetime
 @every(minutes=1)
 def send_emails():
     """Send emails which are active."""
-    from models import Email
+    from .models import Email
     now = datetime.now()
     for email in Email.objects.all().filter(
             start_sending__lt=now,

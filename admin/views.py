@@ -4,19 +4,18 @@ from happening.utils import admin_required
 from django.conf import settings
 import importlib
 from django.contrib import messages
-from models import PluginSetting, Backup
+from .models import PluginSetting, Backup
 from happening.configuration import get_configuration_variables
 from happening.configuration import attach_to_form
 from happening.configuration import save_variables
-from forms import ConfigurationForm, ThemeForm, SocialAppForm
+from .forms import ConfigurationForm, ThemeForm, SocialAppForm
 from happening import plugins as happening_plugins
 from payments.models import PaymentHandler
 from django.db import transaction
-from forms import PaymentHandlerForm
+from .forms import PaymentHandlerForm
 from django.views.decorators.http import require_POST
 from django.contrib.sites.models import Site
 from django import forms
-from html5.forms import widgets as html5_widgets
 from allauth.socialaccount.models import SocialApp
 
 
@@ -42,7 +41,7 @@ def format_plugin(plugin_id, plugin):
 
 def save_plugins(request, plugins):
     """Save plugin preferences to the database."""
-    for plugin_id in plugins.keys():
+    for plugin_id in list(plugins.keys()):
         preference, _ = PluginSetting.objects.get_or_create(
             plugin_name=plugin_id)
         preference.enabled = False
@@ -71,7 +70,7 @@ def plugins(request):
         return save_plugins(request, plugins)
 
     formatted_plugins = [
-        format_plugin(p_id, plugin) for p_id, plugin in plugins.items()]
+        format_plugin(p_id, plugin) for p_id, plugin in list(plugins.items())]
 
     return render(request, "admin/plugins.html",
                   {"plugins": formatted_plugins})
@@ -174,9 +173,9 @@ def appearance(request):
     initial_data = {"logo": site.logo}
 
     def setup_form(form):
-        for item, value in site.get_theme_settings().items():
+        for item, value in list(site.get_theme_settings().items()):
             form.fields[item] = forms.CharField(
-                widget=html5_widgets.ColorInput,
+                # widget=html5_widgets.ColorInput,
                 label=item.replace("-", " ").title())
             initial_data[item] = value
 
@@ -188,7 +187,7 @@ def appearance(request):
         setup_form(form)
         if form.is_valid():
             site.theme_settings = {}
-            for variable in site.get_theme_settings().keys():
+            for variable in list(site.get_theme_settings().keys()):
                 site.theme_settings[variable] = form.cleaned_data[variable]
             site.logo = form.cleaned_data['logo']
             site.save()

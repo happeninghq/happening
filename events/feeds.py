@@ -1,7 +1,7 @@
 """Events iCal feeds."""
 from django_ical.views import ICalFeed
-from models import Event
-from event_configuration import Description
+from .models import Event
+from .event_configuration import Description
 
 
 class AllEventsFeed(ICalFeed):

@@ -1,11 +1,11 @@
 """Payment views."""
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
-from models import Payment, PaymentHandler
+from .models import Payment, PaymentHandler
 from pages.configuration import SiteTitle
 from copy import copy
 from django.http import HttpResponseForbidden
-from forms import PaymentForm
+from .forms import PaymentForm
 import stripe
 
 
@@ -53,7 +53,7 @@ def make_payment(request, pk):
                 payment.save()
                 return redirect(payment.success_url_name, payment.pk)
 
-            except stripe.CardError, e:
+            except stripe.CardError as e:
                 payment.status = "FAILED"
                 payment.error = e
                 payment.save()

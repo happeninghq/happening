@@ -121,7 +121,7 @@ class JSONStorageMapper(StorageMapper):
 
     def to_python(self, value):
         """Load json."""
-        if not isinstance(value, basestring):
+        if not isinstance(value, str):
             # Depending on the storage, sometimes it'll come out as
             # already loaded
             return value

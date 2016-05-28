@@ -7,7 +7,7 @@ with variables.
 from django import template
 from django.template.loader_tags import do_extends
 import tokenize
-import StringIO
+import io
 
 register = template.Library()
 
@@ -23,7 +23,7 @@ class XExtendsNode(template.Node):
 
     def render(self, context):
         """Allow parameters when extending."""
-        for k in self.kwargs.keys():
+        for k in list(self.kwargs.keys()):
             self.kwargs[k] = self.kwargs[k].resolve(context)
         context.update(self.kwargs)
         try:
@@ -47,14 +47,13 @@ def do_xextends(parser, token):
                 b = b.strip()
 
                 keys = list(
-                    tokenize.generate_tokens(StringIO.StringIO(a).readline))
+                    tokenize.generate_tokens(io.StringIO(a).readline))
                 if keys[0][0] == tokenize.NAME:
                     kwargs[str(a)] = template.Variable(b)
                 else:
                     raise ValueError
             except ValueError:
-                raise (template.TemplateSyntaxError,
-                       "Argument syntax wrong: should be key=value")
+                raise template.TemplateSyntaxError
         token.contents = " ".join(bits)
 
     # let the orginal do_extends parse the tag, and wrap the ExtendsNode

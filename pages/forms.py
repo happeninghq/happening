@@ -2,7 +2,7 @@
 
 from django.forms import ModelForm
 from happening.forms import MarkdownField
-from models import Page
+from .models import Page
 
 
 class PageForm(ModelForm):

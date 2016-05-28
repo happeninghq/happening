@@ -21,13 +21,14 @@ class TestSettings(TestCase):
         """Test that a nonexisting settings returns a 404."""
         self.client.login(username=self.user.username, password="password")
         response = self.client.get("/member/999/settings", follow=True)
-        self.assertEquals(404, response.status_code)
+        self.assertEqual(404, response.status_code)
 
     def test_can_view_own_settings(self):
         """Test that we can view our own settings."""
         self.client.login(username=self.user.username, password="password")
         response = self.client.get("/member/%s/settings" % self.user.id)
-        self.assertTrue("Settings" in response.content)
+        self.assertTrue(
+            "Settings" in response.content.decode(encoding='UTF-8'))
 
     def test_cannot_view_other_settings(self):
         """Test that users cannot view other people's settings."""
@@ -44,14 +45,14 @@ class TestSettings(TestCase):
         self.client.login(username=user2.username, password="password")
         for url in ["/member/%s/settings", "/member/%s/settings/username"]:
             response = self.client.get(url % self.user.id)
-            self.assertEquals(404, response.status_code)
+            self.assertEqual(404, response.status_code)
 
     def test_can_edit_username(self):
         """Test a user can edit their own username."""
         self.client.login(username=self.user.username, password="password")
         response = self.client.get(
             "/member/%s/settings/username" % self.user.id)
-        self.assertEquals(200, response.status_code)
+        self.assertEqual(200, response.status_code)
 
         response = self.client.post(
             "/member/%s/settings/username" % self.user.id,
@@ -61,7 +62,7 @@ class TestSettings(TestCase):
             response.redirect_chain[0][0])
 
         self.user = get_user_model().objects.get(pk=self.user.id)
-        self.assertEquals("test_new_username", self.user.username)
+        self.assertEqual("test_new_username", self.user.username)
 
         user2 = mommy.make(settings.AUTH_USER_MODEL)
         user2.set_password("password")
@@ -70,6 +71,8 @@ class TestSettings(TestCase):
         response = self.client.post(
             "/member/%s/settings/username" % self.user.id,
             {"username": user2.username}, follow=True)
-        self.assertTrue("username must be unique" in response.content)
+        self.assertTrue(
+            "username must be unique" in
+            response.content.decode(encoding='UTF-8'))
 
-        self.assertEquals("test_new_username", self.user.username)
+        self.assertEqual("test_new_username", self.user.username)

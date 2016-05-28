@@ -78,9 +78,9 @@ class TestTicketPurchase(TestCase):
             follow=True)
         self.assertTrue(
             "events/tickets_purchased" in response.redirect_chain[0][0])
-        self.assertEquals(self.user.orders.first(),
-                          response.context["order"])
-        self.assertEquals(event.orders.first(), response.context["order"])
+        self.assertEqual(self.user.orders.first(),
+                         response.context["order"])
+        self.assertEqual(event.orders.first(), response.context["order"])
 
     def test_cant_view_others_confirmation(self):
         """Test that users can only view their own order confirmations."""
@@ -98,12 +98,12 @@ class TestTicketPurchase(TestCase):
         self.client.login(username=self.user.username, password="password")
 
         response = self.client.get("/events/tickets_purchased/%s" % ticket.pk)
-        self.assertEquals(200, response.status_code)
+        self.assertEqual(200, response.status_code)
 
         self.client.login(username=user2.username, password="password")
 
         response = self.client.get("/events/tickets_purchased/%s" % ticket.pk)
-        self.assertEquals(404, response.status_code)
+        self.assertEqual(404, response.status_code)
 
     def test_ticket_purchase_sends_confirmation_email(self):
         """Test that we send a confirmation email after purchasing ticket."""

@@ -132,7 +132,7 @@ class ResolvePluginMiddlewareMiddleware(object):
 
     def process_request(self, request):
         """Resolve plugin middleware."""
-        for plugin in registered_middlewares.keys():
+        for plugin in list(registered_middlewares.keys()):
             if plugin_enabled(plugin):
                 for r in registered_middlewares[plugin]:
                     response = r(request)

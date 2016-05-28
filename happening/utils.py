@@ -9,7 +9,7 @@ from django.shortcuts import redirect
 from django.contrib.admin.views.decorators import staff_member_required as smr
 from django.contrib.auth.decorators import user_passes_test
 from math import log
-from cStringIO import StringIO
+from io import StringIO
 import sys
 from django.template.loader import get_template
 from django.contrib.sites.models import Site
@@ -112,8 +112,8 @@ def get_all_subclasses(cls):
 
 def format_bytes(num, suffix='B'):
     """Format bytes as human readable."""
-    unit_list = zip(['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
-                    [0, 0, 1, 2, 2, 2])
+    unit_list = list(zip(['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+                     [0, 0, 1, 2, 2, 2]))
     if num > 1:
         exponent = min(int(log(num, 1024)), len(unit_list) - 1)
         quotient = float(num) / 1024**exponent

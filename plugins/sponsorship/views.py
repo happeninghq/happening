@@ -1,9 +1,9 @@
 """Sponsorship views."""
 from django.shortcuts import render, get_object_or_404, redirect
-from models import Sponsor, EventSponsor, SponsorTier, CommunitySponsorship
+from .models import Sponsor, EventSponsor, SponsorTier, CommunitySponsorship
 from happening.utils import staff_member_required, admin_required
-from forms import SponsorForm, EventSponsorForm, SponsorTierForm
-from forms import CommunitySponsorshipForm
+from .forms import SponsorForm, EventSponsorForm, SponsorTierForm
+from .forms import CommunitySponsorshipForm
 from events.models import Event
 from django.contrib import messages
 from django.views.decorators.http import require_POST

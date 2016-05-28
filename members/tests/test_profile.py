@@ -20,13 +20,15 @@ class TestProfile(TestCase):
     def test_nonexisting_user_404s(self):
         """Test that a nonexisting profile returns a 404."""
         response = self.client.get("/member/999", follow=True)
-        self.assertEquals(404, response.status_code)
+        self.assertEqual(404, response.status_code)
 
     def test_can_view_profile(self):
         """Test that we can view an existing profile."""
         response = self.client.get("/member/%s" % self.user.id)
-        self.assertTrue(str(self.user.profile) in response.content)
-        self.assertTrue(str(self.user.profile.bio) in response.content)
+        self.assertTrue(str(self.user.profile) in
+                        response.content.decode(encoding='UTF-8'))
+        self.assertTrue(str(self.user.profile.bio) in
+                        response.content.decode(encoding='UTF-8'))
 
     def test_cannot_edit_other_profiles(self):
         """Test that users cannot edit other people's profiles."""
@@ -43,13 +45,13 @@ class TestProfile(TestCase):
         self.client.login(username=user2.username, password="password")
         for url in ["/member/%s/edit"]:
             response = self.client.get(url % self.user.id)
-            self.assertEquals(404, response.status_code)
+            self.assertEqual(404, response.status_code)
 
     def test_can_edit_profile_fields(self):
         """Test a user can edit their own text profile fields."""
         self.client.login(username=self.user.username, password="password")
         response = self.client.get("/member/%s/edit" % self.user.id)
-        self.assertEquals(200, response.status_code)
+        self.assertEqual(200, response.status_code)
 
         response = self.client.post("/member/%s/edit" % self.user.id,
                                     {"first_name": "j",
@@ -59,9 +61,9 @@ class TestProfile(TestCase):
             "/member/%s" % self.user.id in response.redirect_chain[0][0])
 
         self.user = get_user_model().objects.get(pk=self.user.id)
-        self.assertEquals("j", self.user.first_name)
-        self.assertEquals("s", self.user.last_name)
-        self.assertEquals("test 1 2 3", self.user.profile.bio)
+        self.assertEqual("j", self.user.first_name)
+        self.assertEqual("s", self.user.last_name)
+        self.assertEqual("test 1 2 3", self.user.profile.bio)
 
     def test_default_photo(self):
         """Test that default photos are correct."""

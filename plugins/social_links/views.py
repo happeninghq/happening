@@ -1,8 +1,8 @@
 """Socal Links views."""
 from django.shortcuts import render, get_object_or_404, redirect
-from models import SocialLink
+from .models import SocialLink
 from happening.utils import admin_required
-from forms import SocialLinkForm
+from .forms import SocialLinkForm
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 

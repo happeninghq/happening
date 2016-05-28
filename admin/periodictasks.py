@@ -1,11 +1,11 @@
 """Period tasks related to emails."""
 
 from periodically.decorators import every
-from models import Backup
+from .models import Backup
 from django.core.management.commands import dumpdata, flush, loaddata
 from django.db import DEFAULT_DB_ALIAS
 import zipfile
-import StringIO
+import io
 from happening.utils import capturing
 from happening.storage import storage
 from django.core.files import File
@@ -32,7 +32,7 @@ def backup():
                          'sessions.session',
                          'periodically.executionrecord',
                          'auth.permission'])
-        s = StringIO.StringIO()
+        s = io.StringIO()
         zf = zipfile.ZipFile(s, "w")
         zf.writestr("backup/data.json", output[0])
 

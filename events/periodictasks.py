@@ -1,10 +1,10 @@
 """Period tasks related to events."""
 
 from periodically.decorators import every
-from models import TicketOrder, WaitingListSubscription, TicketType
+from .models import TicketOrder, WaitingListSubscription, TicketType
 from payments.models import Payment
 from datetime import datetime
-from configuration import TicketTimeout
+from .configuration import TicketTimeout
 from events.notifications import WaitingListExpiredNotification
 
 

@@ -24,9 +24,9 @@ class TestStaff(TestCase):
         """Test dashboard loads only for staff."""
         self.client.login(username=self.user.username, password="password")
         response = self.client.get("/staff/")
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         self.client.login(username=self.non_staff_user.username,
                           password="password")
         response = self.client.get("/staff/")
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)

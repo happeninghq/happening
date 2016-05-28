@@ -97,7 +97,7 @@ class TestWaitingList(TestCase):
                              class_="purchase-tickets-widget")[
                              "data-active-tickets"])
 
-        self.assertEquals(tickets[0]["remaining_tickets"], 0)
+        self.assertEqual(tickets[0]["remaining_tickets"], 0)
 
         # Check they can't purchase
         # TODO
@@ -110,7 +110,7 @@ class TestWaitingList(TestCase):
                              class_="purchase-tickets-widget")[
                              "data-active-tickets"])
 
-        self.assertEquals(tickets[0]["remaining_tickets"], 0)
+        self.assertEqual(tickets[0]["remaining_tickets"], 0)
 
     def test_cancelled_ticket_is_held(self):
         """Test that a cancelled ticket is not available for purchase."""
@@ -141,7 +141,7 @@ class TestWaitingList(TestCase):
                              class_="purchase-tickets-widget")[
                              "data-active-tickets"])
 
-        self.assertEquals(tickets[0]["remaining_tickets"], 1)
+        self.assertEqual(tickets[0]["remaining_tickets"], 1)
 
         # Check they can purchase the ticket
         # TODO
@@ -154,7 +154,7 @@ class TestWaitingList(TestCase):
                              class_="purchase-tickets-widget")[
                              "data-active-tickets"])
 
-        self.assertEquals(tickets[0]["remaining_tickets"], 0)
+        self.assertEqual(tickets[0]["remaining_tickets"], 0)
 
     def test_automatically_offer_ticket(self):
         """Test that tickets are automatically offered for sale."""

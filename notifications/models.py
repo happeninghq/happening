@@ -11,9 +11,9 @@ from happening.utils import convert_to_camelcase, externalise_urls
 from django.core.mail import send_mail
 from django.conf import settings
 from happening import notifications
-from configuration import NotificationsEmailAddress
+from .configuration import NotificationsEmailAddress
 from django.contrib.sites.models import Site
-from configuration import EmailFooter, EmailHeader
+from .configuration import EmailFooter, EmailHeader
 from django.template import Context, Template
 
 
@@ -67,7 +67,7 @@ class Notification(db.Model):
         """Can read their own notifications."""
         return request.user == self.user
 
-    def __unicode__(self):
+    def __str__(self):
         """Return the notification detail."""
         return "Notification (%s to %s)" % (self.template, self.user)
 

@@ -40,7 +40,7 @@ class Profile(db.Model):
     show_google_urls = models.BooleanField(default=False)
     show_stackexchange_urls = models.BooleanField(default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         """Return the name of the user."""
         formatted_name = "%s %s" % (self.user.first_name, self.user.last_name)
         if len(formatted_name) > 1:
@@ -125,7 +125,7 @@ class Tag(db.Model):
     tag = models.CharField(max_length=100, unique=True)
     users = models.ManyToManyField(User, related_name="tags")
 
-    def __unicode__(self):
+    def __str__(self):
         """Return tag."""
         return self.tag
 

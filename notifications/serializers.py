@@ -1,4 +1,4 @@
-from models import Notification
+from .models import Notification
 from happening.serializers import Serializer
 
 

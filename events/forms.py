@@ -2,7 +2,7 @@
 
 from django import forms
 from django.forms import ModelForm
-from models import Event, TicketType
+from .models import Event, TicketType
 from happening import forms as happening_forms
 from happening.forms import DateTimeWidget
 from django.template.loader import render_to_string
@@ -39,7 +39,7 @@ class TicketForm(forms.Form):
         """Ensure that at least one ticket is chosen."""
         cleaned_data = super(TicketForm, self).clean()
 
-        ticket_keys = [k for k in cleaned_data.keys()
+        ticket_keys = [k for k in list(cleaned_data.keys())
                        if k.startswith("tickets_")]
 
         def get_default_zero(t):

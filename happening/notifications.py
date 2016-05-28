@@ -29,7 +29,7 @@ class Notification(object):
                 raise Exception("%s is required" % k)
 
         # Check that no unexpected data is provided
-        for k in data.keys():
+        for k in list(data.keys()):
             if k not in self.required_data and k not in self.optional_data:
                 raise Exception("%s not expected" % k)
 

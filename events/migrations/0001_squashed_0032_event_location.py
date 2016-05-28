@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from django.db import models, migrations
 from django.utils.timezone import utc
@@ -18,8 +18,6 @@ import jsonfield.fields
 # events.migrations.0020_auto_20150425_1138
 
 class Migration(migrations.Migration):
-
-    replaces = [(b'events', '0001_initial'), (b'events', '0002_auto_20141125_2235'), (b'events', '0003_ticket'), (b'events', '0004_auto_20141126_1006'), (b'events', '0005_auto_20141126_1023'), (b'events', '0006_auto_20141126_1519'), (b'events', '0007_event_upcoming_notification_1_sent'), (b'events', '0008_event_upcoming_notification_2_sent'), (b'events', '0009_auto_20141231_1008'), (b'events', '0010_vote'), (b'events', '0011_auto_20150117_1820'), (b'events', '0012_auto_20150118_2004'), (b'events', '0013_auto_20150128_1612'), (b'events', '0014_eventtodo'), (b'events', '0015_auto_20150202_1330'), (b'events', '0017_auto_20150308_2018'), (b'events', '0018_auto_20150311_2028'), (b'events', '0019_event_title'), (b'events', '0020_auto_20150425_1138'), (b'events', '0021_auto_20150425_2135'), (b'events', '0022_auto_20150429_1941'), (b'events', '0023_eventpreset'), (b'events', '0024_auto_20150517_1834'), (b'events', '0025_auto_20150528_1959'), (b'events', '0026_auto_20150608_2004'), (b'events', '0027_auto_20150608_2056'), (b'events', '0028_auto_20150620_0914'), (b'events', '0029_event_image'), (b'events', '0030_event_location'), (b'events', '0031_remove_event_location'), (b'events', '0032_event_location')]
 
     dependencies = [
         ('sites', '0001_initial'),

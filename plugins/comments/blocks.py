@@ -1,6 +1,6 @@
 """Comment template blocks."""
 from happening.plugins import plugin_block
-from event_configuration import CommentOnGroups
+from .event_configuration import CommentOnGroups
 from happening.utils import render_block
 
 

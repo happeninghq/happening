@@ -29,14 +29,14 @@ def generate_groups(ungrouped_users, number_of_groups, existing_groups=None):
         existing_groups = {}
 
     number_of_attendees = len(ungrouped_users) + len(
-        sum(existing_groups.values(), []))
+        sum(list(existing_groups.values()), []))
 
     # Create an in-memory model of the groups
     groups = [[] for group in range(min([number_of_groups,
                                          number_of_attendees]))]
 
     # Assigned existing groups
-    for k, v in existing_groups.items():
+    for k, v in list(existing_groups.items()):
         groups[k] = v
 
     # Assign unassigned members to the groups

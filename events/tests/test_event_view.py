@@ -13,7 +13,7 @@ class TestEventView(TestCase):
     def test_nonexisting_event(self):
         """Test view for event which doesn't exist."""
         response = self.client.get("/events/1")
-        self.assertEquals(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)
 
     def test_future_event(self):
         """Test view for an event in the future."""

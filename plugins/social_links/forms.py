@@ -1,7 +1,7 @@
 """Social Link forms."""
 
 from django import forms
-from models import SocialLink
+from .models import SocialLink
 
 
 class SocialLinkForm(forms.ModelForm):

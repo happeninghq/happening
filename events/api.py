@@ -1,6 +1,6 @@
-from models import Event, TicketType, TicketOrder, Ticket
-from serializers import EventSerializer, TicketTypeSerializer
-from serializers import TicketSerializer, TicketOrderSerializer
+from .models import Event, TicketType, TicketOrder, Ticket
+from .serializers import EventSerializer, TicketTypeSerializer
+from .serializers import TicketSerializer, TicketOrderSerializer
 from happening.api import Api
 
 

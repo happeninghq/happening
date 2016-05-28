@@ -1,6 +1,6 @@
 """General middleware."""
 from django.utils.cache import patch_vary_headers
-from urlparse import urlsplit, urlunsplit
+from urllib.parse import urlsplit, urlunsplit
 from django.conf import settings
 from django.http import HttpResponsePermanentRedirect
 from pages.configuration import ForceSSL

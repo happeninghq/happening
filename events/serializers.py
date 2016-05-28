@@ -1,4 +1,4 @@
-from models import Event, TicketType, TicketOrder, Ticket
+from .models import Event, TicketType, TicketOrder, Ticket
 from rest_framework import serializers
 from happening.serializers import Serializer
 

@@ -1,6 +1,6 @@
 """Comment forms."""
 from django import forms
-from models import Comment
+from .models import Comment
 from happening.forms import MarkdownField
 
 

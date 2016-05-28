@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from django.db import models, migrations
 import django_pgjson.fields
@@ -7,8 +7,6 @@ from django.conf import settings
 
 
 class Migration(migrations.Migration):
-
-    replaces = [(b'emails', '0001_initial'), (b'emails', '0002_auto_20150614_1710'), (b'emails', '0003_email_event'), (b'emails', '0004_email_disabled')]
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
