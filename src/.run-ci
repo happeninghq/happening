@@ -1,3 +1,5 @@
+# Run from the correct directory
+cd ${0%/*}
 EXIT_STATUS=0
 coverage run manage.py test || EXIT_STATUS=$?
 ./check-standards || EXIT_STATUS=$?

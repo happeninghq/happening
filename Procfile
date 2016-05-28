@@ -1,1 +1,0 @@
-web: gunicorn happening.wsgi --log-file - --timeout 500

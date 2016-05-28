@@ -4,11 +4,11 @@ services:
 python:
   - '3.5.1'
 install:
-  - pip install -r requirements.txt
-  - pip install -r dev-requirements.txt
+  - pip install -r src/requirements.txt
+  - pip install -r src/dev-requirements.txt
   - pip install coveralls
   - npm install -g npm@2
-script: ./.run-ci
+script: ./src/.run-ci
 after_success: coveralls
 before_script:
   - psql -c 'create database happening_test;' -U postgres

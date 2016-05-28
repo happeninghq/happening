@@ -1,3 +1,6 @@
+# Run from the correct directory
+cd ${0%/*}
+
 if [ -a ve/bin/flake8 ]; then
     ve/bin/flake8 . || EXIT_STATUS=$?
 else
