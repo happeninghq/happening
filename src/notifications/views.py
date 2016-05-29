@@ -11,7 +11,8 @@ from happening.plugins import plugin_enabled
 def list(request):
     """List all notifications."""
     rendered = render(request, "notifications/list.html")
-    request.user.notifications.mark_all_as_read()
+    for notification in request.user.notifications.all():
+        notification.mark_as_read()
     return rendered
 
 
