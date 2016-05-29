@@ -1,9 +1,0 @@
-{% extends "notifications/notification.html" %}
-
-{% block image %}
-    <img src="{{author_photo_url}}" />
-{% endblock %}
-
-{% block text %}
-    <p><a href="{% url "view_profile" comment.author %}">{{author_name}}</a> has commented on <a id="main-link" href="{{object_url}}">{{object_name}}</a></p>
-{% endblock %}

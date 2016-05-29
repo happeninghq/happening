@@ -1,9 +1,0 @@
-{% load comments %}
-
-<ul class="comments plain-list">
-    {% for comment in comments %}
-        {% include "comments/_comment.html" %}
-    {% endfor %}
-</ul>
-
-{% comments_form object %}

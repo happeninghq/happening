@@ -1,1 +1,0 @@
-"""Sponsorship tests."""
