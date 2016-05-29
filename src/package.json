@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jscott1989/happening.git"
+    "url": "git+https://github.com/happeninghq/happening.git"
   },
   "author": "Jonathan Scott <jonathan@jscott.me>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jscott1989/happening/issues"
+    "url": "https://github.com/happeninghq/happening/issues"
   },
-  "homepage": "https://github.com/jscott1989/happening#readme",
+  "homepage": "https://github.com/happeninghq/happening#readme",
   "dependencies": {
     "@claviska/jquery-dropdown": "github:claviska/jquery-dropdown",
     "blueimp-file-upload": "^9.12.1",
