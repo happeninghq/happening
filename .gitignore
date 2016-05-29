@@ -27,4 +27,5 @@ styleguide
 media/events/*
 .env
 media
-static/bundles
+src/static/bundles
+src/plugins/*
