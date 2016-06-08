@@ -97,7 +97,6 @@ INSTALLED_APPS = [
 
     'happening',
     'emails',
-    'external',
     'events',
     'members',
     'notifications',

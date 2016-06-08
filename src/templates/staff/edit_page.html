@@ -1,8 +1,8 @@
 {% extends "staff/base.html" %}
-{% load forms %}
+{% load json %}
 
 {% block staff_content %}
-    <div class="l-container">
+    <div class="l-container edit-page" data-block-types='{{block_types|jsonify}}' data-content='{{page.content|jsonify}}'>
         <div class="l-primary-content block-list">
             <div class="block block-list__item">
                 <header class="block__header">
@@ -11,9 +11,6 @@
                     
                 <form method="POST" action="{% url "edit_page" page.pk %}" class="form">
                     {% csrf_token %}
-                    {{form|render}}
-                    <button type="submit">Save</button>
-                    <a href="{% url "staff_pages" %}">Cancel</a>
                 </form>
             </div>
         </div>

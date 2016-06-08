@@ -11,6 +11,7 @@ from rest_framework import routers
 from happening.api import Api
 import os
 import inspect
+from pages import views as pages_views
 # from ..notifications import api as notifications_api
 
 # Initialise the plugins
@@ -35,12 +36,10 @@ for app in settings.INSTALLED_APPS:
 
 
 urlpatterns = [
+    url(r'^$', pages_views.view, {'pk': 'index'}, name='index'),
     url(r'^staff/', include('staff.urls')),
     url(r'^admin/', include('admin.urls')),
     url(r'^events/', include('events.urls')),
-
-    # Include general external pages as fallback
-    url(r'^', include('external.urls')),
 
     url(r'^accounts/', include('allauth.urls')),
     url(r'^member/', include('members.urls')),

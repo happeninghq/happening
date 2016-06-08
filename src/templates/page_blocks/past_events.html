@@ -1,0 +1,9 @@
+{% for event in past_events_sliced %}
+	<div class="block block-list__item event-block low-opacity full-opacity-on-hover">
+	    {% include "events/_event_block.html" %}
+	</div>
+{% endfor %}
+
+{% if past_events|length > 0 %}
+	<a href="{% url "past_events" %}" class="block-list__link block-list__item">View all past events</a>
+{% endif %}

@@ -42,6 +42,7 @@ urlpatterns = [
         name='release_to_waiting_list'),
     url(r'^pages$', views.pages, name='staff_pages'),
     url(r'^pages/create$', views.create_page, name='create_page'),
+    url(r'^pages/block$', views.render_block, name='render_block'),
     url(r'^pages/(?P<pk>\d+)$', views.edit_page, name='edit_page'),
     url(r'^pages/(?P<pk>\d+)/delete$', views.delete_page, name='delete_page'),
     url(r'^events/(?P<pk>\d+)/add_attendee$', views.add_attendee,

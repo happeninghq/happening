@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 from events.models import Event, Ticket, EventPreset, TicketType
 from events.forms import EventForm
 from pages.models import Page
-from pages.forms import PageForm
 from .forms import EmailForm, WaitingListForm
 from django.contrib import messages
 from django.utils import timezone
@@ -23,6 +22,8 @@ from djqscsv import render_to_csv_response
 from members.forms import TagForm, AddTagForm, TrackingLinkForm
 from members.models import Tag, TrackingLink
 from django.contrib.auth.models import User
+from pages.utils import render_block_content, get_block_types
+import json
 
 
 @staff_member_required
@@ -381,17 +382,25 @@ def pages(request):
 
 
 @staff_member_required
+def render_block(request):
+    """Used to render block previews on the page editor."""
+    return JsonResponse({"html": render_block_content(request.GET, request)})
+
+
+@staff_member_required
 def edit_page(request, pk):
     """Edit page."""
     page = get_object_or_404(Page, pk=pk)
-    form = PageForm(instance=page)
+
     if request.method == "POST":
-        form = PageForm(request.POST, request.FILES, instance=page)
-        if form.is_valid():
-            form.save()
-            return redirect("staff_pages")
+        # TODO: Validate the posted data
+        page.content = json.loads(request.POST['content'])
+        page.save()
+        messages.success(request, 'Page saved.')
+        return redirect("staff_pages")
+
     return render(request, "staff/edit_page.html",
-                  {"page": page, "form": form})
+                  {"page": page, "block_types": get_block_types()})
 
 
 @staff_member_required
@@ -405,14 +414,14 @@ def delete_page(request, pk):
 @staff_member_required
 def create_page(request):
     """Create page."""
-    form = PageForm()
-    if request.method == "POST":
-        form = PageForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Page created.')
-            return redirect("staff_pages")
-    return render(request, "staff/create_page.html", {"form": form})
+    # form = PageForm()
+    # if request.method == "POST":
+    #     form = PageForm(request.POST)
+    #     if form.is_valid():
+    #         form.save()
+    #         messages.success(request, 'Page created.')
+    #         return redirect("staff_pages")
+    return render(request, "staff/create_page.html")
 
 
 @staff_member_required

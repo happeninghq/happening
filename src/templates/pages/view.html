@@ -2,17 +2,17 @@
 
 {% xextends "base.html" with secondary_nav=page.url %}
 
-{% load markdown_deux_tags %}
-
 {% block content %}
     <div class="l-container">
         <div class="l-primary-content block-list">
-            <div class="block block-list__item">
-                <header class="block__header valign-together">
-                    <h2 class="block__header-text">{{page.title}}</h2>
-                </header>
-                {{page.content|markdown}}
-            </div>
+            {% for block in primaryblocks %}
+                {{ block|safe }}
+            {% endfor %}
+        </div>
+        <div class="l-secondary-content block-list">
+            {% for block in secondaryblocks %}
+                {{ block|safe }}
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

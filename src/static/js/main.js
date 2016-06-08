@@ -16,6 +16,8 @@ import * as eventPresets from './staff/event-presets';
 
 import * as blocks from './blocks.js';
 
+import * as editPage from './edit-page.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   ajax.init();
   confirm.init();
@@ -26,4 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
   eventPresets.init();
 
   blocks.init();
+
+  editPage.init();
 });

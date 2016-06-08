@@ -27,7 +27,7 @@ function setupMarkdownEditor(elem) {
 }
 
 export const init = () => {
-  $('.markdown-widget').each(function initMarkdownEditor() {
-    setupMarkdownEditor(this);
-  });
+  // $('.markdown-widget').each(function initMarkdownEditor() {
+  //   setupMarkdownEditor(this);
+  // });
 };

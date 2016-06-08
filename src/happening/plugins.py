@@ -21,7 +21,8 @@ def init():
     plugin_files = ['blocks',
                     'actions',
                     'notifications',
-                    'middleware']
+                    'middleware',
+                    'page_blocks']
 
     for app in settings.INSTALLED_APPS:
         f = app.replace(".", "/")

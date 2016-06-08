@@ -1,0 +1,9 @@
+{% for event in future_events_sliced %}
+    <div class="block block-list__item event-block">
+        {% include "events/_event_block.html" %}
+    </div>
+{% endfor %}
+
+{% if future_events|length > 0 %}
+    <a href="{% url "events" %}" class="block-list__link block-list__item">View all upcoming events</a>
+{% endif %}

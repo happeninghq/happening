@@ -1,0 +1,43 @@
+<!-- <header class="block__header valign-together">
+    {% if request.user.is_authenticated %}
+        <h2 class="block__header-text block__header-text--small">Welcome back, <strong>{{request.user}}</strong></h2>
+        <a href="{% url "account_logout" %}" class="block__header-extra-link">(not you? Log out)</a>
+    {% else %}
+        <h2 class="block__header-text block__header-text--small">Welcome, <strong>Guest</strong></h2>
+    {% endif %}
+</header> -->
+{% if request.user.is_authenticated %}
+    <div class="l-container">
+        <div class="l-primary-content">
+            <ul class="plain-list">
+                <!-- <li>
+                    <div class="icon-text">
+                        <i class="fa fa-envelope icon-text__icon"></i>
+                        <span class="icon-text__text"><strong>0</strong> new <a href="#">private messages</a></span>
+                    </div>
+                </li> -->
+                <li>
+                    <div class="icon-text">
+                        <i class="fa fa-bell icon-text__icon"></i>
+                        <span class="icon-text__text"><strong>{{user.notifications.unread.count}}</strong> unread <a href="{% url "notifications_list" %}">notification{{user.notifications.unread.count|pluralize}}</a></span>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon-text">
+                        <i class="fa fa-calendar icon-text__icon"></i>
+                        <span class="icon-text__text"><strong>{{future_events|length}}</strong> <a href="{% url "events" %}">upcoming events</a></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="l-secondary-content">
+            <img src="{{request.user.profile.photo_url}}">
+        </div>
+    </div>
+{% else %}
+    <ul class="inline-list">
+        <li><a class="btn" href="{% url "account_login" %}">Log In</a></li>
+        <li>or</li>
+        <li><a class="btn" href="{% url "account_signup" %}">Sign Up</a></li>
+    </ul>
+{% endif %}
