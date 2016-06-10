@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 import shutil
+import os
 
 
 class Command(BaseCommand):
@@ -13,5 +14,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):  # NOQA
         plugin_name = options['plugin_name'][0]
         print("Removing %s from plugins directory" % plugin_name)
-        shutil.rmtree('plugins/%s' % plugin_name)
+        if os.path.islink('plugins/%s' % plugin_name):
+            os.unlink('plugins/%s' % plugin_name)
+        else:
+            shutil.rmtree('plugins/%s' % plugin_name)
         print("%s is now uninstalled" % plugin_name)
