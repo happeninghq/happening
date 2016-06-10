@@ -9,7 +9,6 @@ plugin_blocks = {}
 actions = {}
 
 loaded_files = []
-enabled_plugins_cache = None
 
 
 def init():
@@ -92,14 +91,12 @@ def plugin_enabled(plugin_id):
     if not plugin_id.startswith('plugins.'):
         return True
 
-    global enabled_plugins_cache
-    if enabled_plugins_cache is None:
-        # Refill the cache
-        enabled_plugins_cache = {}
-        from admin.models import PluginSetting
-        for plugin in PluginSetting.objects.all():
-            enabled_plugins_cache[plugin.plugin_name] = plugin.enabled
-    return enabled_plugins_cache.get(plugin_id, False)
+    from admin.models import PluginSetting
+    setting = PluginSetting.objects.filter(plugin_name=plugin_id).first()
+    if not setting:
+        return False
+
+    return setting.enabled
 
 
 def every(*o_args, **o_kwargs):
