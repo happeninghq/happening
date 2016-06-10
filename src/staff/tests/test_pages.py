@@ -3,7 +3,6 @@
 from happening.tests import TestCase
 from model_mommy import mommy
 from django.conf import settings
-from pages.models import Page
 
 
 class TestPages(TestCase):
@@ -31,50 +30,9 @@ class TestPages(TestCase):
         self.assertIsNotNone(response.soup.find("table"))
         self.assertEqual(2, len(response.soup.find("table").findAll("tr")))
 
-    def test_create_page(self):
-        """Test creating pages."""
-        self.client.login(username=self.user.username, password="password")
+    # TODO: Test create page
 
-        response = self.client.get("/staff/pages/create")
-        self.assertEqual(response.status_code, 200)
-
-        response = self.client.post("/staff/pages/create", {
-
-        })
-
-    def test_edit_page(self):
-        """Test editing pages."""
-        self.client.login(username=self.user.username, password="password")
-        page = mommy.make("Page")
-        response = self.client.get("/staff/pages")
-        trs = response.soup.find("table").findAll("tr")
-        edit_url = trs[1].find("a", "edit_page")['href']
-
-        response = self.client.get(edit_url)
-
-        self.assertEqual(
-            response.soup.find("input", {"id": "id_url"})['value'].strip(),
-            page.url)
-        self.assertEqual(
-            response.soup.find("input", {"id": "id_title"})['value'].strip(),
-            page.title)
-        self.assertEqual(
-            response.soup.find("textarea", {"id": "id_content"}).text.strip(),
-            page.content)
-
-        response = self.client.post(
-            edit_url,
-            {
-                "url": "test123",
-                "title": "test title",
-                "content": "test content"
-            }, follow=True)
-
-        page = Page.objects.get(pk=page.pk)
-
-        self.assertEqual(page.url, "test123")
-        self.assertEqual(page.title, "test title")
-        self.assertEqual(page.content, "test content")
+    # TODO: Test edit page
 
     def test_delete_page(self):
         """Test deleting pages."""
