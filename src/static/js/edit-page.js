@@ -16,6 +16,20 @@ const { PropTypes } = React;
 
 export const init = () => {
 	_.each(document.getElementsByClassName("edit-page"), (elem) => {
+
+    // Initial configuration
+    const blocktypes = JSON.parse(elem.dataset['blocktypes']);
+    const valid_blocktypes = blocktypes.map(({type}) => type);
+    const UnfilteredContent = JSON.parse(elem.dataset['content']);
+    const content = {
+      blocks: UnfilteredContent.blocks.filter(
+        (block) => valid_blocktypes.indexOf(block.type) > -1
+      ),
+      blockLists: UnfilteredContent.blockLists.map((l) => 
+        l.filter((blockId) => valid_blocktypes.indexOf(UnfilteredContent.blocks[blockId].type) > -1)
+      ),
+    };
+
 		// ACTIONS
 
 		const ADD_BLOCK = 'ADD_BLOCK';
@@ -375,7 +389,7 @@ export const init = () => {
 			  }
 		};
 
-    const blocks = (state = JSON.parse(elem.dataset['content']).blocks, action) => {
+    const blocks = (state = content.blocks, action) => {
       switch (action.type) {
         case ADD_BLOCK:
           return [...state, block(undefined, action)];
@@ -449,7 +463,7 @@ export const init = () => {
       }
     }
 
-		const blockLists = (state = JSON.parse(elem.dataset['content']).blockLists, action) => {
+		const blockLists = (state = content.blockLists, action) => {
 		  switch (action.type) {
   			case ADD_BLOCK:
   	  	  return state.map((l, i) => {
@@ -465,7 +479,7 @@ export const init = () => {
 		  }
 		}
 
-    const blockTypes = (state = JSON.parse(elem.dataset['blocktypes']), action) => {
+    const blockTypes = (state = blocktypes, action) => {
       switch (action.type) {
         default:
           return state;
@@ -483,8 +497,6 @@ export const init = () => {
 
 
     // We need to initialise the UI
-
-    const content = JSON.parse(elem.dataset['content']);
     _.each(content.blocks, (block) => {
       store.dispatch(InitUI(block));
     });

@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.html import mark_safe
+from happening.plugins import plugin_enabled
 
 block_types = {}
 
@@ -54,4 +55,5 @@ def render_block_content(block, request):
 def get_block_types():
     """Get available block types."""
     return [{"type": name, "fields": get_fields(c)} for name, c in
-            block_types.items()]
+            block_types.items() if
+            plugin_enabled(c.__class__.__module__[:-12])]

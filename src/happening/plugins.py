@@ -87,6 +87,11 @@ def plugin_block(key):
 
 def plugin_enabled(plugin_id):
     """True if the plugin is enabled."""
+    # We assume anything that doesn't start with plugins. is core
+    # and always enabled
+    if not plugin_id.startswith('plugins.'):
+        return True
+
     global enabled_plugins_cache
     if enabled_plugins_cache is None:
         # Refill the cache
