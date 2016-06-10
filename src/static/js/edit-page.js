@@ -465,7 +465,7 @@ export const init = () => {
 		  }
 		}
 
-    const blockTypes = (state = JSON.parse(elem.dataset['block-types']), action) => {
+    const blockTypes = (state = JSON.parse(elem.dataset['blocktypes']), action) => {
       switch (action.type) {
         default:
           return state;

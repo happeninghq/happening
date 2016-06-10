@@ -2,7 +2,7 @@
 {% load json %}
 
 {% block staff_content %}
-    <div class="l-container edit-page" data-block-types='{{block_types|jsonify}}' data-content='{{page.content|jsonify}}'>
+    <div id="edit-page" class="l-container edit-page">
         <div class="l-primary-content block-list">
             <div class="block block-list__item">
                 <header class="block__header">
@@ -15,4 +15,10 @@
             </div>
         </div>
     </div>
+    <script>
+        const page = document.getElementById("edit-page");
+
+        page.dataset['content'] = JSON.stringify({{page.content|jsonify}});
+        page.dataset['blocktypes'] = JSON.stringify({{block_types|jsonify}});
+    </script>
 {% endblock %}
