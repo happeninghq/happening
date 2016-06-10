@@ -1,9 +1,9 @@
 Happening
 =========
 
-[![Build Status](https://travis-ci.org/jscott1989/happening.svg?branch=master)](https://travis-ci.org/jscott1989/happening)
-[![Requirements Status](https://requires.io/github/jscott1989/happening/requirements.svg?branch=master)](https://requires.io/github/jscott1989/happening/requirements/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/jscott1989/happening/badge.svg?branch=master)](https://coveralls.io/r/jscott1989/happening?branch=master)
+[![Build Status](https://travis-ci.org/happeninghq/happening.svg?branch=master)](https://travis-ci.org/happeninghq/happening)
+[![Requirements Status](https://requires.io/github/happeninghq/happening/requirements.svg?branch=master)](https://requires.io/github/happeninghq/happening/requirements/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/happeninghq/happening/badge.svg?branch=master)](https://coveralls.io/r/happeninghq/happening?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/happening/badge/?version=latest)](https://readthedocs.org/projects/happening/?badge=latest)
 
 
