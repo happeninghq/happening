@@ -21,12 +21,15 @@ export const init = () => {
     const blocktypes = JSON.parse(elem.dataset['blocktypes']);
     const valid_blocktypes = blocktypes.map(({type}) => type);
     const UnfilteredContent = JSON.parse(elem.dataset['content']);
+
+    const getBlock = (blocks, id) => blocks.filter((b) => b.id == id)[0];
+
     const content = {
       blocks: UnfilteredContent.blocks.filter(
         (block) => valid_blocktypes.indexOf(block.type) > -1
       ),
       blockLists: UnfilteredContent.blockLists.map((l) => 
-        l.filter((blockId) => valid_blocktypes.indexOf(UnfilteredContent.blocks[blockId].type) > -1)
+        l.filter((blockId) => valid_blocktypes.indexOf(getBlock(UnfilteredContent.blocks, blockId).type) > -1)
       ),
     };
 

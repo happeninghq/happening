@@ -24,7 +24,8 @@ class Page(db.Model):
             return utils.block_types[block["type"]].__class__.__module__[:-12]
 
         def filter_block_list_item(id):
-            return plugin_enabled(get_plugin_id(self.content["blocks"][id]))
+            block = [b for b in self.content["blocks"] if b["id"] == id][0]
+            return plugin_enabled(get_plugin_id(block))
 
         def map_block_lists(block_list):
             return filter(filter_block_list_item, block_list)

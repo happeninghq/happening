@@ -68,7 +68,7 @@ class PastEventsBlockType(BlockType):
 
     def get_past_events(self):
         """Get past events."""
-        return [e for e in Event.objects.order_by('start') if not e.is_future]
+        return [e for e in Event.objects.order_by('-start') if not e.is_future]
 
     def render(self, request, data):
         """Return each event in its own block."""
