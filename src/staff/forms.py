@@ -28,3 +28,10 @@ class WaitingListForm(forms.Form):
 
     automatic = BooleanField(label="Automatically manage waiting list",
                              required=False)
+
+
+class PageForm(forms.Form):
+    """Form for creating a page."""
+
+    url = forms.CharField()
+    title = forms.CharField()

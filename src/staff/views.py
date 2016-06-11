@@ -23,6 +23,7 @@ from members.forms import TagForm, AddTagForm, TrackingLinkForm
 from members.models import Tag, TrackingLink
 from django.contrib.auth.models import User
 from pages.utils import render_block_content, get_block_types
+from staff.forms import PageForm
 import json
 
 
@@ -414,14 +415,16 @@ def delete_page(request, pk):
 @staff_member_required
 def create_page(request):
     """Create page."""
-    # form = PageForm()
-    # if request.method == "POST":
-    #     form = PageForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #         messages.success(request, 'Page created.')
-    #         return redirect("staff_pages")
-    return render(request, "staff/create_page.html")
+    form = PageForm()
+    if request.method == "POST":
+        form = PageForm(request.POST)
+        if form.is_valid():
+            page = Page(url=form.cleaned_data['url'],
+                        title=form.cleaned_data['title'])
+            page.save()
+            messages.success(request, 'Page created.')
+            return redirect("staff_pages")
+    return render(request, "staff/create_page.html", {"form": form})
 
 
 @staff_member_required
