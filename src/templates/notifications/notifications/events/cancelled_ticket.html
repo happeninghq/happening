@@ -1,5 +1,4 @@
 {% extends "notifications/notifications/events/base.html" %}
-{% load staticfiles %}
 
 {% block text %}
     <p>You have cancelled your ticket to <a id="main-link" href="{% url "view_event" event.id %}">{{event_name}}</a>.</p>
