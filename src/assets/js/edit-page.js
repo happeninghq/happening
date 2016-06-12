@@ -11,6 +11,7 @@ import { Provider, connect } from 'react-redux'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { DjangoCSRFToken } from './react/django'
+import { v4 } from 'node-uuid'
 
 const { PropTypes } = React;
 
@@ -55,13 +56,9 @@ export const init = () => {
 		// ACTION CREATORS
 
 		const AddBlock = (location) => {
-      let id = 0;
-      if (store.getState().blocks.length > 0) {
-        id = _.max(store.getState().blocks.map((b) => b.id)) + 1;
-      }
 			return {
 				type: ADD_BLOCK,
-				id: id,
+				id: v4(),
 				location
 			}
 		}
