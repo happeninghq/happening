@@ -309,21 +309,15 @@ export const init = () => {
           l.map((id) => state.blocks.filter((i) => i.id == id)[0])),
           value: JSON.stringify({blocks: state.blocks, blockLists: state.blockLists})
       }),
-      (dispatch) => ({
-        onAddBlock: (location) => {
-          dispatch(AddBlock(location))
-        }
-      }))(EditPage)
+      { onAddBlock: AddBlock }
+      )(EditPage)
 
     const SelectTypeBlockContainer = connect(
       (state) => ({
         blockTypes: state.blockTypes
       }),
-      (dispatch) => ({
-        onSelectBlockType: (id, type) => {
-          dispatch(ChangeBlockType(id, type))
-        }
-      }))(SelectTypeBlock)
+      { onSelectBlockType: ChangeBlockType }
+      )(SelectTypeBlock)
 
     const EditBlockContainer = connect(
       (state, { block }) => {
@@ -340,9 +334,7 @@ export const init = () => {
       (state, { block }) => ({
         blockUI: state.blockUIs.filter((i) => i.id == block.id)[0]
       }),
-      (dispatch) => ({
-        
-      }))(PreviewBlock)
+      {})(PreviewBlock)
 
     const BlockContainer = connect(
       (state, { block }) => ({
