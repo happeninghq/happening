@@ -8,20 +8,5 @@
     {% endfor %}
 {% endif %}
 {% for field in form %}
-    <div class="form__field">
-        <div class="form__field__errors">{{ field.errors }}</div>
-        {% if field.is_hidden %}
-            {{ field }}
-        {% else %}
-            {% if not field.field.widget.hide_label %}
-                <div class="form__field__label">
-                    {{ field.label_tag }}
-                    {% if field.field.tooltip %}
-                        <span class="tooltip" title="{{field.field.tooltip}}"><i class="fa fa-question-circle form__field__info"></i></span>
-                    {% endif %}
-                </div>
-            {% endif %}
-            {{ field }}
-        {% endif %}
-    </div>
+    {% include "forms/_field.html" %}
 {% endfor %}

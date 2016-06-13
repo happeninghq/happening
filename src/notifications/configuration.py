@@ -8,6 +8,7 @@ class NotificationsEmailAddress(configuration.EmailField):
     """The email address to send notification emails from."""
 
     default = "noreply@happening.com"
+    category = "Emails"
 
 
 class EmailHeader(configuration.CharField):
@@ -16,6 +17,7 @@ class EmailHeader(configuration.CharField):
 
     default = "Hello **{{user}}**"
     field = forms.MarkdownField
+    category = "Emails"
 
 
 class EmailFooter(configuration.CharField):
@@ -24,3 +26,4 @@ class EmailFooter(configuration.CharField):
 
     default = "Thanks\nAdmin"
     field = forms.MarkdownField
+    category = "Emails"

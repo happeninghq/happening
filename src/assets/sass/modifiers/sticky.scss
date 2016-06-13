@@ -1,0 +1,11 @@
+.stick-top, .stick-bottom {
+	position: -webkit-sticky; 
+}
+
+.stick-top {
+	top: 0;
+}
+
+.stick-bottom {
+	bottom: 0;
+}

@@ -8,6 +8,7 @@ class NameOfEvents(configuration.CharField):
     """The term used to refer to an event, e.g. "match", "rally"."""
 
     default = "event"
+    category = "Display"
 
 
 class GoogleAnalyticsCode(configuration.CharField):
@@ -17,6 +18,7 @@ class GoogleAnalyticsCode(configuration.CharField):
     default = ""
     can_be_disabled = True
     default_enabled = False
+    category = "Analytics"
 
 
 class SiteTitle(configuration.CharField):
@@ -24,6 +26,7 @@ class SiteTitle(configuration.CharField):
     """The title of the website."""
 
     default = "Happening Demo Site"
+    category = "Display"
 
 
 class ForceSSL(configuration.BooleanField):
@@ -31,6 +34,7 @@ class ForceSSL(configuration.BooleanField):
     """Should SSL be forced."""
 
     default = False
+    category = "Security"
 
 
 class PrimaryEvent(configuration.ChoiceField):
@@ -39,6 +43,7 @@ class PrimaryEvent(configuration.ChoiceField):
 
     can_be_disabled = True
     default_enabled = False
+    category = "Display"
 
     def __init__(self, *args, **kwargs):
         """Setup choices."""

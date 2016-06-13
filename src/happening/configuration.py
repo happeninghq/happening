@@ -214,6 +214,7 @@ class ConfigurationVariable(object):
         # This isn't a nice way of assigning the tooltip, but as we don't
         # control all field types - it'll do for now
         f.tooltip = self.__doc__
+        f.category = self.category
         return f
 
     def _construct_api_field(self, *args, **kwargs):

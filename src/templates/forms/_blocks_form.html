@@ -1,0 +1,11 @@
+{% for name, fields in categories.items %}
+	<div class="block-list__item block">
+		<header class="block__header">
+            <h2 class="block__header-text">{{name}}</h2>
+        </header>
+
+        {% for field in fields %}
+        	{% include "forms/_field.html" %}
+        {% endfor %}
+	</div>
+{% endfor %}

@@ -10,12 +10,12 @@ export const init = () => {
       seconds: ko.observable(0),
     };
 
-    viewModel.value = ko.computed(() =>
+    viewModel.value = ko.computed(() => 
       // Convert viewModel.properties into int
-      parseInt(viewModel.days(), 10) * 86400) +
+      (parseInt(viewModel.days(), 10) * 86400) +
         (parseInt(viewModel.hours(), 10) * 3600) +
           (parseInt(viewModel.minutes(), 10) * 60) +
-            parseInt(viewModel.seconds(), 10);
+            parseInt(viewModel.seconds(), 10));
 
     const $this = $(this);
 

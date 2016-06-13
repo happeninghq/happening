@@ -1,8 +1,35 @@
 """Form helpers."""
 from django import template
 from django.template.loader import render_to_string
+from collections import OrderedDict
 
 register = template.Library()
+
+
+@register.filter
+def render_as_blocks(form):
+    """Render a form using blocks to contain sections."""
+    o_label_suffix = form.label_suffix
+    form.label_suffix = ""
+
+    categories = {}
+
+    for bf in form:
+        field = bf.field
+        if not hasattr(field, "category"):
+            # This should deal with EnabledDisabledFields
+            field = field.field
+        if field.category not in categories:
+            categories[field.category] = []
+        categories[field.category].append(bf)
+
+    # Sort categories alphabetically
+    categories = OrderedDict(sorted(categories.items()))
+
+    rendered = render_to_string("forms/_blocks_form.html",
+                                {"categories": categories})
+    form.label_suffix = o_label_suffix
+    return rendered
 
 
 @register.filter

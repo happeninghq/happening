@@ -6,16 +6,18 @@
 {% block admin_content %}
     <div class="l-container">
         <div class="l-primary-content block-list">
-            <div class="block block-list__item">
-                <header class="block__header">
-                    <h2 class="block__header-text">Configuration</h2>
-                </header>
-                <form method="POST" action="{% url "configuration" %}" class="form">
-                    {% csrf_token %}
-                    {{form|render}}
-                    <button type="submit">Save</button>
-                </form>
-            </div>
+            <form method="POST" action="{% url "configuration" %}" class="form">
+                {% csrf_token %}
+
+                {{form|render_as_blocks}}
+
+                <div class="block block-list__item stick-bottom">
+                    <div class="float-right">
+                        <button type="submit">Save</button>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </form>
         </div>
         <div class="l-secondary-content block-list">
             <div class="block block-list__item">
