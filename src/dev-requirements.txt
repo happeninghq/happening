@@ -8,7 +8,7 @@ flake8_docstrings==0.2.6 # PEP257
 coverage==4.1 # Coverage checker
 
 # For documentation
-Sphinx==1.4.3
+Sphinx==1.4.4
 
 # For debugging pages
 django-debug-toolbar==1.4.0

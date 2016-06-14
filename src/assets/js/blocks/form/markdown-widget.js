@@ -1,33 +1,53 @@
-/* global EpicEditor:false */
 import $ from 'jquery';
 
-/** Epic Editor doesn't support importing - so for now we will include it in the
-    page */
+import toMarkdown from 'to-markdown';
+import Quill from 'quill';
+import 'quill/dist/quill.base.css';
+import 'quill/dist/quill.snow.css';
+import '../../../../assets/sass/blocks/markdown-widget.scss';
+import { v4 } from 'uuid';
+import { markdown } from 'markdown';
+
 
 function setupMarkdownEditor(elem) {
   const $elem = $(elem);
-  const newElem = $('<div></div>');
+  const id = v4();
+
+  const toolbar = $(`<div id="i_${id}" class="toolbar">
+    <span class="ql-format-group">
+    <span title="Bold" class="ql-format-button ql-bold"></span>
+    <span class="ql-format-separator"></span>
+    <span title="Italic" class="ql-format-button ql-italic"></span>
+    </span>
+    <span class="ql-format-group">
+    <span title="List" class="ql-format-button ql-list"></span>
+    <span class="ql-format-separator"></span>
+    <span title="Bullet" class="ql-format-button ql-bullet"></span>
+    </span>
+    </div>`);
+
+  const newElem = $('<div>' + markdown.toHTML($elem.val()) + '</div>');
 
   newElem.insertBefore($elem);
+  toolbar.insertBefore(newElem);
 
   $elem.hide();
 
-  const editor = new EpicEditor({
-    container: newElem[0],
-    clientSideStorage: false,
-    textarea: elem[0],
-    basePath: '/static/epiceditor/epiceditor',
-    theme: {
-      base: '../../../lib/epiceditor/themes/base/epiceditor.css',
-      editor: '../../../lib/epiceditor/themes/editor/epic-light.css',
-      preview: '../../../lib/epiceditor/themes/preview/github.css',
+  var editor = new Quill(newElem[0], {
+    modules: {
+      toolbar: { container: '#i_' + id },
     },
+    theme: 'snow'
   });
-  editor.load();
+  
+
+  editor.on('text-change', function(delta, source) {
+    $elem.val(toMarkdown(editor.getHTML()).replace(/<(?:.|\n)*?>/gm, ''));
+  });
 }
 
 export const init = () => {
-  // $('.markdown-widget').each(function initMarkdownEditor() {
-  //   setupMarkdownEditor(this);
-  // });
+  $('.markdown-widget').each(function initMarkdownEditor() {
+    setupMarkdownEditor(this);
+  });
 };
