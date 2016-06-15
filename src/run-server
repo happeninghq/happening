@@ -6,5 +6,4 @@ if [ ! -d "ve" ]; then
     exit
 fi
 
-source ve/bin/activate
-python manage.py runserver $@
+node_modules/npm-run-all/bin/npm-run-all/index.js --parallel run-webpack run-development-server
