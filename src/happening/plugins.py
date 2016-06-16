@@ -99,20 +99,6 @@ def plugin_enabled(plugin_id):
     return setting.enabled
 
 
-def every(*o_args, **o_kwargs):
-    """Ensure that periodic tasks are only executed for enabled plugins."""
-    def every_inner(f):
-        from periodically.decorators import every as periodically_every
-
-        def every_inner_inner(*args, **kwargs):
-            # First check if this plugin is enabled, if not return
-            plugin_id = inspect.getmodule(f).__name__[:-len(".periodictasks")]
-            if not plugin_enabled(plugin_id):
-                return False
-            return f(*args, **kwargs)
-        return periodically_every(*o_args, **o_kwargs)(every_inner_inner)
-    return every_inner
-
 registered_middlewares = {}
 
 

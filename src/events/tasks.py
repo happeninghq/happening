@@ -1,6 +1,6 @@
 """Period tasks related to events."""
 
-from celery.decorators import periodic_task
+from happening.tasks import periodic_task
 from datetime import timedelta
 from .models import TicketOrder, WaitingListSubscription, TicketType
 from payments.models import Payment

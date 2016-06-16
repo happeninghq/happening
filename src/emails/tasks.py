@@ -1,6 +1,6 @@
 """Period tasks related to emails."""
 from datetime import datetime
-from celery.decorators import periodic_task
+from happening.tasks import periodic_task
 from datetime import timedelta
 
 
