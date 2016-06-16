@@ -5,7 +5,6 @@ pillow==3.2.0 # For image uploading
 django-gravatar2==1.4.0 # For gravatar
 django-cleanup==0.4.2 # Remove images when replacing them
 django-templated-email==0.4.9 # For sending emails
-git+https://github.com/jscott1989/django-periodically.git # Periodic tasks
 django-ganalytics==0.4 # Include analytics from settings
 django-widget-tweaks==1.4.1 # For editing form attributes in templates
 django-markdown-deux==1.0.5 # For rendering markdown
@@ -44,3 +43,5 @@ stripe==1.35.0 # For accepting payment
 beautifulsoup4==4.4.1 # For parsing HTML
 python-dotenv==0.5.1 # To use .env files
 gitpython==2.0.5 # For downloading plugins
+celery==3.1.23 # For periodic and background tasks
+redis==2.10.5 # For periodic and background tasks

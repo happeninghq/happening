@@ -11,7 +11,7 @@
     "run-development-server": "source ve/bin/activate; ./manage.py runserver 0.0.0.0:8000",
     "run-webpack": "webpack --watch",
     "run-redis": "redis-server /usr/local/etc/redis.conf",
-    "run-celery": "source ve/bin/activate; celery -A happeninghq worker -l info"
+    "run-celery": "source ve/bin/activate; celery -A happening worker -B -l info"
   },
   "repository": {
     "type": "git",

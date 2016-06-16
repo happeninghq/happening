@@ -1,6 +1,7 @@
 """Period tasks related to events."""
 
-from periodically.decorators import every
+from celery.decorators import periodic_task
+from datetime import timedelta
 from .models import TicketOrder, WaitingListSubscription, TicketType
 from payments.models import Payment
 from datetime import datetime
@@ -8,7 +9,7 @@ from .configuration import TicketTimeout
 from events.notifications import WaitingListExpiredNotification
 
 
-@every(seconds=30)
+@periodic_task(run_every=timedelta(seconds=30))
 def timeout_held_tickets():
     """Ensure that held tickets are released."""
     timeout = datetime.now() - TicketTimeout().get()
@@ -33,7 +34,7 @@ def timeout_held_tickets():
         order.delete()
 
 
-@every(minutes=5)
+@periodic_task(run_every=timedelta(minutes=5))
 def timeout_waiting_list():
     """Ensure that waiting list subscriptions are removed."""
     for subscription in WaitingListSubscription.objects.filter(
@@ -48,7 +49,7 @@ def timeout_waiting_list():
         subscription.delete()
 
 
-@every(minutes=10)
+@periodic_task(run_every=timedelta(minutes=10))
 def manage_waiting_list():
     """Ensure that tickets are distributed to waiting lists."""
     def manage_waiting_list_for(ticket_type):

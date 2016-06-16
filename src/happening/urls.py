@@ -16,12 +16,10 @@ from pages import views as pages_views
 
 # Initialise the plugins
 from happening.plugins import init
-from periodically import autodiscover
 
 # There isn't a great place to put initialisation code
 # so for now we'll put it in the primary urls.py
 init()
-autodiscover()
 
 router = routers.DefaultRouter()
 

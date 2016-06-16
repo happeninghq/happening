@@ -1,11 +1,11 @@
 """General period tasks."""
-from periodically.decorators import daily
 from happening.storage import storage
 from datetime import timedelta
 from django.utils import timezone
+from celery.decorators import periodic_task
 
 
-@daily
+@periodic_task(run_every=timedelta(days=1))
 def delete_old_temporary_media():
     """Delete temporary media older than 24 hours."""
     one_day_old = timezone.now() - timedelta(days=1)

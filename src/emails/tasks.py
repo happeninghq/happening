@@ -1,10 +1,10 @@
 """Period tasks related to emails."""
-
-from periodically.decorators import every
 from datetime import datetime
+from celery.decorators import periodic_task
+from datetime import timedelta
 
 
-@every(minutes=1)
+@periodic_task(run_every=timedelta(minutes=1))
 def send_emails():
     """Send emails which are active."""
     from .models import Email

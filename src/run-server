@@ -6,4 +6,4 @@ if [ ! -d "ve" ]; then
     exit
 fi
 
-node_modules/npm-run-all/bin/npm-run-all/index.js --parallel run-webpack run-development-server
+node_modules/npm-run-all/bin/npm-run-all/index.js --parallel run-redis run-celery run-webpack run-development-server

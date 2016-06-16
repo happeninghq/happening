@@ -1,6 +1,7 @@
 """Period tasks related to emails."""
 
-from periodically.decorators import every
+from celery.decorators import periodic_task
+from datetime import timedelta
 from .models import Backup
 from django.core.management.commands import dumpdata, flush, loaddata
 from django.db import DEFAULT_DB_ALIAS
@@ -15,7 +16,9 @@ import os
 import shutil
 
 
-@every(seconds=10)
+# TODO: This can now be done using a .delay call rather than
+# with this hacky solution
+@periodic_task(run_every=timedelta(seconds=30))
 def backup():
     """Complete any scheduled backups."""
     for backup in Backup.objects.all().filter(
@@ -58,7 +61,9 @@ def backup():
         backup.save()
 
 
-@every(seconds=10)
+# TODO: This can now be done using a .delay call rather than
+# with this hacky solution
+@periodic_task(run_every=timedelta(seconds=30))
 def restore():
     """Complete any scheduled restore."""
     for backup in Backup.objects.all().filter(
