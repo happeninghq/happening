@@ -17,6 +17,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.sites.models import Site
 from django import forms
 from allauth.socialaccount.models import SocialApp
+from . import tasks
 
 
 @admin_required
@@ -261,20 +262,22 @@ def backup(request):
 @require_POST
 def schedule_backup(request):
     """Dump zip of data and media."""
-    Backup().save()
+    tasks.backup.delay()
     messages.success(request, "Backup has been scheduled. It will be " +
                      "complete within 20 minutes.")
     return redirect("backup")
 
 
-@admin_required
-@require_POST
-def restore_backup(request):
-    """Restore zip to database."""
-    Backup(zip_file=request.FILES['zip_file'], restore=True).save()
-    messages.success(request, "Restore has been scheduled. It will be " +
-                     "complete within 20 minutes.")
-    return redirect("backup")
+# @admin_required
+# @require_POST
+# def restore_backup(request):
+#     """Restore zip to database."""
+#     backup = Backup(zip_file=request.FILES['zip_file'], restore=True)
+#     backup.save()
+#     tasks.restore.delay(backup.pk)
+#     messages.success(request, "Restore has been scheduled. It will be " +
+#                      "complete within 20 minutes.")
+#     return redirect("backup")
 
 
 @admin_required

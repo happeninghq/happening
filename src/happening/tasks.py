@@ -5,6 +5,12 @@ from django.utils import timezone
 from celery.decorators import periodic_task as celery_periodic_task
 import inspect
 from happening.plugins import plugin_enabled
+from .celery import app
+
+
+def task(*args, **kwargs):
+    """Register a task that can be ran in the background."""
+    return app.task(*args, **kwargs)
 
 
 def periodic_task(*o_args, **o_kwargs):

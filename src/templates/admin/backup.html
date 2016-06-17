@@ -59,16 +59,9 @@
                 <header class="block__header">
                     <h2 class="block__header-text">Restore</h2>
                 </header>
-                {% if restore_scheduled %}
-                    We are currently restoring from your backup. This should be completed within 20 minutes.
-                {% else %}
-                    <p>Restoring a backup will remove all data from the database. This is not reversable. To continue, upload the .zip generated from a Happening backup.</p>
-                    <form method="POST" action="{% url "restore_backup" %}" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <input type="file" name="zip_file">
-                        <button type="submit">Restore</button>
-                    </form>
-                {% endif %}
+                <div class="message-box message-box--info">
+                    <p>Backup restoring is temporarily disabled.</p>
+                </div>
             </div>
         </div>
 
