@@ -230,12 +230,13 @@ if USE_LIVE_DATA:
     MEDIA_URL = 'https://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 
+SENTRY_DSN = os.environ.get('SENTRY_DSN')
 
 # Sentry error tracking
 if USE_LIVE_DATA:
     # Set your DSN value
     RAVEN_CONFIG = {
-        'dsn': os.environ['SENTRY_DSN'],
+        'dsn': SENTRY_DSN,
     }
 
     # Add raven to the list of installed apps

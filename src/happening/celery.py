@@ -3,7 +3,11 @@ from __future__ import absolute_import
 import os
 from os.path import join, dirname, abspath
 from dotenv import load_dotenv
-from celery import Celery
+import celery
+import raven
+from raven.contrib.celery import register_signal, register_logger_signal
+from django.conf import settings
+
 
 dotenv_path = join(dirname(abspath(__file__)), '../.env')
 load_dotenv(dotenv_path)
@@ -12,6 +16,22 @@ load_dotenv(dotenv_path)
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'happening.settings')
 
 from django.conf import settings  # noqa
+
+
+class Celery(celery.Celery):
+    """Override so we can log to sentry."""
+
+    def on_configure(self):
+        """Override so we can log to sentry."""
+        if settings.USE_LIVE_DATA:
+            client = raven.Client(settings.SENTRY_DSN)
+
+            # register a custom filter to filter out duplicate logs
+            register_logger_signal(client)
+
+            # hook into the Celery error handler
+            register_signal(client)
+
 
 app = Celery('happening')
 
