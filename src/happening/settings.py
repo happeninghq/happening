@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 import dj_database_url
 import importlib
+from kombu import Queue
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -308,3 +309,7 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/London'
+CELERY_DEFAULT_QUEUE = 'happening'
+CELERY_QUEUES = (
+    Queue('happening',    routing_key='happening.#'),
+)
