@@ -63,11 +63,7 @@ class Email(db.Model):
         if self.event:
             self.to = self.to.replace("{{event.id}}", str(self.event.pk))\
                              .replace("{{event.pk}}", str(self.event.pk))
-
-        is_new = True if self.pk is None else False
         super(Email, self).save()
-        if is_new and self.start_sending < timezone.now() < self.stop_sending:
-            self.send_all()
 
 
 class SentEmail(db.Model):
