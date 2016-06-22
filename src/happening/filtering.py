@@ -3,6 +3,13 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.db.models import Count
 from happening.utils import get_request
 import re
+from email.utils import parseaddr
+
+
+class EmailUser(object):
+    """A result when targeting an email address."""
+    def __init__(self, email):
+        self.email = email
 
 
 def split_attributes(str):
@@ -28,6 +35,22 @@ def split_attributes(str):
 
 def query(str, data_type=User):
     """Get the results of a HQL Query."""
+    # First we split by comma and use that to separate the component parts
+    queries = str.split(",")
+    if len(queries) > 1:
+        return sum([list(query(s, data_type)) for s in queries], [])
+
+    # First check if we have been given an email address
+    email_address = parseaddr(str)[1]
+    if '@' in email_address:
+        # We have an email address
+        # First, check if there is a user that matches the email address
+        user = data_type.objects.filter(email=email_address).first()
+        if user is None:
+            # No user, create a temporary one
+            return [EmailUser(email_address)]
+        return [user]
+
     attributes = split_attributes(str)
 
     q = data_type.objects.all()

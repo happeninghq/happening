@@ -100,3 +100,34 @@ class TestFiltering(TestCase):
         tag.users.add(user1)
 
         self.assertTrue(filtering.matches(user1, "tags__has:(tag:test)"))
+
+    def test_multiple_filters(self):
+        """Test we can merge filters using comma."""
+        user1 = mommy.make(settings.AUTH_USER_MODEL)
+        user2 = mommy.make(settings.AUTH_USER_MODEL)
+        mommy.make(settings.AUTH_USER_MODEL)
+
+        tag = mommy.make("Tag", tag="test")
+        tag.users.add(user1)
+        tag2 = mommy.make("Tag", tag="test2")
+        tag2.users.add(user2)
+
+        results = filtering.query("tags__has:(tag:test),tags__has:(tag:test2)")
+        self.assertEqual(len(results), 2)
+
+    def test_email(self):
+        """Test that emails can be used which returns an EmailUser object."""
+        results = filtering.query("user@happeninghq.com")
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0].email, "user@happeninghq.com")
+
+        user1 = mommy.make(settings.AUTH_USER_MODEL,
+                           email="user1@happeninghq.com")
+        results = filtering.query("user1@happeninghq.com")
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0], user1)
+
+        results = filtering.query("user@happeninghq.com,user1@happeninghq.com")
+        self.assertEqual(len(results), 2)
+        self.assertEqual(results[0].email, "user@happeninghq.com")
+        self.assertEqual(results[1], user1)
