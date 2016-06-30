@@ -41,7 +41,7 @@ class Email(db.Model):
             return "Active"
         return "Pending"
 
-    def send(self, user):
+    def send(self, user, save=True):
         """Send the email to a user, if they haven't already received it."""
         sent_email = SentEmail(email=self, email_address=user.email)
         if isinstance(user, EmailUser):
@@ -59,12 +59,13 @@ class Email(db.Model):
                           content=render_email(self.content, user, self.event)
                           ).send()
 
-        sent_email.save()
+        if save:
+            sent_email.save()
 
-    def send_all(self):
+    def send_all(self, save=True):
         """Send the email to all eligible users."""
         for user in filtering.query(self.to):
-            self.send(user)
+            self.send(user, save)
 
     def save(self):
         """Automatically send emails if required."""
