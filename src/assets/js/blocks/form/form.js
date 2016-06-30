@@ -10,6 +10,7 @@ import * as markdownWidget from './markdown-widget';
 import * as propertiesWidget from './properties-widget';
 import * as ticketsWidget from './tickets-widget';
 import * as timeWidget from './time-widget';
+import * as datetimerangeWidget from './datetimerange-widget';
 
 export const init = () => {
   addressWidget.init();
@@ -24,4 +25,5 @@ export const init = () => {
   propertiesWidget.init();
   ticketsWidget.init();
   timeWidget.init();
+  datetimerangeWidget.init();
 };

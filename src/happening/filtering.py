@@ -8,7 +8,9 @@ from email.utils import parseaddr
 
 class EmailUser(object):
     """A result when targeting an email address."""
+
     def __init__(self, email):
+        """Create EmailUser."""
         self.email = email
 
 

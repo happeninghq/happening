@@ -1,0 +1,37 @@
+/*doc
+---
+title: Toggle
+name: toggle
+category: Forms
+---
+
+Allow toggling between a number of options
+
+```html_example
+
+<div class="toggle">
+
+</div>
+```
+*/
+.toggle {
+	display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.toggle__item {
+	@extend .btn;
+
+	display: table-cell;
+    text-align: center;
+    opacity: 0.5;
+
+    &.toggle__item--active {
+    	opacity: 1;
+    }
+
+    &:active {
+    	top: 0px;
+    }
+}

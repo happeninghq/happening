@@ -482,3 +482,45 @@ class CurrencyWidget(forms.TextInput):
         attrs['type'] = 'number'
         attrs['step'] = '0.01'
         return super(CurrencyWidget, self).render(name, value, attrs)
+
+
+class DateTimeRangeWidget(forms.TextInput):
+
+    """A widget for inputing a range."""
+
+    hide_label = True
+
+    def __init__(self, *args, allow_instant=False, **kwargs):
+        """Create widget."""
+        self.allow_instant = allow_instant
+        super(DateTimeRangeWidget, self).__init__(*args, **kwargs)
+
+    def render(self, name, value, attrs):
+        """Render the widget."""
+        if not value:
+            value = ""
+        return render_to_string("forms/widgets/datetimerange_widget.html", {
+            "name": name,
+            "value": value,
+            "allow-instant": self.allow_instant
+        })
+
+
+class DateTimeRangeField(forms.CharField):
+
+    """A field for inputting a range."""
+
+    widget = DateTimeRangeWidget
+
+    def __init__(self, *args, allow_instant=False, **kwargs):
+        """Create a DateTimeRangeField."""
+        kwargs['widget'] = self.widget(allow_instant=allow_instant)
+        kwargs["required"] = False
+        super(DateTimeRangeField, self).__init__(*args, **kwargs)
+
+
+class EmailToField(forms.CharField):
+
+    """A field for targetting emails."""
+
+    pass

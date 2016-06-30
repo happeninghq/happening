@@ -1,0 +1,24 @@
+<div class="datetimerange-widget">
+	<input type="hidden" class="datetimerange__value" name="{{name}}" value="{{value}}" data-bind="value: value">
+	<div class="toggle">
+		<div class="toggle__item toggle__item--active" data-toggle="#send-once">Send Once</div>
+		<div class="toggle__item toggle__item--schedule" data-toggle="#schedule">Schedule</div>
+	</div>
+	<div id="send-once">
+	</div>
+	<div id="schedule" class="block__cutout">
+		<div class="form__field">
+	        <div class="form__field__label">
+	            Start Sending
+	        </div>
+	        <input type="text" class="datetime-widget" data-datetime-format="Y-m-d H:i:00" data-bind="value: start_sending"/>
+	    </div>
+
+	    <div class="form__field">
+	        <div class="form__field__label">
+	            Stop Sending
+	        </div>
+	        <input type="text" class="datetime-widget" data-datetime-format="Y-m-d H:i:00" data-bind="value: stop_sending" />
+	    </div>
+	</div>
+</div>

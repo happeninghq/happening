@@ -2,6 +2,7 @@
 from happening.utils import convert_to_underscore, dump_django
 from django.contrib.contenttypes.models import ContentType
 from happening.models import Follow
+from happening.filtering import EmailUser
 
 
 class Notification(object):
@@ -44,20 +45,25 @@ class Notification(object):
         if template.endswith('_notification'):
             template = template[:-13]
 
-        n = notification_model(user=self.recipient,
-                               data=dump_django(self.data),
-                               template=template)
+        if not isinstance(self.recipient, EmailUser):
+            # This is a normal notification to a user
+            n = notification_model(user=self.recipient,
+                                   data=dump_django(self.data),
+                                   template=template)
 
-        # If we should show it, we save the notification
-        notification_preferences = self.recipient.notification_preferences.\
-            get_with_default(template)
+            # If we should show it, we save the notification
+            notification_preferences = self.recipient.\
+                notification_preferences.get_with_default(template)
 
-        if notification_preferences['send_notifications']:
-            n.save()
+            if notification_preferences['send_notifications']:
+                n.save()
 
-        # If we should email it, we do so
-        if notification_preferences['send_emails']:
-            n.email_notification()
+            # If we should email it, we do so
+            if notification_preferences['send_emails']:
+                n.email_notification()
+        else:
+            # We're just sending an email
+            pass
 
 
 def notify_following(obj, role, notification, data, ignore=[]):

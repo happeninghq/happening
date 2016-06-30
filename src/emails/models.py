@@ -7,6 +7,8 @@ from happening import filtering
 from events.models import Event
 from emails.notifications import EmailNotification
 from emails import render_email
+from .tasks import send_email
+from happening.filtering import EmailUser
 
 
 class Email(db.Model):
@@ -19,8 +21,8 @@ class Email(db.Model):
     to = models.TextField()
     subject = models.CharField(max_length=255)
     content = models.TextField()
-    start_sending = models.DateTimeField()
-    stop_sending = models.DateTimeField()
+    start_sending = models.DateTimeField(null=True)
+    stop_sending = models.DateTimeField(null=True)
     disabled = models.BooleanField(default=False)
 
     class Meta:
@@ -41,7 +43,15 @@ class Email(db.Model):
 
     def send(self, user):
         """Send the email to a user, if they haven't already received it."""
-        if self.sent_emails.filter(user=user).count() > 0:
+        sent_email = SentEmail(email=self, email_address=user.email)
+        if isinstance(user, EmailUser):
+            sent_emails_count = self.sent_emails.filter(
+                email_address=user.email).count()
+        else:
+            sent_emails_count = self.sent_emails.filter(user=user).count()
+            sent_email.user = user
+
+        if sent_emails_count > 0:
             return
 
         EmailNotification(user,
@@ -49,7 +59,7 @@ class Email(db.Model):
                           content=render_email(self.content, user, self.event)
                           ).send()
 
-        SentEmail(email=self, user=user).save()
+        sent_email.save()
 
     def send_all(self):
         """Send the email to all eligible users."""
@@ -65,6 +75,10 @@ class Email(db.Model):
                              .replace("{{event.pk}}", str(self.event.pk))
         super(Email, self).save()
 
+        # If we don't have a start and end, send immediately
+        if not self.start_sending:
+            send_email.delay(self.pk)
+
 
 class SentEmail(db.Model):
 
@@ -72,7 +86,8 @@ class SentEmail(db.Model):
 
     email = models.ForeignKey(Email, related_name="sent_emails")
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name="received_emails")
+                             related_name="received_emails", null=True)
+    email_address = models.CharField(max_length=255)
     sent_datetime = models.DateTimeField(auto_now_add=True)
 
     class Meta:

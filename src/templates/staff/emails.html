@@ -31,7 +31,7 @@
                                     </td>
                                     <td><a href="{% url "email" email.pk %}">{{email.subject}}</a></td>
                                     <td>{{email.to}}</td>
-                                    <td data-sort="{{email.start_sending|epoch}}">{{email.start_sending}}</td>
+                                    <td data-sort="{{email.start_sending|epoch}}">{% if email.start_sending %}{{email.start_sending}}{% endif %}</td>
                                     <td data-sort="{{email.stop_sending|epoch}}">{% if email.stop_sending %}{{email.stop_sending}}{% endif %}</td>
                                     <td>{{email.status}}</td>
                                     <td>{{email.sent_emails.count}}</td>
