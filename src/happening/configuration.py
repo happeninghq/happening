@@ -15,7 +15,6 @@ from django.contrib.auth.models import User
 import json
 from django.utils import timezone
 from datetime import timedelta
-from emails.models import Email
 from happening.forms import EnabledDisabledField, EmptyWidget
 from django.forms.forms import pretty_name
 from rest_framework import serializers
@@ -408,6 +407,8 @@ class EmailsField(ConfigurationVariable):
 
         start_sending = get_time(event, email['start_sending'])
         stop_sending = get_time(event, email['stop_sending'])
+
+        from emails.models import Email
 
         Email(event=event,
               to=email['to'],

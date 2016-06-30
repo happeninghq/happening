@@ -3,6 +3,7 @@ from happening.utils import convert_to_underscore, dump_django
 from django.contrib.contenttypes.models import ContentType
 from happening.models import Follow
 from happening.filtering import EmailUser
+from notifications.models import EmailableNotification
 
 
 class Notification(object):
@@ -36,9 +37,6 @@ class Notification(object):
 
     def send(self):
         """Send the notification."""
-        model_ct = ContentType.objects.get(app_label="notifications",
-                                           model="notification")
-        notification_model = model_ct.model_class()
         class_name = self.__class__.__name__
         template = convert_to_underscore(class_name)
 
@@ -47,10 +45,19 @@ class Notification(object):
 
         if not isinstance(self.recipient, EmailUser):
             # This is a normal notification to a user
+            model_ct = ContentType.objects.get(app_label="notifications",
+                                               model="notification")
+            notification_model = model_ct.model_class()
             n = notification_model(user=self.recipient,
                                    data=dump_django(self.data),
                                    template=template)
+        else:
+            n = EmailableNotification()
+            n.user = self.recipient
+            n.data = dump_django(self.data)
+            n.template = template
 
+        if not isinstance(self.recipient, EmailUser):
             # If we should show it, we save the notification
             notification_preferences = self.recipient.\
                 notification_preferences.get_with_default(template)
@@ -58,12 +65,10 @@ class Notification(object):
             if notification_preferences['send_notifications']:
                 n.save()
 
-            # If we should email it, we do so
-            if notification_preferences['send_emails']:
-                n.email_notification()
-        else:
-            # We're just sending an email
-            pass
+        # If we should email it, we do so
+        if isinstance(self.recipient, EmailUser) or \
+                notification_preferences['send_emails']:
+            n.email_notification()
 
 
 def notify_following(obj, role, notification, data, ignore=[]):

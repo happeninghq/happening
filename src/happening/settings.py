@@ -289,6 +289,7 @@ if 'HAPPENING_TESTING' in os.environ:
     DEBUG = False
     import logging
     logging.disable(logging.CRITICAL)
+    CELERY_ALWAYS_EAGER = True
 
 
 REST_FRAMEWORK = {

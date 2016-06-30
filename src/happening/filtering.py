@@ -13,6 +13,10 @@ class EmailUser(object):
         """Create EmailUser."""
         self.email = email
 
+    def __str__(self):
+        """Return email."""
+        return self.email
+
 
 def split_attributes(str):
     """Split a HQL query into attributes."""

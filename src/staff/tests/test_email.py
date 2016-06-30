@@ -27,13 +27,14 @@ class TestEmail(TestCase):
         self.client.login(username=self.user.username, password="password")
 
         # With a single attendee
+        start_sending = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
+        stop_sending = (
+            timezone.now() + timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
         self.client.post("/staff/create_email", {
-            "to": "",
+            "to": "a@b.com",
             "subject": test_subject,
             "content": test_content,
-            "start_sending": timezone.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "stop_sending": (timezone.now() + timedelta(days=1))
-            .strftime("%Y-%m-%d %H:%M:%S")
+            "sending_range": start_sending + "---" + stop_sending
             })
 
         self.assertEqual(1, len(mail.outbox))
@@ -43,12 +44,13 @@ class TestEmail(TestCase):
 
         # With two members
         mommy.make(settings.AUTH_USER_MODEL)
+        start_sending = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
+        stop_sending = (
+            timezone.now() + timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
         self.client.post("/staff/create_email", {
-            "to": "",
+            "to": "a@b.com,b@c.com",
             "subject": test_subject,
             "content": test_content,
-            "start_sending": timezone.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "stop_sending": (timezone.now() + timedelta(days=1))
-            .strftime("%Y-%m-%d %H:%M:%S")
+            "sending_range": start_sending + "---" + stop_sending
             })
         self.assertEqual(2, len(mail.outbox))

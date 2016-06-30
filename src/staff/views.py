@@ -360,15 +360,9 @@ def email_event(request, pk):
     if request.method == "POST":
         form = EmailForm(request.POST)
         if form.is_valid():
-            # Send email to attendees
-            email = Email(
-                to=form.cleaned_data['to'],
-                subject=form.cleaned_data['subject'],
-                content=form.cleaned_data['content'],
-                start_sending=form.cleaned_data['start_sending'],
-                stop_sending=form.cleaned_data['stop_sending'],
-            )
-            email.save()
+            instance = form.save(commit=False)
+            instance.event = event
+            instance.save()
             messages.success(request, "Email created")
             return redirect("staff_emails")
     return render(request, "staff/email_event.html",

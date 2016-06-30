@@ -5,7 +5,6 @@ from happening.utils import convert_to_underscore
 import json
 from django.core.files import File
 from happening.storage import storage
-from events.models import Event
 from datetime import timedelta
 
 
@@ -261,6 +260,7 @@ class EmailsWidget(forms.Widget):
 
     def render(self, name, value, attrs):
         """Render the widget."""
+        from events.models import Event
         if not value:
             value = []
         if not isinstance(value, str):
