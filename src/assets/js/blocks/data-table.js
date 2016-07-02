@@ -12,7 +12,9 @@ export const init = () => {
     const $this = $(this);
 
     $this.data('setup-datatable', () => {
-      $this.dataTable();
+      $this.dataTable({
+        "dom": 'rtip'
+      });
     });
 
     $this.data('destroy-datatable', () => {
@@ -25,6 +27,7 @@ export const init = () => {
     });
 
     $this.data('setup-datatable')();
+    $this[0].dispatchEvent(new CustomEvent('datatable-initialised'));
   });
 };
 

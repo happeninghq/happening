@@ -101,16 +101,19 @@ export const init = () => {
     const $this = $(this);
     const filter = $($this.data('filter'));
 
-    let f = null;
-    if (filter.hasClass('data-table')) {
-      f = bindFilterToDataTable($this, filter.dataTable());
-    } else if (filter.hasClass('searchable-list')) {
-      f = bindFilterToSearchableList($this, filter.data('searchable-list'));
+    const bindToF = (f) => {
+      $this.find('input').keyup(f.filter);
+      $this.find('input').change(f.filter);
+
+      $this.find('.filter-form__reset').click(f.resetFilter);
     }
 
-    $this.find('input').keyup(f.filter);
-    $this.find('input').change(f.filter);
-
-    $this.find('.filter-form__reset').click(f.resetFilter);
+    if (filter.hasClass('data-table')) {
+      filter[0].addEventListener('datatable-initialised', () => {
+        bindToF(bindFilterToDataTable($this, filter.DataTable()));
+      });
+    } else if (filter.hasClass('searchable-list')) {
+      bindToF(bindFilterToSearchableList($this, filter.data('searchable-list')));
+    }
   });
 };
