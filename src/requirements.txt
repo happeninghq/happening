@@ -19,6 +19,7 @@ djangorestframework==3.3.3
 markdown==2.6.6
 django-filter==0.13.0
 dry-rest-permissions==0.1.6
+django-wkhtmltopdf==3.0.0
 
 
 # Heroku

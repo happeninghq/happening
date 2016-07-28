@@ -94,6 +94,8 @@ INSTALLED_APPS = [
 
     'django_gravatar',
 
+    'wkhtmltopdf',
+
     'happening',
     'emails',
     'events',
