@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   context: __dirname,
@@ -29,10 +30,19 @@ module.exports = {
         test: /\.((ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9]))|(ttf|eot)$/,
         loader: 'file',
       },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract(
+          "style",
+          "css!sass")
+        }
     ],
   },
 
   plugins: [
+    new ExtractTextPlugin("style.css", {
+      allChunks: true
+    })
     // new webpack.optimize.UglifyJsPlugin({
     //   compress: {
     //     warnings: false,
