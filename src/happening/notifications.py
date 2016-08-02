@@ -4,6 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from happening.models import Follow
 from happening.filtering import EmailUser
 from notifications.models import EmailableNotification
+from django.contrib.auth.models import User
 
 
 class Notification(object):
@@ -19,6 +20,9 @@ class Notification(object):
 
     send_notification = True
     send_email = True
+
+    staff_only = False
+    admin_only = False
 
     def __init__(self, recipient, **data):
         """Specify the user to notify and the data to pass."""
@@ -83,4 +87,20 @@ def notify_following(obj, role, notification, data, ignore=[]):
     for follow in follows:
         if follow.user not in ignore:
             n = notification(follow.user, **data)
+            n.send()
+
+
+def notify_staff(notification, data, ignore=[]):
+    """Send a notification to all staff."""
+    for user in User.objects.filter(is_active=True, is_staff=True):
+        if user not in ignore:
+            n = notification(user, **data)
+            n.send()
+
+
+def notify_admins(notification, data, ignore=[]):
+    """Send a notification to all staff."""
+    for user in User.objects.filter(is_active=True, is_superuser=True):
+        if user not in ignore:
+            n = notification(user, **data)
             n.send()

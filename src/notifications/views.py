@@ -8,7 +8,7 @@ from happening.plugins import plugin_enabled
 
 
 @login_required()
-def list(request):
+def list_notifications(request):
     """List all notifications."""
     rendered = render(request, "notifications/list.html")
     for notification in request.user.notifications.all():
@@ -40,6 +40,10 @@ def format_notification_settings(user, notification_types):
     categories = {}
     for n, o in list(notification_types.items()):
         if not o.can_edit_send_notification and not o.can_edit_send_email:
+            continue
+
+        if o.staff_only and not user.is_staff or \
+                o.admin_only and not user.is_superuser:
             continue
 
         if o.category not in categories:
