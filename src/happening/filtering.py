@@ -74,8 +74,8 @@ def query(str, data_type=User):
 
                 # This only works if the "has" is on the "many" side of the
                 # relationship. TODO: If needed, add one for the "one" side.
-                related_model = data_type._meta.get_field_by_name(
-                    key_parts[0])[0].field.model
+                related_model = data_type._meta.get_field(
+                    key_parts[0]).field.model
                 results = query(value[1:-1], related_model)
 
                 q = q.filter(**{key_parts[0] + "__in": results})
@@ -85,7 +85,7 @@ def query(str, data_type=User):
         # If value is "True" or "False" (regardless of case) and the datatype
         # of key is Boolean then we convert it to boolean
         if value.lower() in ['true', 'false']:
-            key_type = data_type._meta.get_field_by_name(key)[0]
+            key_type = data_type._meta.get_field(key)
             if key_type.__class__.__name__ == "BooleanField":
                 value = value.lower() == 'true'
         q = q.filter(**{key: value})

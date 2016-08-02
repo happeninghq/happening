@@ -1,5 +1,5 @@
 # For testing
-django-beautifulsoup-test==1.1.1 # HTML Testing
+django-beautifulsoup-test==1.1.3 # HTML Testing
 model_mommy==1.2.6 # For creating test objects
 
 # For development
