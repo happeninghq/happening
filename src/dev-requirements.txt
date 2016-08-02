@@ -3,13 +3,13 @@ django-beautifulsoup-test==1.1.1 # HTML Testing
 model_mommy==1.2.6 # For creating test objects
 
 # For development
-flake8==2.5.4 # PEP8
-flake8_docstrings==0.2.6 # PEP257
-coverage==4.1 # Coverage checker
+flake8==3.0.3 # PEP8
+flake8_docstrings==1.0.2 # PEP257
+coverage==4.2 # Coverage checker
 
 # For documentation
-Sphinx==1.4.4
+Sphinx==1.4.5
 
 # For debugging pages
-django-debug-toolbar==1.4.0
+django-debug-toolbar==1.5
 django-debug-toolbar-template-profiler==1.0.1
