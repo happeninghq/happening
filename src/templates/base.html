@@ -43,7 +43,15 @@
                             {% include "_primary_navigation_item.html" with link="events" text=vv icon="calendar" %}
                         {% endwith %}
                     {% endwith %}
-                    {% include "_primary_navigation_item.html" with link="members" text="Members" icon="user" %}
+                    {% with v="members.configuration.MembersListVisibility"|get_configuration %}
+                        {% if v == "all" %}
+                            {% include "_primary_navigation_item.html" with link="members" text="Members" icon="user" %}
+                        {% else %}
+                            {% if request.user.is_authenticated %}
+                                {% include "_primary_navigation_item.html" with link="members" text="Members" icon="user" %}
+                            {% endif %}
+                        {% endif %}
+                    {% endwith %}
                     {% if request.user.is_authenticated %}
                         <li class="menu__item menu__item--with-icon main-header__padded notification-button {% if primary_nav == "notifications_list" %}menu__item--active{% endif %}">
                             <a href="{% url "notifications_list" %}" class="menu__item__icon plain-link notifications-list-link dropdown--link" data-dropdown="notifications-list"><i class="fa fa-bell"></i></a>

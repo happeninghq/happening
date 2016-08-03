@@ -16,10 +16,18 @@ from .decorators import require_editing_own_profile
 from django.contrib import messages
 from django.contrib.auth import logout
 from members.forms import AddTagForm
+from members.configuration import MembersListVisibility
 
 
 def index(request):
     """Show the members list."""
+    visible = MembersListVisibility().get()
+    if visible in ['staff', 'members'] and not request.user.is_authenticated():
+        return redirect("index")
+
+    if visible == 'staff' and not request.user.is_staff:
+        return redirect('my_profile')
+
     return render(request, "members/index.html",
                   {"members": get_user_model().objects.filter(is_active=True)})
 
