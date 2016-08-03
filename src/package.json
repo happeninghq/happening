@@ -47,6 +47,7 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "reqwest": "^2.0.5",
+    "spectrum-colorpicker": "^1.8.0",
     "timeago": "^1.5.2",
     "to-markdown": "^3.0.0"
   },

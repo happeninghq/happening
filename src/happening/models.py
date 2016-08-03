@@ -9,7 +9,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.signing import Signer
 from django_pgjson.fields import JsonField
 from happening.storage import media_path
-from happening.appearance import DEFAULT_THEME_SETTINGS
+from happening.appearance import THEME_SETTINGS
 
 signer = Signer()
 
@@ -30,7 +30,7 @@ class HappeningSite(db.Model):
 
     def get_theme_settings(self):
         """Get theme settings for this site."""
-        z = DEFAULT_THEME_SETTINGS.copy()
+        z = {k: v["default"] for k, v in THEME_SETTINGS.items()}
         z.update(self.theme_settings)
         return z
 

@@ -176,8 +176,11 @@ def appearance(request):
     def setup_form(form):
         for item, value in list(site.get_theme_settings().items()):
             form.fields[item] = forms.CharField(
-                # widget=html5_widgets.ColorInput,
+                widget=forms.TextInput(
+                    attrs={'type': 'color'}
+                ),
                 label=item.replace("-", " ").title())
+            # form.fields[item].tooltip = "AAA"
             initial_data[item] = value
 
     form = ThemeForm(initial=initial_data)

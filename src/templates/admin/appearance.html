@@ -8,16 +8,17 @@
         <style id="customCSS" type="text/css"></style>
         <div class="l-container">
             <div class="l-primary-content block-list">
-                <div class="block block-list__item">
-                    <header class="block__header">
-                        <h2 class="block__header-text">Appearance</h2>
-                    </header>
-                    <form method="POST" action="{% url "appearance" %}" class="form">
-                        {% csrf_token %}
-                        {{theme_form|render}}
-                        <button type="submit">Save</button>
-                    </form>
-                </div>
+                <form method="POST" action="{% url "appearance" %}" class="form">
+                    {% csrf_token %}
+                    {{theme_form|render_as_blocks}}
+                    
+                    <div class="block block-list__item stick-bottom">
+                        <div class="float-right">
+                            <button type="submit">Save</button>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </form>
             </div>
             <div class="l-secondary-content block-list">
                 <div class="block block-list__item">

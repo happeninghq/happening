@@ -18,10 +18,16 @@ def render_as_blocks(form):
         field = bf.field
         if not hasattr(field, "category"):
             # This should deal with EnabledDisabledFields
-            field = field.field
-        if field.category not in categories:
-            categories[field.category] = []
-        categories[field.category].append(bf)
+            if hasattr(field, "field"):
+                field = field.field
+
+        category = "General"
+        if hasattr(field, "category"):
+            category = field.category
+
+        if category not in categories:
+            categories[category] = []
+        categories[category].append(bf)
 
     # Sort categories alphabetically
     categories = OrderedDict(sorted(categories.items()))
