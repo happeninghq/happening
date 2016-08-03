@@ -27,7 +27,7 @@ gunicorn==19.6.0 # For hosting on heroku
 dj-database-url==0.4.1 # Heroku databases
 dj-static==0.0.6 # Static files
 psycopg2==2.6.2 # Postgres driver
-django-storages==1.4.1 # Media storage on AWS
+django-storages==1.5.0 # Media storage on AWS
 boto==2.42.0 # Media storage on AWS
 
 # Authentication
@@ -41,8 +41,8 @@ cached-property==1.3.0 # Add cachable properties
 vcrpy==1.9.0 # For mocking HTTP requests
 python-dateutil==2.5.3 # For date manipulations
 stripe==1.37.0 # For accepting payment
-beautifulsoup4==4.5.0 # For parsing HTML
+beautifulsoup4==4.5.1 # For parsing HTML
 python-dotenv==0.5.1 # To use .env files
-gitpython==2.0.7 # For downloading plugins
+gitpython==2.0.8 # For downloading plugins
 celery==3.1.23 # For periodic and background tasks
 redis==2.10.5 # For periodic and background tasks
