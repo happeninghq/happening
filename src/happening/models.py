@@ -30,9 +30,15 @@ class HappeningSite(db.Model):
 
     def get_theme_settings(self):
         """Get theme settings for this site."""
-        z = {k: v["default"] for k, v in THEME_SETTINGS.items()}
-        z.update(self.theme_settings)
-        return z
+        k = {}
+        for category, items in THEME_SETTINGS.items():
+            for key, value in items["variables"].items():
+                k[key] = {"value": value["default"],
+                          "category": category,
+                          "tooltip": value.get("tooltip")}
+                if key in self.theme_settings:
+                    k[key]["value"] = self.theme_settings[key]
+        return k
 
 
 class Follow(db.Model):

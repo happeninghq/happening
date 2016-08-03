@@ -180,8 +180,10 @@ def appearance(request):
                     attrs={'type': 'color'}
                 ),
                 label=item.replace("-", " ").title())
-            # form.fields[item].tooltip = "AAA"
-            initial_data[item] = value
+            form.fields[item].category = value["category"]
+            if "tooltip" in value:
+                form.fields[item].tooltip = value["tooltip"]
+            initial_data[item] = value["value"]
 
     form = ThemeForm(initial=initial_data)
     setup_form(form)
