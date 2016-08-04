@@ -18,6 +18,8 @@ from django.contrib.sites.models import Site
 from django import forms
 from allauth.socialaccount.models import SocialApp
 from . import tasks
+from happening.appearance import THEME_SETTINGS
+from collections import OrderedDict
 
 
 @admin_required
@@ -199,8 +201,10 @@ def appearance(request):
             site.save()
 
             return redirect("appearance")
+
+    categories = OrderedDict(sorted(THEME_SETTINGS.items()))
     return render(request, "admin/appearance.html",
-                  {"theme_form": form})
+                  {"theme_form": form, "categories": categories})
 
 
 @admin_required

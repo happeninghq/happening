@@ -18,6 +18,9 @@ import * as blocks from './blocks.js';
 
 import * as editPage from './edit-page.js';
 
+
+import * as matchHeight from './match-height.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   ajax.init();
   confirm.init();
@@ -30,4 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
   blocks.init();
 
   editPage.init();
+
+  matchHeight.init();
 });

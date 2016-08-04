@@ -7,6 +7,14 @@
     <div class="appearance">
         <style id="customCSS" type="text/css"></style>
         <div class="l-container">
+            <div class="block-list__item block">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text">Appearance</h2>
+                </header>
+                <p>Use this form to change the appearance of your Happening community.</p>
+
+                <p>Adjust the settings on the left, and preview the changes in realtime on the right. Once you're finished, click "Save" to commit the changes.</p>
+            </div>
             <div class="l-primary-content block-list">
                 <form method="POST" action="{% url "appearance" %}" class="form">
                     {% csrf_token %}
@@ -21,11 +29,14 @@
                 </form>
             </div>
             <div class="l-secondary-content block-list">
-                <div class="block block-list__item">
-                    <header class="block__header">
-                        <h2 class="block__header-text block__header-text--small">Appearance</h2>
-                    </header>
-                </div>
+                {% for category, c in categories.items %}
+                    <div class="block block-list__item match-height" data-match="#block_{{category}}">
+                        <header class="block__header">
+                            <h2 class="block__header-text block__header-text--small">{{category}}</h2>
+                        </header>
+                        {{c.preview|safe}}
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
