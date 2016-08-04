@@ -21,7 +21,6 @@ To use a block, create a file named ``blocks.py`` inside any app/plugin. Inside 
 
     from happening.plugins import plugin_block
     from django.template.loader import render_to_string
-    from django.template import RequestContext
 
 
     @plugin_block("events.event_long")
@@ -29,7 +28,7 @@ To use a block, create a file named ``blocks.py`` inside any app/plugin. Inside 
         """Add groups to long event information."""
         return render_to_string("groups/blocks/events/event_long.html",
                                 {"event": event},
-                                context_instance=RequestContext(request))
+                                request=request)
 
 This will add the rendered template to the ``events.event_long`` block. Using render_to_string to use templates is a useful technique with blocks but is not required.
 

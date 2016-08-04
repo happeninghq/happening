@@ -2,7 +2,6 @@ from .utils import BlockType, register_block_type
 from django import forms
 from happening.forms import MarkdownField
 from django.template.loader import render_to_string
-from django.template import RequestContext
 from events.models import Event
 
 
@@ -48,7 +47,7 @@ class FutureEventsBlockType(BlockType):
                                  "future_events_sliced":
                                     future_events[:int(data.get(
                                         "max_events", 2))]},
-                                context_instance=RequestContext(request))
+                                request=request)
 
     def render_content(self, request, data):
         """Return the first event, or nothing."""
@@ -57,7 +56,7 @@ class FutureEventsBlockType(BlockType):
             return ""
         return render_to_string("events/_event_block.html",
                                 {"event": events[0]},
-                                context_instance=RequestContext(request))
+                                request=request)
 
 
 @register_block_type
@@ -79,7 +78,7 @@ class PastEventsBlockType(BlockType):
                                  "past_events_sliced":
                                     past_events[:int(data.get(
                                         "max_events", 2))]},
-                                context_instance=RequestContext(request))
+                                request=request)
 
     def render_content(self, request, data):
         """Return the first event, or nothing."""
@@ -88,7 +87,7 @@ class PastEventsBlockType(BlockType):
             return ""
         return render_to_string("events/_event_block.html",
                                 {"event": events[0]},
-                                context_instance=RequestContext(request))
+                                request=request)
 
 
 @register_block_type
@@ -100,4 +99,4 @@ class WelcomeBlockType(BlockType):
     def render_content(self, request, data):
         """Welcome the user."""
         return render_to_string("page_blocks/welcome.html",
-                                context_instance=RequestContext(request))
+                                request=request)
