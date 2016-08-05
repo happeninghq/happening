@@ -13,7 +13,7 @@ function setupMarkdownEditor(elem) {
 
   newElem.insertBefore($elem);
 
-  // $elem.hide();
+  $elem.hide();
 
   var editor = new Quill(newElem[0], {
     modules: {
