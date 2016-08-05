@@ -1,11 +1,14 @@
+@import "../../../node_modules/quill/dist/quill";
+@import "../../../node_modules/quill/dist/quill.snow";
+
 .ql-container, .ql-toolbar {
 	background: #FFF;
 }
 
-.ql-container {
-	height: 12em !important;
+.ql-toolbar button {
+    margin: 0;
 }
 
-.ql-toolbar {
-	border-bottom: 1px solid #ddd;
+.ql-container {
+	height: 12em !important;
 }
