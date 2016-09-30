@@ -19,6 +19,7 @@
                 <p>This action cannot be reversed.</p>
 
                 <form method="POST" action="{% url "close_account" member.pk %}">
+                    {% csrf_token %}
                     <button class="btn btn--warning" type="submit">Continue</button>
                     <a class="btn" href="{% url "my_settings" %}">Cancel</a>
                 </form>
