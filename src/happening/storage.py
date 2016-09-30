@@ -14,6 +14,10 @@ def media_path(path):
 
     This is to be used with upload_to.
     """
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] in ('makemigrations', 'migrate'):
+        return None  # Hide ourselves from Django migrations
+
     def inner(instance, filename):
         ext = filename.rsplit(".", 1)[-1]
         # TODO: this loses the original filename
