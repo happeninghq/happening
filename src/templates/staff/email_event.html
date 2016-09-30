@@ -11,10 +11,10 @@
                     <h2 class="block__header-text">Email attendees of {{event}}</h2>
                 </header>
                     
-                <form method="POST" action="{% url "email_event" event.pk %}" class="form">
+                <form method="POST" action="{% url "email_event" event.pk %}" class="form" id="email-form">
                     {% csrf_token %}
                     {{form|render}}
-                    <button type="submit">Send</button>
+                    <button type="submit" class="submit">Send</button>
                     <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
                 </form>
             </div>

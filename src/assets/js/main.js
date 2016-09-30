@@ -13,11 +13,11 @@ import * as stripe from './stripe.js';
 import * as appearance from './admin/appearance';
 import * as manageCheckIns from './admin/manage-check-ins';
 import * as eventPresets from './staff/event-presets';
+import * as emails from './staff/emails.js';
 
 import * as blocks from './blocks.js';
 
 import * as editPage from './edit-page.js';
-
 
 import * as matchHeight from './match-height.js';
 
@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   appearance.init();
   manageCheckIns.init();
   eventPresets.init();
+  emails.init();
 
   blocks.init();
 

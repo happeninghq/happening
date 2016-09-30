@@ -26,6 +26,8 @@ export const init = () => {
     };
 
     viewModel.value = ko.computed(() => {
+      // This might over-dispatch but it shouldn't be too big an issue
+      setTimeout(() => {widget.dispatchEvent(new Event("change"))}, 100);
       if (viewModel.toggle() == "once" || viewModel.start_sending() == "" || viewModel.stop_sending() == "") {
         return "";
       } else {
