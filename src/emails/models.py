@@ -74,10 +74,12 @@ class Email(db.Model):
         if self.event:
             self.to = self.to.replace("{{event.id}}", str(self.event.pk))\
                              .replace("{{event.pk}}", str(self.event.pk))
+
+        new_email = self.pk is None
         super(Email, self).save()
 
         # If we don't have a start and end, send immediately
-        if not self.start_sending:
+        if new_email and not self.start_sending:
             send_email.delay(self.pk)
 
 
