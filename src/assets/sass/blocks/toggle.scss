@@ -10,7 +10,8 @@ Allow toggling between a number of options
 ```html_example
 
 <div class="toggle">
-
+    <div class="toggle__item toggle__item--active toggle__item--first" data-toggle="#send-once">Send Once</div>
+    <div class="toggle__item toggle__item--last" data-toggle="#schedule">Schedule</div>
 </div>
 ```
 */
@@ -34,4 +35,12 @@ Allow toggling between a number of options
     &:active {
     	top: 0px;
     }
+}
+
+.toggle__item--first {
+    border-top-left-radius: 10px;
+}
+
+.toggle__item--last {
+    border-top-right-radius: 10px;
 }
