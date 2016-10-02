@@ -6,7 +6,6 @@ export const init = () => {
     const button = form.querySelector("button.submit");
     const input = form.querySelector("[name='sending_range']");
     const reset_state = () => {
-      console.log("rrr");
       // If "Send once" is selected - the text should be Send Now
       if (input.value == "") {
         button.innerHTML = "Send Now";

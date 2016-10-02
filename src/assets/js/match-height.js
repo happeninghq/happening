@@ -4,7 +4,6 @@ export const init = () => {
   const syncHeights = () => {
     _.each(document.getElementsByClassName('match-height'), (elem) => {
       const match = document.querySelector(elem.dataset.match);
-      console.log(match.clientHeight);
       elem.style.height = match.clientHeight + "px";
     });
   };
