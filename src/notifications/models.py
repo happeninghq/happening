@@ -75,7 +75,8 @@ class EmailableNotification(object):
                                  "notification_type": notification_type,
                                  "signature": signature,
                                  "email_header": header,
-                                 "email_footer": footer})
+                                 "email_footer": footer,
+                                 "user": self.user})
         text_content = data.split("<email_text>")[1].split("</email_text>")[0]
         html_content = data.split("<email_html>")[1].split("</email_html>")[0]
 
