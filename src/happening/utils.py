@@ -158,7 +158,7 @@ def externalise_urls(text):
 def externalise_url(url):
     """Convert a single URL from internal to external."""
     from pages.configuration import ForceSSL
-    if url.startswith("http:") or url.startswith("mailto:"):
+    if ":" in url:
         # Already absolute
         return url
 
