@@ -16,6 +16,7 @@ from django.contrib.sites.models import Site
 from .configuration import EmailFooter, EmailHeader
 from django.template import Context, Template
 from django.core.signing import Signer
+from django.contrib.auth.models import User
 
 
 signer = Signer()
@@ -67,8 +68,10 @@ class EmailableNotification(object):
 
         notification_type = convert_to_camelcase(
             self.template) + "Notification"
-        signature = signer.sign(
-            str(self.user.pk) + ":" + notification_type).split(":")[-1]
+        signature = ""
+        if isinstance(self.user, User):
+            signature = signer.sign(
+                str(self.user.pk) + ":" + notification_type).split(":")[-1]
 
         data = render_to_string("notifications/email.html",
                                 {"notification": self,
