@@ -109,11 +109,10 @@ def unsubscribe(request):
         # Not a valid notification
         raise Http404
 
-    notification = notification_types[notification_name]
     user = get_object_or_404(User, pk=user_id)
 
     preference = NotificationPreference.objects.filter(
-        user=user,notification=notification_name[:-12]).first()
+        user=user, notification=notification_name[:-12]).first()
 
     if preference is not None and not preference.send_emails:
         response = redirect('notifications_unsubscribed')
