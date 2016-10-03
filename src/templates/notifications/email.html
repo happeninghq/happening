@@ -4,10 +4,15 @@
 {{email_header}}
 {{notification.email_text|safe}}
 {{email_footer}}
+
+----------
+[Unsubscribe]({% url "notifications_unsubscribe" %}?user=1&type={{notification_type}}&signature={{signature}}) from this type of email. [Manage your settings]({% url "notifications_settings" %}) for all types of notification.
 </email_text>
 
 <email_html>
 {{email_header|markdown}}
 {{notification.email_html|safe}}
 {{email_footer|markdown}}
+
+<p><a href="{% url "notifications_unsubscribe" %}?user=1&type={{notification_type}}&signature={{signature}}">Unsubscribe</a> from this type of email. <a href="{% url "notifications_settings" %}">Manage your settings</a> for all types of notification.</p>
 </email_html>

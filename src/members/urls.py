@@ -6,6 +6,8 @@ from members import views
 urlpatterns = [
     url(r'^$', views.index, name='members'),
     url(r'^settings$', views.my_settings, name='my_settings'),
+    url(r'^close-account$', views.close_my_account,
+        name='close_my_account'),
     url(r'^(?P<pk>\d+)/close-account$', views.close_account,
         name='close_account'),
     url(r'^(?P<pk>\d+)/settings$', views.settings, name='settings'),

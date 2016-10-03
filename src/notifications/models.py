@@ -15,6 +15,10 @@ from .configuration import NotificationsEmailAddress
 from django.contrib.sites.models import Site
 from .configuration import EmailFooter, EmailHeader
 from django.template import Context, Template
+from django.core.signing import Signer
+
+
+signer = Signer()
 
 
 class NotificationManager(db.Manager):
@@ -61,18 +65,25 @@ class EmailableNotification(object):
         footer = Template(EmailFooter().get()).render(
             Context({"user": self.user}))
 
+        notification_type = convert_to_camelcase(
+            self.template) + "Notification"
+        signature = signer.sign(
+            str(self.user.pk) + ":" + notification_type).split(":")[-1]
+
         data = render_to_string("notifications/email.html",
                                 {"notification": self,
+                                 "notification_type": notification_type,
+                                 "signature": signature,
                                  "email_header": header,
                                  "email_footer": footer})
         text_content = data.split("<email_text>")[1].split("</email_text>")[0]
         html_content = data.split("<email_html>")[1].split("</email_html>")[0]
 
         send_mail(self.subject,
-                  text_content,
+                  externalise_urls(text_content),
                   NotificationsEmailAddress().get(),
                   [self.user.email],
-                  html_message=html_content)
+                  html_message=externalise_urls(html_content))
 
     @threaded_cached_property
     def _rendered_notification(self):

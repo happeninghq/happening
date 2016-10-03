@@ -18,5 +18,4 @@ def render_email(text, user, event=None):
     if event:
         var["event"] = event
     context = Context(var)
-
     return Template(text).render(context)

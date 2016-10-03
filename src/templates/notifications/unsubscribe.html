@@ -1,0 +1,34 @@
+{% load xextends %}
+
+{% xextends "base.html" with secondary_nav="notifications_settings" %}
+
+{% load strings %}
+
+{% block content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Unsubscribe {{user.email}} from {{notification_name}} notifications?</h2>
+                </header>
+                <form method="POST" action="{% url "notifications_unsubscribe" %}?user={{user.pk}}&type={{notification_type}}&signature={{signature}}">
+                    {% csrf_token %}
+                    <button class="btn btn--warning" type="submit">Unsubscribe</button>
+                    <a class="btn" href="/">Cancel</a>
+                </form>
+            </div>
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Other options</h2>
+                </header>
+                <ul class="button-list">
+                    <li><a href="{% url "notifications_unsubscribe_all" %}?user={{user.pk}}&type={{notification_type}}&signature={{signature}}" class="btn">Unsubscribe from all emails</a></li>
+                    <li><a href="{% url "notifications_settings" %}" class="btn">Edit notification settings</a></li>
+                    <li><a href="{% url "close_my_account" %}" class="btn">Close account</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

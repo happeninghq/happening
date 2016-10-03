@@ -173,6 +173,12 @@ def edit_username(request, pk):
                    "form": form})
 
 
+@login_required
+def close_my_account(request):
+    """Close my own account."""
+    return redirect("close_account", request.user.pk)
+
+
 @require_editing_own_profile
 def close_account(request, pk):
     """Close account."""

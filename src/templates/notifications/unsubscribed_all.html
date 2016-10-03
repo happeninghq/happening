@@ -1,0 +1,29 @@
+{% load xextends %}
+
+{% xextends "base.html" with secondary_nav="notifications_settings" %}
+
+{% load strings %}
+
+{% block content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">You have unsubscribe from all notification emails</h2>
+                </header>
+                <p>You will no longer recieve these emails. If you change your mind you can <a href="{% url "notifications_settings" %}">edit your notification settings</a>.</p>
+            </div>
+        </div>
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Other options</h2>
+                </header>
+                <ul class="button-list">
+                    <li><a href="{% url "notifications_settings" %}" class="btn">Edit notification settings</a></li>
+                    <li><a href="{% url "close_my_account" %}" class="btn">Close account</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
