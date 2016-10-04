@@ -29,14 +29,6 @@ class SiteTitle(configuration.CharField):
     category = "Display"
 
 
-class ForceSSL(configuration.BooleanField):
-
-    """Should SSL be forced."""
-
-    default = False
-    category = "Security"
-
-
 class PrimaryEvent(configuration.ChoiceField):
 
     """If one is selected, the primary event will replace index."""

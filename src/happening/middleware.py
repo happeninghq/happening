@@ -3,7 +3,6 @@ from django.utils.cache import patch_vary_headers
 from urllib.parse import urlsplit, urlunsplit
 from django.conf import settings
 from django.http import HttpResponsePermanentRedirect
-from pages.configuration import ForceSSL
 
 
 class VaryByHostMiddleware(object):
@@ -28,11 +27,7 @@ class SSLifyMiddleware(object):
     def process_request(self, request):
         """Force requests to use HTTPs."""
         # If the user has explicitly disabled SSLify, do nothing.
-        if getattr(settings, 'SSLIFY_DISABLE', settings.DEBUG):
-            return None
-
-        if not ForceSSL().get():
-            # Listen to configuration
+        if getattr(settings, 'DISABLE_SSL', settings.DEBUG):
             return None
 
         # If we get here, proceed as normal.

@@ -14,6 +14,7 @@ import sys
 from django.template.loader import get_template
 from django.contrib.sites.models import Site
 from django.apps import apps
+from django.conf import settings
 import inspect
 get_model = apps.get_model
 
@@ -157,7 +158,6 @@ def externalise_urls(text):
 
 def externalise_url(url):
     """Convert a single URL from internal to external."""
-    from pages.configuration import ForceSSL
     if ":" in url:
         # Already absolute
         return url
@@ -165,9 +165,9 @@ def externalise_url(url):
     # We only ever use the first site
     site = Site.objects.get(pk=1)
 
-    prefix = "http://"
-    if ForceSSL().is_enabled():
-        prefix = "https://"
+    prefix = "https://"
+    if settings.DISABLE_SSL:
+        prefix = "http://"
 
     if not url.startswith("/"):
         url = "/" + url

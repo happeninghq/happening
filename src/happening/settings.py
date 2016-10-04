@@ -28,6 +28,7 @@ DEBUG = bool(os.environ.get('DJANGO_DEBUG', 'False') == 'True') or \
 USE_DEBUG_TOOLBAR = DEBUG and (bool(os.environ.get('USE_DEBUG_TOOLBAR',
                                     'False') == 'True'))
 USE_LIVE_DATA = bool(os.environ.get('USE_LIVE_DATA', str(not DEBUG)) == 'True')
+DISABLE_SSL = bool(os.environ.get('DISABLE_SSL', 'False') == 'True')
 
 ALLOWED_HOSTS = ['*']
 
