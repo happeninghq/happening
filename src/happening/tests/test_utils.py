@@ -10,17 +10,17 @@ class TestUtils(TestCase):
 
     def test_externalise_url(self):
         """Test we can externalise a single url."""
-        self.assertEqual(externalise_url("a/b"), "https://example.com/a/b")
+        self.assertEqual(externalise_url("a/b"), "http://example.com/a/b")
 
     def test_externalise_urls(self):
         """Test we can externalise markdown urls in a string."""
         self.assertEqual(
             externalise_urls("[a](a/b) [b](a/b)"),
-            "[a](https://example.com/a/b) [b](https://example.com/a/b)")
+            "[a](http://example.com/a/b) [b](http://example.com/a/b)")
 
     def test_externalise_urls_a_tag(self):
         """Test we can externalise <a> urls in a string."""
         self.assertEqual(
             externalise_urls("<a href=\"a/b\">a</a> <a href=\"a/b\">b</a>"),
-            "<a href=\"https://example.com/a/b\">a</a> " +
-            "<a href=\"https://example.com/a/b\">b</a>")
+            "<a href=\"http://example.com/a/b\">a</a> " +
+            "<a href=\"http://example.com/a/b\">b</a>")
