@@ -31,7 +31,8 @@ class Command(BaseCommand):
             plugin = src.Plugin
 
             plugin_name = plugin.name
-            plugin_dir = plugin_name.lower()
+            plugin_dir = plugin_name.lower().replace(
+                " ", "_").replace("-", "_")
             print('Linking %s to plugins directory' % plugin_name)
             os.symlink("%s/src" % git_url[7:], 'plugins/%s' % plugin_dir)
 
@@ -44,7 +45,8 @@ class Command(BaseCommand):
             plugin = src.Plugin
 
             plugin_name = plugin.name
-            plugin_dir = plugin_name.lower()
+            plugin_dir = plugin_name.lower().replace(
+                " ", "_").replace("-", "_")
             print('Copying %s to plugins directory' % plugin_name)
             shutil.move('tmp_plugin_install/src', 'plugins/%s' % plugin_dir)
             shutil.rmtree('tmp_plugin_install')
