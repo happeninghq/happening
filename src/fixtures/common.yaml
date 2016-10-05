@@ -8,3 +8,5 @@
   fields:
     url: index
     title: Index
+    content:
+      {"blockLists": [[1, 2], [3]], "blocks": [{"max_events": "1", "type": "futureevents", "id": 1}, {"max_events": "1", "type": "pastevents", "id": 2}, {"title": "Welcome", "type": "welcome", "id": 3}]}
