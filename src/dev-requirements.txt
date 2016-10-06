@@ -12,5 +12,5 @@ coverage==4.2 # Coverage checker
 Sphinx==1.4.8
 
 # For debugging pages
-django-debug-toolbar==1.5
+django-debug-toolbar==1.6
 django-debug-toolbar-template-profiler==1.0.1

@@ -1,7 +1,7 @@
 # Django requirements
 django==1.10.2 # Django
 pyyaml==3.12 # Used for fixtures
-pillow==3.4.0 # For image uploading
+pillow==3.4.1 # For image uploading
 django-gravatar2==1.4.0 # For gravatar
 django-cleanup==0.4.2 # Remove images when replacing them
 django-ganalytics==0.4 # Include analytics from settings
