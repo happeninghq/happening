@@ -135,9 +135,10 @@ def render_navigation_item(item, request):
     """Turn a navigation item string into HTML."""
     item_name = item.rsplit(".", 1)[1]
     plugin = item.rsplit(".", 1)[0]
-    if not plugin_enabled(plugin):
-        return ""
-    return registered_navigation_items[plugin][item_name](request)
+    if plugin_enabled(plugin) and item_name in registered_navigation_items.get(
+            plugin, {}):
+        return registered_navigation_items[plugin][item_name](request)
+    return ""
 
 
 def render_navigation_items(request):
