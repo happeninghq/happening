@@ -131,7 +131,7 @@ def tickets_purchased(request, pk):
             return redirect("view_event", order.event.pk)
 
         return redirect("make_payment", payment.pk)
-
+    
     return render(request, "events/tickets_purchased.html", {
         "order": order, "event": order.tickets.first().event})
 

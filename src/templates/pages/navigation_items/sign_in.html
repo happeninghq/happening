@@ -1,0 +1,8 @@
+{% if request.user.is_authenticated %}
+    <li class="menu__item menu__item--with-icon main-header__padded">
+        <a href="{% url "account_logout" %}" class="menu__item__icon plain-link"><i class="fa fa-sign-out"></i></a>
+        <a href="{% url "account_logout" %}" class="menu__item__text plain-link">Log Out</a>
+    </li>
+{% else %}
+    {% include "_primary_navigation_item.html" with link="account_login" text="Log In" icon="sign-in" %}
+{% endif %}

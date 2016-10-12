@@ -21,7 +21,8 @@ def init():
                     'actions',
                     'notifications',
                     'middleware',
-                    'page_blocks']
+                    'page_blocks',
+                    'navigation_items']
 
     for app in settings.INSTALLED_APPS:
         f = app.replace(".", "/")
@@ -56,9 +57,8 @@ def action(key):
         # This is an ugly hack to check if the plugin is enabled..
         parent_file_path = inspect.getouterframes(
             inspect.currentframe())[1][1]
-        # Remove the last part(the file)
-        parent_file_path = ".".join(parent_file_path.rsplit("/")[:-1])
-        plugin_id = 'plugins.%s' % parent_file_path.split(".plugins.")[1]
+
+        plugin_id = file_path_to_plugin_id(parent_file_path)
 
         if key not in actions:
             actions[key] = []
@@ -73,9 +73,7 @@ def plugin_block(key):
         # This is an ugly hack to check if the plugin is enabled..
         parent_file_path = inspect.getouterframes(
             inspect.currentframe())[1][1]
-        # Remove the last part(the file)
-        parent_file_path = ".".join(parent_file_path.rsplit("/")[:-1])
-        plugin_id = 'plugins.%s' % parent_file_path.split(".plugins.")[1]
+        plugin_id = file_path_to_plugin_id(parent_file_path)
 
         if key not in plugin_blocks:
             plugin_blocks[key] = []
@@ -99,15 +97,63 @@ def plugin_enabled(plugin_id):
     return setting.enabled
 
 
+def file_path_to_plugin_id(file_path):
+    """Convert a file path into a plugin ID."""
+    # Remove the last part(the file)
+    file_path = ".".join(file_path.rsplit("/")[:-1])
+    if ".plugins." in file_path:
+        # It is a plugin
+        return 'plugins.%s' % file_path.split(".plugins.")[1]
+    else:
+        # It is core, don't prefix it
+        return file_path.split('.src.')[1]
+
+
+registered_navigation_items = {}
+
+
+def register_navigation_item(key=None):
+    """Register a navigation item for use in the navigation bar."""
+    def register_navigation_item_inner(func):
+        parent_file_path = inspect.getouterframes(inspect.currentframe())[1][1]
+        plugin_id = file_path_to_plugin_id(parent_file_path)
+
+        func_key = key
+
+        if func_key is None:
+            func_key = func.__name__
+
+        if plugin_id not in registered_navigation_items:
+            registered_navigation_items[plugin_id] = {}
+
+        registered_navigation_items[plugin_id][func_key] = func
+        return func
+    return register_navigation_item_inner
+
+
+def render_navigation_item(item, request):
+    """Turn a navigation item string into HTML."""
+    item_name = item.rsplit(".", 1)[1]
+    plugin = item.rsplit(".", 1)[0]
+    if not plugin_enabled(plugin):
+        return ""
+    return registered_navigation_items[plugin][item_name](request)
+
+
+def render_navigation_items(request):
+    """Render navigation items into a string."""
+    items = ["events.events", "members.members", "notifications.notifications",
+             "staff.staff", "admin.admin", "pages.sign_in"]
+    return "".join([render_navigation_item(item, request) for item in items])
+
+
 registered_middlewares = {}
 
 
 def process_request(func):
     """Register a process_request middleware."""
     parent_file_path = inspect.getouterframes(inspect.currentframe())[1][1]
-    # Remove the last part(the file)
-    parent_file_path = ".".join(parent_file_path.rsplit("/")[:-1])
-    plugin_id = 'plugins.%s' % parent_file_path.split(".plugins.")[1]
+    plugin_id = file_path_to_plugin_id(parent_file_path)
 
     if plugin_id not in registered_middlewares:
         registered_middlewares[plugin_id] = []

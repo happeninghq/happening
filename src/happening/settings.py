@@ -57,6 +57,7 @@ TEMPLATES = [
                 'events.context_processors.events',
                 'pages.context_processors.pages',
                 'happening.context_processors.site',
+                'happening.context_processors.navigation_items',
             ]
         }
     }

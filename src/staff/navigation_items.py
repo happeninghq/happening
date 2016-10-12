@@ -1,0 +1,11 @@
+"""Staff navigation items."""
+
+from happening.plugins import register_navigation_item
+from django.template.loader import render_to_string
+
+
+@register_navigation_item(key="staff")
+def staff_navigation_item(request):
+    """Link to staff category."""
+    return render_to_string("staff/navigation_items/staff.html",
+                            request=request)
