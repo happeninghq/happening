@@ -4,7 +4,7 @@ from django.template.loader import render_to_string
 
 
 @register_navigation_item(key="events")
-def events_navigation_item(request):
+def events_navigation_item(request, context):
     """Link to events category."""
-    return render_to_string("events/navigation_items/events.html",
+    return render_to_string("events/navigation_items/events.html", context,
                             request=request)

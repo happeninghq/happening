@@ -131,21 +131,22 @@ def register_navigation_item(key=None):
     return register_navigation_item_inner
 
 
-def render_navigation_item(item, request):
+def render_navigation_item(item, request, context={}):
     """Turn a navigation item string into HTML."""
     item_name = item.rsplit(".", 1)[1]
     plugin = item.rsplit(".", 1)[0]
     if plugin_enabled(plugin) and item_name in registered_navigation_items.get(
             plugin, {}):
-        return registered_navigation_items[plugin][item_name](request)
+        return registered_navigation_items[plugin][item_name](request, context)
     return ""
 
 
-def render_navigation_items(request):
+def render_navigation_items(context):
     """Render navigation items into a string."""
     items = ["events.events", "members.members", "notifications.notifications",
              "staff.staff", "admin.admin", "pages.sign_in"]
-    return "".join([render_navigation_item(item, request) for item in items])
+    return "".join([render_navigation_item(item, context["request"], context)
+                   for item in items])
 
 
 registered_middlewares = {}

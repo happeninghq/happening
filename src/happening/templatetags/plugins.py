@@ -9,6 +9,13 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
+def navigation_items(context, *params):
+    """Render navigation items."""
+    from happening import plugins
+    return mark_safe(plugins.render_navigation_items(context.flatten()))
+
+
+@register.simple_tag(takes_context=True)
 def plugin_block(context, key, *params):
     """Make a space for plugins to place content in a template."""
     from happening import plugins
