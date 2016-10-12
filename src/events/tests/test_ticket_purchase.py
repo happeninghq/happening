@@ -83,7 +83,8 @@ class TestTicketPurchase(TestCase):
         # So for now just use ticket.order
         self.assertEqual(self.user.orders.first(),
                          response.context["ticket"].order)
-        self.assertEqual(event.orders.first(), response.context["ticket"].order)
+        self.assertEqual(event.orders.first(),
+                         response.context["ticket"].order)
 
     def test_cant_view_others_confirmation(self):
         """Test that users can only view their own order confirmations."""
