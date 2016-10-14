@@ -9,7 +9,7 @@ export const init = () => {
     // and put them both in a position: relative container
 
     const $container = $("<div></div>");
-    const $postfix = $("<input type='text'></input>");
+    const $postfix = $("<input type='text' tabindex='-1'></input>");
 
     $container.insertBefore($elem);
 
