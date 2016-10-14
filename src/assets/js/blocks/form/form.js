@@ -11,6 +11,7 @@ import * as propertiesWidget from './properties-widget';
 import * as ticketsWidget from './tickets-widget';
 import * as timeWidget from './time-widget';
 import * as datetimerangeWidget from './datetimerange-widget';
+import * as postfixWidget from './postfix-widget';
 
 export const init = () => {
   addressWidget.init();
@@ -26,4 +27,5 @@ export const init = () => {
   ticketsWidget.init();
   timeWidget.init();
   datetimerangeWidget.init();
+  postfixWidget.init();
 };

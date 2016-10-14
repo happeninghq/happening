@@ -524,3 +524,31 @@ class EmailToField(forms.CharField):
     """A field for targetting emails."""
 
     pass
+
+
+class PostfixWidget(forms.TextInput):
+
+    """A widget that postfixes some text."""
+
+    def __init__(self, *args, **kwargs):
+        """Init widget."""
+        self.postfix = kwargs.pop("postfix")
+        super(PostfixWidget, self).__init__(*args, **kwargs)
+
+    def render(self, name, value, attrs):
+        """Render the widget."""
+        attrs['class'] = 'postfix-widget ' + attrs.get('class', '')
+        attrs['data-postfix'] = self.postfix
+        return super(PostfixWidget, self).render(name, value, attrs)
+
+
+class PostfixField(forms.CharField):
+
+    """A field that postfixes some text."""
+
+    widget = PostfixWidget
+
+    def __init__(self, *args, **kwargs):
+        """Init field."""
+        kwargs['widget'] = self.widget(postfix=kwargs.pop('postfix'))
+        super(PostfixField, self).__init__(*args, **kwargs)
