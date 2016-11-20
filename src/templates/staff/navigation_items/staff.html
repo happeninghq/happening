@@ -1,3 +1,5 @@
+{% load layout %}
+
 {% if request.user.is_staff %}
-    {% include "_primary_navigation_item.html" with link="staff" text="Staff" icon="cogs" %}
+    {% primary_navigation_item link="staff" text="Staff" icon="cogs" %}
 {% endif %}

@@ -1,6 +1,8 @@
 {% load plugins %}
+{% load layout %}
+
 {% with v="pages.configuration.NameOfEvents"|get_configuration %}
     {% with vv=v|title|add:"s" %}
-        {% include "_primary_navigation_item.html" with link="events" text=vv icon="calendar" %}
+        {% primary_navigation_item link="events" text=vv icon="calendar" %}
     {% endwith %}
 {% endwith %}

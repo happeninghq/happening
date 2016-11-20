@@ -1,3 +1,4 @@
+{% load layout %}
 {% if request.user.is_superuser %}
-    {% include "_primary_navigation_item.html" with link="admin" text="Admin" icon="cogs" %}
+    {% primary_navigation_item link="admin" text="Admin" icon="cogs" %}
 {% endif %}

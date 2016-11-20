@@ -1,15 +1,17 @@
 {% load plugins %}
+{% load layout %}
+
 {% with v="members.configuration.MembersListVisibility"|get_configuration %}
     {% if v == "all" %}
-        {% include "_primary_navigation_item.html" with link="members" text="Members" icon="user" %}
+        {% primary_navigation_item link="members" text="Members" icon="user" %}
     {% else %}
         {% if request.user.is_authenticated %}
             {% if v == "staff" %}
                 {% if request.user.is_staff %}
-                    {% include "_primary_navigation_item.html" with link="members" text="Members" icon="user" %}
+                    {% primary_navigation_item link="members" text="Members" icon="user" %}
                 {% endif %}
             {% else %}
-                {% include "_primary_navigation_item.html" with link="members" text="Members" icon="user" %}
+                {% primary_navigation_item link="members" text="Members" icon="user" %}
             {% endif %}
         {% endif %}
     {% endif %}

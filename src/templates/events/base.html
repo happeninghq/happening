@@ -1,15 +1,16 @@
 {% load xextends %}
 {% load plugins %}
+{% load layout %}
 {% xextends "base.html" with primary_nav="events" %}
 
 
 {% block secondary_navigation %}
     <ul class="inline-list inline-list--space">
-        {% include "_secondary_navigation_item.html" with link="events" text="Upcoming" %}
-        {% include "_secondary_navigation_item.html" with link="past_events" text="Past" %}
-        {% include "_secondary_navigation_item.html" with link="event_feeds" text="Feeds" %}
+        {% secondary_navigation_item link="events" text="Upcoming" %}
+        {% secondary_navigation_item link="past_events" text="Past" %}
+        {% secondary_navigation_item link="event_feeds" text="Feeds" %}
         {% if request.user.is_authenticated %}
-            {% include "_secondary_navigation_item.html" with link="my_tickets" text="My Tickets" %}
+            {% secondary_navigation_item link="my_tickets" text="My Tickets" %}
         {% endif %}
 
         {% plugin_block "events.secondary_navigation" secondary_nav %}

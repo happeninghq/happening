@@ -1,4 +1,4 @@
-<li class="menu__item menu__item--with-icon main-header__padded {% if primary_nav == link %}menu__item--active{% endif %}">
-    <a href="{% url link %}" class="menu__item__icon plain-link"><i class="fa fa-{{icon}}"></i></a>
-    <a href="{% url link %}" class="menu__item__text plain-link">{{text}}</a>
+<li class="menu__item menu__item--with-icon main-header__padded {% if primary_nav == link_name %}menu__item--active{% endif %}">
+    <a href="{{link}}" class="menu__item__icon plain-link"><i class="fa fa-{{icon}}"></i></a>
+    <a href="{{link}}" class="menu__item__text plain-link">{{text}}</a>
 </li>
