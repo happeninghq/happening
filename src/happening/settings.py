@@ -54,7 +54,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'admin.context_processors.admin_urls',
                 'staff.context_processors.staff_urls',
-                'events.context_processors.events',
                 'pages.context_processors.pages',
                 'happening.context_processors.site',
             ]
