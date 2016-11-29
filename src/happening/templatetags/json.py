@@ -13,5 +13,6 @@ def jsonify(object):
         return mark_safe(serialize('json', object))
     return mark_safe(json.dumps(object))
 
+
 register.filter('jsonify', jsonify)
 jsonify.is_safe = True

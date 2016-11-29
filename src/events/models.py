@@ -393,12 +393,14 @@ def member_uncancelled_tickets(member):
     """List the number of tickets not cancelled."""
     return member.tickets.filter(cancelled=False).count()
 
+
 User.uncancelled_tickets = member_uncancelled_tickets
 
 
 def member_attended_tickets(member):
     """List the number of attended events."""
     return member.tickets.filter(cancelled=False, checked_in=True).count()
+
 
 User.attended_tickets = member_attended_tickets
 

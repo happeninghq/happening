@@ -19,14 +19,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for plugin_id, plugin_name, plugin_description, enabled in plugins %}
+                            {% for plugin in plugins %}
                                 <tr>
                                     <td>
-                                        <strong>{{plugin_name}}</strong>
-                                        <p>{{plugin_description}}</p>
+                                        <strong>{{plugin.name}}</strong>
+                                        <p>{{plugin.description}}</p>
                                     </td>
                                     <td>
-                                            <input name="{{plugin_id}}_plugin" type="checkbox" {% if enabled %}checked{% endif %}/>
+                                            <input name="{{plugin.id}}_plugin" type="checkbox" {% if plugin.enabled %}checked{% endif %}/>
                                     </td>
                                 </tr>
                             {% endfor %}

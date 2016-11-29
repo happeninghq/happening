@@ -128,6 +128,7 @@ def follow_object_code(user, obj, role):
                                            role,
                                            user.pk))
 
+
 User.follow = follow
 User.unfollow = unfollow
 User.is_following = is_following

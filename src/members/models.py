@@ -19,6 +19,8 @@ def get_user_name(user):
     if user.get_full_name():
         return user.get_full_name()
     return user.username
+
+
 User.name = get_user_name
 
 
@@ -115,6 +117,8 @@ def close_account(user):
     [e.delete() for e in user.socialaccount_set.all()]
 
     user.save()
+
+
 User.close_account = close_account
 
 
@@ -133,6 +137,8 @@ class Tag(db.Model):
 def member_can_add_tag(member):
     """Can a member add new tags."""
     return member.tags.count() < Tag.objects.all().count()
+
+
 User.can_add_tag = member_can_add_tag
 
 
@@ -144,6 +150,7 @@ def apply_session_tags(sender, user, request, **kwargs):
             if t:
                 user.tags.add(t)
         request.session["tags"] = []
+
 
 user_logged_in.connect(apply_session_tags)
 

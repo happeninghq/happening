@@ -9,7 +9,6 @@ from happening.configuration import get_configuration_variables
 from happening.configuration import attach_to_form
 from happening.configuration import save_variables
 from .forms import ConfigurationForm, ThemeForm, SocialAppForm
-from happening import plugins as happening_plugins
 from payments.models import PaymentHandler
 from django.db import transaction
 from .forms import PaymentHandlerForm
@@ -28,55 +27,41 @@ def index(request):
     return render(request, "admin/index.html")
 
 
-def format_plugin(plugin_id, plugin):
-    """Return a single formatted plugin.
-
-    Format is (id, name, enabled)
-    """
-    enabled = False
-
-    preference = PluginSetting.objects.filter(plugin_name=plugin_id).first()
-    if preference:
-        enabled = preference.enabled
-
-    return (plugin_id, plugin.Plugin.name, plugin.Plugin.__doc__, enabled)
-
-
-def save_plugins(request, plugins):
-    """Save plugin preferences to the database."""
-    for plugin_id in list(plugins.keys()):
-        preference, _ = PluginSetting.objects.get_or_create(
-            plugin_name=plugin_id)
-        preference.enabled = False
-        if plugin_id + "_plugin" in request.POST:
-            preference.enabled = True
-        preference.save()
-
-    # Then clear the cache
-    happening_plugins.enabled_plugins_cache = None
-    messages.success(request,
-                     "Your plugin settings have been saved")
-    return redirect("plugins")
-
-
 @admin_required
 def plugins(request):
     """Plugin settings."""
+    if request.method == "POST":
+        # Save the plugins
+        for plugin in settings.PLUGINS:
+            preference, _ = PluginSetting.objects.get_or_create(
+                plugin_name=plugin)
+            preference.enabled = False
+            if plugin + "_plugin" in request.POST:
+                preference.enabled = True
+            preference.save()
+
+        messages.success(request,
+                         "Your plugin settings have been saved")
+        return redirect("plugins")
+
     plugins = {}
 
     for plugin in settings.PLUGINS:
         p = importlib.import_module(plugin)
-        plugins[plugin] = p
+        enabled = False
 
-    if request.method == "POST":
-        # Save the plugins
-        return save_plugins(request, plugins)
+        preference = PluginSetting.objects.filter(plugin_name=plugin).first()
+        if preference:
+            enabled = preference.enabled
 
-    formatted_plugins = [
-        format_plugin(p_id, plugin) for p_id, plugin in list(plugins.items())]
+        plugins[plugin] = {
+            "id": plugin,
+            "name": p.Plugin.name,
+            "description": p.Plugin.__doc__,
+            "enabled": enabled}
 
     return render(request, "admin/plugins.html",
-                  {"plugins": formatted_plugins})
+                  {"plugins": plugins.values()})
 
 
 @admin_required
