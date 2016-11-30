@@ -1,0 +1,63 @@
+{% load xextends %}
+{% load forms %}
+
+{% xextends "admin/base.html" with secondary_nav="menus" %}
+
+{% block admin_content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Menus</h2>
+                </header>
+                <table>
+                    {% for menu in menus %}
+                        <tr>
+                            <td>{{menu.name}}</td>
+                            <td>
+                                {% if not menu.menu.order == 1 %}
+                                    <form class="form form--inline" method="POST" action="{% url "move_menu_up" menu.menu.pk %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn--plain"><i class="fa fa-arrow-up"></i></button>
+                                    </form>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if not menu.menu.order == menus.count %}
+                                    <form class="form form--inline" method="POST" action="{% url "move_menu_down" menu.menu.pk %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn--plain"><i class="fa fa-arrow-down"></i></button>
+                                    </form>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url "delete_menu" menu.menu.pk %}" class="confirm" data-confirm="Are you sure you want to remove the menu?"><i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            {% if form %}
+                <div class="block block-list__item">
+                    <header class="block__header">
+                        <h2 class="block__header-text">Add Menu</h2>
+                    </header>
+                    <form method="POST" action="{% url "menus" %}">
+                        {% csrf_token %}
+                        {{form|render}}
+                        <button type="submit">Add</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Menus</h2>
+                </header>
+            </div>
+        </div>
+    </div>
+{% endblock %}

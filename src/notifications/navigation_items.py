@@ -3,7 +3,7 @@ from happening.plugins import register_navigation_item
 from django.template.loader import render_to_string
 
 
-@register_navigation_item(key="notifications")
+@register_navigation_item(key="notifications", name="Notifications")
 def notifications_navigation_item(request, context):
     """Link to notifications category."""
     return render_to_string(

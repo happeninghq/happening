@@ -11,7 +11,7 @@ from happening.configuration import save_variables
 from .forms import ConfigurationForm, ThemeForm, SocialAppForm
 from payments.models import PaymentHandler
 from django.db import transaction
-from .forms import PaymentHandlerForm
+from .forms import PaymentHandlerForm, AddMenuForm
 from django.views.decorators.http import require_POST
 from django.contrib.sites.models import Site
 from django import forms
@@ -19,6 +19,9 @@ from allauth.socialaccount.models import SocialApp
 from . import tasks
 from happening.appearance import THEME_SETTINGS
 from collections import OrderedDict
+from happening.models import NavigationItemConfiguration
+from happening.plugins import navigation_item_name
+from happening.plugins import registered_navigation_items, plugin_enabled
 
 
 @admin_required
@@ -190,6 +193,58 @@ def appearance(request):
     categories = OrderedDict(sorted(THEME_SETTINGS.items()))
     return render(request, "admin/appearance.html",
                   {"theme_form": form, "categories": categories})
+
+
+@admin_required
+def menus(request):
+    """Edit menus."""
+    menus = [{"menu": m, "name": navigation_item_name(m.name)}
+             for m in NavigationItemConfiguration.objects.all()]
+    allocated_menus = [m["menu"].name for m in menus]
+
+    unallocated_menus = []
+
+    for plugin in registered_navigation_items.keys():
+        if plugin_enabled(plugin):
+            for k in registered_navigation_items[plugin].keys():
+                plugin_key = "%s.%s" % (plugin, k)
+                if plugin_key not in allocated_menus:
+                    unallocated_menus.append((plugin_key,
+                                             registered_navigation_items[
+                                                 plugin][k]["name"]))
+
+    form = None
+    if len(unallocated_menus) > 0:
+        form = AddMenuForm(menus=unallocated_menus)
+        if request.method == "POST":
+            form = AddMenuForm(request.POST, menus=unallocated_menus)
+            if form.is_valid():
+                form.save()
+                return redirect("menus")
+
+    return render(request, "admin/menus.html",
+                  {"menus": menus, "form": form})
+
+
+@admin_required
+def move_menu_up(request, pk):
+    """Move menu up."""
+    NavigationItemConfiguration.objects.get(pk=pk).up()
+    return redirect("menus")
+
+
+@admin_required
+def move_menu_down(request, pk):
+    """Move menu down."""
+    NavigationItemConfiguration.objects.get(pk=pk).down()
+    return redirect("menus")
+
+
+@admin_required
+def delete_menu(request, pk):
+    """Delete menu."""
+    NavigationItemConfiguration.objects.get(pk=pk).delete()
+    return redirect("menus")
 
 
 @admin_required

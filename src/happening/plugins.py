@@ -112,7 +112,7 @@ def file_path_to_plugin_id(file_path):
 registered_navigation_items = {}
 
 
-def register_navigation_item(key=None):
+def register_navigation_item(key=None, name=None):
     """Register a navigation item for use in the navigation bar."""
     def register_navigation_item_inner(func):
         parent_file_path = inspect.getouterframes(inspect.currentframe())[1][1]
@@ -123,30 +123,41 @@ def register_navigation_item(key=None):
         if func_key is None:
             func_key = func.__name__
 
+        func_name = name
+        if func_name is None:
+            func_name = func_key
+
         if plugin_id not in registered_navigation_items:
             registered_navigation_items[plugin_id] = {}
 
-        registered_navigation_items[plugin_id][func_key] = func
+        registered_navigation_items[plugin_id][func_key] = {"name": func_name,
+                                                            "function": func}
         return func
     return register_navigation_item_inner
 
 
 def render_navigation_item(item, request, context={}):
     """Turn a navigation item string into HTML."""
-    item_name = item.rsplit(".", 1)[1]
-    plugin = item.rsplit(".", 1)[0]
+    plugin, item_name = item.rsplit(".", 1)
     if plugin_enabled(plugin) and item_name in registered_navigation_items.get(
             plugin, {}):
-        return registered_navigation_items[plugin][item_name](request, context)
+        return registered_navigation_items[plugin][item_name]["function"](
+            request, context)
     return ""
 
 
 def render_navigation_items(context):
     """Render navigation items into a string."""
-    items = ["events.events", "members.members", "notifications.notifications",
-             "staff.staff", "admin.admin", "pages.sign_in"]
+    from happening.models import NavigationItemConfiguration
+    items = [x.name for x in NavigationItemConfiguration.objects.all()]
     return "".join([render_navigation_item(item, context["request"], context)
                    for item in items])
+
+
+def navigation_item_name(item):
+    """Get the name of a navigation item."""
+    plugin, item_name = item.rsplit(".", 1)
+    return registered_navigation_items[plugin][item_name]["name"]
 
 
 registered_middlewares = {}

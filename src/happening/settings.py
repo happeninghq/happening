@@ -97,6 +97,8 @@ INSTALLED_APPS = [
 
     'wkhtmltopdf',
 
+    'ordered_model',
+
     'happening',
     'emails',
     'events',

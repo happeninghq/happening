@@ -3,6 +3,7 @@ from django import forms
 from happening import forms as happening_forms
 from payments.models import PaymentHandler
 from allauth.socialaccount.models import SocialApp
+from happening.models import NavigationItemConfiguration
 
 
 class ConfigurationForm(forms.Form):
@@ -35,3 +36,19 @@ class SocialAppForm(forms.ModelForm):
     class Meta:
         model = SocialApp
         fields = ['provider', 'name', 'client_id', 'secret']
+
+
+class AddMenuForm(forms.ModelForm):
+
+    """Form for adding a menu."""
+
+    class Meta:
+        model = NavigationItemConfiguration
+        fields = ['name']
+
+    def __init__(self, *args, **kwargs):
+        """Initialise menu form."""
+        menus = kwargs.pop("menus")
+        super(AddMenuForm, self).__init__(*args, **kwargs)
+
+        self.fields["name"] = forms.ChoiceField(choices=menus)

@@ -10,6 +10,7 @@ from django.core.signing import Signer
 from django_pgjson.fields import JsonField
 from happening.storage import media_path
 from happening.appearance import THEME_SETTINGS
+from ordered_model.models import OrderedModel
 
 signer = Signer()
 
@@ -133,3 +134,12 @@ User.follow = follow
 User.unfollow = unfollow
 User.is_following = is_following
 User.follow_object_code = follow_object_code
+
+
+class NavigationItemConfiguration(OrderedModel):
+    """A navigation item on the navigation bar."""
+
+    name = models.CharField(max_length=255, default="")
+
+    class Meta(OrderedModel.Meta):
+        pass
