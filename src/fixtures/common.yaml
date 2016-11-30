@@ -10,3 +10,33 @@
     title: Index
     content:
       {"blockLists": [[1, 2], [3]], "blocks": [{"max_events": "1", "type": "futureevents", "id": 1}, {"max_events": "1", "type": "pastevents", "id": 2}, {"title": "Welcome", "type": "welcome", "id": 3}]}
+- model: happening.NavigationItemConfiguration
+  pk: 1
+  fields:
+    order: 1
+    name: events.events
+- model: happening.NavigationItemConfiguration
+  pk: 2
+  fields:
+    order: 2
+    name: members.members
+- model: happening.NavigationItemConfiguration
+  pk: 3
+  fields:
+    order: 3
+    name: notifications.notifications
+- model: happening.NavigationItemConfiguration
+  pk: 4
+  fields:
+    order: 4
+    name: staff.staff
+- model: happening.NavigationItemConfiguration
+  pk: 5
+  fields:
+    order: 5
+    name: admin.admin
+- model: happening.NavigationItemConfiguration
+  pk: 6
+  fields:
+    order: 6
+    name: pages.sign_in
