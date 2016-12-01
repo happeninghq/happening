@@ -1,6 +1,7 @@
 """Special configuration for AllAuth."""
 
 from allauth.account.adapter import DefaultAccountAdapter
+from .utils import allow_new_users
 
 
 class AccountAdapter(DefaultAccountAdapter):
@@ -16,3 +17,14 @@ class AccountAdapter(DefaultAccountAdapter):
             return '/member/%s/edit' % request.user.pk
         else:
             return '/'
+
+    def is_open_for_signup(self, request):
+        """
+        Check whether or not the site is open for signups.
+
+        Next to simply returning True/False you can also intervene the
+        regular flow by raising an ImmediateHttpResponse
+
+        (Comment reproduced from the overridden method.)
+        """
+        return allow_new_users(request)

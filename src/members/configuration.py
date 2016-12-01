@@ -26,3 +26,12 @@ class ProfileProperties(configuration.PropertiesField):
     default = [
         # TODO: After name + bio are moved to use properties, put them here
     ]
+
+
+class AllowRegistration(configuration.BooleanField):
+
+    """Should new users be allowed to register."""
+
+    category = "Members"
+
+    default = True

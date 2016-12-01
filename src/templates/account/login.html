@@ -4,6 +4,7 @@
 {% load account %}
 {% load forms %}
 {% load auth %}
+{% load members %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
@@ -14,8 +15,10 @@
                 <header class="block__header">
                     <h2 class="block__header-text">{% trans "Sign In" %}</h2>
                 </header>
-
-                <p>{% blocktrans %}If you have not created an account yet, then please <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+                {% get_allow_new_users as allow_new_users %}
+                {% if allow_new_users %}
+                    <p>{% blocktrans %}If you have not created an account yet, then please <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+                {% endif %}
 
                 <form class="login form" method="POST" action="{% url 'account_login' %}">
                     {% csrf_token %}

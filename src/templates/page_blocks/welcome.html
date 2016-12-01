@@ -1,3 +1,5 @@
+{% load members %}
+
 <!-- <header class="block__header valign-together">
     {% if request.user.is_authenticated %}
         <h2 class="block__header-text block__header-text--small">Welcome back, <strong>{{request.user}}</strong></h2>
@@ -35,9 +37,14 @@
         </div>
     </div>
 {% else %}
-    <ul class="inline-list">
-        <li><a class="btn" href="{% url "account_login" %}">Log In</a></li>
-        <li>or</li>
-        <li><a class="btn" href="{% url "account_signup" %}">Sign Up</a></li>
-    </ul>
+    {% get_allow_new_users as allow_new_users %}
+    {% if allow_new_users %}
+        <ul class="inline-list">
+            <li><a class="btn" href="{% url "account_login" %}">Log In</a></li>
+            <li>or</li>
+            <li><a class="btn" href="{% url "account_signup" %}">Sign Up</a></li>
+        </ul>
+    {% else %}
+        <a class="btn" href="{% url "account_login" %}">Log In</a>
+    {% endif %}
 {% endif %}
