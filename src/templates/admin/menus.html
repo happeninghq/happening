@@ -15,7 +15,7 @@
                         <tr>
                             <td>{{menu.name}}</td>
                             <td>
-                                {% if not menu.menu.order == 1 %}
+                                {% if not menu.menu.order == 0 %}
                                     <form class="form form--inline" method="POST" action="{% url "move_menu_up" menu.menu.pk %}">
                                         {% csrf_token %}
                                         <button type="submit" class="btn--plain"><i class="fa fa-arrow-up"></i></button>

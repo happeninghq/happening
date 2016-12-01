@@ -199,7 +199,8 @@ def appearance(request):
 def menus(request):
     """Edit menus."""
     menus = [{"menu": m, "name": navigation_item_name(m.name)}
-             for m in NavigationItemConfiguration.objects.all()]
+             for m in NavigationItemConfiguration.objects.all()
+             if plugin_enabled(m.name.rsplit(".", 1)[0])]
     allocated_menus = [m["menu"].name for m in menus]
 
     unallocated_menus = []
