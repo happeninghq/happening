@@ -157,7 +157,10 @@ def render_navigation_items(context):
 def navigation_item_name(item):
     """Get the name of a navigation item."""
     plugin, item_name = item.rsplit(".", 1)
-    return registered_navigation_items[plugin][item_name]["name"]
+    try:
+        return registered_navigation_items[plugin][item_name]["name"]
+    except:
+        return ""
 
 
 registered_middlewares = {}

@@ -29,14 +29,9 @@
   pk: 4
   fields:
     order: 4
-    name: staff.staff
+    name: admin.admin
 - model: happening.NavigationItemConfiguration
   pk: 5
   fields:
     order: 5
-    name: admin.admin
-- model: happening.NavigationItemConfiguration
-  pk: 6
-  fields:
-    order: 6
     name: pages.sign_in
