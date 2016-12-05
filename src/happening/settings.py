@@ -53,7 +53,6 @@ TEMPLATES = [
                 # End default
                 'django.template.context_processors.request',
                 'admin.context_processors.admin_urls',
-                'staff.context_processors.staff_urls',
                 'pages.context_processors.pages',
                 'happening.context_processors.site',
             ]
@@ -80,7 +79,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'rest_framework',
-    'dry_rest_permissions',
+    'guardian',
 
     'widget_tweaks',
     'markdown_deux',
@@ -105,7 +104,6 @@ INSTALLED_APPS = [
     'members',
     'notifications',
     'pages',
-    'staff',
     'admin',
     'payments',
 
@@ -205,7 +203,8 @@ FIXTURE_DIRS = [
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
+    'allauth.account.auth_backends.AuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
 )
 
 SITE_ID = 1

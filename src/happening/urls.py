@@ -35,7 +35,6 @@ for app in settings.INSTALLED_APPS:
 
 urlpatterns = [
     url(r'^$', pages_views.view, {'pk': 'index'}, name='index'),
-    url(r'^staff/', include('staff.urls')),
     url(r'^admin/', include('admin.urls')),
     url(r'^events/', include('events.urls')),
 

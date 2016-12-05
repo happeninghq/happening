@@ -1,0 +1,66 @@
+{% extends "admin/base.html" %}
+{% load markdown_deux_tags %}
+
+{% block admin_content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">{{email.subject}}</h2>
+                </header>
+                {% if email.start_sending %}
+                    <table>
+                        <tr>
+                            <th>Start Sending</th>
+                            <td>{{email.start_sending}}</td>
+                        </tr>
+                        <tr>
+                            <th>Stop Sending</th>
+                            <td>{{email.stop_sending}}</td>
+                        </tr>
+                    </table>
+                {% else %}
+                    {% if email.sent_emails.count > 0 %}
+                        <p>This email was sent {{email.sent_emails.first.sent_datetime}}.</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Content</h2>
+                </header>
+                {{email.content|markdown}}
+            </div>
+
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Emails Sent</h2>
+                </header>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Sent</th>
+                            <th>Recipient</th>
+                            <th>Email Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sent_email in email.sent_emails.all %}
+                            <tr>
+                                <td>{{sent_email.sent_datetime}}</td>
+                                {% if sent_email.user %}
+                                    <td><a href="{% url "view_profile" sent_email.user.pk %}">{{sent_email.user}}</a></td>
+                                    <td>{{sent_email.user.email}}</td>
+                                {% else %}
+                                    <td></td>
+                                    <td>{{sent_email.email_address}}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

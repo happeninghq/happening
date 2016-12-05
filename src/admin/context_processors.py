@@ -11,6 +11,12 @@ cached_admin_urls = [
     (None, "Appearance", "appearance"),
     (None, "Menus", "menus"),
     (None, "Backup", "backup"),
+    (None, "Members", "staff_members"),
+    (None, "Events", "staff_events"),
+    (None, "Pages", "staff_pages"),
+    (None, "Emails", "staff_emails"),
+    (None, "Tags", "tags"),
+    (None, "Tracking Links", "tracking_links")
 ]
 
 if hasattr(settings, "PLUGINS"):
@@ -19,6 +25,9 @@ if hasattr(settings, "PLUGINS"):
         if hasattr(p, "admin") and hasattr(p.admin, "admin_links"):
             cached_admin_urls += [
                 (plugin, l[0], l[1]) for l in p.admin.admin_links]
+        if hasattr(p, "staff") and hasattr(p.staff, "staff_links"):
+            cached_admin_urls += [(plugin, l[0], l[1]) for l in
+                                  p.staff.staff_links]
 
 
 def admin_urls(request):

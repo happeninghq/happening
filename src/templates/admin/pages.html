@@ -1,0 +1,53 @@
+{% load xextends %}
+
+{% xextends "admin/base.html" with secondary_nav="staff_pages" %}
+
+{% block admin_content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Pages</h2>
+                </header>
+                {% if pages|length > 0 %}
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>URL</th>
+                                <th>Path</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for page in pages %}
+                                <tr>
+                                    <td><a href="{% url "view_page" page.url %}">{{page.title}}</a></td>
+                                    <td>{{page.url}}</td>
+                                    <td>{% if page.path %}{{page.path}}{% endif %}</td>
+                                    <td><a class="edit_page" href="{% url "edit_page" page.pk %}"><i class="fa fa-pencil" title="Edit"></i></a></td>
+                                    <td><a class="delete_page" href="{% url "delete_page" page.pk %}"><i class="fa fa-trash" title="Delete"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No pages have been created yet. <a href="{% url "create_page" %}">Why not create one?</a></p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Pages</h2>
+                </header>
+
+                <ul class="button-list">
+                    <li><a class="btn" href="{% url "create_page" %}"><i class="fa fa-plus"></i> New Page</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

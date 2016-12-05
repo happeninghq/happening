@@ -1,0 +1,24 @@
+{% load xextends %}
+
+{% xextends "admin/base.html" with secondary_nav="staff_emails" %}
+{% load datetime %}
+{% load forms %}
+
+{% block admin_content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Edit Email</h2>
+                </header>
+                    
+                <form method="POST" action="{% url "edit_email" email.pk %}">
+                    {% csrf_token %}
+                    {{form|render}}
+                    <button type="submit">Save</button>
+                    <a class="button warning" href="{% url "staff" %}">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

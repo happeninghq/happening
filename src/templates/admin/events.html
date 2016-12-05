@@ -1,0 +1,58 @@
+{% load xextends %}
+
+{% xextends "admin/base.html" with secondary_nav="staff_events" %}
+{% load datetime %}
+
+{% block admin_content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                {% if events|length > 0 %}
+                    <table class="data-table" data-order='[[ 1, "desc" ]]' id="events-list">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Tickets Sold</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in events %}
+                                <tr>
+                                    <td><a href="{% url "staff_event" event.pk %}">{{event}}</a></td>
+                                    <td data-sort="{{event.start|epoch}}">{{event.start}}</td>
+                                    <td data-sort="{{event.end|epoch}}">{% if event.end %}{{event.end}}{% endif %}</td>
+                                    <td>{{event.total_sold_tickets}} of {{event.total_available_tickets}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No events have been created yet. <a href="{% url "create_event" %}">Why not create one?</a></p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item navigation-block">
+                <ul class="navigation-block__list">
+                    <li><a class="navigation-block__link navigation-block__link--active" href="{% url "staff_events" %}">Events</a></li>
+                    <li><a class="navigation-block__link" href="{% url "event_presets" %}">Event Presets</a></li>
+                </ul>
+            </div>
+
+            {% include "events/_filter_block.html" %}
+
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Events</h2>
+                </header>
+
+                <ul class="button-list">
+                    <li><a class="btn" href="{% url "create_event" %}"><i class="fa fa-plus"></i> New Event</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+{% load forms %}
+{% load widget_tweaks %}
+{% load markdown_deux_tags %}
+
+{% block admin_content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Email attendees of {{event}}</h2>
+                </header>
+                    
+                <form method="POST" action="{% url "email_event" event.pk %}" class="form" id="email-form">
+                    {% csrf_token %}
+                    {{form|render}}
+                    <button type="submit" class="submit">Send</button>
+                    <a class="button warning" href="{% url "staff_events" %}">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

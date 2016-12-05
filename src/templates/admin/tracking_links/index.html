@@ -1,0 +1,55 @@
+{% load xextends %}
+
+{% xextends "admin/base.html" with secondary_nav="tracking_links" %}
+{% load datetime %}
+
+{% block admin_content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                {% if tracking_links.count > 0 %}
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Tags</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tracking_link in tracking_links %}
+                                <tr>
+                                    <td>
+                                        {{tracking_link.code}}
+                                    </td>
+                                    <td>{% for tag in tracking_link.tags.all %}
+                                        {{tag.tag}} 
+                                    {% endfor %}</td>
+                                    <td>
+                                        <a href="{% url "delete_tracking_link" tracking_link.pk %}" class="confirm" data-confirm="Are you sure you want to delete this tracking link?"><i class="fa fa-trash" title="Delete"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No tracking links have been created yet. <a href="{% url "create_tracking_link" %}">Why not create one?</a></p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text block__header-text--small">Tracking Links</h2>
+                </header>
+            </div>
+
+            <div class="block block-list__item">
+                <ul class="button-list">
+                    <li><a class="btn" href="{% url "create_tracking_link" %}"><i class="fa fa-plus"></i> New Tracking Link</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
