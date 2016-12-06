@@ -104,7 +104,7 @@ def configuration(request):
     else:
         attach_to_form(form, variables)
 
-    return render(request, "admin/configuration.html",
+    return render(request, "admin/configuration/index.html",
                   {"form": form})
 
 
@@ -273,7 +273,7 @@ def delete_menu(request, pk):
 def authentication(request):
     """List social apps."""
     social_apps = SocialApp.objects.all()
-    return render(request, "admin/authentication/index.html",
+    return render(request, "admin/configuration/authentication.html",
                   {"social_apps": social_apps})
 
 
@@ -288,7 +288,7 @@ def add_authentication(request):
             social_app.sites.add(Site.objects.first())
             messages.success(request, "Authentication provider added.")
             return redirect("authentication")
-    return render(request, "admin/authentication/add.html", {"form": form})
+    return render(request, "admin/configuration/add_authentication.html", {"form": form})
 
 
 @admin_required
@@ -312,7 +312,7 @@ def edit_authentication(request, pk):
             form.save()
             messages.success(request, "Authentication provider updated.")
             return redirect("authentication")
-    return render(request, "admin/authentication/edit.html",
+    return render(request, "admin/configuration/edit_authentication.html",
                   {"form": form, "social_app": social_app})
 
 

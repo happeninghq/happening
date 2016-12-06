@@ -1,0 +1,27 @@
+{% load xextends %}
+{% load forms %}
+
+{% xextends "admin/configuration/base.html" with tertiary_nav="configuration" %}
+
+{% block configuration_content %}
+    <form method="POST" action="{% url "configuration" %}" class="form">
+        {% csrf_token %}
+
+        {{form|render_as_blocks}}
+
+        <div class="block block-list__item stick-bottom">
+            <div class="float-right">
+                <button type="submit">Save</button>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block secondary_content %}
+    <div class="block block-list__item">
+        <header class="block__header">
+            <h2 class="block__header-text block__header-text--small">Configuration</h2>
+        </header>
+    </div>
+{% endblock %}
