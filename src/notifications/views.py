@@ -46,8 +46,7 @@ def format_notification_settings(user, notification_types):
         if not o.can_edit_send_notification and not o.can_edit_send_email:
             continue
 
-        if o.staff_only and not user.is_staff or \
-                o.admin_only and not user.is_superuser:
+        if o.admin_only and not user.is_superuser:
             continue
 
         if o.category not in categories:

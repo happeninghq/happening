@@ -1,0 +1,24 @@
+{% load xextends %}
+{% load layout %}
+
+{% xextends "admin/base.html" with secondary_nav="staff_members" %}
+
+{% block admin_content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            {% block admin_members_content %}
+            {% endblock %}
+        </div>
+
+        <div class="l-secondary-content block-list">
+            <div class="block block-list__item navigation-block">
+                <ul class="navigation-block__list">
+                    {% tertiary_navigation_item link="staff_members" text="Members" %}
+                    {% tertiary_navigation_item link="groups" text="Groups" %}
+                </ul>
+            </div>
+            {% block secondary_content %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

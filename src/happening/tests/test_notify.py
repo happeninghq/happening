@@ -3,7 +3,7 @@
 from happening.tests import TestCase
 from model_mommy import mommy
 from django.conf import settings
-from happening.notifications import notify_following, notify_staff
+from happening.notifications import notify_following
 from happening.notifications import notify_admins
 from events.notifications import CancelledTicketNotification
 from notifications.models import Notification
@@ -45,20 +45,6 @@ class TestNotify(TestCase):
             self.users[2]).count(), 1)
         self.assertEquals(Notification.objects.get_for_user(
             self.users[3]).count(), 1)
-
-    def test_notify_staff(self):
-        """Test we can notify staff."""
-        notify_staff(CancelledTicketNotification,
-                     {"ticket": "test", "event": {"id": "1"},
-                      "event_name": "test"},
-                     ignore=[self.staff[0]])
-
-        for user in self.users + [self.staff[0]]:
-            self.assertEquals(Notification.objects.get_for_user(
-                user).count(), 0)
-        for user in self.admins + self.staff[1:]:
-            self.assertEquals(Notification.objects.get_for_user(
-                user).count(), 1)
 
     def test_notify_admins(self):
         """Test we can notify admins."""

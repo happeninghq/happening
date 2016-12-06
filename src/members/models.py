@@ -100,7 +100,7 @@ def close_account(user):
     p.save()
 
     # Clear the user
-    user.is_active = False
+    user.groups.clear()
     closed_account_number = 1
     username = "Closed Account %s" % closed_account_number
     while len(User.objects.filter(username=username)) > 0:

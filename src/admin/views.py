@@ -22,8 +22,8 @@ from collections import OrderedDict
 from happening.models import NavigationItemConfiguration
 from happening.plugins import navigation_item_name
 from happening.plugins import registered_navigation_items, plugin_enabled
-from happening.utils import staff_member_required
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from events.models import Event, Ticket, EventPreset, TicketType
 from events.forms import EventForm
 from pages.models import Page
@@ -41,11 +41,11 @@ from members.forms import TagForm, AddTagForm, TrackingLinkForm
 from members.models import Tag, TrackingLink
 from django.contrib.auth.models import User
 from pages.utils import render_block_content, get_block_types
-from admin.forms import PageForm
+from admin.forms import PageForm, GroupForm
 import json
 
 
-@staff_member_required
+@admin_required
 def index(request):
     """Admin dashboard."""
     return render(request, "admin/index.html")
@@ -377,52 +377,55 @@ def cancel_backup(request, pk):
     return redirect("backup")
 
 
-@staff_member_required
+@admin_required
 def members(request):
     """Administrate members."""
     members = get_user_model().objects.all()
-    return render(request, "admin/members.html", {"members": members})
+    return render(request, "admin/members/index.html", {"members": members})
 
 
-@staff_member_required
+@admin_required
+def groups(request):
+    """Administrate groups."""
+    groups = Group.objects.all()
+    return render(request, "admin/members/groups.html", {"groups": groups})
+
+
+@admin_required
+def create_group(request):
+    """Create groups."""
+    form = GroupForm()
+    if request.method == "POST":
+        form = GroupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Group created.")
+            return redirect("groups")
+    return render(request, "admin/members/create_group.html", {"form": form})
+
+
+@admin_required
+def edit_group(request, pk):
+    """Edit a group."""
+    group = get_object_or_404(Group, pk=pk)
+    return render(request, "admin/members/edit_group.html", {"group": group})
+
+
+@admin_required
 def export_members_to_csv(request):
     """Export members to CSV."""
-    members = get_user_model().objects.all().values("username", "email",
-                                                    "is_staff",
-                                                    "is_active")
+    members = get_user_model().objects.all().values("username", "email")
     return render_to_csv_response(members)
 
 
-@staff_member_required
-def make_staff(request, pk):
-    """Make a member staff."""
-    user = get_object_or_404(get_user_model(), pk=pk)
-    if request.method == "POST":
-        messages.success(request, "%s has been made staff" % user)
-        user.is_staff = True
-        user.save()
-    return redirect("staff_members")
-
-
-@staff_member_required
-def make_not_staff(request, pk):
-    """Make a member not staff."""
-    user = get_object_or_404(get_user_model(), pk=pk)
-    if request.method == "POST":
-        messages.success(request, "%s has been made not staff" % user)
-        user.is_staff = False
-        user.save()
-    return redirect("staff_members")
-
-
-@staff_member_required
+@admin_required
 def events(request):
     """Administrate events."""
     events = Event.objects.all().order_by('-start')
     return render(request, "admin/events.html", {"events": events})
 
 
-@staff_member_required
+@admin_required
 def export_tickets_to_csv(request, pk):
     """Export tickets to csv."""
     event = get_object_or_404(Event, pk=pk)
@@ -432,14 +435,14 @@ def export_tickets_to_csv(request, pk):
     return render_to_csv_response(tickets)
 
 
-@staff_member_required
+@admin_required
 def event_presets(request):
     """Administrate event presets."""
     presets = EventPreset.objects.all()
     return render(request, "admin/event_presets.html", {"presets": presets})
 
 
-@staff_member_required
+@admin_required
 def edit_event_preset(request, pk):
     """Edit an event preset."""
     preset = get_object_or_404(EventPreset, pk=pk)
@@ -465,7 +468,7 @@ def edit_event_preset(request, pk):
                   {"preset": preset, "form": form})
 
 
-@staff_member_required
+@admin_required
 def delete_event_preset(request, pk):
     """Delete an event preset."""
     preset = get_object_or_404(EventPreset, pk=pk)
@@ -475,7 +478,7 @@ def delete_event_preset(request, pk):
     return redirect("event_presets")
 
 
-@staff_member_required
+@admin_required
 def create_event_preset(request):
     """Create an event preset."""
     form = EventForm()
@@ -499,7 +502,7 @@ def create_event_preset(request):
                   {"form": form})
 
 
-@staff_member_required
+@admin_required
 def add_attendee(request, pk):
     """Add an attendee to the event.
 
@@ -526,7 +529,7 @@ def add_attendee(request, pk):
                    "members": members})
 
 
-@staff_member_required
+@admin_required
 def check_in(request, pk):
     """Check in a ticket."""
     ticket = get_object_or_404(Ticket, pk=pk)
@@ -545,7 +548,7 @@ def check_in(request, pk):
     return redirect(request.GET.get("next"))
 
 
-@staff_member_required
+@admin_required
 def cancel_check_in(request, pk):
     """Cancel the check in for a ticket."""
     ticket = get_object_or_404(Ticket, pk=pk)
@@ -562,21 +565,21 @@ def cancel_check_in(request, pk):
     return redirect(request.GET.get("next"))
 
 
-@staff_member_required
+@admin_required
 def manage_check_ins(request, pk):
     """Manage check ins."""
     event = get_object_or_404(Event, pk=pk)
     return render(request, "admin/manage_check_ins.html", {"event": event})
 
 
-@staff_member_required
+@admin_required
 def event(request, pk):
     """View event."""
     event = get_object_or_404(Event, pk=pk)
     return render(request, "admin/event.html", {"event": event})
 
 
-@staff_member_required
+@admin_required
 def edit_event(request, pk):
     """Edit event."""
     event = get_object_or_404(Event, pk=pk)
@@ -595,7 +598,7 @@ def edit_event(request, pk):
                   {"event": event, "form": form})
 
 
-@staff_member_required
+@admin_required
 def create_event(request):
     """Create event."""
     form = EventForm()
@@ -619,7 +622,7 @@ def create_event(request):
 
 # We had to add csrf_protect below because of django not generating a token
 # TODO: Figure out why this is an remove it. It should be automatic
-@staff_member_required
+@admin_required
 @csrf_protect
 def manage_waiting_list(request, pk):
     """Manage waiting list."""
@@ -630,7 +633,7 @@ def manage_waiting_list(request, pk):
                   {"ticket_type": ticket_type, "form": form})
 
 
-@staff_member_required
+@admin_required
 @require_POST
 def waiting_list_settings(request, pk):
     """Manage waiting list settings."""
@@ -643,7 +646,7 @@ def waiting_list_settings(request, pk):
         return redirect("manage_waiting_list", pk)
 
 
-@staff_member_required
+@admin_required
 def remove_from_waiting_list(request, pk, user_pk):
     """Remove a user from a waiting list."""
     ticket_type = get_object_or_404(TicketType, pk=pk)
@@ -656,7 +659,7 @@ def remove_from_waiting_list(request, pk, user_pk):
     return redirect("manage_waiting_list", pk)
 
 
-@staff_member_required
+@admin_required
 def release_to_waiting_list(request, pk, user_pk):
     """Release a ticket to a user on the waiting list."""
     ticket_type = get_object_or_404(TicketType, pk=pk)
@@ -676,7 +679,7 @@ def release_to_waiting_list(request, pk, user_pk):
     return redirect("manage_waiting_list", pk)
 
 
-@staff_member_required
+@admin_required
 def preview_email(request):
     """Render an email as it would be sent."""
     if request.GET.get('event'):
@@ -693,7 +696,7 @@ def preview_email(request):
     return JsonResponse({"subject": subject, "content": content})
 
 
-@staff_member_required
+@admin_required
 def email_event(request, pk):
     """Send an email to attendees."""
     event = get_object_or_404(Event, pk=pk)
@@ -713,20 +716,20 @@ def email_event(request, pk):
                   {"event": event, "form": form})
 
 
-@staff_member_required
+@admin_required
 def pages(request):
     """Administrate pages."""
     pages = Page.objects.all()
     return render(request, "admin/pages.html", {"pages": pages})
 
 
-@staff_member_required
+@admin_required
 def render_block(request):
     """Used to render block previews on the page editor."""
     return JsonResponse({"html": render_block_content(request.GET, request)})
 
 
-@staff_member_required
+@admin_required
 def edit_page(request, pk):
     """Edit page."""
     page = get_object_or_404(Page, pk=pk)
@@ -742,7 +745,7 @@ def edit_page(request, pk):
                   {"page": page, "block_types": get_block_types()})
 
 
-@staff_member_required
+@admin_required
 def delete_page(request, pk):
     """Delete page."""
     page = get_object_or_404(Page, pk=pk)
@@ -750,7 +753,7 @@ def delete_page(request, pk):
     return redirect("staff_pages")
 
 
-@staff_member_required
+@admin_required
 def create_page(request):
     """Create page."""
     form = PageForm()
@@ -765,7 +768,7 @@ def create_page(request):
     return render(request, "admin/create_page.html", {"form": form})
 
 
-@staff_member_required
+@admin_required
 def staff_emails(request):
     """List emails."""
     return render(request,
@@ -773,7 +776,7 @@ def staff_emails(request):
                   {"emails": Email.objects.all()})
 
 
-@staff_member_required
+@admin_required
 def email(request, pk):
     """Show email details."""
     email = get_object_or_404(Email, pk=pk)
@@ -782,7 +785,7 @@ def email(request, pk):
                   {"email": email})
 
 
-@staff_member_required
+@admin_required
 def create_email(request):
     """Send an email."""
     form = EmailForm()
@@ -796,7 +799,7 @@ def create_email(request):
                   {"form": form})
 
 
-@staff_member_required
+@admin_required
 def edit_email(request, pk):
     """Edit an email."""
     email = get_object_or_404(Email, pk=pk)
@@ -811,7 +814,7 @@ def edit_email(request, pk):
                   {"form": form, "email": email})
 
 
-@staff_member_required
+@admin_required
 def disable_email(request, pk):
     """Disable an email."""
     email = get_object_or_404(Email, pk=pk)
@@ -821,7 +824,7 @@ def disable_email(request, pk):
     return redirect(request.GET.get("redirect", "staff_emails"))
 
 
-@staff_member_required
+@admin_required
 def enable_email(request, pk):
     """Enable an email."""
     email = get_object_or_404(Email, pk=pk)
@@ -831,7 +834,7 @@ def enable_email(request, pk):
     return redirect(request.GET.get("redirect", "staff_emails"))
 
 
-@staff_member_required
+@admin_required
 @require_POST
 def delete_email(request, pk):
     """Delete an email."""
@@ -845,7 +848,7 @@ def delete_email(request, pk):
     return redirect(request.GET.get("redirect", "staff_emails"))
 
 
-@staff_member_required
+@admin_required
 def tags(request):
     """List tags."""
     tags = Tag.objects.all()
@@ -853,7 +856,7 @@ def tags(request):
                   {"tags": tags})
 
 
-@staff_member_required
+@admin_required
 def create_tag(request):
     """Add a tag."""
     form = TagForm()
@@ -866,7 +869,7 @@ def create_tag(request):
     return render(request, "admin/tags/create.html", {"form": form})
 
 
-@staff_member_required
+@admin_required
 @require_POST
 def delete_tag(request, pk):
     """Delete a tag."""
@@ -879,14 +882,14 @@ def delete_tag(request, pk):
     return redirect("tags")
 
 
-@staff_member_required
+@admin_required
 def view_tag(request, pk):
     """View a promocode."""
     tag = get_object_or_404(Tag, pk=pk)
     return render(request, "admin/tags/view.html", {"tag": tag})
 
 
-@staff_member_required
+@admin_required
 @require_POST
 def add_tag(request, member_pk):
     """Add a tag."""
@@ -899,7 +902,7 @@ def add_tag(request, member_pk):
     return redirect("view_profile", member_pk)
 
 
-@staff_member_required
+@admin_required
 @require_POST
 def remove_tag(request, member_pk, tag_pk):
     """Remove a tag."""
@@ -910,7 +913,7 @@ def remove_tag(request, member_pk, tag_pk):
     return redirect("view_profile", member_pk)
 
 
-@staff_member_required
+@admin_required
 def tracking_links(request):
     """List tracking links."""
     tracking_links = TrackingLink.objects.all()
@@ -918,7 +921,7 @@ def tracking_links(request):
                   {"tracking_links": tracking_links})
 
 
-@staff_member_required
+@admin_required
 def create_tracking_link(request):
     """Add a tracking link."""
     form = TrackingLinkForm()
@@ -931,7 +934,7 @@ def create_tracking_link(request):
     return render(request, "admin/tracking_links/create.html", {"form": form})
 
 
-@staff_member_required
+@admin_required
 @require_POST
 def delete_tracking_link(request, pk):
     """Delete a tracking link."""

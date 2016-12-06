@@ -1,0 +1,63 @@
+{% load xextends %}
+
+{% xextends "admin/members/base.html" with tertiary_nav="staff_members" %}
+
+{% block admin_members_content %}
+    <div class="block block-list__item">
+        <header class="block__header">
+            <h2 class="block__header-text">Members</h2>
+        </header>
+        <table class="data-table" id="members-list">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Attendance</th>
+                    <th>Groups</th>
+                    <th>Tags</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for member in members %}
+                    <tr>
+                        <td><a href="{% url "view_profile" member.pk %}">{{member.profile}}</a></td>
+                        <td>{{member.email}}</td>
+                        <td>
+                            {{member.attended_tickets}}/{{member.uncancelled_tickets}}
+                        </td>
+                        <td>
+                            <ul>
+                                {% for group in member.groups.all %}
+                                    <li>{{group}}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            {% for tag in member.tags.all %}
+                                {{tag.tag}} 
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="{% url "edit_profile" member.pk %}"><i class="fa fa-pencil" title="Edit Profile"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block secondary_content %}
+    {% include "members/_filter_block.html" %}
+
+    <div class="block block-list__item">
+        <header class="block__header">
+            <h2 class="block__header-text block__header-text--small">Members</h2>
+        </header>
+
+        <ul class="button-list">
+            <li><a class="btn" href="{% url "export_members_to_csv" %}">Export to CSV</a></li>
+        </ul>
+    </div>
+{% endblock %}

@@ -7,6 +7,7 @@ from happening.models import NavigationItemConfiguration
 from happening.forms import BooleanField, MarkdownField
 from happening.forms import EmailToField, DateTimeRangeField
 from emails.models import Email
+from django.contrib.auth.models import Group
 
 
 class ConfigurationForm(forms.Form):
@@ -97,3 +98,12 @@ class PageForm(forms.Form):
 
     url = forms.CharField()
     title = forms.CharField()
+
+
+class GroupForm(forms.ModelForm):
+
+    """Form for creating groups."""
+
+    class Meta:
+        model = Group
+        fields = ['name']

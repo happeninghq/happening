@@ -1,0 +1,43 @@
+{% load xextends %}
+
+{% xextends "admin/members/base.html" with tertiary_nav="groups" %}
+
+{% block admin_members_content %}
+    <div class="block block-list__item">
+        <header class="block__header">
+            <h2 class="block__header-text">Groups</h2>
+        </header>
+        <table class="data-table" id="groups-list">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Members</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for group in groups %}
+                    <tr>
+                        <td>{{group.name}}</td>
+                        <td>{{group.user_set.count}}</td>
+                        <td>
+                            <a href="{% url "edit_group" group.pk %}"><i class="fa fa-pencil" title="Edit"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block secondary_content %}
+    <div class="block block-list__item">
+        <header class="block__header">
+            <h2 class="block__header-text block__header-text--small">Groups</h2>
+        </header>
+
+        <ul class="button-list">
+            <li><a class="btn" href="{% url "create_group" %}">Create Group</a></li>
+        </ul>
+    </div>
+{% endblock %}

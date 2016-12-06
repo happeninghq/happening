@@ -6,8 +6,6 @@ from django.forms.models import model_to_dict
 from functools import partial
 import datetime
 from django.shortcuts import redirect
-from django.contrib.admin.views.decorators import staff_member_required as smr
-from django.contrib.auth.decorators import user_passes_test
 from math import log
 from io import StringIO
 import sys
@@ -16,6 +14,9 @@ from django.contrib.sites.models import Site
 from django.apps import apps
 from django.conf import settings
 import inspect
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseForbidden
+from members.groups import ADMIN_GROUP
 get_model = apps.get_model
 
 
@@ -24,18 +25,18 @@ def render_block(request, template, kwargs):
     return get_template(template).render(kwargs, request)
 
 
-def staff_member_required(view_func, **kwargs):
-    """Require a staff member, and log in with the correct url."""
-    if 'login_url' not in kwargs:
-        kwargs['login_url'] = 'account_login'
-    return smr(view_func, **kwargs)
+def admin_required(view_func):
+    """Require a superuser. This should not be used.
 
-
-def admin_required(view_func, **kwargs):
-    """Require a superuser."""
-    if 'login_url' not in kwargs:
-        kwargs['login_url'] = 'account_login'
-    return user_passes_test(lambda u: u.is_superuser, **kwargs)(view_func)
+        This should be replaced with require_permission.
+    """
+    def admin_required_inner(request, *args, **kwargs):
+        if request.user.is_anonymous:
+            return redirect(reverse("account_login") + "?next=%s" % request.path)
+        if request.user.groups.filter(name=ADMIN_GROUP.name).count() == 0:
+            return HttpResponseForbidden()
+        return view_func(request, *args, **kwargs)
+    return admin_required_inner
 
 
 def custom_strftime(format, t):

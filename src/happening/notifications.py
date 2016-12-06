@@ -5,6 +5,7 @@ from happening.models import Follow
 from happening.filtering import EmailUser
 from notifications.models import EmailableNotification
 from django.contrib.auth.models import User
+from members.groups import ADMIN_GROUP
 
 
 class Notification(object):
@@ -90,17 +91,9 @@ def notify_following(obj, role, notification, data, ignore=[]):
             n.send()
 
 
-def notify_staff(notification, data, ignore=[]):
-    """Send a notification to all staff."""
-    for user in User.objects.filter(is_active=True, is_staff=True):
-        if user not in ignore:
-            n = notification(user, **data)
-            n.send()
-
-
 def notify_admins(notification, data, ignore=[]):
     """Send a notification to all staff."""
-    for user in User.objects.filter(is_active=True, is_superuser=True):
+    for user in ADMIN_GROUP.user_set.all():
         if user not in ignore:
             n = notification(user, **data)
             n.send()
