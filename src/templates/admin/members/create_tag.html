@@ -1,0 +1,18 @@
+{% load xextends %}
+{% load forms %}
+
+{% xextends "admin/members/base.html" with tertiary_nav="tags" %}
+
+{% block admin_members_content %}
+    <div class="block block-list__item">
+        <header class="block__header">
+            <h2 class="block__header-text">Create Tag</h2>
+        </header>                
+        <form method="POST" action="{% url "create_tag" %}" class="form">
+            {% csrf_token %}
+            {{form|render}}
+            <button type="submit">Save</button>
+            <a class="btn warning" href="{% url "tags" %}">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

@@ -10,8 +10,6 @@ cached_admin_urls = [
     (None, "Members", "staff_members"),
     (None, "Events", "staff_events"),
     (None, "Emails", "staff_emails"),
-    (None, "Tags", "tags"),
-    (None, "Tracking Links", "tracking_links")
 ]
 
 if hasattr(settings, "PLUGINS"):

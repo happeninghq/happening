@@ -1,0 +1,18 @@
+{% load xextends %}
+{% load forms %}
+
+{% xextends "admin/members/base.html" with tertiary_nav="tracking_links" %}
+
+{% block admin_members_content %}
+    <div class="block block-list__item">
+        <header class="block__header">
+            <h2 class="block__header-text">Create Tracking Link</h2>
+        </header>                
+        <form method="POST" action="{% url "create_tracking_link" %}" class="form">
+            {% csrf_token %}
+            {{form|render}}
+            <button type="submit">Save</button>
+            <a class="btn warning" href="{% url "tracking_links" %}">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

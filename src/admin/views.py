@@ -852,7 +852,7 @@ def delete_email(request, pk):
 def tags(request):
     """List tags."""
     tags = Tag.objects.all()
-    return render(request, "admin/tags/index.html",
+    return render(request, "admin/members/tags.html",
                   {"tags": tags})
 
 
@@ -866,7 +866,7 @@ def create_tag(request):
             form.save()
             messages.success(request, "The tag has been created.")
             return redirect("tags")
-    return render(request, "admin/tags/create.html", {"form": form})
+    return render(request, "admin/members/create_tag.html", {"form": form})
 
 
 @admin_required
@@ -886,7 +886,7 @@ def delete_tag(request, pk):
 def view_tag(request, pk):
     """View a promocode."""
     tag = get_object_or_404(Tag, pk=pk)
-    return render(request, "admin/tags/view.html", {"tag": tag})
+    return render(request, "admin/members/view_tag.html", {"tag": tag})
 
 
 @admin_required
@@ -917,7 +917,7 @@ def remove_tag(request, member_pk, tag_pk):
 def tracking_links(request):
     """List tracking links."""
     tracking_links = TrackingLink.objects.all()
-    return render(request, "admin/tracking_links/index.html",
+    return render(request, "admin/members/tracking_links.html",
                   {"tracking_links": tracking_links})
 
 
@@ -931,7 +931,7 @@ def create_tracking_link(request):
             form.save()
             messages.success(request, "The tracking link has been created.")
             return redirect("tracking_links")
-    return render(request, "admin/tracking_links/create.html", {"form": form})
+    return render(request, "admin/members/create_tracking_link.html", {"form": form})
 
 
 @admin_required
