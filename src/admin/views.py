@@ -112,7 +112,7 @@ def configuration(request):
 def payment_handlers(request):
     """List payment handlers."""
     payment_handlers = PaymentHandler.objects.all()
-    return render(request, "admin/payment_handlers/index.html",
+    return render(request, "admin/configuration/payment_handlers.html",
                   {"payment_handlers": payment_handlers})
 
 
@@ -130,7 +130,7 @@ def add_payment_handler(request):
                 payment_handler.save()
             messages.success(request, "Payment Handler added.")
             return redirect("payment_handlers")
-    return render(request, "admin/payment_handlers/add.html", {"form": form})
+    return render(request, "admin/configuration/add_payment_handler.html", {"form": form})
 
 
 @admin_required
@@ -160,7 +160,7 @@ def edit_payment_handler(request, pk):
             form.save()
             messages.success(request, "Payment Handler updated.")
             return redirect("payment_handlers")
-    return render(request, "admin/payment_handlers/edit.html",
+    return render(request, "admin/configuration/edit_payment_handler.html",
                   {"form": form, "payment_handler": payment_handler})
 
 

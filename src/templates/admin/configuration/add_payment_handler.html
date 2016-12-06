@@ -1,0 +1,28 @@
+{% load xextends %}
+{% load forms %}
+
+{% xextends "admin/configuration/base.html" with tertiary_nav="payment_handlers" %}
+
+{% block configuration_content %}
+    <div class="block block-list__item">
+        <header class="block__header">
+            <h2 class="block__header-text">Add Payment Handler</h2>
+        </header>
+
+        <form method="POST" action="{% url "add_payment_handler" %}" class="form">
+            {% csrf_token %}
+            {{form|render}}
+
+            <button type="submit">Submit</button>
+            <a href="{% url "payment_handlers" %}" class="button warning">Cancel</a>
+        </form>
+    </div>
+{% endblock %}
+
+{% block secondary_content %}
+    <div class="block block-list__item">
+        <header class="block__header">
+            <h2 class="block__header-text block__header-text--small">Add Payment Handler</h2>
+        </header>
+    </div>
+{% endblock %}
