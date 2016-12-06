@@ -84,7 +84,7 @@ def plugins(request):
             "description": p.Plugin.__doc__,
             "enabled": enabled}
 
-    return render(request, "admin/plugins.html",
+    return render(request, "admin/configuration/plugins.html",
                   {"plugins": plugins.values()})
 
 
@@ -212,7 +212,7 @@ def appearance(request):
             return redirect("appearance")
 
     categories = OrderedDict(sorted(THEME_SETTINGS.items()))
-    return render(request, "admin/appearance.html",
+    return render(request, "admin/appearance/index.html",
                   {"theme_form": form, "categories": categories})
 
 
@@ -244,7 +244,7 @@ def menus(request):
                 form.save()
                 return redirect("menus")
 
-    return render(request, "admin/menus.html",
+    return render(request, "admin/appearance/menus.html",
                   {"menus": menus, "form": form})
 
 
@@ -720,7 +720,7 @@ def email_event(request, pk):
 def pages(request):
     """Administrate pages."""
     pages = Page.objects.all()
-    return render(request, "admin/pages.html", {"pages": pages})
+    return render(request, "admin/appearance/pages.html", {"pages": pages})
 
 
 @admin_required
@@ -739,9 +739,9 @@ def edit_page(request, pk):
         page.content = json.loads(request.POST['content'])
         page.save()
         messages.success(request, 'Page saved.')
-        return redirect("staff_pages")
+        return redirect("pages")
 
-    return render(request, "admin/edit_page.html",
+    return render(request, "admin/appearance/edit_page.html",
                   {"page": page, "block_types": get_block_types()})
 
 
@@ -750,7 +750,7 @@ def delete_page(request, pk):
     """Delete page."""
     page = get_object_or_404(Page, pk=pk)
     page.delete()
-    return redirect("staff_pages")
+    return redirect("pages")
 
 
 @admin_required
@@ -764,8 +764,8 @@ def create_page(request):
                         title=form.cleaned_data['title'])
             page.save()
             messages.success(request, 'Page created.')
-            return redirect("staff_pages")
-    return render(request, "admin/create_page.html", {"form": form})
+            return redirect("pages")
+    return render(request, "admin/appearance/create_page.html", {"form": form})
 
 
 @admin_required

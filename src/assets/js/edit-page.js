@@ -66,7 +66,7 @@ export const init = () => {
     const InitUI = (block) => {
       return dispatch => {
         reqwest({
-          url: "/staff/pages/block",
+          url: "/admin/pages/block",
           data: block,
           type: "json"
         }).then(resp => {
@@ -110,7 +110,7 @@ export const init = () => {
     const StartPreviewBlock = (block) => {
       return dispatch => {
         reqwest({
-          url: "/staff/pages/block",
+          url: "/admin/pages/block",
           data: block,
           type: "json"
         }).then(resp => {

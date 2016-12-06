@@ -1,0 +1,42 @@
+{% load xextends %}
+
+{% load forms %}
+{% load layout %}
+{% xextends "admin/appearance/base.html" with tertiary_nav="appearance" %}
+
+{% block appearance_content %}
+    <div class="appearance">
+        <style id="customCSS" type="text/css"></style>
+        <div class="block-list__item block" id="block_main">
+            <header class="block__header">
+                <h2 class="block__header-text block__header-text">Appearance</h2>
+            </header>
+            <p>Use this form to change the appearance of your Happening community.</p>
+
+            <p>Adjust the settings on the left, and preview the changes in realtime on the right. Once you're finished, click "Save" to commit the changes.</p>
+        </div>
+
+        <form method="POST" action="{% url "appearance" %}" class="form">
+            {% csrf_token %}
+            {{theme_form|render_as_blocks}}
+            
+            <div class="block block-list__item stick-bottom">
+                <div class="float-right">
+                    <button type="submit">Save</button>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block secondary_content %}
+    {% for category, c in categories.items %}
+        <div class="block block-list__item match-height" data-match="#block_{{category}}">
+            <header class="block__header">
+                <h2 class="block__header-text block__header-text--small">{{category}}</h2>
+            </header>
+            {{c.preview|safe}}
+        </div>
+    {% endfor %}
+{% endblock %}

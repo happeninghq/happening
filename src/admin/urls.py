@@ -78,7 +78,7 @@ urlpatterns = [
     url(r'^events/waiting-lists/(?P<pk>\d+)/release/(?P<user_pk>\d+)$',
         views.release_to_waiting_list,
         name='release_to_waiting_list'),
-    url(r'^pages$', views.pages, name='staff_pages'),
+    url(r'^pages$', views.pages, name='pages'),
     url(r'^pages/create$', views.create_page, name='create_page'),
     url(r'^pages/block$', views.render_block, name='render_block'),
     url(r'^pages/(?P<pk>\d+)$', views.edit_page, name='edit_page'),

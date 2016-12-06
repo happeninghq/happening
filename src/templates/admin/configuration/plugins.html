@@ -1,0 +1,36 @@
+{% load xextends %}
+
+{% xextends "admin/configuration/base.html" with tertiary_nav="plugins" %}
+
+{% block configuration_content %}
+    <div class="block block-list__item">
+        <header class="block__header">
+            <h2 class="block__header-text">Plugins</h2>
+        </header>
+        <form method="POST" action="{% url "plugins" %}">
+            {% csrf_token %}
+            <table id="plugins">
+                <thead>
+                    <tr>
+                        <th>Plugin</th>
+                        <th>Enabled</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for plugin in plugins %}
+                        <tr>
+                            <td>
+                                <strong>{{plugin.name}}</strong>
+                                <p>{{plugin.description}}</p>
+                            </td>
+                            <td>
+                                    <input name="{{plugin.id}}_plugin" type="checkbox" {% if plugin.enabled %}checked{% endif %}/>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+{% endblock %}

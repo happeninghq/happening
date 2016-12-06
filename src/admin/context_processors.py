@@ -4,14 +4,11 @@ from django.conf import settings
 
 cached_admin_urls = [
     (None, "Dashboard", "admin"),
-    (None, "Plugins", "plugins"),
     (None, "Configuration", "configuration"),
     (None, "Appearance", "appearance"),
-    (None, "Menus", "menus"),
     (None, "Backup", "backup"),
     (None, "Members", "staff_members"),
     (None, "Events", "staff_events"),
-    (None, "Pages", "staff_pages"),
     (None, "Emails", "staff_emails"),
     (None, "Tags", "tags"),
     (None, "Tracking Links", "tracking_links")

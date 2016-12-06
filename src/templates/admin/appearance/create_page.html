@@ -1,0 +1,19 @@
+{% load xextends %}
+{% load forms %}
+
+{% xextends "admin/appearance/base.html" with tertiary_nav="pages" %}
+
+{% block appearance_content %}
+    <div class="block block-list__item">
+        <header class="block__header">
+            <h2 class="block__header-text">New Page</h2>
+        </header>
+            
+        <form method="POST" action="{% url "create_page" %}" class="form">
+            {% csrf_token %}
+            {{form|render}}
+            <button type="submit">Save</button>
+            <a class="button warning" href="{% url "pages" %}">Cancel</a>
+        </form>
+    </div>
+{% endblock %}
