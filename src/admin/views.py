@@ -1,6 +1,6 @@
 """Admin views."""
 from django.shortcuts import render, redirect, get_object_or_404
-from happening.utils import admin_required
+from happening.utils import require_permission
 from django.conf import settings
 import importlib
 from django.contrib import messages
@@ -22,6 +22,7 @@ from collections import OrderedDict
 from happening.models import NavigationItemConfiguration
 from happening.plugins import navigation_item_name
 from happening.plugins import registered_navigation_items, plugin_enabled
+from happening.permissions import _registered_permissions, get_permission
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from events.models import Event, Ticket, EventPreset, TicketType
@@ -37,21 +38,35 @@ from django.http import JsonResponse
 from django.utils import formats
 from django.views.decorators.csrf import csrf_protect
 from djqscsv import render_to_csv_response
-from members.forms import TagForm, AddTagForm, TrackingLinkForm
+from members.forms import TagForm, AddTagForm, TrackingLinkForm, AssignGroupForm
 from members.models import Tag, TrackingLink
 from django.contrib.auth.models import User
 from pages.utils import render_block_content, get_block_types
 from admin.forms import PageForm, GroupForm
 import json
+from members.groups import get_admin_group
+from admin.context_processors import admin_urls
+from django.urls import reverse, resolve
 
 
-@admin_required
+def can_see_admin(user):
+    for url in admin_urls()["admin_urls"]:
+        if not url[1] == "admin":
+            path = reverse(url[1])
+            view = resolve(path).func
+            if not hasattr(view, "has_permission") or\
+                    view.has_permission(user):
+                return True
+    return False
+
+
+@require_permission(func=can_see_admin)
 def index(request):
     """Admin dashboard."""
     return render(request, "admin/index.html")
 
 
-@admin_required
+@require_permission("configuration")
 def plugins(request):
     """Plugin settings."""
     if request.method == "POST":
@@ -88,7 +103,7 @@ def plugins(request):
                   {"plugins": plugins.values()})
 
 
-@admin_required
+@require_permission("test")
 def configuration(request):
     """Configure settings."""
     variables = get_configuration_variables("configuration")
@@ -108,7 +123,7 @@ def configuration(request):
                   {"form": form})
 
 
-@admin_required
+@require_permission("configuration")
 def payment_handlers(request):
     """List payment handlers."""
     payment_handlers = PaymentHandler.objects.all()
@@ -116,7 +131,7 @@ def payment_handlers(request):
                   {"payment_handlers": payment_handlers})
 
 
-@admin_required
+@require_permission("configuration")
 def add_payment_handler(request):
     """Add a payment handler."""
     form = PaymentHandlerForm()
@@ -130,10 +145,11 @@ def add_payment_handler(request):
                 payment_handler.save()
             messages.success(request, "Payment Handler added.")
             return redirect("payment_handlers")
-    return render(request, "admin/configuration/add_payment_handler.html", {"form": form})
+    return render(request, "admin/configuration/add_payment_handler.html",
+                  {"form": form})
 
 
-@admin_required
+@require_permission("configuration")
 @require_POST
 def delete_payment_handler(request, pk):
     """Delete a payment handler."""
@@ -149,7 +165,7 @@ def delete_payment_handler(request, pk):
     return redirect("payment_handlers")
 
 
-@admin_required
+@require_permission("configuration")
 def edit_payment_handler(request, pk):
     """Edit a payment handler."""
     payment_handler = get_object_or_404(PaymentHandler, pk=pk)
@@ -164,7 +180,7 @@ def edit_payment_handler(request, pk):
                   {"form": form, "payment_handler": payment_handler})
 
 
-@admin_required
+@require_permission("configuration")
 def make_active_payment_handler(request, pk):
     """Make a payment handler active."""
     with transaction.atomic():
@@ -177,7 +193,7 @@ def make_active_payment_handler(request, pk):
     return redirect("payment_handlers")
 
 
-@admin_required
+@require_permission("appearance")
 def appearance(request):
     """Allow configuring logo and css."""
     site = Site.objects.first().happening_site
@@ -216,7 +232,7 @@ def appearance(request):
                   {"theme_form": form, "categories": categories})
 
 
-@admin_required
+@require_permission("appearance")
 def menus(request):
     """Edit menus."""
     menus = [{"menu": m, "name": navigation_item_name(m.name)}
@@ -248,28 +264,28 @@ def menus(request):
                   {"menus": menus, "form": form})
 
 
-@admin_required
+@require_permission("appearance")
 def move_menu_up(request, pk):
     """Move menu up."""
     NavigationItemConfiguration.objects.get(pk=pk).up()
     return redirect("menus")
 
 
-@admin_required
+@require_permission("appearance")
 def move_menu_down(request, pk):
     """Move menu down."""
     NavigationItemConfiguration.objects.get(pk=pk).down()
     return redirect("menus")
 
 
-@admin_required
+@require_permission("appearance")
 def delete_menu(request, pk):
     """Delete menu."""
     NavigationItemConfiguration.objects.get(pk=pk).delete()
     return redirect("menus")
 
 
-@admin_required
+@require_permission("configuration")
 def authentication(request):
     """List social apps."""
     social_apps = SocialApp.objects.all()
@@ -277,7 +293,7 @@ def authentication(request):
                   {"social_apps": social_apps})
 
 
-@admin_required
+@require_permission("configuration")
 def add_authentication(request):
     """Add a social app."""
     form = SocialAppForm()
@@ -291,7 +307,7 @@ def add_authentication(request):
     return render(request, "admin/configuration/add_authentication.html", {"form": form})
 
 
-@admin_required
+@require_permission("configuration")
 @require_POST
 def delete_authentication(request, pk):
     """Delete a social app."""
@@ -301,7 +317,7 @@ def delete_authentication(request, pk):
     return redirect("authentication")
 
 
-@admin_required
+@require_permission("configuration")
 def edit_authentication(request, pk):
     """Edit a social app."""
     social_app = get_object_or_404(SocialApp, pk=pk)
@@ -316,7 +332,7 @@ def edit_authentication(request, pk):
                   {"form": form, "social_app": social_app})
 
 
-@admin_required
+@require_permission("backup")
 def backup(request):
     """Allow dumping/restoring data."""
     return render(
@@ -329,7 +345,7 @@ def backup(request):
             restore=True).count() > 0})
 
 
-@admin_required
+@require_permission("backup")
 @require_POST
 def schedule_backup(request):
     """Dump zip of data and media."""
@@ -339,7 +355,7 @@ def schedule_backup(request):
     return redirect("backup")
 
 
-# @admin_required
+@require_permission("backup")
 # @require_POST
 # def restore_backup(request):
 #     """Restore zip to database."""
@@ -351,7 +367,7 @@ def schedule_backup(request):
 #     return redirect("backup")
 
 
-@admin_required
+@require_permission("backup")
 @require_POST
 def delete_backup(request, pk):
     """Delete a backup."""
@@ -364,7 +380,7 @@ def delete_backup(request, pk):
     return redirect("backup")
 
 
-@admin_required
+@require_permission("backup")
 @require_POST
 def cancel_backup(request, pk):
     """Cancel a backup."""
@@ -377,21 +393,21 @@ def cancel_backup(request, pk):
     return redirect("backup")
 
 
-@admin_required
+@require_permission("manage_members")
 def members(request):
     """Administrate members."""
     members = get_user_model().objects.all()
     return render(request, "admin/members/index.html", {"members": members})
 
 
-@admin_required
+@require_permission("manage_members", "manage_groups")
 def groups(request):
     """Administrate groups."""
     groups = Group.objects.all()
     return render(request, "admin/members/groups.html", {"groups": groups})
 
 
-@admin_required
+@require_permission("manage_members", "manage_groups")
 def create_group(request):
     """Create groups."""
     form = GroupForm()
@@ -404,28 +420,102 @@ def create_group(request):
     return render(request, "admin/members/create_group.html", {"form": form})
 
 
-@admin_required
+@require_permission("manage_members", "manage_groups")
 def edit_group(request, pk):
     """Edit a group."""
     group = get_object_or_404(Group, pk=pk)
-    return render(request, "admin/members/edit_group.html", {"group": group})
+    form = GroupForm(instance=group)
+
+    allow_modify_permissions = True
+    if group == get_admin_group():
+        allow_modify_permissions = False
+
+    # Create the set of permissions
+    permissions = {}
+    for g in _registered_permissions.keys():
+        if g not in permissions:
+            permissions[g] = {}
+        for key in _registered_permissions[g].keys():
+            permission = _registered_permissions[g][key]
+            permission_object = get_permission(g, key)
+            permissions[g][key] = {
+                "pk": permission_object.pk,
+                "name": permission["name"],
+                "description": permission["description"],
+                "enabled": group.permissions.filter(
+                    pk=permission_object.pk).count() > 0,
+                "object": permission_object
+            }
+
+    if request.method == "POST":
+        form = GroupForm(request.POST, instance=group)
+        if form.is_valid():
+            group = form.save()
+
+            # Now save permissions
+            for p in permissions:
+                for key, d in permissions[p].items():
+                    permission_object = d["object"]
+                    if ("permission_" + str(permission_object.pk)
+                            in request.POST):
+                        # Should be enabled
+                        if not d["enabled"]:
+                            # Need to enable it
+                            group.permissions.add(permission_object)
+                    else:
+                        # Should not be enabled
+                        if d["enabled"]:
+                            # Need to disable it
+                            group.permissions.remove(permission_object)
+
+                group.save()
 
 
-@admin_required
+            messages.success(request, "Group updated.")
+            return redirect("groups")
+    return render(request, "admin/members/edit_group.html",
+                  {"group": group, "form": form, "permissions": permissions,
+                   "allow_modify_permissions": allow_modify_permissions})
+
+
+@require_permission("manage_members", "manage_groups")
+@require_POST
+def assign_to_group(request, member_pk):
+    """Assign a member to a group."""
+    member = get_object_or_404(get_user_model(), pk=member_pk)
+    form = AssignGroupForm(request.POST, member=member)
+    if form.is_valid():
+        group = get_object_or_404(Group, pk=form.cleaned_data['group'])
+        member.groups.add(group)
+        messages.success(request, "The member has been assigned to the group.")
+    return redirect("view_profile", member.pk)
+
+
+@require_permission("manage_members", "manage_groups")
+def remove_from_group(request, member_pk, group_pk):
+    """Remove a member from a group."""
+    member = get_object_or_404(get_user_model(), pk=member_pk)
+    group = get_object_or_404(Group, pk=group_pk)
+    member.groups.remove(group)
+    messages.success(request, "The member has been removed from the group.")
+    return redirect("view_profile", member.pk)
+
+
+@require_permission("manage_members")
 def export_members_to_csv(request):
     """Export members to CSV."""
     members = get_user_model().objects.all().values("username", "email")
     return render_to_csv_response(members)
 
 
-@admin_required
+@require_permission("manage_events")
 def events(request):
     """Administrate events."""
     events = Event.objects.all().order_by('-start')
     return render(request, "admin/events.html", {"events": events})
 
 
-@admin_required
+@require_permission("manage_events")
 def export_tickets_to_csv(request, pk):
     """Export tickets to csv."""
     event = get_object_or_404(Event, pk=pk)
@@ -435,14 +525,14 @@ def export_tickets_to_csv(request, pk):
     return render_to_csv_response(tickets)
 
 
-@admin_required
+@require_permission("manage_events")
 def event_presets(request):
     """Administrate event presets."""
     presets = EventPreset.objects.all()
     return render(request, "admin/event_presets.html", {"presets": presets})
 
 
-@admin_required
+@require_permission("manage_events")
 def edit_event_preset(request, pk):
     """Edit an event preset."""
     preset = get_object_or_404(EventPreset, pk=pk)
@@ -468,7 +558,7 @@ def edit_event_preset(request, pk):
                   {"preset": preset, "form": form})
 
 
-@admin_required
+@require_permission("manage_events")
 def delete_event_preset(request, pk):
     """Delete an event preset."""
     preset = get_object_or_404(EventPreset, pk=pk)
@@ -478,7 +568,7 @@ def delete_event_preset(request, pk):
     return redirect("event_presets")
 
 
-@admin_required
+@require_permission("manage_events")
 def create_event_preset(request):
     """Create an event preset."""
     form = EventForm()
@@ -502,7 +592,7 @@ def create_event_preset(request):
                   {"form": form})
 
 
-@admin_required
+@require_permission("manage_events")
 def add_attendee(request, pk):
     """Add an attendee to the event.
 
@@ -529,7 +619,7 @@ def add_attendee(request, pk):
                    "members": members})
 
 
-@admin_required
+@require_permission("manage_events")
 def check_in(request, pk):
     """Check in a ticket."""
     ticket = get_object_or_404(Ticket, pk=pk)
@@ -548,7 +638,7 @@ def check_in(request, pk):
     return redirect(request.GET.get("next"))
 
 
-@admin_required
+@require_permission("manage_events")
 def cancel_check_in(request, pk):
     """Cancel the check in for a ticket."""
     ticket = get_object_or_404(Ticket, pk=pk)
@@ -565,21 +655,21 @@ def cancel_check_in(request, pk):
     return redirect(request.GET.get("next"))
 
 
-@admin_required
+@require_permission("manage_events")
 def manage_check_ins(request, pk):
     """Manage check ins."""
     event = get_object_or_404(Event, pk=pk)
     return render(request, "admin/manage_check_ins.html", {"event": event})
 
 
-@admin_required
+@require_permission("manage_events")
 def event(request, pk):
     """View event."""
     event = get_object_or_404(Event, pk=pk)
     return render(request, "admin/event.html", {"event": event})
 
 
-@admin_required
+@require_permission("manage_events")
 def edit_event(request, pk):
     """Edit event."""
     event = get_object_or_404(Event, pk=pk)
@@ -598,7 +688,7 @@ def edit_event(request, pk):
                   {"event": event, "form": form})
 
 
-@admin_required
+@require_permission("manage_events")
 def create_event(request):
     """Create event."""
     form = EventForm()
@@ -622,7 +712,7 @@ def create_event(request):
 
 # We had to add csrf_protect below because of django not generating a token
 # TODO: Figure out why this is an remove it. It should be automatic
-@admin_required
+@require_permission("manage_events")
 @csrf_protect
 def manage_waiting_list(request, pk):
     """Manage waiting list."""
@@ -633,7 +723,7 @@ def manage_waiting_list(request, pk):
                   {"ticket_type": ticket_type, "form": form})
 
 
-@admin_required
+@require_permission("manage_events")
 @require_POST
 def waiting_list_settings(request, pk):
     """Manage waiting list settings."""
@@ -646,7 +736,7 @@ def waiting_list_settings(request, pk):
         return redirect("manage_waiting_list", pk)
 
 
-@admin_required
+@require_permission("manage_events")
 def remove_from_waiting_list(request, pk, user_pk):
     """Remove a user from a waiting list."""
     ticket_type = get_object_or_404(TicketType, pk=pk)
@@ -659,7 +749,7 @@ def remove_from_waiting_list(request, pk, user_pk):
     return redirect("manage_waiting_list", pk)
 
 
-@admin_required
+@require_permission("manage_events")
 def release_to_waiting_list(request, pk, user_pk):
     """Release a ticket to a user on the waiting list."""
     ticket_type = get_object_or_404(TicketType, pk=pk)
@@ -679,7 +769,7 @@ def release_to_waiting_list(request, pk, user_pk):
     return redirect("manage_waiting_list", pk)
 
 
-@admin_required
+@require_permission("manage_emails")
 def preview_email(request):
     """Render an email as it would be sent."""
     if request.GET.get('event'):
@@ -696,7 +786,7 @@ def preview_email(request):
     return JsonResponse({"subject": subject, "content": content})
 
 
-@admin_required
+@require_permission("manage_emails")
 def email_event(request, pk):
     """Send an email to attendees."""
     event = get_object_or_404(Event, pk=pk)
@@ -716,20 +806,20 @@ def email_event(request, pk):
                   {"event": event, "form": form})
 
 
-@admin_required
+@require_permission("appearance")
 def pages(request):
     """Administrate pages."""
     pages = Page.objects.all()
     return render(request, "admin/appearance/pages.html", {"pages": pages})
 
 
-@admin_required
+@require_permission("appearance")
 def render_block(request):
     """Used to render block previews on the page editor."""
     return JsonResponse({"html": render_block_content(request.GET, request)})
 
 
-@admin_required
+@require_permission("appearance")
 def edit_page(request, pk):
     """Edit page."""
     page = get_object_or_404(Page, pk=pk)
@@ -745,7 +835,7 @@ def edit_page(request, pk):
                   {"page": page, "block_types": get_block_types()})
 
 
-@admin_required
+@require_permission("appearance")
 def delete_page(request, pk):
     """Delete page."""
     page = get_object_or_404(Page, pk=pk)
@@ -753,7 +843,7 @@ def delete_page(request, pk):
     return redirect("pages")
 
 
-@admin_required
+@require_permission("appearance")
 def create_page(request):
     """Create page."""
     form = PageForm()
@@ -768,7 +858,7 @@ def create_page(request):
     return render(request, "admin/appearance/create_page.html", {"form": form})
 
 
-@admin_required
+@require_permission("manage_emails")
 def staff_emails(request):
     """List emails."""
     return render(request,
@@ -776,7 +866,7 @@ def staff_emails(request):
                   {"emails": Email.objects.all()})
 
 
-@admin_required
+@require_permission("manage_emails")
 def email(request, pk):
     """Show email details."""
     email = get_object_or_404(Email, pk=pk)
@@ -785,7 +875,7 @@ def email(request, pk):
                   {"email": email})
 
 
-@admin_required
+@require_permission("manage_emails")
 def create_email(request):
     """Send an email."""
     form = EmailForm()
@@ -799,7 +889,7 @@ def create_email(request):
                   {"form": form})
 
 
-@admin_required
+@require_permission("manage_emails")
 def edit_email(request, pk):
     """Edit an email."""
     email = get_object_or_404(Email, pk=pk)
@@ -814,7 +904,7 @@ def edit_email(request, pk):
                   {"form": form, "email": email})
 
 
-@admin_required
+@require_permission("manage_emails")
 def disable_email(request, pk):
     """Disable an email."""
     email = get_object_or_404(Email, pk=pk)
@@ -824,7 +914,7 @@ def disable_email(request, pk):
     return redirect(request.GET.get("redirect", "staff_emails"))
 
 
-@admin_required
+@require_permission("manage_emails")
 def enable_email(request, pk):
     """Enable an email."""
     email = get_object_or_404(Email, pk=pk)
@@ -834,7 +924,7 @@ def enable_email(request, pk):
     return redirect(request.GET.get("redirect", "staff_emails"))
 
 
-@admin_required
+@require_permission("manage_emails")
 @require_POST
 def delete_email(request, pk):
     """Delete an email."""
@@ -848,7 +938,7 @@ def delete_email(request, pk):
     return redirect(request.GET.get("redirect", "staff_emails"))
 
 
-@admin_required
+@require_permission("manage_members")
 def tags(request):
     """List tags."""
     tags = Tag.objects.all()
@@ -856,7 +946,7 @@ def tags(request):
                   {"tags": tags})
 
 
-@admin_required
+@require_permission("manage_members")
 def create_tag(request):
     """Add a tag."""
     form = TagForm()
@@ -869,7 +959,7 @@ def create_tag(request):
     return render(request, "admin/members/create_tag.html", {"form": form})
 
 
-@admin_required
+@require_permission("manage_members")
 @require_POST
 def delete_tag(request, pk):
     """Delete a tag."""
@@ -882,14 +972,14 @@ def delete_tag(request, pk):
     return redirect("tags")
 
 
-@admin_required
+@require_permission("manage_members")
 def view_tag(request, pk):
     """View a promocode."""
     tag = get_object_or_404(Tag, pk=pk)
     return render(request, "admin/members/view_tag.html", {"tag": tag})
 
 
-@admin_required
+@require_permission("manage_members")
 @require_POST
 def add_tag(request, member_pk):
     """Add a tag."""
@@ -902,7 +992,7 @@ def add_tag(request, member_pk):
     return redirect("view_profile", member_pk)
 
 
-@admin_required
+@require_permission("manage_members")
 @require_POST
 def remove_tag(request, member_pk, tag_pk):
     """Remove a tag."""
@@ -913,7 +1003,7 @@ def remove_tag(request, member_pk, tag_pk):
     return redirect("view_profile", member_pk)
 
 
-@admin_required
+@require_permission("manage_members")
 def tracking_links(request):
     """List tracking links."""
     tracking_links = TrackingLink.objects.all()
@@ -921,7 +1011,7 @@ def tracking_links(request):
                   {"tracking_links": tracking_links})
 
 
-@admin_required
+@require_permission("manage_members")
 def create_tracking_link(request):
     """Add a tracking link."""
     form = TrackingLinkForm()
@@ -934,7 +1024,7 @@ def create_tracking_link(request):
     return render(request, "admin/members/create_tracking_link.html", {"form": form})
 
 
-@admin_required
+@require_permission("manage_members")
 @require_POST
 def delete_tracking_link(request, pk):
     """Delete a tracking link."""

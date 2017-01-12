@@ -15,19 +15,13 @@ from members.configuration import ProfileProperties
 from .decorators import require_editing_own_profile
 from django.contrib import messages
 from django.contrib.auth import logout
-from members.forms import AddTagForm
-from members.configuration import MembersListVisibility
+from members.forms import AddTagForm, AssignGroupForm
+from happening.utils import require_permission
 
 
+@require_permission("view_members_list")
 def index(request):
     """Show the members list."""
-    visible = MembersListVisibility().get()
-    if visible in ['staff', 'members'] and not request.user.is_authenticated():
-        return redirect("index")
-
-    if visible == 'staff' and not request.user.is_staff:
-        return redirect('my_profile')
-
     return render(request, "members/index.html",
                   {"members": get_user_model().objects.filter(is_active=True)})
 
@@ -81,7 +75,8 @@ def view_profile(request, pk):
                    "profile_properties": profile_properties,
                    "custom_properties": custom_properties,
                    "secondary_nav": secondary_nav,
-                   "tag_form": AddTagForm(member=member)})
+                   "tag_form": AddTagForm(member=member),
+                   "group_form": AssignGroupForm(member=member)})
 
 
 @require_editing_own_profile

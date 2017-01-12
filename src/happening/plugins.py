@@ -22,7 +22,8 @@ def init():
                     'notifications',
                     'middleware',
                     'page_blocks',
-                    'navigation_items']
+                    'navigation_items',
+                    'permissions']
 
     for app in settings.INSTALLED_APPS:
         f = app.replace(".", "/")

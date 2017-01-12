@@ -1,24 +1,19 @@
 {% load xextends %}
 {% load plugins %}
 {% load layout %}
+{% load permissions %}
 {% xextends "base.html" with primary_nav="members" %}
 
 {% block secondary_navigation %}
     <ul class="inline-list inline-list--space">
-        {% with v="members.configuration.MembersListVisibility"|get_configuration %}
-            {% if not request.user.is_authenticated %}
-                {% if v == "all" %}
-                    {% secondary_navigation_item link="members" text="Members" %}
-                {% endif %}
-            {% else %}
-                {% if v == "staff" and not request.user.is_staff %}
-                {% else %}
-                    {% secondary_navigation_item link="members" text="Members" %}
-                {% endif %}
-                {% secondary_navigation_item link="my_profile" text="My Profile" %}
-                {% secondary_navigation_item link="my_settings" text="Settings" %}
-            {% endif %}
-        {% endwith %}
+        {% linkpermission "members" %}
+            {% secondary_navigation_item link_name="members" text="Members" %}
+        {% endlinkpermission %}
+
+        {% if request.user.is_authenticated %}
+            {% secondary_navigation_item link_name="my_profile" text="My Profile" %}
+            {% secondary_navigation_item link_name="my_settings" text="Settings" %}
+        {% endif %}
 
         {% plugin_block "members.secondary_navigation" secondary_nav %}
     </ul>

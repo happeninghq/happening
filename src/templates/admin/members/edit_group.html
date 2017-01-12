@@ -1,1 +1,58 @@
-la
+{% load xextends %}
+{% load forms %}
+
+{% xextends "admin/members/base.html" with tertiary_nav="groups" %}
+
+{% block admin_members_content %}
+    <form method="POST" action="{% url "edit_group" group.pk %}">
+        {% csrf_token %}
+
+        <div class="block block-list__item">
+            <header class="block__header">
+                <h2 class="block__header-text">Edit {{group.name}}</h2>
+            </header>
+            {{form|render}}
+        </div>
+
+        {% if allow_modify_permissions %}
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">Permissions</h2>
+                </header>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Permitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for group, items in permissions.items %}
+                            <tr>
+                                <th colspan="2">{{group}}</th>
+                            </tr>
+                            {% for k, v in items.items %}
+                            <tr>
+                                <td>
+                                    <label for="permission_{{v.pk}}">
+                                        <strong>{{v.name}}</strong>
+                                        <p>{{v.description}}</p>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="permission_{{v.pk}}" name="permission_{{v.pk}}" {% if v.enabled%}checked {% endif %}/>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        <div class="block block-list__item">
+            <button type="submit">Save</button>
+        </div>
+    </form>
+{% endblock %}

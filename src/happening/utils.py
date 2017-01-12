@@ -16,7 +16,7 @@ from django.conf import settings
 import inspect
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseForbidden
-from members.groups import ADMIN_GROUP
+from members.groups import get_admin_group
 get_model = apps.get_model
 
 
@@ -25,18 +25,38 @@ def render_block(request, template, kwargs):
     return get_template(template).render(kwargs, request)
 
 
-def admin_required(view_func):
-    """Require a superuser. This should not be used.
+def require_permission(*permissions, **kwargs):
+    """Require a given permission."""
+    def require_permission_inner(func):
+        class RequirePermission:
+            def has_permission(self, user):
+                if user.is_anonymous:
+                    return False
+                if user.groups.filter(
+                        pk=get_admin_group().pk).count() == 0:
+                    # We give full permissions to anyone in the admin group
 
-        This should be replaced with require_permission.
-    """
-    def admin_required_inner(request, *args, **kwargs):
-        if request.user.is_anonymous:
-            return redirect(reverse("account_login") + "?next=%s" % request.path)
-        if request.user.groups.filter(name=ADMIN_GROUP.name).count() == 0:
-            return HttpResponseForbidden()
-        return view_func(request, *args, **kwargs)
-    return admin_required_inner
+                    if "func" in kwargs:
+                        if not kwargs["func"](user):
+                            return False
+
+                    for p in permissions:
+                        if "." not in p:
+                            # Probably on the happeningsite object
+                            p = "happening.%s" % p
+                        if not user.has_perm(p):
+                            return False
+                return True
+
+            def __call__(self, request, *args, **kwargs):
+                if request.user.is_anonymous:
+                    return redirect(reverse(
+                        "account_login") + "?next=%s" % request.path)
+                if not self.has_permission(request.user):
+                    return HttpResponseForbidden()
+                return func(request, *args, **kwargs)
+        return RequirePermission()
+    return require_permission_inner
 
 
 def custom_strftime(format, t):

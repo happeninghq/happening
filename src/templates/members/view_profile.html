@@ -103,7 +103,30 @@
             {% if request.user.is_staff %}
                 <div class="block block-list__item">
                     <header class="block__header">
-                        <h2 class="block__header-text block__header-text--small">Tags (Staff only)</h2>
+                        <h2 class="block__header-text block__header-text--small">Groups</h2>
+                    </header>
+                        <table>
+                            {% for group in member.groups.all %}
+                                <tr>
+                                    <td>{{group.name}}</td>
+                                    <td><a href="{% url "remove_from_group" member.pk group.pk %}" class="confirm" data-confirm="Are you sure you want to remove the user from this group?"><i class="fa fa-trash" title="Remove"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+
+                        {% if member.can_assign_to_group %}
+                            <strong>Assign to Group</strong>
+                            <form method="POST" action="{% url "assign_to_group" member.pk %}">
+                                {% csrf_token %}
+                                {{group_form|render}}
+                                <button type="submit">Assign</button>
+                            </form>
+                        {% endif %}
+                </div>
+
+                <div class="block block-list__item">
+                    <header class="block__header">
+                        <h2 class="block__header-text block__header-text--small">Tags</h2>
                     </header>
                         <table>
                             {% for tag in member.tags.all %}
@@ -117,6 +140,7 @@
                         {% if member.can_add_tag %}
                             <strong>Add Tag</strong>
                             <form method="POST" action="{% url "add_tag" member.pk %}">
+                                {% csrf_token %}
                                 {{tag_form|render}}
                                 <button type="submit">Add</button>
                             </form>

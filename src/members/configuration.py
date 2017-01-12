@@ -2,21 +2,6 @@
 from happening import configuration
 
 
-class MembersListVisibility(configuration.ChoiceField):
-
-    """Who should be able to view members lists."""
-
-    category = "Members"
-
-    default = "All"
-
-    choices = [
-        ("staff", "Staff"),
-        ("members", "Members"),
-        ("all", "All"),
-    ]
-
-
 class ProfileProperties(configuration.PropertiesField):
 
     """The custom properties added to member profiles."""

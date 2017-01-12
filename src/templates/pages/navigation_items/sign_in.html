@@ -6,5 +6,5 @@
         <a href="{% url "account_logout" %}" class="menu__item__text plain-link">Log Out</a>
     </li>
 {% else %}
-    {% primary_navigation_item link="account_login" text="Log In" icon="sign-in" %}
+    {% primary_navigation_item link_name="account_login" text="Log In" icon="sign-in" %}
 {% endif %}

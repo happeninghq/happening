@@ -3,6 +3,6 @@
 
 {% with v="pages.configuration.NameOfEvents"|get_configuration %}
     {% with vv=v|title|add:"s" %}
-        {% primary_navigation_item link="events" text=vv icon="calendar" %}
+        {% primary_navigation_item link_name="events" text=vv icon="calendar" %}
     {% endwith %}
 {% endwith %}

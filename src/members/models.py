@@ -5,7 +5,7 @@ from happening import db
 from django.conf import settings
 from cached_property import threaded_cached_property
 from django_gravatar.helpers import get_gravatar_url, has_gravatar
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from happening.storage import media_path
 from django.contrib.auth.signals import user_logged_in
 
@@ -140,6 +140,14 @@ def member_can_add_tag(member):
 
 
 User.can_add_tag = member_can_add_tag
+
+
+def member_can_assign_to_group(member):
+    """Can a member assign to a group."""
+    return member.groups.count() < Group.objects.all().count()
+
+
+User.can_assign_to_group = member_can_assign_to_group
 
 
 def apply_session_tags(sender, user, request, **kwargs):

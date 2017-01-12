@@ -65,10 +65,10 @@ TEMPLATES = [
 
 # Load all plugins
 PLUGINS = []
-for f in os.listdir('plugins'):
-    if os.path.isdir('plugins/%s' % f) and not f == '__pycache__':
-        PLUGINS.append('plugins.%s' % f)
-        importlib.import_module('plugins.%s' % f)
+# for f in os.listdir('plugins'):
+#     if os.path.isdir('plugins/%s' % f) and not f == '__pycache__':
+#         PLUGINS.append('plugins.%s' % f)
+#         importlib.import_module('plugins.%s' % f)
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -78,36 +78,36 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    'rest_framework',
-    'guardian',
+    # 'rest_framework',
+    # 'guardian',
 
-    'widget_tweaks',
-    'markdown_deux',
+    # 'widget_tweaks',
+    # 'markdown_deux',
 
-    'ganalytics',
+    # 'ganalytics',
 
-    'storages',
+    # 'storages',
 
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
 
-    'django_gravatar',
+    # 'django_gravatar',
 
-    'wkhtmltopdf',
+    # 'wkhtmltopdf',
 
-    'ordered_model',
+    # 'ordered_model',
 
-    'happening',
-    'emails',
-    'events',
-    'members',
-    'notifications',
-    'pages',
-    'admin',
-    'payments',
+    # 'happening',
+    # 'emails',
+    # 'events',
+    # 'members',
+    # 'notifications',
+    # 'pages',
+    # 'admin',
+    # 'payments',
 
-    'django_cleanup',
+    # 'django_cleanup',
 ] + PLUGINS
 
 SOCIALACCOUNT_PROVIDERS = {

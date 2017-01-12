@@ -23,11 +23,6 @@ class Event(db.Model):
 
     """An event."""
 
-    class Meta:
-        permissions = (
-            ('create_event', 'Create event'),
-        )
-
     start = models.DateTimeField()
     end = models.DateTimeField(null=True)
 

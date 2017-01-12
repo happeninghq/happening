@@ -5,6 +5,7 @@ from django import forms
 from happening import forms as happening_forms
 from happening.forms import MarkdownWidget
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from .models import Tag, TrackingLink
 
 
@@ -90,3 +91,20 @@ class AddTagForm(forms.Form):
 
         self.fields['tag'] = forms.ChoiceField(
             label='Tag', choices=choices, required=True)
+
+
+class AssignGroupForm(forms.Form):
+
+    """Form for assigning groups."""
+
+    def __init__(self, *args, **kwargs):
+        """Base the available groups on the member."""
+        member = kwargs.pop("member")
+
+        super(AssignGroupForm, self).__init__(*args, **kwargs)
+
+        choices = [(group.pk, group.name) for group in Group.objects.all() if
+                   not member.groups.filter(pk=group.pk).first()]
+
+        self.fields['group'] = forms.ChoiceField(
+            label='Group', choices=choices, required=True)

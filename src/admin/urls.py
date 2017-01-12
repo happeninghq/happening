@@ -48,6 +48,10 @@ urlpatterns = [
     url(r'^authentication/(?P<pk>\d+)/delete$', views.delete_authentication,
         name='delete_authentication'),
     url(r'^members$', views.members, name='staff_members'),
+    url(r'^members/(?P<member_pk>\d+)/groups/assign$', views.assign_to_group,
+        name='assign_to_group'),
+    url(r'^members/(?P<member_pk>\d+)/groups/(?P<group_pk>\d+)/assign$',
+        views.remove_from_group, name='remove_from_group'),
     url(r'^members/groups$', views.groups, name='groups'),
     url(r'^members/groups/create$', views.create_group, name='create_group'),
     url(r'^members/groups/(?P<pk>\d+)/edit$', views.edit_group, name='edit_group'),
@@ -127,8 +131,3 @@ if hasattr(settings, "PLUGINS"):
             urlpatterns += required(
                 plugin_enabled_decorator(plugin),
                 [url(p.Plugin.admin_url_root, include("%s.admin" % plugin))])
-        if hasattr(p.Plugin, "staff_url_root"):
-            # Include the urlpatterns
-            urlpatterns += required(
-                plugin_enabled_decorator(plugin),
-                [url(p.Plugin.staff_url_root, include("%s.staff" % plugin))])

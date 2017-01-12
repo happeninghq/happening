@@ -11,7 +11,7 @@ register = template.Library()
 def primary_navigation_item(context, *params, **kwargs):
     """Render navigation items."""
     context["text"] = kwargs.pop("text")
-    context["link_name"] = kwargs.pop("link")
+    context["link_name"] = kwargs.pop("link_name")
     context["icon"] = kwargs.pop("icon")
     context["link"] = reverse(context["link_name"], kwargs=kwargs)
     return render_to_string("_primary_navigation_item.html", context)
@@ -21,7 +21,7 @@ def primary_navigation_item(context, *params, **kwargs):
 def secondary_navigation_item(context, *params, **kwargs):
     """Render navigation items."""
     context["text"] = kwargs.pop("text")
-    context["link_name"] = kwargs.pop("link")
+    context["link_name"] = kwargs.pop("link_name")
     context["link"] = reverse(context["link_name"], kwargs=kwargs)
     return render_to_string("_secondary_navigation_item.html", context)
 
@@ -30,6 +30,6 @@ def secondary_navigation_item(context, *params, **kwargs):
 def tertiary_navigation_item(context, *params, **kwargs):
     """Render navigation items."""
     context["text"] = kwargs.pop("text")
-    context["link_name"] = kwargs.pop("link")
+    context["link_name"] = kwargs.pop("link_name")
     context["link"] = reverse(context["link_name"], kwargs=kwargs)
     return render_to_string("_tertiary_navigation_item.html", context)
