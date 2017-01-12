@@ -12,6 +12,7 @@ from happening.api import Api
 import os
 import inspect
 from pages import views as pages_views
+from happening.permissions import do_register_permissions
 # from ..notifications import api as notifications_api
 
 # Initialise the plugins
@@ -56,6 +57,8 @@ urlpatterns = [
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+# Load Plugins
+
 for plugin in settings.PLUGINS:
     p = importlib.import_module(plugin)
     if hasattr(p.Plugin, "url_root"):
@@ -63,3 +66,5 @@ for plugin in settings.PLUGINS:
         urlpatterns += required(
             plugin_enabled_decorator(plugin),
             [url(p.Plugin.url_root, include("%s.urls" % plugin))])
+
+do_register_permissions()

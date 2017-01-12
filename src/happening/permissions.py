@@ -4,10 +4,28 @@ from django.contrib.contenttypes.models import ContentType
 from happening.models import HappeningSite
 
 _registered_permissions = {}
+_permissions_to_register = []
 
 
 def register_permission(category, key, name, description="", model=None):
     """Register a new permission."""
+    _permissions_to_register.append([category, key, name, description, model])
+
+
+def do_register_permissions():
+    """Finalise permission registration."""
+
+    for category, key, name, description, model in _permissions_to_register:
+        _do_register_permission(category, key, name, description, model)
+
+    # Also ensure that both groups are activated
+    from members.groups import get_members_group, get_admin_group
+    get_members_group()
+    get_admin_group()
+
+
+def _do_register_permission(category, key, name, description, model):
+    """Fully register a permission."""
     import sys
     if len(sys.argv) > 1 and sys.argv[1] in ('makemigrations', 'migrate'):
         return None  # Hide ourselves from Django migrations
