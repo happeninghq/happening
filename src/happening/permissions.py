@@ -14,7 +14,6 @@ def register_permission(category, key, name, description="", model=None):
 
 def do_register_permissions():
     """Finalise permission registration."""
-
     for category, key, name, description, model in _permissions_to_register:
         _do_register_permission(category, key, name, description, model)
 
