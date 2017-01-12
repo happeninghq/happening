@@ -8,7 +8,7 @@ from happening.forms import CustomPropertiesField as CustomPropertiesFormField
 from happening.forms import BooleanField
 from happening.forms import DurationField
 from happening.templatetags.plugins import get_configuration
-from markdown_deux import markdown
+from markdown import markdown
 from django.utils.html import mark_safe
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
