@@ -64,7 +64,7 @@ export const init = () => {
           event: viewModel.previewEvent(),
         };
 
-        $.getJSON('/staff/emails/preview', data, (response) => {
+        $.getJSON('/admin/emails/preview', data, (response) => {
           viewModel.previewSubject(response.subject);
           viewModel.previewContent(response.content);
         });

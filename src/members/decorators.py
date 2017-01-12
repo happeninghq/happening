@@ -9,6 +9,7 @@ def require_editing_own_profile(f):
     """Require that the pk passed is equal to the current user's pk."""
     def inner_require_editing_own_profile(request, pk):
         member = get_object_or_404(get_user_model(), pk=pk)
+        # TODO: replace with group permissions
         if not member == request.user and not request.user.is_staff:
             raise Http404
         return f(request, pk)

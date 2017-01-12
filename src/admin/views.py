@@ -38,7 +38,8 @@ from django.http import JsonResponse
 from django.utils import formats
 from django.views.decorators.csrf import csrf_protect
 from djqscsv import render_to_csv_response
-from members.forms import TagForm, AddTagForm, TrackingLinkForm, AssignGroupForm
+from members.forms import TagForm, AddTagForm, TrackingLinkForm
+from members.forms import AssignGroupForm
 from members.models import Tag, TrackingLink
 from django.contrib.auth.models import User
 from pages.utils import render_block_content, get_block_types
@@ -50,6 +51,7 @@ from django.urls import reverse, resolve
 
 
 def can_see_admin(user):
+    """Can this user view the admin panel."""
     for url in admin_urls()["admin_urls"]:
         if not url[1] == "admin":
             path = reverse(url[1])
@@ -304,7 +306,8 @@ def add_authentication(request):
             social_app.sites.add(Site.objects.first())
             messages.success(request, "Authentication provider added.")
             return redirect("authentication")
-    return render(request, "admin/configuration/add_authentication.html", {"form": form})
+    return render(request, "admin/configuration/add_authentication.html",
+                  {"form": form})
 
 
 @require_permission("configuration")
@@ -355,7 +358,7 @@ def schedule_backup(request):
     return redirect("backup")
 
 
-@require_permission("backup")
+# @require_permission("backup")
 # @require_POST
 # def restore_backup(request):
 #     """Restore zip to database."""
@@ -420,17 +423,8 @@ def create_group(request):
     return render(request, "admin/members/create_group.html", {"form": form})
 
 
-@require_permission("manage_members", "manage_groups")
-def edit_group(request, pk):
-    """Edit a group."""
-    group = get_object_or_404(Group, pk=pk)
-    form = GroupForm(instance=group)
-
-    allow_modify_permissions = True
-    if group == get_admin_group():
-        allow_modify_permissions = False
-
-    # Create the set of permissions
+def _build_permission_groups(group):
+    """Build permission groups for use in edit_group."""
     permissions = {}
     for g in _registered_permissions.keys():
         if g not in permissions:
@@ -446,6 +440,21 @@ def edit_group(request, pk):
                     pk=permission_object.pk).count() > 0,
                 "object": permission_object
             }
+    return permissions
+
+
+@require_permission("manage_members", "manage_groups")
+def edit_group(request, pk):
+    """Edit a group."""
+    group = get_object_or_404(Group, pk=pk)
+    form = GroupForm(instance=group)
+
+    allow_modify_permissions = True
+    if group == get_admin_group():
+        allow_modify_permissions = False
+
+    # Create the set of permissions
+    permissions = _build_permission_groups(group)
 
     if request.method == "POST":
         form = GroupForm(request.POST, instance=group)
@@ -469,7 +478,6 @@ def edit_group(request, pk):
                             group.permissions.remove(permission_object)
 
                 group.save()
-
 
             messages.success(request, "Group updated.")
             return redirect("groups")
@@ -1021,7 +1029,8 @@ def create_tracking_link(request):
             form.save()
             messages.success(request, "The tracking link has been created.")
             return redirect("tracking_links")
-    return render(request, "admin/members/create_tracking_link.html", {"form": form})
+    return render(request, "admin/members/create_tracking_link.html",
+                  {"form": form})
 
 
 @require_permission("manage_members")

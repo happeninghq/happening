@@ -3,7 +3,6 @@
 from happening.tests import TestCase
 from model_mommy import mommy
 from events.models import EventPreset
-from django.conf import settings
 import json
 
 
@@ -14,9 +13,8 @@ class TestEventPresets(TestCase):
     def setUp(self):
         """Set up a user."""
         super(TestEventPresets, self).setUp()
-        self.user = mommy.make(settings.AUTH_USER_MODEL, is_staff=True)
-        self.user.set_password("password")
-        self.user.save()
+
+        self.user = self.create_admin()
 
     def test_event_presets(self):
         """Test listing event presets."""
@@ -69,7 +67,6 @@ class TestEventPresets(TestCase):
 
         self.assertTrue("/admin/event_presets" in
                         response.redirect_chain[0][0])
-
         event_preset = EventPreset.objects.get(pk=1)
         self.assertEqual(json.loads(event_preset.value)["title"], "NEW TITLE")
 

@@ -8,6 +8,9 @@ _registered_permissions = {}
 
 def register_permission(category, key, name, description="", model=None):
     """Register a new permission."""
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] in ('makemigrations', 'migrate'):
+        return None  # Hide ourselves from Django migrations
     if model is None:
         model = HappeningSite
     content_type = ContentType.objects.get_for_model(model)

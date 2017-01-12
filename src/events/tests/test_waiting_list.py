@@ -15,12 +15,7 @@ class TestWaitingList(TestCase):
     def setUp(self):
         """Set up a common user."""
         super(TestWaitingList, self).setUp()
-        self.user = mommy.make(settings.AUTH_USER_MODEL,
-                               email="test@example.com")
-        self.user.set_password("password")
-        self.user.is_staff = True
-        self.user.is_superuser = True
-        self.user.save()
+        self.user = self.create_admin()
 
         self.event = mommy.make("Event", start=datetime.now(pytz.utc) +
                                 timedelta(days=20))
@@ -131,7 +126,7 @@ class TestWaitingList(TestCase):
         self.ticket_type.save()
 
         # Release the ticket to the waiting user
-        self.client.post("/staff/events/waiting-lists/%s/release/%s" % (
+        self.client.post("/admin/events/waiting-lists/%s/release/%s" % (
             self.ticket_type.id, self.user.id))
 
         # Check that a person on the waiting list can see the ticket
@@ -184,9 +179,9 @@ class TestWaitingList(TestCase):
         self.ticket_type.number = 1
         self.ticket_type.save()
 
-        self.client.post("/staff/events/waiting-lists/%s/release/%s" % (
+        self.client.post("/admin/events/waiting-lists/%s/release/%s" % (
             self.ticket_type.id, self.user.id))
-        self.client.post("/staff/events/waiting-lists/%s/release/%s" % (
+        self.client.post("/admin/events/waiting-lists/%s/release/%s" % (
             self.ticket_type.id, user2.id))
 
         subscription = self.ticket_type.waiting_list_subscriptions.filter(

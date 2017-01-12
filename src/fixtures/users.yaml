@@ -6,3 +6,5 @@
     username: admin
     email: admin@happening.com
     password: pbkdf2_sha256$30000$bbtXGlvNvGRV$KW3KAt9mRMw7vOAYI+GEoiu+aO8CMRA8vAWyKODxuxg=
+    groups:
+      - 2

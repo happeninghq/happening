@@ -40,6 +40,7 @@ def cancel_ticket(request, pk):
     """Cancel a ticket."""
     ticket = get_object_or_404(Ticket, pk=pk)
 
+    # TODO: Replace with group permissions
     if not ticket.user == request.user and not request.user.is_staff:
         raise Http404
 

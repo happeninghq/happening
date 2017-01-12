@@ -3,9 +3,11 @@ from django_bs_test import TestCase as bsTestCase
 from django_bs_test import Client
 import vcr
 import os
+from django.conf import settings
 from model_mommy import mommy
 from django.contrib.sites.models import Site
 import collections
+from members.groups import get_admin_group
 
 
 def add_site_to_all_models(*args, **kwargs):
@@ -44,6 +46,14 @@ class TestCase(bsTestCase, metaclass=VCRPyAllMeta):
     def create_client(self):
         """Create a test client."""
         return Client()
+
+    def create_admin(self):
+        """Create an admin user."""
+        user = mommy.make(settings.AUTH_USER_MODEL)
+        user.set_password("password")
+        user.save()
+        user.groups.add(get_admin_group())
+        return user
 
 
 if 'travis' in os.environ:

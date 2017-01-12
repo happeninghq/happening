@@ -4,7 +4,6 @@ from happening.tests import TestCase
 from model_mommy import mommy
 from django.conf import settings
 from happening.notifications import notify_following
-from happening.notifications import notify_admins
 from events.notifications import CancelledTicketNotification
 from notifications.models import Notification
 
@@ -46,16 +45,17 @@ class TestNotify(TestCase):
         self.assertEquals(Notification.objects.get_for_user(
             self.users[3]).count(), 1)
 
-    def test_notify_admins(self):
-        """Test we can notify admins."""
-        notify_admins(CancelledTicketNotification,
-                      {"ticket": "test", "event": {"id": "1"},
-                       "event_name": "test"},
-                      ignore=[self.admins[0]])
+    # TODO: Restore when we decide what this means
+    # def test_notify_admins(self):
+    #     """Test we can notify admins."""
+    #     notify_admins(CancelledTicketNotification,
+    #                   {"ticket": "test", "event": {"id": "1"},
+    #                    "event_name": "test"},
+    #                   ignore=[self.admins[0]])
 
-        for user in self.users + self.staff + [self.admins[0]]:
-            self.assertEquals(Notification.objects.get_for_user(
-                user).count(), 0)
-        for user in self.admins[1:]:
-            self.assertEquals(Notification.objects.get_for_user(
-                user).count(), 1)
+    #     for user in self.users + self.staff + [self.admins[0]]:
+    #         self.assertEquals(Notification.objects.get_for_user(
+    #             user).count(), 0)
+    #     for user in self.admins[1:]:
+    #         self.assertEquals(Notification.objects.get_for_user(
+    #             user).count(), 1)

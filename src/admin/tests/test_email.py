@@ -16,9 +16,7 @@ class TestEmail(TestCase):
     def setUp(self):
         """Set up a user."""
         super(TestEmail, self).setUp()
-        self.user = mommy.make(settings.AUTH_USER_MODEL, is_staff=True)
-        self.user.set_password("password")
-        self.user.save()
+        self.user = self.create_admin()
 
     def test_send_email(self):
         """Test that administrators can send emails to all members."""

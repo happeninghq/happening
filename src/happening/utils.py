@@ -25,37 +25,49 @@ def render_block(request, template, kwargs):
     return get_template(template).render(kwargs, request)
 
 
+class RequirePermission:
+    """A view wrapper that allows for checking permissions."""
+
+    def __init__(self, func, permissions, kwargs):
+        """A view wrapper that allows for checking permissions."""
+        self.func = func
+        self.permissions = permissions
+        self.kwargs = kwargs
+
+    def has_permission(self, user):
+        """The user has got permission to view this."""
+        if user.is_anonymous:
+            return False
+        if user.groups.filter(
+                pk=get_admin_group().pk).count() == 0:
+            # We give full permissions to anyone in the admin group
+
+            if "func" in self.kwargs:
+                if not self.kwargs["func"](user):
+                    return False
+
+            for p in self.permissions:
+                if "." not in p:
+                    # Probably on the happeningsite object
+                    p = "happening.%s" % p
+                if not user.has_perm(p):
+                    return False
+        return True
+
+    def __call__(self, request, *args, **kwargs):
+        """Render the view if the user has permission."""
+        if request.user.is_anonymous:
+            return redirect(reverse(
+                "account_login") + "?next=%s" % request.path)
+        if not self.has_permission(request.user):
+            return HttpResponseForbidden()
+        return self.func(request, *args, **kwargs)
+
+
 def require_permission(*permissions, **kwargs):
     """Require a given permission."""
     def require_permission_inner(func):
-        class RequirePermission:
-            def has_permission(self, user):
-                if user.is_anonymous:
-                    return False
-                if user.groups.filter(
-                        pk=get_admin_group().pk).count() == 0:
-                    # We give full permissions to anyone in the admin group
-
-                    if "func" in kwargs:
-                        if not kwargs["func"](user):
-                            return False
-
-                    for p in permissions:
-                        if "." not in p:
-                            # Probably on the happeningsite object
-                            p = "happening.%s" % p
-                        if not user.has_perm(p):
-                            return False
-                return True
-
-            def __call__(self, request, *args, **kwargs):
-                if request.user.is_anonymous:
-                    return redirect(reverse(
-                        "account_login") + "?next=%s" % request.path)
-                if not self.has_permission(request.user):
-                    return HttpResponseForbidden()
-                return func(request, *args, **kwargs)
-        return RequirePermission()
+        return RequirePermission(func, permissions, kwargs)
     return require_permission_inner
 
 

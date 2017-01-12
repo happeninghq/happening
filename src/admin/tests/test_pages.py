@@ -2,7 +2,6 @@
 
 from happening.tests import TestCase
 from model_mommy import mommy
-from django.conf import settings
 
 
 class TestPages(TestCase):
@@ -12,9 +11,7 @@ class TestPages(TestCase):
     def setUp(self):
         """Set up user."""
         super(TestPages, self).setUp()
-        self.user = mommy.make(settings.AUTH_USER_MODEL, is_staff=True)
-        self.user.set_password("password")
-        self.user.save()
+        self.user = self.create_admin()
 
     def test_pages(self):
         """Test listing pages."""

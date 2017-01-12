@@ -46,6 +46,7 @@ def format_notification_settings(user, notification_types):
         if not o.can_edit_send_notification and not o.can_edit_send_email:
             continue
 
+        # TODO: Change this...
         if o.admin_only and not user.is_superuser:
             continue
 

@@ -42,7 +42,7 @@ class LinkPermissionNode(Node):
         """Allow custom content when permission is enabled for a given link."""
         # Resolving variables passed by the user
         linkpermission_name = self.linkpermission_name.resolve(context, True)
-        path = reverse(linkpermission_name) # TODO, kwargs=kwargs)
+        path = reverse(linkpermission_name)  # TODO, kwargs=kwargs)
         view = resolve(path).func
 
         if not(hasattr(view, "has_permission")) or\

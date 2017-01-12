@@ -27,7 +27,8 @@ def admin_urls(request=None):
         if hasattr(settings, "PLUGINS"):
             for plugin in settings.PLUGINS:
                 p = importlib.import_module(plugin)
-                if hasattr(p.Plugin, "admin_url_root") and hasattr(p.admin, "admin_links"):
+                if hasattr(p.Plugin, "admin_url_root") and\
+                        hasattr(p.admin, "admin_links"):
                     cached_admin_urls += [
                         (plugin, l[0], l[1]) for l in p.admin.admin_links]
 

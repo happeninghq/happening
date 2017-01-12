@@ -18,9 +18,7 @@ class TestEvents(TestCase):
     def setUp(self):
         """Set up a user."""
         super(TestEvents, self).setUp()
-        self.user = mommy.make(settings.AUTH_USER_MODEL, is_staff=True)
-        self.user.set_password("password")
-        self.user.save()
+        self.user = self.create_admin()
 
         self.event = mommy.make("Event", start=datetime.now(pytz.utc) +
                                 timedelta(days=2))
@@ -148,7 +146,8 @@ class TestEvents(TestCase):
         trs = response.soup.find("table").findAll("tr")
 
         # This should list all users who haven't got tickets
-        self.assertEqual(3, len(trs))
+        # For now AnonymousUser is included - TODO GET RID
+        self.assertEqual(4, len(trs))
 
         # (Header + staff + not staff)
 

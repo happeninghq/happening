@@ -12,8 +12,8 @@ import * as stripe from './stripe.js';
 
 import * as appearance from './admin/appearance';
 import * as manageCheckIns from './admin/manage-check-ins';
-import * as eventPresets from './staff/event-presets';
-import * as emails from './staff/emails.js';
+import * as eventPresets from './admin/event-presets';
+import * as emails from './admin/emails.js';
 
 import * as blocks from './blocks.js';
 
