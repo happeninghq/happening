@@ -105,7 +105,7 @@ def plugins(request):
                   {"plugins": plugins.values()})
 
 
-@require_permission("test")
+@require_permission("configuration")
 def configuration(request):
     """Configure settings."""
     variables = get_configuration_variables("configuration")
