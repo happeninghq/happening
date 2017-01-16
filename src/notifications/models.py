@@ -6,7 +6,7 @@ import json
 from cached_property import threaded_cached_property
 from bs4 import BeautifulSoup
 from django.utils import timezone
-from markdown_deux import markdown
+from markdown import markdown
 from happening.utils import convert_to_camelcase, externalise_urls
 from django.core.mail import send_mail
 from django.conf import settings

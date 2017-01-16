@@ -33,7 +33,7 @@ from django.utils import timezone
 from events.utils import dump_preset
 from emails.models import Email
 from emails import render_email
-from markdown_deux import markdown
+from markdown import markdown
 from django.http import JsonResponse
 from django.utils import formats
 from django.views.decorators.csrf import csrf_protect
