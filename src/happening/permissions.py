@@ -14,6 +14,9 @@ def register_permission(category, key, name, description="", model=None):
 
 def do_register_permissions():
     """Finalise permission registration."""
+    import sys
+    if len(sys.argv) > 1 and 'migrate' in sys.argv[1]:
+        return None  # Hide ourselves from Django migrations
     for category, key, name, description, model in _permissions_to_register:
         _do_register_permission(category, key, name, description, model)
 
