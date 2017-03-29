@@ -6,7 +6,6 @@ python:
 install:
   - cd src
   - pip install -r requirements.txt
-  - pip install -r dev-requirements.txt
   - pip install coveralls
   - npm install -g npm@2
 script:
