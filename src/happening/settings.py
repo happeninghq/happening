@@ -27,7 +27,6 @@ DEBUG = bool(os.environ.get('DJANGO_DEBUG', 'False') == 'True') or \
     'HAPPENING_TESTING' in os.environ
 USE_DEBUG_TOOLBAR = DEBUG and (bool(os.environ.get('USE_DEBUG_TOOLBAR',
                                     'False') == 'True'))
-USE_LIVE_DATA = bool(os.environ.get('USE_LIVE_DATA', str(not DEBUG)) == 'True')
 DISABLE_SSL = bool(os.environ.get('DISABLE_SSL', 'False') == 'True') or \
     'HAPPENING_TESTING' in os.environ
 
@@ -216,9 +215,9 @@ TEST_RUNNER = 'happening.runner.CustomTestSuiteRunner'
 ACCOUNT_ADAPTER = 'members.allauth_config.AccountAdapter'
 ACCOUNT_EMAIL_REQUIRED = True
 
-if not USE_LIVE_DATA:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-else:
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if os.environ.get('SENDGRID_USERNAME'):
     # Using SENDGRID
     EMAIL_HOST = 'smtp.sendgrid.net'
     EMAIL_HOST_USER = os.environ.get('SENDGRID_USERNAME', '')
@@ -227,7 +226,7 @@ else:
     EMAIL_USE_TLS = True
 
 # AWS
-if USE_LIVE_DATA:
+if os.environ.get('AWS_ACCESS_KEY_ID'):
     AWS_QUERYSTRING_AUTH = False
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
@@ -238,7 +237,7 @@ if USE_LIVE_DATA:
 SENTRY_DSN = os.environ.get('SENTRY_DSN')
 
 # Sentry error tracking
-if USE_LIVE_DATA:
+if SENTRY_DSN:
     # Set your DSN value
     RAVEN_CONFIG = {
         'dsn': SENTRY_DSN,

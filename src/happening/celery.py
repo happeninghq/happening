@@ -23,7 +23,7 @@ class Celery(celery.Celery):
 
     def on_configure(self):
         """Override so we can log to sentry."""
-        if settings.USE_LIVE_DATA:
+        if settings.SENTRY_DSN:
             client = raven.Client(settings.SENTRY_DSN)
 
             # register a custom filter to filter out duplicate logs

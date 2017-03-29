@@ -20,15 +20,12 @@ django-filter==1.0.1
 django-wkhtmltopdf==3.1.0
 django-ordered-model==1.3.0
 django-guardian==1.4.6
-
-
-# Heroku
-gunicorn==19.7.1 # For hosting on heroku
-dj-database-url==0.4.2 # Heroku databases
+gunicorn==19.7.1 # For hosting
+dj-database-url==0.4.2 # databases
 dj-static==0.0.6 # Static files
 psycopg2==2.7.1 # Postgres driver
-django-storages==1.5.2 # Media storage on AWS
-boto==2.46.1 # Media storage on AWS
+django-storages==1.5.2 # Media storage
+boto==2.46.1 # AWS Media storage
 
 # Authentication
 

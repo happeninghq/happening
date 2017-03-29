@@ -2,12 +2,16 @@
 
 DATABASE_URL=postgres://happeningdev:happeningdev@localhost:5432/happeningdev
 
-# These are not required in development
+# SENDGRID
 SENDGRID_USERNAME=""
 SENDGRID_PASSWORD=""
+
+# AWS
 AWS_ACCESS_KEY_ID=""
 AWS_SECRET_ACCESS_KEY=""
 S3_BUCKET_NAME=""
+
+# SENTRY
 SENTRY_DSN=""
 
 # These should be disabled in production
