@@ -17,6 +17,6 @@ before_script:
   - npm install
   - python manage.py migrate --noinput
 env:
-  - HAPPENING_TESTING=true DATABASE_URL='postgres://postgres:@localhost:5432/happening_test'
+  - HAPPENING_TESTING=true DATABASE_URL='postgres://postgres:@localhost:5432/happening_test' REDIS_URL='redis://localhost:6379'
 addons:
   postgresql: "9.3"
