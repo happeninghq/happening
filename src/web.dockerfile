@@ -34,10 +34,7 @@ RUN pip3 install -r happening/src/requirements.txt
 RUN cd happening/src && npm install && npm install -g webpack && webpack
 RUN cd happening/src && python manage.py collectstatic --noinput
 
-# COPY docker_entry.py /happening/src/docker_entry.py
-
 WORKDIR /happening/src
-ENTRYPOINT ["python", "docker_entry.py"]
-# ENTRYPOINT "/bin/sh"
+ENTRYPOINT ["python", "docker_web_entry.py"]
 
 EXPOSE 8000

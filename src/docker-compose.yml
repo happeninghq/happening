@@ -5,9 +5,18 @@ services:
   redis:
     image: "redis:latest"
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: web.dockerfile
     ports:
       - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://postgres:@db:5432/happening
+      - REDIS_URL=redis://redis:6379
+  celery:
+    build:
+      context: .
+      dockerfile: celery.dockerfile
     environment:
       - DATABASE_URL=postgres://postgres:@db:5432/happening
       - REDIS_URL=redis://redis:6379
