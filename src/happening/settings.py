@@ -133,7 +133,6 @@ if 'HAPPENING_TESTING' not in os.environ:
 MIDDLEWARE_CLASSES = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
-    'happening.middleware.SSLifyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
