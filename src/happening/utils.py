@@ -199,8 +199,7 @@ def externalise_url(url):
     site = Site.objects.get(pk=1)
 
     prefix = "https://"
-    if settings.DISABLE_SSL:
-        prefix = "http://"
+    # TODO: Maybe there should be a setting for external URL prefix?
 
     if not url.startswith("/"):
         url = "/" + url

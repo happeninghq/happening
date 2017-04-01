@@ -16,4 +16,3 @@ SENTRY_DSN=""
 
 # These should be disabled in production
 DJANGO_DEBUG="True"
-DISABLE_SSL="True"
