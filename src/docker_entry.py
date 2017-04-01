@@ -50,4 +50,5 @@ if not REDIS_URL:
 print("REDIS_URL", REDIS_URL)
 
 # Run using gunicorn
-os.system("gunicorn happening.wsgi --bind 0.0.0.0:8000 --log-file - --timeout 500")
+os.system("gunicorn happening.wsgi --bind 0.0.0.0:8000 " +
+          " --log-file - --timeout 500")
