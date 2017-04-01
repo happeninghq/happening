@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/happeninghq/happening#readme",
   "dependencies": {
-    "@claviska/jquery-dropdown": "https://github.com/claviska/jquery-dropdown.git",
+    "@claviska/jquery-dropdown": "git://github.com/claviska/jquery-dropdown#master",
     "blueimp-file-upload": "^9.12.1",
     "bourbon": "^4.2.7",
     "bourbon-neat": "^1.7.4",
