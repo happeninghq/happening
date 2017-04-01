@@ -1,0 +1,13 @@
+version: '2'
+services:
+  db:
+    image: "postgres:latest"
+  redis:
+    image: "redis:latest"
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://postgres:@db:5432/happening
+      - REDIS_URL=redis://redis:6379

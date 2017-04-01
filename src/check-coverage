@@ -1,9 +1,0 @@
-#!/bin/sh
-if [ ! -d "ve" ]; then
-    echo "Error: Run ./setup first"
-    exit
-fi
-
-source ve/bin/activate
-coverage run manage.py test
-coverage report --omit='ve/*.py'

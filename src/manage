@@ -1,2 +1,0 @@
-source ve/bin/activate
-python manage.py $@

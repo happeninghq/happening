@@ -1,9 +1,0 @@
-#!/bin/sh
-# Run from the correct directory
-cd ${0%/*}
-if [ ! -d "ve" ]; then
-    echo "Error: Run ./setup first"
-    exit
-fi
-
-node_modules/npm-run-all/bin/npm-run-all/index.js --parallel run-redis run-celery run-webpack run-development-server
