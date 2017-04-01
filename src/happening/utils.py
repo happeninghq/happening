@@ -12,7 +12,6 @@ import sys
 from django.template.loader import get_template
 from django.contrib.sites.models import Site
 from django.apps import apps
-from django.conf import settings
 import inspect
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseForbidden
