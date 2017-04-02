@@ -18,6 +18,7 @@ print("DATABASE_URL", DATABASE_URL)
 
 
 def get_database_connection(url, tries=3):
+    """Attempt to connect to the database, looping if needed."""
     try:
         conn = psycopg2.connect(url)
         conn.close()
@@ -31,7 +32,7 @@ def get_database_connection(url, tries=3):
                 get_database_connection(url, tries - 1)
         elif ('database "happening" does not exist' in str(e) and
                 url == DEFAULT_DATABASE_URL):
-            # We're using the default database and the database hasn't been created
+            # We're using the default database and the database doesn't exist
             print("The database doesn't exist. Creating it.")
             conn = psycopg2.connect("postgres://postgres:@db:5432/")
             conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)

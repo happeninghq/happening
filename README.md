@@ -17,4 +17,4 @@ Documentation is available on [ReadTheDocs](https://happening.readthedocs.org).
 
 We use docker for development and distribution.
 
-To launch a fully configured Happening instance run ``docker run happeninghq/happening-full`` and then visit http://localhost:8000). During development, use the ./dev-server script to launch appropriate docker instances (postgres, redis, nginx, etc.) and host the development server on http://localhost:8000. For other deployment options see the documentation.
+To launch a fully configured Happening instance use ``docker-compose up`` from within the src directory. Media will be stored in the media directory, plugins can be placed in the plugins directory, and database data is stored in a docker volume (see the docker-compose file). Once this is running, visit http://localhost:8000 and use the username ``admin`` and password ``password``. For production it is recommended that you run nginx in front of the happening web server.

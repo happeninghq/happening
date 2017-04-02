@@ -1,22 +1,37 @@
 version: '2'
 services:
   db:
-    image: "postgres:latest"
+    image: postgres:latest
+    volumes:
+      - /etc/postgresql
+      - /var/log/postgresql
+      - /var/lib/postgresql
   redis:
-    image: "redis:latest"
+    image: redis:latest
+    command: redis-server --appendonly yes
+    volumes:
+      - /data
   web:
-    build:
-      context: .
-      dockerfile: web.dockerfile
+    image: happeninghq/happening:web
     ports:
       - "8000:8000"
     environment:
       - DATABASE_URL=postgres://postgres:@db:5432/happening
       - REDIS_URL=redis://redis:6379
+    links:
+      - db
+      - redis
+    volumes:
+      - ./plugins:/happening/src/plugins
+      - ./media:/happening/src/media
   celery:
-    build:
-      context: .
-      dockerfile: celery.dockerfile
+    image: happeninghq/happening:celery
     environment:
       - DATABASE_URL=postgres://postgres:@db:5432/happening
       - REDIS_URL=redis://redis:6379
+    links:
+      - db
+      - redis
+    volumes:
+      - ./plugins:/happening/src/plugins
+      - ./media:/happening/src/media
