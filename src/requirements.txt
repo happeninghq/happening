@@ -33,13 +33,13 @@ django-allauth==0.31.0 # Authentication and social auth
 
 # General
 
-pytz==2016.10 # To stop python moaning about naive timezones
+pytz==2017.2 # To stop python moaning about naive timezones
 cached-property==1.3.0 # Add cachable properties
 vcrpy==1.10.5 # For mocking HTTP requests
 python-dateutil==2.6.0 # For date manipulations
 stripe==1.51.0 # For accepting payment
 beautifulsoup4==4.5.3 # For parsing HTML
-python-dotenv==0.6.3 # To use .env files
+python-dotenv==0.6.4 # To use .env files
 gitpython==2.1.3 # For downloading plugins
 celery==4.0.2 # For periodic and background tasks
 redis==2.10.5 # For periodic and background tasks
@@ -56,7 +56,7 @@ flake8_docstrings==1.0.3 # PEP257
 coverage==4.3.4 # Coverage checker
 
 # For documentation
-Sphinx==1.5.3
+Sphinx==1.5.5
 
 # For debugging pages
 django-debug-toolbar==1.7
