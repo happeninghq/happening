@@ -64,5 +64,8 @@ if not REDIS_URL:
 print("REDIS_URL", REDIS_URL)
 
 # Run using gunicorn
-os.system("gunicorn happening.wsgi --bind 0.0.0.0:8000 " +
-          " --log-file - --timeout 500")
+if bool(os.environ.get('DJANGO_DEBUG', 'False') == 'True'):
+    os.system("python manage.py runserver 0.0.0.0:8000")
+else:
+    os.system("gunicorn happening.wsgi --bind 0.0.0.0:8000 " +
+              " --log-file - --timeout 500")

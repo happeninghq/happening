@@ -1,0 +1,12 @@
+version: '2'
+services:
+  web:
+    environment:
+      - DJANGO_DEBUG=True
+    volumes:
+      - ./:/happening/src
+  celery:
+    environment:
+      - DJANGO_DEBUG=True
+    volumes:
+      - ./:/happening/src
