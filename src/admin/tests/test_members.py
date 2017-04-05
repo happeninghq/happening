@@ -22,7 +22,7 @@ class TestStaffMembers(TestCase):
 
         trs = response.soup.find("table").findAll("tr")
         self.assertEqual(3, len(trs))
-        self.assertEqual(self.user.username, trs[1].find("td").text)
+        self.assertEqual(self.user.username, trs[2].find("td").text)
 
         for i in range(10):
             mommy.make(settings.AUTH_USER_MODEL)
