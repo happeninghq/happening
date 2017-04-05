@@ -55,7 +55,7 @@ def attach_to_form(form, variable, editing=False):
         for x in variable:
             attach_to_form(form, x, editing)
     else:
-        if not editing or variable.editable:
+        if variable.settable and (not editing or variable.editable):
             variable.attach_to_form(form)
     return form
 
@@ -163,6 +163,9 @@ class ConfigurationVariable(object):
 
     can_be_disabled = False
     default_enabled = True
+
+    # Will this field appear on the CREATE page
+    settable = True
 
     # Will this field also appear on the EDIT page
     editable = True
