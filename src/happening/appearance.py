@@ -132,7 +132,19 @@ THEME_SETTINGS = {
             <br /><br />
             <label class='radio'>
                 <input type='radio' checked>A radio button
-            </label>""",
+            </label>
+            <div class="form__field">
+                <div class="form__field__label">
+                    <label for="text-input">Text Input</label>
+                </div>
+                <input type="text" value="Text Input" />
+            </div>
+            <div class="form__field">
+                <div class="form__field__label">
+                    <label for="text-area">Text Area</label>
+                </div>
+                <textarea>Text Area</textarea>
+            </div>""",
         "variables": {
             "RADIO-BACKGROUND-COLOR": {
                 "default": "#7FA9D2",
@@ -149,6 +161,14 @@ THEME_SETTINGS = {
             "BUTTON-COLOR": {
                 "default": "#FFF",
                 "tooltip": "The color of text on buttons"
+            },
+            "TEXT-INPUT-COLOR": {
+                "default": "#000",
+                "tooltip": "The color of text on text inputs"
+            },
+            "TEXT-INPUT-BACKGROUND-COLOR": {
+                "default": "#FFF",
+                "tooltip": "The color of text input backgrounds"
             },
         }
     },

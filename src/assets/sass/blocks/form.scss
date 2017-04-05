@@ -23,6 +23,9 @@
         padding: 0.5em;
 
         width: 100%;
+
+        background: var(--TEXT-INPUT-BACKGROUND-COLOR);
+        color: var(--TEXT-INPUT-COLOR);
     }
 
     input[type="checkbox"] {
