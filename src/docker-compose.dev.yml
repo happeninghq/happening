@@ -3,10 +3,12 @@ services:
   web:
     environment:
       - DJANGO_DEBUG=True
+      - PYTHONUNBUFFERED=0
     volumes:
       - ./:/happening/src
   celery:
     environment:
       - DJANGO_DEBUG=True
+      - PYTHONUNBUFFERED=0
     volumes:
       - ./:/happening/src

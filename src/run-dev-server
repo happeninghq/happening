@@ -1,0 +1,10 @@
+#/bin/sh
+
+trap ctrl_c INT
+
+function ctrl_c() {
+        docker-compose -f docker-compose.yml -f docker-compose.dev.yml stop
+}
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+docker attach --sig-proxy=false src_web_1
