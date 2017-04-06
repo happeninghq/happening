@@ -249,6 +249,11 @@ class ImageField(forms.ImageField):
 
         return File(storage.open(value))
 
+    def clean(self, value, initial):
+        """Turn the JSON into a Python list."""
+        self.required = False
+        return value
+
 
 class EmailsWidget(forms.Widget):
 
