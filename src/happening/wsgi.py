@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "happening.settings")
 
 dotenv_path = join(dirname(abspath(__file__)), '../.env')
-load_dotenv(dotenv_path)
+if os.path.isfile(dotenv_path):
+    load_dotenv(dotenv_path)
 
 application = Cling(MediaCling(get_wsgi_application()))
