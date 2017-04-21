@@ -84,14 +84,14 @@ class TestTickets(TestCase):
                            timedelta(days=20))
         ticket_type = mommy.make("TicketType", event=event, number=30,
                                  visible=True)
-        user = mommy.make(settings.AUTH_USER_MODEL)
+        user = mommy.make(settings.AUTH_USER_MODEL,
+                          email="test@happeninghq.com")
 
         order = event.buy_tickets(user, {ticket_type.pk: 5})
 
         self.assertEqual(25, ticket_type.remaining_tickets)
 
         mail.outbox = []
-
         order.tickets.first().cancel()
 
         self.assertEqual(1, len(mail.outbox))

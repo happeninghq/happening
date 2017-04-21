@@ -23,8 +23,8 @@ class XExtendsNode(template.Node):
 
     def render(self, context):
         """Allow parameters when extending."""
-        for k in list(self.kwargs.keys()):
-            self.kwargs[k] = self.kwargs[k].resolve(context)
+        # for k in list(self.kwargs.keys()):
+        #     self.kwargs[k] = self.kwargs[k].resolve(context)
         context.update(self.kwargs)
         try:
             return self.node.render(context)

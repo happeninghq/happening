@@ -30,7 +30,9 @@ class TestEvents(TestCase):
         test_subject = uuid4().hex
         test_content = uuid4().hex
         # With a single attendee
-        mommy.make("Ticket", event=self.event)
+        user = mommy.make(settings.AUTH_USER_MODEL,
+                          email="test@happeninghq.com")
+        mommy.make("Ticket", event=self.event, user=user)
         self.client.login(username=self.user.username, password="password")
 
         self.client.post("/admin/events/%s/email" % self.event.id, {
@@ -42,14 +44,15 @@ class TestEvents(TestCase):
             "stop_sending": (timezone.now() + timedelta(days=1))
             .strftime("%Y-%m-%d %H:%M:%S")
             })
-
         self.assertEqual(1, len(mail.outbox))
         self.assertEqual(test_subject, mail.outbox[0].subject)
         self.assertTrue(test_content in mail.outbox[0].body)
         mail.outbox = []
 
         # With two attendees
-        mommy.make("Ticket", event=self.event)
+        user2 = mommy.make(settings.AUTH_USER_MODEL,
+                           email="test2@happeninghq.com")
+        mommy.make("Ticket", event=self.event, user=user2)
         self.client.post("/admin/events/%s/email" % self.event.id, {
             "to": "tickets__has:(event__id:%s cancelled:False)" %
             self.event.id,
