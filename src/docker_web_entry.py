@@ -9,6 +9,10 @@ DEFAULT_DATABASE_URL = "postgres://postgres:@db:5432/happening"
 # This is the file that will be ran within the docker container.
 print("Starting Happening web server")
 
+if bool(os.environ.get('DJANGO_DEBUG', 'False') == 'True'):
+    # Manage dependencies during debug
+    os.system("pip install -r requirements.txt")
+
 # First, we check if we're connecting to the default database
 DATABASE_URL = os.environ.get('DATABASE_URL', None)
 if not DATABASE_URL:
@@ -51,6 +55,7 @@ def get_database_connection(url, tries=3):
 
 
 get_database_connection(DATABASE_URL)
+
 
 # Running required migrations
 os.system("./manage.py migrate")

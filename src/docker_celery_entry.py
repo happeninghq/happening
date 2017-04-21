@@ -41,6 +41,8 @@ print("REDIS_URL", REDIS_URL)
 
 
 if bool(os.environ.get('DJANGO_DEBUG', 'False') == 'True'):
+    # We also manage dependencies here during debug
+    os.system("pip install -r requirements.txt")
     # TODO: Wrap this in autoreload
     os.system("celery -A happening worker -B -l info -Q happening")
 else:
