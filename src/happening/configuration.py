@@ -107,7 +107,10 @@ class IntStorageMapper(StorageMapper):
 
     def to_python(self, value):
         """Parse to int."""
-        return int(value)
+        try:
+            return int(value)
+        except ValueError:
+            return 0
 
 
 class JSONStorageMapper(StorageMapper):
