@@ -158,11 +158,14 @@ def leave_waiting_list(request, pk):
     return redirect(request.GET.get("next", "index"))
 
 
-@require_POST
 @login_required
 def rsvp_going(request, pk):
     """Mark that a user is attending an event."""
     event = get_object_or_404(Event, pk=pk)
+
+    if not request.method == "POST":
+        return redirect("view_event", event.pk)
+
     if not event.uses_rsvps:
         return HttpResponseBadRequest("RSVPs are not enabled for this event.")
 
@@ -189,11 +192,14 @@ def rsvped_going(request, pk):
     return render(request, "events/rsvped.html", {"event": event})
 
 
-@require_POST
 @login_required
 def rsvp_not_going(request, pk):
     """Mark that a user is not attending an event."""
     event = get_object_or_404(Event, pk=pk)
+
+    if not request.method == "POST":
+        return redirect("view_event", event.pk)
+
     if not event.uses_rsvps:
         return HttpResponseBadRequest("RSVPs are not enabled for this event.")
 
