@@ -108,7 +108,8 @@ class TestEvents(TestCase):
         response = self.client.post("/admin/events/%s/edit" % self.event.id, {
             "title": "NEW TITLE",
             "start": "2010-05-05 19:00:00",
-            "tickets": "[]"
+            "tickets": "[]",
+            "ticketing_type": "T"
         }, follow=True)
         self.assertTrue("/admin/events/%s" % self.event.id in
                         response.redirect_chain[0][0])
@@ -125,7 +126,8 @@ class TestEvents(TestCase):
         response = self.client.post("/admin/events/create", {
             "title": "NEW TITLE",
             "start": "2010-05-05 19:00:00",
-            "tickets": "[]"
+            "tickets": "[]",
+            "ticketing_type": "T"
         }, follow=True)
         self.assertTrue("/admin/events" in
                         response.redirect_chain[0][0])

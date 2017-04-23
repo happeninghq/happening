@@ -21,39 +21,51 @@
             </div>
 
             {% if event.is_future %}
-                {% if request.user|has_tickets:event %}
-                    <div class="block-list__item block">
-                        <header class="block__header">
-                            <h2 class="block__header-text">Your Tickets</h2>
-                        </header>
-                        
-                        <table>
-                            <tbody>
-                                {% include "members/_tickets_table.html" with orders=request.user|orders:event other_tickets=request.user|other_tickets:event %}
-                            </tbody>
-                        </table>
-                    </div>
+                {% if event.uses_tickets %}
+                    {% if request.user|has_tickets:event %}
+                        <div class="block-list__item block">
+                            <header class="block__header">
+                                <h2 class="block__header-text">Your Tickets</h2>
+                            </header>
+                            
+                            <table>
+                                <tbody>
+                                    {% include "members/_tickets_table.html" with orders=request.user|orders:event other_tickets=request.user|other_tickets:event %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+
+                    {% if event.total_available_tickets > 0 %}
+                        <div class="block-list__item block">
+                            <header class="block__header">
+                                <h2 class="block__header-text">Tickets</h2>
+                            </header>
+                            {% include "events/_purchase_tickets_widget.html" %}
+                        </div>
+                    {% endif %}
+
+                    {% if event|waiting_list_available:request.user %}
+                        <div class="block-list__item block">
+                            <header class="block__header">
+                                <h2 class="block__header-text">Waiting Lists</h2>
+                            </header>
+
+                            <p>Join a waiting list to be notified when tickets are available.</p>
+
+                            {% include "events/_waiting_lists_widget.html" %}
+                        </div>
+                    {% endif %}
                 {% endif %}
+            {% endif %}
 
-                {% if event.total_available_tickets > 0 %}
-                    <div class="block-list__item block">
-                        <header class="block__header">
-                            <h2 class="block__header-text">Tickets</h2>
-                        </header>
-                        {% include "events/_purchase_tickets_widget.html" %}
-                    </div>
-                {% endif %}
-
-                {% if event|waiting_list_available:request.user %}
-                    <div class="block-list__item block">
-                        <header class="block__header">
-                            <h2 class="block__header-text">Waiting Lists</h2>
-                        </header>
-
-                        <p>Join a waiting list to be notified when tickets are available.</p>
-
-                        {% include "events/_waiting_lists_widget.html" %}
-                    </div>
+            {% if event.uses_rsvps %}
+                {% if request.user|rsvp_going:event %}
+                    {% if "events.event_configuration.RSVPInformation"|configuration_is_enabled:event %}
+                        <div class="block-list__item block">
+                            {{"events.event_configuration.RSVPInformation"|get_configuration:event}}
+                        </div>
+                    {% endif %}
                 {% endif %}
             {% endif %}
 
@@ -68,6 +80,27 @@
                 
                 {% include "events/_location.html" %}
             </div>
+
+            {% if event.uses_rsvps %}
+                <div class="block-list__item">
+                    <div class="toggle toggle--no-content">
+                        <div class="toggle__item toggle__item--first{% if request.user|rsvp_going:event %} toggle__item--active{% endif %}">
+                            {% if request.user|rsvp_going:event %}
+                                Going
+                            {% else %}
+                                <a class="post-link" href="{% url "rsvp_going" event.pk %}">Going</a>
+                            {% endif %}
+                        </div>
+                        <div class="toggle__item toggle__item--last{% if not request.user|rsvp_going:event %} toggle__item--active{% endif %}">
+                            {% if not request.user|rsvp_going:event %}
+                                Not Going
+                            {% else %}
+                                <a class="post-link" href="{% url "rsvp_not_going" event.pk %}">Not Going</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
 
             {% if event.attending_users|length > 0 %}
                 <div class="block-list__item block">

@@ -8,7 +8,9 @@ window.jQuery = jQuery;
 import * as ajax from './ajax';
 
 import * as confirm from './confirm';
+import * as postLink from './post_link';
 import * as stripe from './stripe.js';
+import * as moveFromElsewhere from './move_from_elsewhere.js';
 
 import * as appearance from './admin/appearance';
 import * as manageCheckIns from './admin/manage-check-ins';
@@ -24,7 +26,9 @@ import * as matchHeight from './match-height.js';
 document.addEventListener('DOMContentLoaded', () => {
   ajax.init();
   confirm.init();
+  postLink.init();
   stripe.init();
+  moveFromElsewhere.init();
 
   appearance.init();
   manageCheckIns.init();

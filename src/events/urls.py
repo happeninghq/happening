@@ -16,6 +16,13 @@ urlpatterns = [
         name='leave_waiting_list'),
     url(r'^(?P<pk>\d+)/wait', views.join_waiting_list,
         name='join_waiting_list'),
+
+    url(r'^(?P<pk>\d+)/rsvp/going$', views.rsvp_going, name='rsvp_going'),
+    url(r'^(?P<pk>\d+)/rsvp/going/confirm$', views.rsvped_going,
+        name='rsvped_going'),
+    url(r'^(?P<pk>\d+)/rsvp/not_going$', views.rsvp_not_going,
+        name='rsvp_not_going'),
+
     url(r'^$', views.upcoming_events, name='events'),
     url(r'^past$', views.past_events, name='past_events'),
     url(r'^feeds$', views.feeds, name='event_feeds'),

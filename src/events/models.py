@@ -17,6 +17,7 @@ from happening.db import AddressField
 from happening.storage import media_path
 from django.contrib.auth.models import User
 from happening import filtering
+from djchoices import DjangoChoices, ChoiceItem
 
 
 class Event(db.Model):
@@ -30,6 +31,26 @@ class Event(db.Model):
 
     image = models.ImageField(upload_to=media_path("events"), null=True)
     location = AddressField(null=True)
+
+    class TicketingChoices(DjangoChoices):
+        tickets = ChoiceItem("T")
+        rsvp = ChoiceItem("R")
+
+    ticketing_type = models.CharField(
+        max_length=1,
+        choices=TicketingChoices.choices,
+        default=TicketingChoices.tickets
+    )
+
+    @property
+    def uses_tickets(self):
+        """Does this event use Happening tickets."""
+        return self.ticketing_type == Event.TicketingChoices.tickets
+
+    @property
+    def uses_rsvps(self):
+        """Does this event use RSVPs."""
+        return self.ticketing_type == Event.TicketingChoices.rsvp
 
     def get_absolute_url(self):
         """Get the url to the event."""
@@ -336,6 +357,16 @@ class TicketManager(db.Manager):
     def get_for_user(self, user):
         """Get the users own tickets."""
         return self.filter(user=user)
+
+
+class RSVP(db.Model):
+
+    """A user indicating they will or will not attend an event."""
+
+    event = models.ForeignKey(Event, related_name="rsvps")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="rsvps")
+    going = models.BooleanField(default=True)
+    created_datetime = models.DateTimeField(auto_now_add=True)
 
 
 class Ticket(db.Model):

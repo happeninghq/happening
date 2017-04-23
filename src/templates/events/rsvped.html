@@ -1,0 +1,21 @@
+{% load xextends %}
+{% xextends "events/base.html" with secondary_nav="my_tickets" %}
+{% load plugins %}
+
+{% block content %}
+    <div class="l-container">
+        <div class="l-primary-content block-list">
+            <div class="block block-list__item">
+                <header class="block__header">
+                    <h2 class="block__header-text">{{event}}</h2>
+                </header>
+
+                <p>You have have indicated you will attend <a href="{% url "view_event" event.pk %}">{{event}}</a></p>
+
+                {{"events.event_configuration.RSVPInformation"|get_configuration:event}}
+
+                <p><a href="{% url "view_event" event.pk %}">Click here to return to {{event}}.</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

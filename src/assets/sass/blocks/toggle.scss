@@ -35,6 +35,11 @@ Allow toggling between a number of options
     &:active {
     	top: 0px;
     }
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
 }
 
 .toggle__item--first {
@@ -43,4 +48,12 @@ Allow toggling between a number of options
 
 .toggle__item--last {
     border-top-right-radius: 10px;
+}
+
+.toggle--no-content .toggle__item--first {
+    border-bottom-left-radius: 10px;
+}
+
+.toggle--no-content .toggle__item--last {
+    border-bottom-right-radius: 10px;
 }

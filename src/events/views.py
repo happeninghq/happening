@@ -1,8 +1,8 @@
 """Event views."""
 from payments.decorators import payment_successful, payment_failed
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Event, TicketOrder, TicketType
-from django.http import Http404
+from .models import Event, TicketOrder, TicketType, RSVP
+from django.http import Http404, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from .forms import TicketForm
@@ -156,6 +156,57 @@ def leave_waiting_list(request, pk):
     ticket_type.leave_waiting_list(request.user)
     messages.success(request, "You have left the waiting list")
     return redirect(request.GET.get("next", "index"))
+
+
+@require_POST
+@login_required
+def rsvp_going(request, pk):
+    """Mark that a user is attending an event."""
+    event = get_object_or_404(Event, pk=pk)
+    if not event.uses_rsvps:
+        return HttpResponseBadRequest("RSVPs are not enabled for this event.")
+
+    rsvp = request.user.rsvps.filter(event=event).first()
+    if not rsvp:
+        rsvp = RSVP(user=request.user, event=event)
+    rsvp.going = True
+    rsvp.save()
+
+    return redirect("rsvped_going", event.pk)
+
+
+@login_required
+def rsvped_going(request, pk):
+    """Confirm a user is attending an event."""
+    event = get_object_or_404(Event, pk=pk)
+    if not event.uses_rsvps:
+        return redirect("view", event.pk)
+
+    rsvp = request.user.rsvps.filter(event=event, going=True).first()
+    if not rsvp:
+        return redirect("view", event.pk)
+
+    return render(request, "events/rsvped.html", {"event": event})
+
+
+@require_POST
+@login_required
+def rsvp_not_going(request, pk):
+    """Mark that a user is not attending an event."""
+    event = get_object_or_404(Event, pk=pk)
+    if not event.uses_rsvps:
+        return HttpResponseBadRequest("RSVPs are not enabled for this event.")
+
+    rsvp = request.user.rsvps.filter(event=event).first()
+    if not rsvp:
+        rsvp = RSVP(user=request.user, event=event)
+    rsvp.going = False
+    rsvp.save()
+
+    messages.success(request,
+                     "You have indicated you are not attending the event.")
+
+    return redirect("view_event", event.pk)
 
 
 def upcoming_events(request):

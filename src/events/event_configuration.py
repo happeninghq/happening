@@ -19,3 +19,15 @@ class MaxTicketsPerPerson(configuration.IntegerField):
     default_enabled = False
 
     default = 1
+
+
+class RSVPInformation(configuration.CharField):
+
+    """Information shown to people who have RSVPd.
+       This should include e.g. ticket information."""
+
+    field = forms.MarkdownField
+    renderer = configuration.MarkdownRenderer()
+
+    can_be_disabled = True
+    default_enabled = False

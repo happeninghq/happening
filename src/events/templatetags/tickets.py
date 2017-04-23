@@ -74,3 +74,11 @@ def waiting_list_available(event, user):
     """Return if waiting lists are available for this user."""
     return len([t for t in event.ticket_types.waiting_list_available()
                 if t.visible_to(user)]) > 0
+
+
+@register.filter()
+def rsvp_going(user, event):
+    """Return True if the user has indicated they will attend this event."""
+    if user.is_authenticated():
+        return user.rsvps.filter(event=event, going=True).count() > 0
+    return False

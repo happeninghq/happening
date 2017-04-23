@@ -82,7 +82,6 @@ class EmailableNotification(object):
                                  "user": self.user})
         text_content = data.split("<email_text>")[1].split("</email_text>")[0]
         html_content = data.split("<email_html>")[1].split("</email_html>")[0]
-
         send_mail(self.subject,
                   externalise_urls(text_content),
                   NotificationsEmailAddress().get(),

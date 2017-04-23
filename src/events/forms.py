@@ -66,6 +66,8 @@ class TicketsWidget(forms.Widget):
 
     """A widget that allows for configuring tickets."""
 
+    hide_label = True
+
     def __init__(self, *args, **kwargs):
         """Allow passing of initial data."""
         self.initial = kwargs.pop('initial', None)
@@ -124,7 +126,11 @@ class EventForm(ModelForm):
     start = forms.DateTimeField(widget=DateTimeWidget())
     end = forms.DateTimeField(widget=DateTimeWidget(), required=False)
     image = happening_forms.ImageField()
+
+    # Tickets are handled in a rather unusual way.
     tickets = TicketsField()
+    max_tickets_per_person = forms.CharField(
+        widget=happening_forms.EmptyWidget(), required=False)
 
     def __init__(self, *args, **kwargs):
         """Override to deal with ticket types."""
@@ -133,6 +139,7 @@ class EventForm(ModelForm):
         if 'instance' in kwargs:
             self.fields['tickets'] = TicketsField(
                 initial=kwargs['instance'].ticket_types.all())
+        self.fields['ticketing_type'].widget = forms.HiddenInput()
 
     def save(self):
         """Override save to deal with ticket types."""
@@ -173,4 +180,5 @@ class EventForm(ModelForm):
 
     class Meta:
         model = Event
-        fields = ['title', 'start', 'end', 'image', 'location']
+        fields = ['title', 'start', 'end', 'image', 'location',
+                  'ticketing_type']

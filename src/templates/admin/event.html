@@ -9,123 +9,130 @@
         <div class="l-primary-content block-list">
             <div class="block block-list__item">
                 <header class="block__header">
-                    <h2 class="block__header-text">Tickets</h2>
+                    <h2 class="block__header-text">{{event}}</h2>
                 </header>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Tickets Sold</th>
-                            <th>Price</th>
-                            <th>Restricted</th>
-                            <th>Waiting List</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for ticket_type in event.ticket_types.all %}
-                            <tr {% if not ticket_type.visible %} class="low-opacity" title="Not available for purchase" {% endif %}>
-                                <td>{{ticket_type.name}}</td>
-                                <td>
-                                    {{ticket_type.sold_tickets.count}}/
-                                    {{ticket_type.number}}
-                                </td>
-                                <td>
-                                    {% if ticket_type.price == 0 %}
-                                        Free
-                                    {% else %}
-                                        {{ticket_type.price|format_currency}}
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if ticket_type.restriction_enabled %}
-                                        {{ticket_type.restriction_filter}}
-                                    {% else %}
-                                        No
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if not ticket_type.waiting_list_enabled %}
-                                        Disabled
-                                    {% else %}
-                                        {{ticket_type.waiting_list_subscriptions.count}} waiting <a href="{% url "manage_waiting_list" ticket_type.pk %}">(manage)</a>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-
             </div>
+            {% if event.uses_tickets %}
+                <div class="block block-list__item">
+                    <header class="block__header">
+                        <h2 class="block__header-text">Tickets</h2>
+                    </header>
 
-            <div class="block block-list__item">
-                <header class="block__header">
-                    <h2 class="block__header-text">Attendees</h2>
-                </header>
-                
-                <table class="members tickets data-table" id="attendees-list">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th data-name="ticket-type">Ticket Type</th>
-                            <th data-name="cancelled"></th>
-                            <th>Checked In</th>
-                            {% plugin_block "staff.event.tickets.headers" event ticket %}
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for ticket in event.tickets.all %}
-                            <tr {% if ticket.cancelled %}class="cancelled"{% endif %}>
-                                <td>
-                                    <a title="{{ticket.user.profile}}" href="{% url "view_profile" ticket.user.pk %}">
-                                        <img class="members-list__image" src="{{ticket.user.profile.photo_url}}">
-                                    </a>
-                                </td>
-                                <td>
-                                    <a title="{{ticket.user.profile}}" href="{% url "view_profile" ticket.user.pk %}">{{ticket.user}}</a><br />
-                                    {{ticket.user.first_name}} {{ticket.user.last_name}}
-                                </td>
-                                <td>
-                                    {{ticket.type.name}}
-                                </td>
-                                    {% if ticket.cancelled %}
-                                        <td data-filter="true">cancelled</td>
-                                    {% else %}
-                                        <td data-filter="false"></td>
-                                    {% endif %}
-                                <td>
-                                    {% if ticket.checked_in %}
-                                        True<br />
-                                        {{ticket.checked_in_datetime}}
-                                    {% else %}
-                                        False
-                                    {% endif %}
-                                </td>
-                                {% plugin_block "staff.event.tickets.info" event ticket %}
-                                <td>
-                                    <ul class="button-list">
-                                        {% if not ticket.cancelled %}
-                                            {% if event.is_future %}
-                                                <li><a href="{% url "cancel_ticket" ticket.id %}?next={% url "staff_event" event.id %}" class="btn">Cancel</a></li>
-                                            {% endif %}
-                                            {% if ticket.checked_in %}
-                                                <li><a href="{% url "cancel_check_in" ticket.id %}?next={% url "staff_event" event.id %}" class="btn">Cancel Check In</a></li>
-                                            {% else %}
-                                                <li><a href="{% url "check_in" ticket.id %}?next={% url "staff_event" event.id %}" class="btn">Check In</a></li>
-                                            {% endif %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Tickets Sold</th>
+                                <th>Price</th>
+                                <th>Restricted</th>
+                                <th>Waiting List</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticket_type in event.ticket_types.all %}
+                                <tr {% if not ticket_type.visible %} class="low-opacity" title="Not available for purchase" {% endif %}>
+                                    <td>{{ticket_type.name}}</td>
+                                    <td>
+                                        {{ticket_type.sold_tickets.count}}/
+                                        {{ticket_type.number}}
+                                    </td>
+                                    <td>
+                                        {% if ticket_type.price == 0 %}
+                                            Free
+                                        {% else %}
+                                            {{ticket_type.price|format_currency}}
                                         {% endif %}
-                                        {% plugin_block "staff.event.tickets.options" event ticket %}
-                                    </ul>
-                                </td>
+                                    </td>
+                                    <td>
+                                        {% if ticket_type.restriction_enabled %}
+                                            {{ticket_type.restriction_filter}}
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if not ticket_type.waiting_list_enabled %}
+                                            Disabled
+                                        {% else %}
+                                            {{ticket_type.waiting_list_subscriptions.count}} waiting <a href="{% url "manage_waiting_list" ticket_type.pk %}">(manage)</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="block block-list__item">
+                    <header class="block__header">
+                        <h2 class="block__header-text">Attendees</h2>
+                    </header>
+                    
+                    <table class="members tickets data-table" id="attendees-list">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th data-name="ticket-type">Ticket Type</th>
+                                <th data-name="cancelled"></th>
+                                <th>Checked In</th>
+                                {% plugin_block "staff.event.tickets.headers" event ticket %}
+                                <th></th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                
-                <a class="btn" href="{% url "add_attendee" event.pk %}"><i class="fa fa-plus"></i> Add Attendee</a>
-            </div>
+                        </thead>
+                        <tbody>
+                            {% for ticket in event.tickets.all %}
+                                <tr {% if ticket.cancelled %}class="cancelled"{% endif %}>
+                                    <td>
+                                        <a title="{{ticket.user.profile}}" href="{% url "view_profile" ticket.user.pk %}">
+                                            <img class="members-list__image" src="{{ticket.user.profile.photo_url}}">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a title="{{ticket.user.profile}}" href="{% url "view_profile" ticket.user.pk %}">{{ticket.user}}</a><br />
+                                        {{ticket.user.first_name}} {{ticket.user.last_name}}
+                                    </td>
+                                    <td>
+                                        {{ticket.type.name}}
+                                    </td>
+                                        {% if ticket.cancelled %}
+                                            <td data-filter="true">cancelled</td>
+                                        {% else %}
+                                            <td data-filter="false"></td>
+                                        {% endif %}
+                                    <td>
+                                        {% if ticket.checked_in %}
+                                            True<br />
+                                            {{ticket.checked_in_datetime}}
+                                        {% else %}
+                                            False
+                                        {% endif %}
+                                    </td>
+                                    {% plugin_block "staff.event.tickets.info" event ticket %}
+                                    <td>
+                                        <ul class="button-list">
+                                            {% if not ticket.cancelled %}
+                                                {% if event.is_future %}
+                                                    <li><a href="{% url "cancel_ticket" ticket.id %}?next={% url "staff_event" event.id %}" class="btn">Cancel</a></li>
+                                                {% endif %}
+                                                {% if ticket.checked_in %}
+                                                    <li><a href="{% url "cancel_check_in" ticket.id %}?next={% url "staff_event" event.id %}" class="btn">Cancel Check In</a></li>
+                                                {% else %}
+                                                    <li><a href="{% url "check_in" ticket.id %}?next={% url "staff_event" event.id %}" class="btn">Check In</a></li>
+                                                {% endif %}
+                                            {% endif %}
+                                            {% plugin_block "staff.event.tickets.options" event ticket %}
+                                        </ul>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    <a class="btn" href="{% url "add_attendee" event.pk %}"><i class="fa fa-plus"></i> Add Attendee</a>
+                </div>
+            {% endif %}
 
             {% plugin_block "staff.event" event %}
         </div>
@@ -141,9 +148,11 @@
                 <ul class="button-list">
                     <li><a class="btn" href="{% url "view_event" event.pk %}">View Event</a></li>
                     <li><a class="btn" href="{% url "edit_event" event.pk %}">Edit</a></li>
-                    <li><a class="btn" href="{% url "email_event" event.pk %}">Send Email</a></li>
-                    <li><a class="btn" href="{% url "manage_check_ins" event.pk %}">Manage Check Ins</a></li>
-                    <li><a class="btn" href="{% url "export_tickets_to_csv" event.pk %}">Export Tickets to CSV</a></li>
+                    {% if event.uses_tickets %}
+                        <li><a class="btn" href="{% url "email_event" event.pk %}">Send Email</a></li>
+                        <li><a class="btn" href="{% url "manage_check_ins" event.pk %}">Manage Check Ins</a></li>
+                        <li><a class="btn" href="{% url "export_tickets_to_csv" event.pk %}">Export Tickets to CSV</a></li>
+                    {% endif %}
                     {% plugin_block "staff.event.buttons" event %}
                 </ul>
             </div>

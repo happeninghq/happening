@@ -1,61 +1,76 @@
-<div class="tickets-widget widget widget--embed">
-    <input type="hidden" name="{{name}}" data-bind="value: value" value='{{value|safe}}'>
-    <table class="full-width" data-bind="visible: mode() == 'add_remove'">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Number</th>
-                {% if payment_enabled %}
-                    <th>Price (£)</th>
-                {% endif %}
-                <th>Visible</th>
-                <th>Restricted</th>
-                <th>Waiting List</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: tickets">
-            <tr>
-                <td><input type="text" data-bind="value: name"></td>
-                <td><input type="number" data-bind="value: number"></td>
-                {% if payment_enabled %}
-                    <td><input type="number" data-bind="value: price" step="0.01"></td>
-                {% endif %}
-                <td><input type="checkbox" data-bind="checked: 
-                visible"></td>
-                <td>
-                    <input type="checkbox" data-bind="checked: restriction_enabled">
-                    <!-- ko if: restriction_enabled -->
-                        <a href="#" data-bind="click: $root.editRestrictionFilter">Edit</a>
-                    <!-- /ko -->
-                </td>
-                <td><input type="checkbox" data-bind="checked: waiting_list_enabled"></td>
-                <td><a href="#" data-bind="click: deleteTicket"><i class="fa fa-trash" title="Delete"></i></a></td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="4">
-                    <a href="#" data-bind="click: addTicket" class="btn"><i class="fa fa-plus"></i> Add Ticket</a>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-    <div data-bind="visible: mode() == 'edit_restriction_filter'">
+<div class="widget">
+    <div class="toggle" data-selected-tab-field="#id_ticketing_type">
+        <div class="toggle__item toggle__item--active toggle__item--first" data-toggle="#tickets" data-value="T">Tickets</div>
+        <div class="toggle__item toggle__item--last" data-toggle="#rsvp" data-value="R">RSVP</div>
+    </div>
+    <div id="tickets" class="block__cutout">
         <div class="form__field">
-            <div class="form__field__label">
-                <label for="restriction_filter">Restriction Filter</label>
+            <div class="move-from-elsewhere" data-move="#form__field__max_tickets_per_person__enabled"></div>
+
+            <div class="tickets-widget widget--embed">
+                <input type="hidden" name="{{name}}" data-bind="value: value" value='{{value|safe}}'>
+                <table class="full-width" data-bind="visible: mode() == 'add_remove'">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Number</th>
+                            {% if payment_enabled %}
+                                <th>Price (£)</th>
+                            {% endif %}
+                            <th>Visible</th>
+                            <th>Restricted</th>
+                            <th>Waiting List</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: tickets">
+                        <tr>
+                            <td><input type="text" data-bind="value: name"></td>
+                            <td><input type="number" data-bind="value: number"></td>
+                            {% if payment_enabled %}
+                                <td><input type="number" data-bind="value: price" step="0.01"></td>
+                            {% endif %}
+                            <td><input type="checkbox" data-bind="checked: 
+                            visible"></td>
+                            <td>
+                                <input type="checkbox" data-bind="checked: restriction_enabled">
+                                <!-- ko if: restriction_enabled -->
+                                    <a href="#" data-bind="click: $root.editRestrictionFilter">Edit</a>
+                                <!-- /ko -->
+                            </td>
+                            <td><input type="checkbox" data-bind="checked: waiting_list_enabled"></td>
+                            <td><a href="#" data-bind="click: deleteTicket"><i class="fa fa-trash" title="Delete"></i></a></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                <a href="#" data-bind="click: addTicket" class="btn"><i class="fa fa-plus"></i> Add Ticket</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div data-bind="visible: mode() == 'edit_restriction_filter'">
+                    <div class="form__field">
+                        <div class="form__field__label">
+                            <label for="restriction_filter">Restriction Filter</label>
+                        </div>
+                        <table>
+                            <tr>
+                                <td>
+                                    <input type="text" data-bind="value: editing_restriction_filter">
+                                </td>
+                                <td>
+                                    <a class="btn" data-bind="click: $root.confirmRestrictionFilter">Save</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <table>
-                <tr>
-                    <td>
-                        <input type="text" data-bind="value: editing_restriction_filter">
-                    </td>
-                    <td>
-                        <a class="btn" data-bind="click: $root.confirmRestrictionFilter">Save</a>
-                    </td>
-                </tr>
-            </table>
         </div>
+    </div>
+    <div id="rsvp" class="block__cutout">
+        <div class="move-from-elsewhere" data-move="#form__field__rsvp_information__enabled"></div>
     </div>
 </div>
