@@ -26,13 +26,19 @@ def index(request):
                   {"members": get_user_model().objects.filter(is_active=True)})
 
 
-@login_required
+def can_see_my_tickets(user):
+    """Can this user view my tickets."""
+    return user.orders.count() > 0 or user.rsvps.filter(going=True).count() > 0
+
+
+@require_permission(func=can_see_my_tickets)
 def my_tickets(request):
     """List tickets I have purchased."""
     orders = request.user.orders.order_by('-purchased_datetime')
     other_tickets = request.user.tickets.filter(order=None)
     return render(request, "members/my_tickets.html",
-                  {"orders": orders, "other_tickets": other_tickets})
+                  {"orders": orders, "other_tickets": other_tickets,
+                   "rsvps": request.user.rsvps.filter(going=True)})
 
 
 @login_required

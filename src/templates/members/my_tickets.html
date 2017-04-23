@@ -4,17 +4,41 @@
 {% block content %}
     <div class="l-container">
         <div class="l-primary-content block-list">
-            <div class="block block-list__item">
-                <header class="block__header">
-                    <h2 class="block__header-text">My Tickets</h2>
-                </header>
+            {% if orders|length > 0 %}
+                <div class="block block-list__item">
+                    <header class="block__header">
+                        <h2 class="block__header-text">My Tickets</h2>
+                    </header>
 
-                <table>
-                    <tbody>
-                        {% include "members/_tickets_table.html" %}
-                    </tbody>
-                </table>
-            </div>
+                    <table>
+                        <tbody>
+                            {% include "members/_tickets_table.html" %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
+            {% if rsvps|length > 0 %}
+                <div class="block block-list__item">
+                    <header class="block__header">
+                        <h2 class="block__header-text">My RSVPs</h2>
+                    </header>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <td></td>
+                                <td style="width:50%"></td>
+                                <td style="width:10%"></td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% include "members/_rsvps_table.html" %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

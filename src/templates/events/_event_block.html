@@ -53,22 +53,7 @@
 
             {% if event.uses_rsvps %}
                 {% if event.is_future %}
-                    <div class="toggle toggle--no-content">
-                        <div class="toggle__item toggle__item--first{% if request.user|rsvp_going:event %} toggle__item--active{% endif %}">
-                            {% if request.user|rsvp_going:event %}
-                                Going
-                            {% else %}
-                                <a class="post-link" href="{% url "rsvp_going" event.pk %}">Going</a>
-                            {% endif %}
-                        </div>
-                        <div class="toggle__item toggle__item--last{% if not request.user|rsvp_going:event %} toggle__item--active{% endif %}">
-                            {% if not request.user|rsvp_going:event %}
-                                Not Going
-                            {% else %}
-                                <a class="post-link" href="{% url "rsvp_not_going" event.pk %}">Not Going</a>
-                            {% endif %}
-                        </div>
-                    </div>
+                    {% include "events/_rsvp_toggle.html" %}
                 {% endif %}
             {% endif %}
         </div>

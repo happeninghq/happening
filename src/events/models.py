@@ -177,8 +177,12 @@ class Event(db.Model):
 
     def attending_users(self):
         """Get a list of attending users."""
-        return set([t.user for t in self.tickets.all() if
-                    (not t.order or t.order.complete) and not t.cancelled])
+        if self.uses_tickets:
+            return set([t.user for t in self.tickets.all() if
+                        (not t.order or t.order.complete) and not t.cancelled])
+        if self.uses_rsvps:
+            return [t.user for t in self.rsvps.filter(going=True)]
+        return []
 
     def __str__(self):
         """Return the title of this event."""

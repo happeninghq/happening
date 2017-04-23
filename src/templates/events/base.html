@@ -1,6 +1,7 @@
 {% load xextends %}
 {% load plugins %}
 {% load layout %}
+{% load permissions %}
 {% xextends "base.html" with primary_nav="events" %}
 
 
@@ -9,9 +10,9 @@
         {% secondary_navigation_item link_name="events" text="Upcoming" %}
         {% secondary_navigation_item link_name="past_events" text="Past" %}
         {% secondary_navigation_item link_name="event_feeds" text="Feeds" %}
-        {% if request.user.is_authenticated %}
+        {% linkpermission "my_tickets" %}
             {% secondary_navigation_item link_name="my_tickets" text="My Tickets" %}
-        {% endif %}
+        {% endlinkpermission %}
 
         {% plugin_block "events.secondary_navigation" secondary_nav %}
     </ul>

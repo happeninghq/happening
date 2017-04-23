@@ -1,0 +1,19 @@
+{% load tickets %}
+{% for rsvp in rsvps %}
+    <tr class="{% if not rsvp.event.is_future %}low-opacity{% endif %}">
+        <td></td>
+        <td>
+            <a href="{% url "view_event" rsvp.event.pk %}">{{rsvp.event}}</a>
+        </td>
+        <td>
+            1
+        </td>
+        {% if rsvp.event.is_future %}
+            <td>
+                {% include "events/_rsvp_toggle.html" with event=rsvp.event %}
+            </td>
+        {% else %}
+            <td></td>
+        {% endif %}
+    </tr>
+{% endfor %}
