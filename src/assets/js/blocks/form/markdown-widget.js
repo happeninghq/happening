@@ -3,13 +3,17 @@ import $ from 'jquery';
 import toMarkdown from 'to-markdown';
 import Quill from 'quill';
 import '../../../../assets/sass/blocks/markdown-widget.scss';
-import { markdown } from 'markdown';
+var showdown  = require('showdown');
+var converter = new showdown.Converter();
+    
 
 
 function setupMarkdownEditor(elem) {
   const $elem = $(elem);
 
-  const newElem = $('<div>' + markdown.toHTML($elem.val()) + '</div>');
+  const val = $elem.val();
+
+  const newElem = $('<div>' + converter.makeHtml(val) + '</div>');
 
   newElem.insertBefore($elem);
 
