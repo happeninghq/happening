@@ -28,7 +28,8 @@ def index(request):
 
 def can_see_my_tickets(user):
     """Can this user view my tickets."""
-    return user.orders.count() > 0 or user.rsvps.filter(going=True).count() > 0
+    return user.tickets.count() > 0 or \
+        user.rsvps.filter(going=True).count() > 0
 
 
 @require_permission(func=can_see_my_tickets)

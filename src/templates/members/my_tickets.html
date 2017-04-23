@@ -4,7 +4,7 @@
 {% block content %}
     <div class="l-container">
         <div class="l-primary-content block-list">
-            {% if orders|length > 0 %}
+            {% if orders|length > 0 or other_tickets|length > 0 %}
                 <div class="block block-list__item">
                     <header class="block__header">
                         <h2 class="block__header-text">My Tickets</h2>

@@ -4,7 +4,7 @@ from happening.tests import TestCase
 from model_mommy import mommy
 from datetime import datetime, timedelta
 import pytz
-from events.models import Ticket
+from events.models import Ticket, Event
 from django.conf import settings
 
 
@@ -19,11 +19,12 @@ class TestMyTickets(TestCase):
         self.user.set_password("password")
         self.user.save()
 
-        self.past_event = mommy.make("Event", start=datetime.now(pytz.utc) -
-                                     timedelta(days=20))
-        self.future_event = mommy.make("Event",
-                                       start=datetime.now(pytz.utc) +
-                                       timedelta(days=20))
+        self.past_event = mommy.make(
+            "Event", start=datetime.now(pytz.utc) - timedelta(days=20),
+            ticketing_type=Event.TicketingChoices.tickets)
+        self.future_event = mommy.make(
+            "Event", start=datetime.now(pytz.utc) + timedelta(days=20),
+            ticketing_type=Event.TicketingChoices.tickets)
 
         self.ticket1 = mommy.make("Ticket", event=self.past_event,
                                   user=self.user)
