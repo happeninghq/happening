@@ -42,14 +42,14 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin("style.css", {
       allChunks: true
-    })
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false,
-    //   },
-    //   output: {
-    //     comments: false,
-    //   },
-    // }),
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+      },
+      output: {
+        comments: false,
+      },
+    }),
   ],
 };
