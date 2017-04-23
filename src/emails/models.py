@@ -34,6 +34,8 @@ class Email(db.Model):
         """Return Completed/Active/Pending depending on start and end dates."""
         if self.disabled:
             return "Disabled"
+        if self.start_sending is None or self.stop_sending is None:
+            return ""
         now = timezone.now()
         if self.stop_sending < now:
             return "Completed"
