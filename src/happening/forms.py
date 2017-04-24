@@ -108,17 +108,24 @@ class CustomPropertiesField(forms.CharField):
 
 class MarkdownWidget(forms.Textarea):
 
-    """A widget that uses EpicEditor."""
+    """A widget that uses Quill."""
 
     def render(self, name, value, attrs):
         """Render the widget."""
-        attrs['class'] = 'markdown-widget ' + attrs.get('class', '')
-        return super(MarkdownWidget, self).render(name, value, attrs)
+        # attrs['class'] = 'markdown-widget ' + attrs.get('class', '')
+        # Safari freezes if there's a lot of data inside an input
+        # (e.g. if the user uploads an image using a data: url)
+        # so instead we use a div and set up a hidden field on the other
+        # side
+        # return super(MarkdownWidget, self).render(name, value, attrs)
+        return render_to_string(
+            "forms/widgets/markdown_widget.html",
+            {"name": name, "value": value, "attrs": attrs})
 
 
 class MarkdownField(forms.CharField):
 
-    """A field that uses an EpicEditor markdown editor."""
+    """A field that uses a Quill markdown editor."""
 
     widget = MarkdownWidget
 
