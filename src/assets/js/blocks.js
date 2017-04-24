@@ -10,13 +10,12 @@ import * as dropdown from './blocks/dropdown';
 import * as toggle from './blocks/toggle';
 
 export const init = () => {
-  blocksForm.init();
-
+  searchableList.init();
   dataTable.init();
+  blocksForm.init();
   navigationBlock.init();
   notificationsList.init();
   purchaseTicketsWidget.init();
-  searchableList.init();
   time.init();
   dropdown.init();
   toggle.init();

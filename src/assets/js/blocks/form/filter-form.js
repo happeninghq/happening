@@ -99,6 +99,7 @@ function bindFilterToSearchableList(form, searchableList) {
 export const init = () => {
   $('.filter-form').each(function initFilterForm() {
     const $this = $(this);
+
     const filter = $($this.data('filter'));
 
     const bindToF = (f) => {
