@@ -144,7 +144,21 @@ THEME_SETTINGS = {
                     <label for="text-area">Text Area</label>
                 </div>
                 <textarea>Text Area</textarea>
-            </div>""",
+            </div>
+            <div class="form__field">
+                <div class="form__field__label">
+                    <label for="toggle">Toggle</label>
+                </div>
+                <div class="toggle toggle--no-content">
+                    <div class="toggle__item toggle__item--first toggle__item--active">
+                        Going
+                    </div>
+                    <div class="toggle__item toggle__item--last">
+                        <a href="#">Not Going</a>
+                    </div>
+                </div>
+            </div>
+            """,
         "variables": {
             "RADIO-BACKGROUND-COLOR": {
                 "default": "#7FA9D2",

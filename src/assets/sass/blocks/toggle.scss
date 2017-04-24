@@ -27,6 +27,7 @@ Allow toggling between a number of options
 	display: table-cell;
     text-align: center;
     opacity: 0.5;
+    color: VAR(--BUTTON-COLOR);
 
     &.toggle__item--active {
     	opacity: 1;
@@ -37,7 +38,7 @@ Allow toggling between a number of options
     }
 
     a {
-        color: white;
+        color: VAR(--BUTTON-COLOR);
         text-decoration: none;
     }
 }
