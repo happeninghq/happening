@@ -212,8 +212,6 @@ TEST_RUNNER = 'happening.runner.CustomTestSuiteRunner'
 ACCOUNT_ADAPTER = 'members.allauth_config.AccountAdapter'
 ACCOUNT_EMAIL_REQUIRED = True
 
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 if os.environ.get('SENDGRID_USERNAME'):
     # Using SENDGRID
     EMAIL_HOST = 'smtp.sendgrid.net'
@@ -221,6 +219,8 @@ if os.environ.get('SENDGRID_USERNAME'):
     EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_PASSWORD', '')
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # AWS
 if os.environ.get('AWS_ACCESS_KEY_ID'):
