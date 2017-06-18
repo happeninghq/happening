@@ -350,7 +350,7 @@ class AddressWidget(forms.Widget):
     def render(self, name, value, attrs):
         """Render the widget."""
         if not value:
-            value = []
+            value = {}
         if isinstance(value, str):
             value = json.loads(value)
         return render_to_string("forms/widgets/address_widget.html", {
@@ -360,27 +360,7 @@ class AddressWidget(forms.Widget):
 
     def value_from_datadict(self, data, files, name):
         """Get the value as a dict."""
-        line_1 = data.get(name + '_line_1')
-        line_2 = data.get(name + '_line_2')
-        line_3 = data.get(name + '_line_3')
-        city = data.get(name + '_city')
-        state = data.get(name + '_state')
-        country = data.get(name + '_country')
-        postcode = data.get(name + '_postcode')
-        longitude = data.get(name + '_longitude')
-        latitude = data.get(name + '_latitude')
-
-        return {
-            "line_1": line_1,
-            "line_2": line_2,
-            "line_3": line_3,
-            "city": city,
-            "state": state,
-            "country": country,
-            "postcode": postcode,
-            "longitude": longitude,
-            "latitude": latitude
-        }
+        return json.loads(data[name])
 
 
 class EmptyWidget(forms.Widget):

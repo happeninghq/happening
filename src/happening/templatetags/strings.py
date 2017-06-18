@@ -2,6 +2,7 @@
 
 from django import template
 from happening.utils import convert_to_spaces
+from django.utils.html import mark_safe
 
 register = template.Library()
 
@@ -28,3 +29,9 @@ def replace(value, replace):
     """Replace the unused substring with replace."""
     return value.replace(UNUSED_SUBSTRING, replace)
     # return re.sub('#f4x@SgXXmS', replace, value)
+
+
+@register.filter()
+def comma2br(text):
+    """Convert CamelCase into Space Separated."""
+    return mark_safe(text.replace(",", "<br />"))

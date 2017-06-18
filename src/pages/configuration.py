@@ -18,7 +18,16 @@ class GoogleAnalyticsCode(configuration.CharField):
     default = ""
     can_be_disabled = True
     default_enabled = False
-    category = "Analytics"
+    category = "Keys"
+
+class GoogleMapsKey(configuration.CharField):
+
+    """If you have events in multiple locations and want to be able to filter by location. Register for a Google Maps Key and put it here."""
+
+    default = ""
+    can_be_disabled = True
+    default_enabled = False
+    category = "Keys"
 
 
 class SiteTitle(configuration.CharField):

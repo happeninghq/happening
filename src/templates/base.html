@@ -16,6 +16,15 @@
     <link href='//fonts.googleapis.com/css?family=Cabin:400,700' rel='stylesheet' type='text/css'>
     <!-- End Web Fonts -->
 
+    <!-- Libraries -->
+    {% if "pages.configuration.GoogleMapsKey"|configuration_is_enabled %}
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key="{{"pages.configuration.GoogleMapsKey"|get_configuration}}"></script>
+        <script>var googleMapsEnabled = true;</script>
+    {% else %}
+        <script>var googleMapsEnabled = false;</script>
+    {% endif %}
+    <!-- End Libraries -->
+
     {% if happening_site.logo %}
         <link rel="shortcut icon" type="image/x-icon" href="{{happening_site.logo.url}}" />
     {% endif %}

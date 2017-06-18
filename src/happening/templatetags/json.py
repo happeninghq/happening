@@ -10,8 +10,10 @@ register = Library()
 def jsonify(object):
     """Convert an object into JSON."""
     if isinstance(object, QuerySet):
-        return mark_safe(serialize('json', object))
-    return mark_safe(json.dumps(object))
+        val = serialize('json', object)
+    val = json.dumps(object)
+
+    return val
 
 
 register.filter('jsonify', jsonify)

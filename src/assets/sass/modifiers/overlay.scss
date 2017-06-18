@@ -1,0 +1,21 @@
+/*doc
+---
+title: Overlay
+name: overlay
+category: Modifiers
+---
+
+Overlay the contents of a container
+*/
+.overlay {
+    position: relative;
+
+    > * {
+        position: absolute;
+    }
+
+    &:after {
+        clear: both;
+        content: ".";
+    }
+}
