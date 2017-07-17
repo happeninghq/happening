@@ -101,6 +101,7 @@ function bindFilterToSearchableList(form, searchableList) {
   form.find('.filter-form__location-filter').each(function initLocationFilter() {
     const $filter = $(this);
     const $input = $filter.find('.address-input');
+    const $address_locator = $filter.find('.address-locator');
     const input = $input[0];
     let locationText = '';
 
@@ -128,12 +129,52 @@ function bindFilterToSearchableList(form, searchableList) {
 
     $input.on('blur', () => {
       if ($('.pac-item:hover').length === 0) {
-        if (!($input.val() === location_Txt)) {
+        if (!($input.val() === locationText)) {
           clearInput();
           filter();
         }
       }
     });
+
+    if (!navigator.geolocation) {
+      $address_locator.hide();
+    }
+
+    $address_locator.on('click', () => {
+
+      var geocoder = new google.maps.Geocoder();
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+          geocoder.geocode({
+            'latLng': latlng
+          }, function (results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+              if (results[1] && results[1].geometry) {
+                const latitude = results[1].geometry.location.lat();
+                const longitude = results[1].geometry.location.lng();
+
+                $input.val(results[1].formatted_address);
+                locationText = results[1].formatted_address;
+                $filter.data('location', latitude + ',' + longitude);
+                filter();
+              } else {
+                alert('No results found');
+              }
+            } else {
+              alert('Geocoder failed due to: ' + status);
+            }
+          });
+        }, function() {
+          alert('Could not find location (1)');
+        });
+      } else {
+        // Browser doesn't support Geolocation
+        alert('Could not find location (2)');
+      }
+
+    });
+
   });
 
 
