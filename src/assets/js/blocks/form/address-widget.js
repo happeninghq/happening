@@ -54,6 +54,13 @@ export const init = () => {
       });
     }
 
+    $input.on('keydown', () => {
+      longitude = null;
+      latitude = null;
+      
+      update_data();
+    });
+
     $input.on('blur', () => {
       if ($('.pac-item:hover').length === 0 ) {
         if (googleMapsEnabled) {

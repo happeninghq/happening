@@ -1,3 +1,4 @@
+{% load plugins %}
 <div class="block block-list__item">
     <form class="form filter-form" data-filter="#events-list">
         <header class="block__header valign-together">
@@ -9,6 +10,16 @@
                 <label for="search">Search</label>
                 <input class="filter-form__search-filter" name="search" type="search">
             </div>
+            {% if "pages.configuration.GoogleMapsKey"|configuration_is_enabled %}
+                <div class="form__field">
+                    <label for="location">Location</label>
+                    <div class="filter-form__location-filter" name="location">
+                        <div>Within</div><input class="distance-input" name="distance" type="number" value="10">
+                        <div>miles of</div>
+                        <input id="location" class="address-input" type="text">
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </form>
 </div>

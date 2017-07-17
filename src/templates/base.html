@@ -18,7 +18,7 @@
 
     <!-- Libraries -->
     {% if "pages.configuration.GoogleMapsKey"|configuration_is_enabled %}
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key="{{"pages.configuration.GoogleMapsKey"|get_configuration}}"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key={{"pages.configuration.GoogleMapsKey"|get_configuration}}"></script>
         <script>var googleMapsEnabled = true;</script>
     {% else %}
         <script>var googleMapsEnabled = false;</script>

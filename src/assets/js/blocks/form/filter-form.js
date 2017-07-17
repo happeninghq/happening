@@ -15,6 +15,8 @@ const bindFilterToDataTable = (form, datatable) => {
       datatable.search($(this).val());
     });
 
+    // "Option" filters
+
     const optionFilters = {};
 
     form.find('.filter-form__option-filter').each(function initOptionFilter() {
@@ -61,6 +63,7 @@ function bindFilterToSearchableList(form, searchableList) {
       searchableList.search($(this).val());
     });
 
+    // Option filters
     const optionFilters = {};
 
     form.find('.filter-form__option-filter').each(function initOptionFilter() {
@@ -77,6 +80,12 @@ function bindFilterToSearchableList(form, searchableList) {
       searchableList.option_filter(name, optionFilters[name]);
     }
 
+    // Location filters
+    form.find('.filter-form__location-filter').each(function initLocationFilter() {
+      const $this = $(this);
+      searchableList.locationFilter($this.attr('name'), $this.data('location'), $this.find('.distance-input').val());
+    });
+
     // Redraw results
     searchableList.draw();
 
@@ -88,6 +97,39 @@ function bindFilterToSearchableList(form, searchableList) {
     filter();
     return false;
   }
+
+  form.find('.filter-form__location-filter').each(function initLocationFilter() {
+    const $filter = $(this);
+    const $input = $filter.find('.address-input');
+    const input = $input[0];
+
+    const autocomplete = new google.maps.places.Autocomplete(input);
+
+    autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (place.geometry) {
+          const latitude = place.geometry.location.lat();
+          const longitude = place.geometry.location.lng();
+
+          $filter.data('location', latitude + ',' + longitude);
+        } else {
+          $input.val('');
+          $filter.data('location', '');
+        }
+        filter();
+      });
+
+    $input.on('blur', () => {
+      if ($('.pac-item:hover').length === 0) {
+        $input.val('');
+        google.maps.event.trigger(this, 'focus');
+        google.maps.event.trigger(this, 'keydown', {
+            keyCode: 13
+        });
+        filter();
+      }
+    });
+  });
 
 
   return {
@@ -103,11 +145,17 @@ export const init = () => {
     const filter = $($this.data('filter'));
 
     const bindToF = (f) => {
-      $this.find('input').keyup(f.filter);
-      $this.find('input').change(f.filter);
+      $this.find('.filter-form__search-filter').keyup(f.filter);
+      $this.find('.filter-form__search-filter').change(f.filter);
+
+      $this.find('.filter-form__option-filter').keyup(f.filter);
+      $this.find('.filter-form__option-filter').change(f.filter);
+
+      $this.find('.filter-form__location-filter .distance-input').keyup(f.filter);
+      $this.find('.filter-form__location-filter .distance-input').change(f.filter);
 
       $this.find('.filter-form__reset').click(f.resetFilter);
-    }
+    };
 
     if (filter.hasClass('data-table')) {
       filter[0].addEventListener('datatable-initialised', () => {
