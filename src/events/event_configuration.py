@@ -24,7 +24,9 @@ class MaxTicketsPerPerson(configuration.IntegerField):
 class RSVPInformation(configuration.CharField):
 
     """Information shown to people who have RSVPd.
-       This should include e.g. ticket information."""
+
+    This should include e.g. ticket information.
+    """
 
     field = forms.MarkdownField
     renderer = configuration.MarkdownRenderer()

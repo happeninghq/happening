@@ -25,12 +25,11 @@ from happening.plugins import registered_navigation_items, plugin_enabled
 from happening.permissions import _registered_permissions, get_permission
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
-from events.models import Event, Ticket, EventPreset, TicketType
+from events.models import Event, Ticket, TicketType
 from events.forms import EventForm
 from pages.models import Page
 from .forms import EmailForm, WaitingListForm
 from django.utils import timezone
-from events.utils import dump_preset
 from emails.models import Email
 from emails import render_email
 from markdown import markdown
@@ -534,73 +533,6 @@ def export_tickets_to_csv(request, pk):
 
 
 @require_permission("manage_events")
-def event_presets(request):
-    """Administrate event presets."""
-    presets = EventPreset.objects.all()
-    return render(request, "admin/event_presets.html", {"presets": presets})
-
-
-@require_permission("manage_events")
-def edit_event_preset(request, pk):
-    """Edit an event preset."""
-    preset = get_object_or_404(EventPreset, pk=pk)
-    value = preset.value_as_dict()
-    form = EventForm(initial=value)
-    variables = get_configuration_variables("event_configuration")
-    if request.method == "POST":
-        form = EventForm(request.POST, initial=value)
-        attach_to_form(form, variables)
-        form.is_valid()
-        preset_name = request.POST.get("preset_name")
-        if not preset_name:
-            preset_name = "Preset %s" % (EventPreset.objects.count() +
-                                         1)
-        preset.name = preset_name
-        preset.value = dump_preset(form.cleaned_data)
-        preset.save()
-        messages.success(request, "%s updated." % preset)
-        return redirect("event_presets")
-    else:
-        attach_to_form(form, variables)
-    return render(request, "admin/edit_event_preset.html",
-                  {"preset": preset, "form": form})
-
-
-@require_permission("manage_events")
-def delete_event_preset(request, pk):
-    """Delete an event preset."""
-    preset = get_object_or_404(EventPreset, pk=pk)
-    if request.method == "POST":
-        messages.success(request, "%s deleted" % preset)
-        preset.delete()
-    return redirect("event_presets")
-
-
-@require_permission("manage_events")
-def create_event_preset(request):
-    """Create an event preset."""
-    form = EventForm()
-    variables = get_configuration_variables("event_configuration")
-    if request.method == "POST":
-        form = EventForm(request.POST)
-        attach_to_form(form, variables)
-        form.is_valid()
-        preset_name = request.POST.get("preset_name")
-        if not preset_name:
-            preset_name = "Preset %s" % (EventPreset.objects.count() +
-                                         1)
-        preset = EventPreset(name=preset_name)
-        preset.value = dump_preset(form.cleaned_data)
-        preset.save()
-        messages.success(request, "%s created." % preset)
-        return redirect("event_presets")
-    else:
-        attach_to_form(form, variables)
-    return render(request, "admin/create_event_preset.html",
-                  {"form": form})
-
-
-@require_permission("manage_events")
 def add_attendee(request, pk):
     """Add an attendee to the event.
 
@@ -714,8 +646,7 @@ def create_event(request):
     else:
         attach_to_form(form, variables)
     return render(request, "admin/create_event.html",
-                  {"form": form,
-                   "event_presets": EventPreset.objects.all()})
+                  {"form": form})
 
 
 # We had to add csrf_protect below because of django not generating a token

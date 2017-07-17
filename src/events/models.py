@@ -44,12 +44,12 @@ class Event(db.Model):
 
     @property
     def uses_tickets(self):
-        """Does this event use Happening tickets."""
+        """True if the event uses Happening tickets."""
         return self.ticketing_type == Event.TicketingChoices.tickets
 
     @property
     def uses_rsvps(self):
-        """Does this event use RSVPs."""
+        """True if the event use RSVPs."""
         return self.ticketing_type == Event.TicketingChoices.rsvp
 
     def get_absolute_url(self):
@@ -438,22 +438,6 @@ def member_attended_tickets(member):
 
 
 User.attended_tickets = member_attended_tickets
-
-
-class EventPreset(db.Model):
-
-    """Common settings to be loaded when creating a new event."""
-
-    name = models.CharField(max_length=255)
-    value = models.TextField()
-
-    def __str__(self):
-        """Return the event preset name."""
-        return self.name
-
-    def value_as_dict(self):
-        """Get the preset value as a dict."""
-        return json.loads(self.value)
 
 
 class WaitingListSubscription(db.Model):

@@ -109,6 +109,7 @@ class TestEvents(TestCase):
             "title": "NEW TITLE",
             "start": "2010-05-05 19:00:00",
             "tickets": "[]",
+            "location": "{\"address\": \"location\"}",
             "ticketing_type": "T"
         }, follow=True)
         self.assertTrue("/admin/events/%s" % self.event.id in
@@ -127,8 +128,10 @@ class TestEvents(TestCase):
             "title": "NEW TITLE",
             "start": "2010-05-05 19:00:00",
             "tickets": "[]",
+            "location": "{\"address\": \"location\"}",
             "ticketing_type": "T"
         }, follow=True)
+
         self.assertTrue("/admin/events" in
                         response.redirect_chain[0][0])
 

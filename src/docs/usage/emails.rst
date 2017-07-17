@@ -17,7 +17,7 @@ To send an email to all attendees of a given Event, visit the Event's page on th
 
 **Automatic Emails**
 
-Events can configure emails which will be sent automatically. These are configured when creating the Event (or Preset) and will have their start sending/stop sending set relative to the event. This are typically used for reminder and information emails.
+Events can configure emails which will be sent automatically. These are configured when creating the Event and will have their start sending/stop sending set relative to the event. This are typically used for reminder and information emails.
 
 In the ``to`` field, you may use ``{{event.id}}`` to represent the event ID and it will be automatically converted into the actual event ID.
 

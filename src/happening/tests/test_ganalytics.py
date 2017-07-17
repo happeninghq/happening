@@ -11,7 +11,6 @@ class TestGAnalytics(TestCase):
 
     def test_ganalytics(self):
         """Test that google analytics is injected."""
-
         uuid = uuid4().hex
 
         response = self.client.get("/accounts/login/")

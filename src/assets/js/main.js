@@ -14,7 +14,6 @@ import * as moveFromElsewhere from './move_from_elsewhere.js';
 
 import * as appearance from './admin/appearance';
 import * as manageCheckIns from './admin/manage-check-ins';
-import * as eventPresets from './admin/event-presets';
 import * as emails from './admin/emails.js';
 
 import * as blocks from './blocks.js';
@@ -32,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   appearance.init();
   manageCheckIns.init();
-  eventPresets.init();
   emails.init();
 
   blocks.init();
