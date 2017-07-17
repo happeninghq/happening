@@ -102,8 +102,15 @@ function bindFilterToSearchableList(form, searchableList) {
     const $filter = $(this);
     const $input = $filter.find('.address-input');
     const input = $input[0];
+    let locationText = '';
 
     const autocomplete = new google.maps.places.Autocomplete(input);
+
+    function clearInput() {
+      $input.val('');
+      $filter.data('location', '');
+      locationText = '';
+    }
 
     autocomplete.addListener('place_changed', () => {
         const place = autocomplete.getPlace();
@@ -111,22 +118,20 @@ function bindFilterToSearchableList(form, searchableList) {
           const latitude = place.geometry.location.lat();
           const longitude = place.geometry.location.lng();
 
+          locationText = $input.val();
           $filter.data('location', latitude + ',' + longitude);
         } else {
-          $input.val('');
-          $filter.data('location', '');
+          clear_input();
         }
         filter();
       });
 
     $input.on('blur', () => {
       if ($('.pac-item:hover').length === 0) {
-        $input.val('');
-        google.maps.event.trigger(this, 'focus');
-        google.maps.event.trigger(this, 'keydown', {
-            keyCode: 13
-        });
-        filter();
+        if (!($input.val() === location_Txt)) {
+          clearInput();
+          filter();
+        }
       }
     });
   });
